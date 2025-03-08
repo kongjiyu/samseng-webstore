@@ -1,13 +1,13 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>JSP - Hello World</title>
+    <meta charset="UTF-8">
+    <title>Tailwind v3 with JSP</title>
+    <link href="./static/css/output.css" rel="stylesheet">
 </head>
-<body>
-<h1><%= "Hello World!" %>
-</h1>
-<br/>
-<a href="hello-servlet">Hello Servlet</a>
+<body class="bg-gray-100 text-center p-10">
+<h1 class="text-4xl font-bold text-blue-600">Tailwind CSS v3 with JSP!</h1>
+<p class="text-blue-600">Testing</p>
 </body>
 </html>
