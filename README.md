@@ -12,5 +12,9 @@ git clone https://github.com/kongjiyu/samseng-webstore.git
 Username:user
 Password:password
 ```
-4. Deploy (Right Top Corner)
-5. Check the website by: http://localhost:8080/web/index.jsp
+4. open terminal and type
+```shell
+npm install
+```
+5. Deploy this project (top right corner)
+6Check the website by: http://localhost:8080/web/index.jsp
