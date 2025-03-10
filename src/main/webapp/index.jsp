@@ -1,15 +1,13 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<html>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>JSP + Servlet Example</title>
+    <meta charset="UTF-8">
+    <title>Tailwind v3 with JSP</title>
+    <link href="./static/css/output.css" rel="stylesheet">
 </head>
-<body>
-<h2>Hello, JSP!</h2>
-<form action="hello-servlet" method="GET">
-    <button type="submit">Call Servlet</button>
-</form>
-
-<h3>REST API Test</h3>
-<a href="api/ping">Test REST API</a>
+<body class="bg-gray-100 text-center p-10">
+<h1 class="text-4xl font-bold text-blue-600">Tailwind CSS v3 with JSP!</h1>
+<p class="text-blue-600">Testing</p>
 </body>
 </html>
