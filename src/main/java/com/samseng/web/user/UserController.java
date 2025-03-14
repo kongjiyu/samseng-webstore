@@ -1,6 +1,6 @@
 package com.samseng.web.user;
 
-import com.samseng.web.user.entity.User;
+import com.samseng.web.user.entity.Account;
 import com.samseng.web.user.dto.UserRegisterDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -18,14 +18,14 @@ public class UserController {
 
     @GET
     @Produces("application/json")
-    public List<User> getAllUsers() {
+    public List<Account> getAllUsers() {
         return userRepository.findAll();
     }
 
     @POST
     @Consumes("application/json")
     public void register(UserRegisterDTO user) {
-        var newUser = new User();
+        var newUser = new Account();
         newUser.setUsername(user.username);
         newUser.setPassword(user.password.getBytes());
 
