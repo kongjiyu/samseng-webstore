@@ -1,21 +1,23 @@
 package com.samseng.web.user.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
+
+import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name = "\"User\"")
-public class User {
+@Table(name = "\"Account\"")
+public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(name = "user_id", unique = true, nullable = false)
+    private String id;
 
     @NaturalId
     @NotBlank
@@ -35,7 +37,12 @@ public class User {
     @ColumnDefault("USER")
     private Role role;
 
+    @NotNull
+    @Past
+    private LocalDate dob;
+
     public enum Role {
         USER, ADMIN, STAFF
     }
+
 }

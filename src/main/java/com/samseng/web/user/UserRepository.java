@@ -1,6 +1,6 @@
 package com.samseng.web.user;
 
-import com.samseng.web.user.entity.User;
+import com.samseng.web.user.entity.Account;
 import jakarta.annotation.Nullable;
 import jakarta.data.repository.*;
 import jakarta.transaction.Transactional;
@@ -14,22 +14,22 @@ import java.util.List;
 @Repository
 public interface UserRepository {
     @Find
-    List<User> findAll();
+    List<Account> findAll();
 
     @Find
     @Nullable
-    User findByUsername(@NotBlank String username);
+    Account findByUsername(@NotBlank String username);
 
     @Find
     @Nullable
-    User findByEmail(@Email String email);
+    Account findByEmail(@Email String email);
 
     @Insert
-    void insert(@Valid User user);
+    void insert(@Valid Account user);
 
     @Save
-    void save(@Valid User user);
+    void save(@Valid Account user);
 
     @Delete
-    void delete(@Valid User user);
+    void delete(@Valid Account user);
 }
