@@ -1,7 +1,8 @@
-package com.samseng.web.user;
+package com.samseng.web.controllers;
 
-import com.samseng.web.user.entity.Account;
-import com.samseng.web.user.dto.UserRegisterDTO;
+import com.samseng.web.models.Account;
+import com.samseng.web.dto.UserRegisterDTO;
+import com.samseng.web.repositories.UserRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
