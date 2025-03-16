@@ -20,7 +20,6 @@ public class Address {
     @JoinColumn(name="user_id")
     private Account user;
 
-    @Size(min=1, max=30)
     @NotBlank
     @Column(name="address_name")
     private String name;
@@ -30,14 +29,11 @@ public class Address {
     private String contact_no;
 
     @NotNull
-    @Size(min=1, max=30)
     private String address_1;
 
     @NotNull
-    @Size(min=1, max=30)
     private String address_2;
 
-    @Size(min=1, max=30)
     private String address_3;
 
     @NotNull
