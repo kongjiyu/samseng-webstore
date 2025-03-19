@@ -1,4 +1,4 @@
-package com.samseng.web.user.dto;
+package com.samseng.web.dto;
 
 public class UserLoginDTO extends UserBaseDTO {
 }

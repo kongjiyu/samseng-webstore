@@ -1,12 +1,10 @@
-package com.samseng.web.user.entity;
+package com.samseng.web.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.validator.constraints.Range;
 
 @Data
 @Entity
