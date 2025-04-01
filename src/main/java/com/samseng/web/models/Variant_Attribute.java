@@ -17,7 +17,7 @@ public class Variant_Attribute {
 
     @Id
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="attirbute_id")
     private Attribute attributeID;
 
     @NotNull

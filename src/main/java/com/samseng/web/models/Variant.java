@@ -7,7 +7,6 @@ import org.hibernate.annotations.GenericGenerator;
 import lombok.Data;
 import org.hibernate.annotations.NaturalId;
 
-
 @Data
 @Entity
 @Table(name = "\"Variant\"")
@@ -20,17 +19,13 @@ public class Variant {
     private String variantId;
 
     @ManyToOne
-    @JoinColumn(name="products_id")
-    private Products products;
+    @JoinColumn(name="product_id")
+    private Product product;
 
     @NaturalId
     @NotBlank
     @Column(name="variant_name",unique = true)
     private String variantName;
-
-    @NotBlank
-    @Column(name="sku",unique = true)
-    private String sku;
 
     @NotNull
     @Column(name="variant_price",unique = true)

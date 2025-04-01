@@ -13,7 +13,7 @@ public class Sales_Order {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(name = "order_Id", unique = true)
+    @Column(name = "order_id", unique = true)
     private String id;
 
 
@@ -45,9 +45,9 @@ public class Sales_Order {
     private String status;
 
     @NotNull
-    private String payment_Method;
+    private String paymentMethod;
 
     @NotNull
-    private String ref_No;
+    private String refNo;
 
 }

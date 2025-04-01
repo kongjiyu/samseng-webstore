@@ -25,8 +25,8 @@ public class Comment {
     private String message;
 
     @ManyToOne
-    @JoinColumn(name="products_id")
-    private Products products;
+    @JoinColumn(name="product_id")
+    private Product product;
 
     @ManyToOne
     @JoinColumn(name="user_id")

@@ -6,19 +6,20 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "\"Cart_Products\"")
-public class Cart_Products {
+@Table(name = "\"Cart_Product\"")
+
+public class Cart_Product {
 
 
     @Id
     @ManyToOne
-    @JoinColumn(name="products_id")
-    private Products products;
+    @JoinColumn(name="product_id")
+    private Product product;
 
     @Id
     @ManyToOne
-    @JoinColumn(name="user_id")
-    private Account user;
+    @JoinColumn(name="account_id")
+    private Account account;
 
     @Min(value=0)
     @NotNull
