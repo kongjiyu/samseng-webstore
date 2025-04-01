@@ -1,6 +1,7 @@
 package com.samseng.web.repositories.Address;
 
 import com.samseng.web.models.Address;
+import java.util.List;
 
 public interface AddressRepository {
     void create(Address address);

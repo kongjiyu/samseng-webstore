@@ -24,7 +24,7 @@ public class Voucher {
 
     @OneToOne
     @JoinColumn(name="order_Id")
-    private Sales_Order order;
+    private Sales_Order salesOrder;
 
     @NotNull
     private String availability;
@@ -34,7 +34,6 @@ public class Voucher {
 
     @NotNull
     @Size(min=0,max=1)
-    @Column(name = "voucher_desc")
-    private double descount;
+    private double discount;
 
 }

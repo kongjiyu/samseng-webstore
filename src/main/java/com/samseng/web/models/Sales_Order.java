@@ -45,9 +45,9 @@ public class Sales_Order {
     private String status;
 
     @NotNull
-    private String payment_Method;
+    private String paymentMethod;
 
     @NotNull
-    private String ref_No;
+    private String refNo;
 
 }
