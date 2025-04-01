@@ -31,14 +31,6 @@ public class Products {
     private double desc;
 
     @NotNull
-    @Column(name="products_quantity")
-    private int quantity;
-
-    @NotNull
-    @Column(name="products_price")
-    private double price;
-
-    @NotNull
     @Column(name="products_category")
     private String category;
 }
