@@ -8,29 +8,29 @@ import org.hibernate.annotations.NaturalId;
 
 @Data
 @Entity
-@Table(name = "\"Products\"")
-public class Products {
+@Table(name = "\"Product\"")
+public class Product {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(name="products_id", nullable = false, unique=true) // 保证字段一致
+    @Column(name="product_id", nullable = false, unique=true) // 保证字段一致
     private String id;
 
     @NaturalId
     @NotBlank
-    @Column(name="products_name")
+    @Column(name="product_name")
     private String name;
 
     @NotNull
-    @Column(name="products_images")
+    @Column(name="product_images")
     private String images;
 
     @Max(value=1)
-    @Column(name="products_desc")
+    @Column(name="product_desc")
     private double desc;
 
     @NotNull
-    @Column(name="products_category")
+    @Column(name="product_category")
     private String category;
 }

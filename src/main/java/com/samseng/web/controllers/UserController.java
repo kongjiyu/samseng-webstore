@@ -1,35 +1,31 @@
 package com.samseng.web.controllers;
 
-import com.samseng.web.models.Account;
-import com.samseng.web.dto.UserRegisterDTO;
-import com.samseng.web.repositories.UserRepository;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import jakarta.ws.rs.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import java.util.List;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-@Path("/users")
-@ApplicationScoped
-@Transactional
-public class UserController {
-    @Inject
-    private UserRepository userRepository;
+@WebServlet(name = "UserController", urlPatterns = {"/UserController"})
+public class UserController extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
 
-    @GET
-    @Produces("application/json")
-    public List<Account> getAllUsers() {
-        return userRepository.findAll();
-    }
+        //Retrieve parameter from client request
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
-    @POST
-    @Consumes("application/json")
-    public void register(UserRegisterDTO user) {
-        var newUser = new Account();
-        newUser.setUsername(user.username);
-        newUser.setPassword(user.password.getBytes());
-
-        userRepository.insert(newUser);
+        out.println("First Name: <b>"+firstName+"</b>");
+        out.println("Last Name: <b>"+lastName+"</b>");
+        out.println("Email: <b>"+email+"</b>");
+        out.println("Password: <b>"+password+"</b>");
+        out.close();
     }
 }

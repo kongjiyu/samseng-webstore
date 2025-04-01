@@ -30,10 +30,6 @@ public class Voucher {
     private String availability;
 
     @NotNull
-    @Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(19|20)\\d\\d$", message = "Invalid date format. Please use dd-MM-yyyy.")
-    private String date;
-
-    @NotNull
     private LocalDateTime expiredOn;
 
     @NotNull

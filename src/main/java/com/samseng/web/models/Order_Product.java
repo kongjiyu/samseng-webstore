@@ -6,15 +6,17 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "\"Order_Products\"")
+@Table(name = "\"Order_Product\"")
 
 public class Order_Products {
     @Id
     @ManyToOne
-    private Products products;
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @Id
     @ManyToOne
+    @JoinColumn(name = "order_id")
     private Sales_Order salesOrder;
 
     @Min(value=0)

@@ -12,10 +12,10 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "\"Account\"")
+
+
 public class Account {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
     @Column(name = "user_id", unique = true, nullable = false)
     private String id;
 
@@ -37,7 +37,7 @@ public class Account {
     @ColumnDefault("USER")
     private Role role;
 
-    @NotNull
+
     @Past
     private LocalDate dob;
 

@@ -7,6 +7,8 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
+
 @ApplicationScoped
 @Transactional
 public class AccountRepositoryImpl implements AccountRepository {
@@ -27,28 +29,44 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public Account findAccountById(String username){
-        try {
+    public   List<Account> findAccountByUsername(String username){
+
             return em.createQuery("SELECT a FROM Account a WHERE a.username = :username", Account.class)
                     .setParameter("username", username)
-                    .getSingleResult();
-        }catch(NoResultException e){
-            return null;
-        }
+                    .getResultList();
+
     }
 
     @Override
-    public Account createAccount(Account account){
-        return em.merge(account);
+    public List<Account> findAll() {
+        return em.createQuery("SELECT a FROM Account a", Account.class)
+                .getResultList();
     }
 
     @Override
-    public void updateAccount(Account account){
+    public Account findAccountById(String id) {
+        return em.find(Account.class, id);
+    }
+
+    public List<Account> findAccountByRole(Account.Role role){
+        return em.createQuery("SELECT a FROM Account a WHERE a.role = :role", Account.class)
+                .setParameter("role", role)
+                .getResultList();
+
+    }
+
+    @Override
+    public void create(Account account){
+        em.persist(account);
+    }
+
+    @Override
+    public void update(Account account){
         em.merge(account);
     }
 
     @Override
-    public void deleteAccount(Account account){
+    public void delete(Account account){
         em.remove(account);
     }
 

@@ -8,6 +8,8 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
+
 @ApplicationScoped // can go ahead call no need to import the method
 @Transactional
 public class AddressRepositoryImpl implements  AddressRepository {
@@ -16,8 +18,8 @@ public class AddressRepositoryImpl implements  AddressRepository {
     private EntityManager em;
 
     @Override
-    public Address create(Address address) {
-        return em.merge(address);
+    public void create(Address address) {
+       em.persist(address);
     }
 
     @Override
@@ -32,17 +34,26 @@ public class AddressRepositoryImpl implements  AddressRepository {
 
 
     @Override
-    public Address findByAddressName(String addressname) {
+    public List<Address> findByAddressName(String addressname) {
         try {
             return em.createQuery("SELECT a FROM Address a WHERE a.name = :name", Address.class)
                     .setParameter("name", addressname)
-                    .getSingleResult();
+                    .getResultList();
         }catch(NoResultException e) {
             return null;
         }
     }
 
+    public Address findDefaultByUserId(String user){
+        try {
+            return em.createQuery("SELECT a FROM Address a WHERE a.user = :user AND a.isdefault = true", Address.class)
+                    .setParameter("user", user)
+                    .getSingleResult();
+        }catch(NoResultException e) {
+            return null;
+        }
 
+    }
 
     public Address findByUserId(String user) {
         try {

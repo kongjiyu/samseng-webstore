@@ -7,15 +7,5 @@ public interface AccountRepository {
 
     Account findAccountByEmail(String email);
 
-    Account findAccountById(String username);
-
-    Account createAccount(Account account);
-
-    void updateAccount(Account account);
-
-    void deleteAccount(Account account);
-
-
-
-
+    List<Account> findAccountByRole(Account.Role role);
 }
