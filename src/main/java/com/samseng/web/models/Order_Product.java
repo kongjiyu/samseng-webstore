@@ -8,7 +8,7 @@ import lombok.Data;
 @Entity
 @Table(name = "\"Order_Product\"")
 
-public class Order_Products {
+public class Order_Product {
     @Id
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -34,3 +34,4 @@ public class Order_Products {
 
 
 }
+
