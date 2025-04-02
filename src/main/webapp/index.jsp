@@ -11,6 +11,7 @@
 <body class="bg-gray-100 text-center p-10">
 <h1 class="text-4xl font-bold text-blue-600">Tailwind CSS v3 with JSP!</h1>
 <p class="text-blue-600">Testing</p>
+<h1 class="text-4xl font-bold text-blue-600">Now we can deploy by using intelliJ!</h1>
 <!-- Stepper -->
 <div data-stepper="" class="bg-base-100 flex w-full items-start gap-10 rounded-lg p-4 shadow-sm max-sm:flex-wrap max-sm:justify-center" id="wizard-validation" >
     <!-- Stepper Nav -->

@@ -17,7 +17,7 @@ Password:password
 npm install
 ```
 5. Deploy this project (top right corner)
-6Check the website by: http://localhost:8080/web/index.jsp
+6. Check the website by: http://localhost:8080/web/index.jsp
 
 Project structure
 
