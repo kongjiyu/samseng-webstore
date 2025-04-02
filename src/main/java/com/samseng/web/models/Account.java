@@ -16,6 +16,8 @@ import java.time.LocalDate;
 
 public class Account {
     @Id
+    @GeneratedValue(generator = "prefix_id")
+    @GenericGenerator(name = "prefix_id", strategy = "com.samseng.web.DummyData.PrefixIdGenerator")
     @Column(name = "user_id", unique = true, nullable = false)
     private String id;
 
@@ -24,7 +26,7 @@ public class Account {
     @Column(unique = true)
     private String username;
 
-    @NaturalId
+
     @Email
     @Column(unique = true)
     private String email;
