@@ -12,7 +12,7 @@
 
 </head>
 <body class="bg-cover bg-center" style="background-image: url('<%= request.getContextPath() %>/static/img/login-background.jpg');">
-    <div class="capsule rounded-xl">
+    <div data-theme="light" class="capsule rounded-xl">
         <div class="right-slant-seperator opacity-50"></div>
         <div class="left-slant-seperator opacity-50"></div>
 
