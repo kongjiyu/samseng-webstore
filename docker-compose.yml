@@ -13,6 +13,7 @@ services:
         container_name: ${GLASSFISH_CONTAINER_NAME-glassfish}
         volumes:
             - ./deploy/glassfish_init:/opt/glassfish7/custom:ro
+            - ./deploy/artifacts:/opt/glassfish7/glassfish/domains/domain1/autodeploy
         environment:
             AS_ADMIN_MASTERPASSWORD: ${AS_ADMIN_MASTERPASSWORD}
             AS_ADMIN_PASSWORD: ${AS_ADMIN_PASSWORD}

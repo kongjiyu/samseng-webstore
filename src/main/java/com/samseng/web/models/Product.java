@@ -26,9 +26,8 @@ public class Product {
     @Column(name="product_images")
     private String images;
 
-    @Max(value=1)
     @Column(name="product_desc")
-    private double desc;
+    private String desc;
 
     @NotNull
     @Column(name="product_category")
