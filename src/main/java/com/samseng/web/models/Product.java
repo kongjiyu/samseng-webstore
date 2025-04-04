@@ -12,9 +12,9 @@ import org.hibernate.annotations.NaturalId;
 public class Product {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(name="product_id", nullable = false, unique=true) // 保证字段一致
+    @GeneratedValue(generator = "prefix_id")
+    @GenericGenerator(name = "prefix_id", strategy = "com.samseng.web.DummyData.PrefixIdGenerator")
+    @Column(name="product_id", nullable = false, unique=true)
     private String id;
 
     @NaturalId

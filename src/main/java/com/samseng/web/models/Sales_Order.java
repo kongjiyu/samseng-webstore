@@ -11,8 +11,8 @@ import org.hibernate.annotations.GenericGenerator;
 public class Sales_Order {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @GeneratedValue(generator = "prefix_id")
+    @GenericGenerator(name = "prefix_id", strategy = "com.samseng.web.DummyData.PrefixIdGenerator")
     @Column(name = "order_id", unique = true)
     private String id;
 
