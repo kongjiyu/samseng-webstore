@@ -31,10 +31,8 @@ public class insertDummydata {
 
         int num =10;
         try {
-
-
                 for (int i=0 ; i<num;i++) {
-                    Account account = new Account(); // ✅ 每次都 new 一个新的对象
+                    Account account = new Account();
 
                     String name1 = "tester" + i;
                     String email = "test" + i + "@test.com";
@@ -58,6 +56,8 @@ public class insertDummydata {
                     accountRepository.create(account);
                     System.out.println("✅ Account inserted!");
                 }
+
+
 
         }catch (Exception e) {
             e.printStackTrace();

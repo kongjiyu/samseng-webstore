@@ -11,9 +11,8 @@ import org.hibernate.validator.constraints.Range;
 @Table(name = "\"Addrerss\"")
 public class Address {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(name = "addrerss_id", unique = true, nullable = false)
+    @GeneratedValue(generator = "prefix_id")
+    @GenericGenerator(name = "prefix_id", strategy = "com.samseng.web.DummyData.PrefixIdGenerator")
     private String id;
 
     @ManyToOne
