@@ -5,14 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="<%= request.getContextPath() %>/static/css/output.css">
-    <link href="<%= request.getContextPath() %>/static/css/loginRegister.css">
-    <script src="<%= request.getContextPath() %>/static/js/loginRegister.js"></script>
-
+    <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
+    <link href="<%= request.getContextPath() %>/static/css/loginRegister.css" rel="stylesheet">
+    <script defer src="<%= request.getContextPath() %>/static/js/loginRegister.js"></script>
+    <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 
 </head>
-<body class ="bg-[url(<%= request.getContextPath() %>/img/login-background.jpg)] bg-cover bg-center">
-
+<body class="bg-cover bg-center" style="background-image: url('<%= request.getContextPath() %>/static/img/login-background.jpg');">
     <div class="capsule rounded-xl">
         <div class="right-slant-seperator opacity-50"></div>
         <div class="left-slant-seperator opacity-50"></div>
@@ -87,6 +86,5 @@
             </p>
         </div>
     </div>
-
 </body>
 </html>
