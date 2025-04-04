@@ -1,0 +1,362 @@
+* {
+    margin:0;
+    padding: 0;
+    box-sizing:border-box;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.capsule{
+    background-color: rgba(255, 255, 255, 0.7);
+    position: relative;
+    width: 750px;
+    height: 450px;
+    border: 2px solid #22d3ee;
+    box-shadow: 0 0 25px #22d3ee;
+    overflow: hidden;
+
+}
+
+.capsule .form-box {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.form-box.Login {
+    left: 0;
+    padding: 0 40px;
+
+}
+.form-box.Login .switch-animation{
+    transform: translateX(0%);
+    transition: .7s;
+    opacity: 1;
+    transition-delay: calc(.1s * var(--Z));
+}
+.capsule.active .form-box.Login .switch-animation{
+    transform: translateX(-120%);
+    opacity: 0;
+    transition-delay: calc(.1s * var(--X));
+}
+
+.form-box.Register {
+    right: 0;
+    padding: 0 60px;
+}
+
+.form-box.Register .switch-animation{
+    transform: translateX(120%);
+    transition: .7s;
+    opacity: 0;
+}
+.capsule.active .form-box.Register .switch-animation{
+    transform: translateX(0%);
+    opacity: 1;
+    transition-delay: calc(.1s * var(--Y));
+}
+
+.form-box h1{
+    font-size: 32px;
+    text-align: center;
+}
+
+.form-box h2{
+    font-size: 25px;
+    text-align: center;
+}
+
+/* ------------------------Login Form Design---------------------------- */ 
+
+
+.form-box.Login .input-box {
+    position : relative;
+    width: 100%;
+    height: 50px;
+    margin-top: 25px;
+}
+
+.form-box.Login .input-box input{
+    width: 100%;
+    height:100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 600;
+    color:#368D96;
+    border-bottom: 2px solid #000000;
+    transition: .5s;
+    padding-right: 23px;
+}
+
+.form-box.Login .input-box label{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    font-size: 16px;
+    transition: .5s;
+}
+
+.form-box.Login .input-box input:focus,
+.form-box.Login .input-box input:valid{
+    border-bottom: 2px solid #368D96;
+}
+
+
+.form-box.Login .input-box input:focus ~ label,
+.form-box.Login .input-box input:valid ~ label{
+    top: -5px;
+    color: #368D96;
+}
+
+.form-box.Login .input-box span{
+    position:absolute;
+    top: 50%;
+    right: 0;
+    font-size: 18px;
+    transform: translateY(-50%);
+    transition: .5s;
+}
+
+.form-box.Login .input-box input:focus ~ span,
+.form-box.Login .input-box input:valid ~ span{
+    color: #368D96;
+}
+
+.form-box.Login .button{
+    position: relative;
+    width: 100%;
+    height: 45px;
+    background: #29506F;
+    border-radius: 40px;
+    cursor: pointer;
+    border: 2px solid #22d3ee;
+    font-weight: 600;
+    font-size: 16px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* ------------------------Register Form Design---------------------------- */ 
+
+.form-box.Register .input-box {
+    position : relative;
+    width: 100%;
+    height: 50px;
+    margin-top: 15px;
+}
+
+.form-box.Register .input-box input{
+    width: 100%;
+    height:100%;
+    align-items: bottom;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 600;
+    color:#368D96;
+    border-bottom: 2px solid #000000;
+    transition: .5s;
+    padding-right: 23px;
+}
+
+.form-box.Register .input-box label{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-30%);
+    font-size: 15px;
+    transition: .5s;
+}
+
+.form-box.Register .input-box input:focus,
+.form-box.Register .input-box input:not(:placeholder-shown){
+    border-bottom: 2px solid #368D96;
+}
+
+
+.form-box.Register .input-box input:focus ~ label,
+.form-box.Register .input-box input:not(:placeholder-shown) ~ label{
+    top: -3px;
+    color: #368D96;
+}
+
+.form-box.Register .input-box span{
+    position:absolute;
+    top: 50%;
+    right: 0;
+    font-size: 17px;
+    transform: translateY(-40%);
+    transition: .5s;
+}
+
+.form-box.Register .input-box input:focus ~ span,
+.form-box.Register .input-box input:not(:placeholder-shown) ~ span{
+    color: #368D96;
+}
+
+.form-box.Register .button{
+    position: relative;
+    margin-top: 7px;
+    width: 100%;
+    height: 40px;
+    background: #29506F;
+    border-radius: 35px;
+    cursor: pointer;
+    border: 2px solid #22d3ee;
+    font-weight: 600;
+    font-size: 14px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+
+
+
+
+
+.button::before{
+    content:"";
+    position:absolute;
+    height: 300%;
+    width: 100%;
+    background: linear-gradient(white,#9df2ff,white, #9df2ff);
+    top: -100%;
+    left:0;
+    z-index: -1;
+    transition: .5s;
+}
+
+.button:hover:before {
+    top: 0;
+}
+
+.register-link{
+    font-size: 14px;
+    text-align: center;
+    margin: 0 0 10px;
+}
+
+.register-link a {
+    color: #368D96;
+    font-weight: 600;
+}
+
+.register-link a:hover{
+    text-decoration: underline;
+}
+
+.info-segment {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.info-segment.Login {
+    right: 0;
+    text-align: right;
+    padding: 0 40px 60px 150px;
+}
+.info-segment.Login .switch-animation{
+    transform: translateX(0%);
+    transition: .7s ease;
+    transition-delay: calc(.1s * var(--Z));
+}
+
+.capsule.active .info-segment.Login .switch-animation{
+    transform: translateX(120%);
+    opacity: 0;
+    filter:blur(10px);
+    transition-delay: calc(.1s * var(--X));
+}
+
+
+.info-segment.Register {
+    left: 0;
+    text-align: left;
+    padding: 0 150px 60px 40px;
+    pointer-events: none;
+}
+.info-segment.Register .switch-animation{
+    transform: translateX(-120%);
+    transition: .7s ease;
+    opacity: 0;
+    filter: blur(10px);
+    transition-delay: calc(.1s * var(--Z));
+}
+
+.capsule.active .info-segment.Register .switch-animation{
+    transform: translateX(0%);
+    opacity: 1;
+    filter: blur(0);
+    transition-delay: calc(.1s * var(--Y));
+}
+
+.info-segment h2{
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 1.3;
+}
+
+.info-segment p{
+    font-size: 16px;
+}
+
+.capsule .right-slant-seperator {
+    position: absolute;
+    right: 0;
+    top: -5px;
+    height: 600px;
+    width: 850px;
+    background: linear-gradient(45deg, #29506F, #22d3ee);
+    transform: rotate(10deg) skewY(40deg);
+    transform-origin: bottom right;
+    transition: 1s ease;
+    transition-delay: 1.2s;
+}
+
+.capsule.active .right-slant-seperator {
+    transform: rotate(0deg) skewY(0deg);
+    transition-delay:0.5s;
+}
+
+
+.capsule .left-slant-seperator {
+    position: absolute;
+    left: 250px;
+    top: 100%;
+    height: 700px;
+    width: 850px;
+    background: white;
+    transform: rotate(0deg) skewY(0deg);
+    transform-origin: bottom left;
+    transition: 1s ease;
+    transition-delay: .5s;
+}
+
+
+.capsule.active .left-slant-seperator {
+    transform: rotate(-11deg) skewY(-41deg);
+    transition-delay:1.2s;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
