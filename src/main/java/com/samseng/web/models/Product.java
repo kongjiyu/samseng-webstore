@@ -14,7 +14,7 @@ public class Product {
     @Id
     @GeneratedValue(generator = "prefix_id")
     @GenericGenerator(name = "prefix_id", strategy = "com.samseng.web.DummyData.PrefixIdGenerator")
-    @Column(name="product_id", nullable = false, unique=true) // 保证字段一致
+    @Column(name="product_id", nullable = false, unique=true)
     private String id;
 
     @NaturalId
