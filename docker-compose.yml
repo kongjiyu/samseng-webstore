@@ -9,6 +9,10 @@ services:
         ports:
             - "${POSTGRES_PORT}:5432"
     glassfish:
+        command: >
+            bash -c "
+              chmod -R 777 /opt/glassfish7/glassfish/domains/domain1/autodeploy &&
+              /opt/glassfish7/bin/asadmin start-domain -v"
         build: .
         container_name: ${GLASSFISH_CONTAINER_NAME-glassfish}
         volumes:
