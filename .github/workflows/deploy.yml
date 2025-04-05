@@ -28,6 +28,6 @@ jobs:
         run: |
           ssh ubuntu@140.245.115.94 << 'EOF'
           cd ~/samseng-webstore
-          docker compose down || true
-          docker compose up -d --build
+          docker-compose down || true
+          docker-compose up -d --build
           EOF
