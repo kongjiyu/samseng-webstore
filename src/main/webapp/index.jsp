@@ -340,7 +340,7 @@
 
     <div class="relative isolate px-6 pt-14 lg:px-8">
         <div class="absolute inset-0 z-[-10]">
-            <video autoplay muted loop playsinline class="w-full h-full object-cover">
+            <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover" id="hero-video">
                 <source src="<%= request.getContextPath() %>/static/video/background.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
@@ -421,7 +421,7 @@
 
 <div class="relative isolate" id="about">
     <div class="relative z-10 -mt-24 h-52 bg-gradient-to-b from-black via-black/80 to-transparent"></div>
-    <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover" id="hero-video">
+    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">
         <source src="<%= request.getContextPath() %>/static/video/background2.mp4" type="video/mp4" />
         Your browser does not support the video tag.
     </video>
