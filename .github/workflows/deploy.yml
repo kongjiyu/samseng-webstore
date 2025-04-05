@@ -1,0 +1,32 @@
+name: Deploy to Oracle Cloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.HOST_SSH_KEY }}
+
+      - name: Copy files to server
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@your-server-ip "mkdir -p ~/webapp"
+          rsync -avz --delete ./ ubuntu@your-server-ip:~/webapp
+
+      - name: Deploy via Docker Compose
+        run: |
+          ssh ubuntu@your-server-ip << 'EOF'
+          cd ~/webapp
+          docker-compose down
+          docker-compose up -d --build
+          EOF
