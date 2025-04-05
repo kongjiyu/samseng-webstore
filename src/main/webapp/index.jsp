@@ -421,7 +421,7 @@
 
 <div class="relative isolate" id="about">
     <div class="relative z-10 -mt-24 h-52 bg-gradient-to-b from-black via-black/80 to-transparent"></div>
-    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">
+    <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover" id="hero-video">
         <source src="<%= request.getContextPath() %>/static/video/background2.mp4" type="video/mp4" />
         Your browser does not support the video tag.
     </video>
@@ -514,11 +514,13 @@
 <script>
     window.addEventListener("load", () => {
         const loader = document.querySelector(".loader");
-        loader.classList.add("hidden");
+        setTimeout(() => {
+            loader.classList.add("hidden");
 
-        loader.addEventListener("transitionend", () => {
-            loader.remove();
-        });
+            loader.addEventListener("transitionend", () => {
+                loader.remove();
+            });
+        }, 500); // slight delay for visual effect
 
         //HTML modal combo box
         const htmlOverlay = HSOverlay.getInstance('#html-modal-combo-box', true)
@@ -547,6 +549,19 @@
         searchContainer.classList.replace("w-[60%]", "w-[20%]");
     });
 
+    const heroVideo = document.getElementById('hero-video');
+
+    // Check if video pauses unexpectedly
+    heroVideo.addEventListener('pause', () => {
+        heroVideo.play().catch(e => console.warn("Autoplay blocked or error:", e));
+    });
+
+    // Optional: Retry every few seconds
+    setInterval(() => {
+        if (heroVideo.paused) {
+            heroVideo.play().catch(e => console.warn("Retry autoplay error:", e));
+        }
+    }, 5000); // retry every 5s
 </script>
 
 </body>
