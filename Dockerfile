@@ -30,6 +30,6 @@ RUN --mount=type=cache,target=/root/.m2 ./mvnw clean package
 # ===== Final stage (GlassFish) =====
 FROM ghcr.io/eclipse-ee4j/glassfish
 # Optionally copy the WAR here if you want the WAR baked into the image:
-# COPY --from=build-env /usr/app/target/*.war /opt/glassfish7/glassfish/domains/domain1/autodeploy/
+COPY --from=build-env /usr/app/target/*.war /opt/glassfish7/glassfish/domains/domain1/autodeploy/
 #
 # (But we'll skip it if we’re extracting the WAR onto our host, then volume-mounting to GlassFish.)
