@@ -29,6 +29,9 @@ RUN --mount=type=cache,target=/root/.m2 ./mvnw clean package
 
 # ===== Final stage (GlassFish) =====
 FROM ghcr.io/eclipse-ee4j/glassfish
+
+RUN chmod -R 777 /opt/glassfish7/glassfish/domains/domain1/autodeploy
+
 # Optionally copy the WAR here if you want the WAR baked into the image:
 COPY --from=build-env /usr/app/target/*.war /opt/glassfish7/glassfish/domains/domain1/autodeploy/
 #
