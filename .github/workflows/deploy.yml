@@ -1,0 +1,33 @@
+name: Deploy to Oracle Cloud
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: github-deploy
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.HOST_SSH_KEY }}
+
+      - name: Copy project to server
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@140.245.115.94 "mkdir -p ~/samseng-webstore"
+          rsync -avz --exclude '.git' --delete ./ ubuntu@140.245.115.94:~/samseng-webstore
+
+      - name: Build & Deploy Docker container
+        run: |
+          ssh ubuntu@140.245.115.94 << 'EOF'
+          cd ~/samseng-webstore
+          docker-compose down || true
+          docker-compose up -d --build
+          EOF

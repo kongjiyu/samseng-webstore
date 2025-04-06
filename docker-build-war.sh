@@ -11,7 +11,7 @@ CONTAINER_ID=$(docker create local-build:latest)
 # 3) Copy out the compiled WAR from the "build-env" layer
 #    (assuming the WAR is named web-1.0.war; adjust as needed)
 mkdir -p deploy/artifacts
-docker cp "$CONTAINER_ID":/usr/app/target/web-1.0.war deploy/artifacts/
+docker cp "$CONTAINER_ID":/usr/app/target/ROOT.war deploy/artifacts/
 
 # 4) Remove the temp container
 docker rm "$CONTAINER_ID"

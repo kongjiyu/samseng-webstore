@@ -12,7 +12,7 @@ $containerId = docker create local-build:latest
 New-Item -ItemType Directory -Path '.\deploy\artifacts' -Force | Out-Null
 
 # 4) Copy out the compiled WAR
-docker cp "$containerId`:/usr/app/target/web-1.0.war" .\deploy\artifacts\
+docker cp "$containerId`:/usr/app/target/ROOT.war" .\deploy\artifacts\
 
 # 5) Remove the temp container
 docker rm $containerId

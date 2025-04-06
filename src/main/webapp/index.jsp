@@ -1,24 +1,23 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
-    <title>Tailwind v3 with JSP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
+    <link href="<%= request.getContextPath() %>/static/css/index.css" rel="stylesheet">
     <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
-    <script src="<%= request.getContextPath() %>/static/js/accordion.js"></script>
-    <script defer src="https://unpkg.com/tailwindcss-intersect@2.x.x/dist/observer.min.js"></script>
-
 </head>
 
-<body class="bg-base-200">
+<body data-theme="dark" class="bg-base-200">
 <div class="loader">
     <span class="loading loading-spinner loading-lg"></span>
 </div>
 <div class="h-screen">
     <nav class="navbar backdrop-blur-lg bg-white/10 text-white shadow-lg gap-4 fixed top-0 left-0 w-full z-50">
         <div class="navbar-start items-center justify-between max-md:w-full">
-            <a class="link text-white link-neutral text-xl font-bold no-underline" href="#">
+            <a class="link text-white text-xl font-bold no-underline" href="#">
                 SAMSENG
             </a>
         </div>
@@ -35,62 +34,26 @@
                     </button>
                     <ul class="dropdown-menu dropdown-open:opacity-100 hidden w-48" role="menu"
                         aria-orientation="vertical" aria-labelledby="nested-dropdown">
-                        <li><a class="dropdown-item" href="#">Templates</a></li>
-                        <li><a class="dropdown-item" href="#">UI kits</a></li>
-                        <li class="dropdown relative [--auto-close:inside] [--offset:10] [--placement:right-start]">
-                            <button id="nested-dropdown-2"
-                                    class="dropdown-toggle dropdown-item dropdown-open:bg-base-content/10 dropdown-open:text-base-content justify-between"
-                                    aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                                Components
-                                <span class="icon-[tabler--chevron-right] size-4 rtl:rotate-180"></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-open:opacity-100 hidden w-48" role="menu"
-                                aria-orientation="vertical" aria-labelledby="nested-dropdown-2">
-                                <li><a class="dropdown-item" href="#">Basic</a></li>
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        Advanced
-                                        <span
-                                                class="badge badge-sm badge-soft badge-primary rounded-full">Pro</span>
-                                    </a>
-                                </li>
-                                <li
-                                        class="dropdown relative [--auto-close:inside] [--offset:10] rtl:[--placement:left-start] [--placement:right-start]">
-                                    <button id="nested-dropdown-2"
-                                            class="dropdown-toggle dropdown-item dropdown-open:bg-base-content/10 dropdown-open:text-base-content justify-between"
-                                            aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                                        Vendor
-                                        <span class="icon-[tabler--chevron-right] size-4 rtl:rotate-180"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-open:opacity-100 hidden w-48" role="menu"
-                                        aria-orientation="vertical" aria-labelledby="nested-dropdown-2">
-                                        <li>
-                                            <a class="dropdown-item" href="#">
-                                                Data tables
-                                                <span
-                                                        class="badge badge-sm badge-soft badge-primary rounded-full">Pro</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">
-                                                Apex charts
-                                                <span
-                                                        class="badge badge-sm badge-soft badge-primary rounded-full">Pro</span>
-                                            </a>
-                                        </li>
-                                        <li><a class="dropdown-item" href="#">Clipboard</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
+                        <li><a class="dropdown-item" href="#">Mobile</a></li>
+                        <li><a class="dropdown-item" href="#">TV</a></li>
+                        <li><a class="dropdown-item" href="#">Accessories</a></li>
                     </ul>
                 </li>
-                <li><a href="#" class="!bg-transparent !text-white">About</a></li>
-                <li><a href="#" class="!bg-transparent !text-white">Careers</a></li>
+                <li><a href="#" class="!bg-transparent !text-white">Promotion</a></li>
+                <li><a href="#" class="!bg-transparent !text-white">Contact Us</a></li>
             </ul>
         </div>
 
         <div class="navbar-end flex items-center gap-4">
+            <!--Search Button-->
+            <div class="navbar-end items-center gap-4">
+                <button class="btn btn-sm btn-text btn-circle size-8.5" aria-label="Search Button" type="button"
+                        aria-haspopup="dialog" aria-expanded="false" aria-controls="html-modal-combo-box"
+                        data-overlay="#html-modal-combo-box">
+                    <span class="icon-[tabler--search] text-white size-[1.375rem] text-base"></span>
+                </button>
+            </div>
+            <!--Cart Button-->
             <div class="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
                 <button id="dropdown-scrollable" type="button"
                         class="dropdown-toggle btn btn-text btn-circle dropdown-open:bg-base-content/10 size-10"
@@ -212,27 +175,27 @@
                         </div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item active:text-cyan-500" href="#">
                             <span class="icon-[tabler--user]"></span>
                             My Profile
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item active:text-cyan-500" href="#">
                             <span class="icon-[tabler--settings]"></span>
                             Settings
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item active:text-cyan-500" href="#">
                             <span class="icon-[tabler--receipt-rupee]"></span>
-                            Billing
+                            Order
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item active:text-cyan-500" href="#">
                             <span class="icon-[tabler--help-triangle]"></span>
-                            FAQs
+                            Vouchers
                         </a>
                     </li>
                     <li class="dropdown-footer gap-2">
@@ -243,61 +206,148 @@
                     </li>
                 </ul>
             </div>
+            <a href="loginRegisterForm.jsp">
             <button class="btn btn-gradient btn-secondary rounded-full">Log In -></button>
+            </a>
         </div>
     </nav>
 
-
-    <!-- <div data-carousel='{
-    "loadingClasses": "opacity-0",
-    "dotsItemClasses": "carousel-box",
-    "isAutoPlay": true,
-    "speed": 3000
-
-  }' class="relative w-full h-screen">
-        <div class="carousel h-full">
-            <div class="carousel-body h-full opacity-0">
-                <div class="carousel-slide">
-                    <div class="bg-base-300/60 flex h-full justify-center p-6 bg-cover" style="background-image:url(https://images.samsung.com/my/smartphones/galaxy-s25-ultra/images/galaxy-s25-ultra-features-kv.jpg?imbypass=true)">
-                        <span class="self-center text-2xl sm:text-4xl">First slide</span>
+    <div id="html-modal-combo-box" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 [--body-scroll:true] hidden"
+         role="dialog" tabindex="-1">
+        <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
+            <div class="modal-content">
+                <div class="relative" data-combo-box='{
+                    "preventVisibility": true,
+                    "groupingType": "default",
+                    "preventSelection": true,
+                    "isOpenOnFocus": true,
+                    "groupingTitleTemplate": "<div class=\"block text-xs text-base-content/50 m-3 mb-1\"></div>"
+                  }'>
+                    <div class="modal-header block">
+                        <div class="relative">
+                            <input class="input ps-8 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" type="text" placeholder="Search or type a command"
+                                   role="combobox" aria-expanded="false" value="" autofocus=""
+                                   data-combo-box-input="" />
+                            <span
+                                    class="icon-[tabler--search] text-base-content absolute start-3 top-1/2 size-4 shrink-0 -translate-y-1/2"
+                                    data-combo-box-toggle=""></span>
+                        </div>
                     </div>
-                </div>
-                <div class="carousel-slide">
-                    <div class="bg-base-300/80 flex h-full justify-center p-6 bg-cover" style="background-image: url(https://images.samsung.com/my/smartphones/galaxy-s25/images/galaxy-s25-features-kv.jpg?imbypass=true);">
-                        <span class="self-center text-2xl sm:text-4xl">Second slide</span>
-                    </div>
-                </div>
-                <div class="carousel-slide">
-                    <div class="bg-base-300 flex h-full justify-center p-6 bg-cover bg-cover" style="background-image: url(https://images.samsung.com/my/smartphones/galaxy-z-fold6/images/galaxy-z-fold6-features-kv.jpg?imbypass=true);">
-                        <span class="self-center text-2xl sm:text-4xl">Third slide</span>
+                    <!-- SearchBox Modal Body -->
+                    <div class="modal-body overflow-y-auto mt-0 max-h-72 p-1.5" data-combo-box-output="">
+                        <div class="space-y-0.5 p-0.5" data-combo-box-output-items-wrapper="">
+                            <!-- Group: Recent Actions -->
+                            <div data-combo-box-output-item='{"group": {"name": "recent", "title": "Recent Actions"}}'
+                                 tabindex="0">
+                                <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none" href="#">
+                                        <span
+                                                class="icon-[tabler--writing] text-base-content/80 size-4 shrink-0"></span>
+                                    <span class="text-base-content text-sm"
+                                          data-combo-box-search-text="Write a document" data-combo-box-value="">
+                                            Write a document
+                                        </span>
+                                    <span class="text-base-content/50 ms-auto hidden text-xs sm:inline"
+                                          data-combo-box-search-text="Google Docs" data-combo-box-value="">
+                                            Google Docs
+                                        </span>
+                                </a>
+                            </div>
+                            <div data-combo-box-output-item='{"group": {"name": "recent", "title": "Recent Actions"}}'
+                                 tabindex="1">
+                                <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none" href="#">
+                                        <span
+                                                class="icon-[tabler--calendar] text-base-content/80 size-4 shrink-0"></span>
+                                    <span class="text-base-content text-sm"
+                                          data-combo-box-search-text="Schedule a meeting" data-combo-box-value="">
+                                            Schedule a meeting
+                                        </span>
+                                    <span class="text-base-content/50 ms-auto hidden text-xs sm:inline"
+                                          data-combo-box-search-text="Google Calendar" data-combo-box-value="">
+                                            Google Calendar
+                                        </span>
+                                </a>
+                            </div>
+                            <div data-combo-box-output-item='{"group": {"name": "recent", "title": "Recent Actions"}}'
+                                 tabindex="2">
+                                <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none" href="#">
+                                        <span
+                                                class="icon-[tabler--presentation] text-base-content/80 size-4 shrink-0"></span>
+                                    <span class="text-base-content text-sm"
+                                          data-combo-box-search-text="Create a presentation" data-combo-box-value="">
+                                            Create a presentation
+                                        </span>
+                                    <span class="text-base-content/50 ms-auto hidden text-xs sm:inline"
+                                          data-combo-box-search-text="Microsoft PowerPoint" data-combo-box-value="">
+                                            PowerPoint
+                                        </span>
+                                </a>
+                            </div>
+                            <!-- Group: People -->
+                            <div data-combo-box-output-item='{"group": {"name": "people", "title": "People"}}'
+                                 tabindex="4">
+                                <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none" href="#">
+                                    <img class="size-5 shrink-0 rounded-full"
+                                         src="https://cdn.flyonui.com/fy-assets/avatar/avatar-2.png"
+                                         alt="Image Description" />
+                                    <span class="text-base-content text-sm"
+                                          data-combo-box-search-text="Alice Johnson" data-combo-box-value="">
+                                            Alice Johnson
+                                        </span>
+                                    <span class="ms-auto text-xs text-teal-600" data-combo-box-search-text="Online"
+                                          data-combo-box-value="">
+                                            Online
+                                        </span>
+                                </a>
+                            </div>
+                            <div data-combo-box-output-item='{"group": {"name": "people", "title": "People"}}'
+                                 tabindex="5">
+                                <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none" href="#">
+                                    <img class="size-5 shrink-0 rounded-full"
+                                         src="https://cdn.flyonui.com/fy-assets/avatar/avatar-11.png"
+                                         alt="Image Description" />
+                                    <span class="text-base-content text-sm" data-combo-box-search-text="David Kim"
+                                          data-combo-box-value="">
+                                            David Kim
+                                        </span>
+                                    <span class="text-base-content/50 ms-auto text-xs"
+                                          data-combo-box-search-text="Offline" data-combo-box-value="">
+                                            Offline
+                                        </span>
+                                </a>
+                            </div>
+                            <div data-combo-box-output-item='{"group": {"name": "people", "title": "People"}}'
+                                 tabindex="6">
+                                <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none" href="#">
+                                    <img class="size-5 shrink-0 rounded-full"
+                                         src="https://cdn.flyonui.com/fy-assets/avatar/avatar-12.png"
+                                         alt="Image Description" />
+                                    <span class="text-base-content text-sm"
+                                          data-combo-box-search-text="Rosa Martinez" data-combo-box-value="">
+                                            Rosa Martinez
+                                        </span>
+                                    <span class="text-base-content/50 ms-auto text-xs"
+                                          data-combo-box-search-text="Offline" data-combo-box-value="">
+                                            Offline
+                                        </span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <button type="button" class="carousel-prev">
-            <span class="size-9.5 bg-base-100 flex items-center justify-center rounded-full shadow">
-                <span class="icon-[tabler--chevron-left] size-5 cursor-pointer rtl:rotate-180"></span>
-            </span>
-            <span class="sr-only">Previous</span>
-        </button>
-        <button type="button" class="carousel-next">
-            <span class="sr-only">Next</span>
-            <span class="size-9.5 bg-base-100 flex items-center justify-center rounded-full shadow">
-                <span class="icon-[tabler--chevron-right] size-5 cursor-pointer rtl:rotate-180"></span>
-            </span>
-        </button>
-
-        <div class="carousel-pagination absolute bottom-3 end-0 start-0 flex justify-center gap-3"></div>
-    </div> -->
+    </div>
 
     <div class="relative isolate px-6 pt-14 lg:px-8">
         <div class="absolute inset-0 z-[-10]">
-            <video autoplay muted loop playsinline class="w-full h-full object-cover">
+            <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover" id="hero-video">
                 <source src="<%= request.getContextPath() %>/static/video/background.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
-            <div class="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-b from-transparent via-black/80 to-black z-[-1] pointer-events-none"></div>            </div>
+            <div
+                    class="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-b from-transparent via-black/80 to-black z-[-1] pointer-events-none">
+            </div>
+        </div>
         <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
              aria-hidden="true">
             <div class="relative left-[calc(50%-11rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
@@ -319,9 +369,10 @@
                 <p class="mt-8 text-lg font-medium text-pretty text-white/80 sm:text-xl/8">Explore the latest
                     Samseng smartphones and accessories—designed to keep you connected, productive, and inspired
                     every day.</p>
+
                 <div class="mt-10 flex items-center justify-center gap-x-6">
 
-                    <a href="#">
+                    <a href="#about">
                         <button class="hero-animated-button">
                             <svg class="arr-2" fill="#000000" height="200px" width="200px" version="1.1"
                                  id="Layer_1" xmlns="http://www.w3.org/2000/svg"
@@ -354,41 +405,40 @@
                 </div>
             </div>
         </div>
-        <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-             aria-hidden="true">
-            <div class="relative left-[calc(50%+3rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-                 style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
-            </div>
-        </div>
-
     </div>
     <div class="relative z-10 -mt-24 h-52 bg-gradient-to-b from-transparent via-black/80 to-black"></div>
 </div>
 
 <div class="h-screen bg-black">
-
+    <div class="relative z-10 flex h-screen justify-center items-center text-center px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-white leading-snug max-w-4xl">
+            Empowering lifestyles through cutting-edge innovation — from flagship smartphones and immersive TVs to
+            smart accessories that enhance everyday life.
+        </h2>
+    </div>
 </div>
 
 
-<div class="relative isolate">
+<div class="relative isolate" id="about">
     <div class="relative z-10 -mt-24 h-52 bg-gradient-to-b from-black via-black/80 to-transparent"></div>
     <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-[-1]">
         <source src="<%= request.getContextPath() %>/static/video/background2.mp4" type="video/mp4" />
         Your browser does not support the video tag.
     </video>
-    <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-black z-[-1]"></div>
     <div class="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat px-4">
         <div
                 class="card flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left max-w-6xl w-full bg-white/10 backdrop-blur-2xl border border-white/20 rounded-3xl overflow-hidden shadow-2xl text-white p-8 gap-10">
             <figure class="w-full max-w-xs">
-                <img src="https://cdn.flyonui.com/fy-assets/components/card/image-7.png" alt="Airpods Max"
-                     class="rounded-2xl w-full h-auto object-cover shadow-md mx-auto">
+                <img src="https://media.istockphoto.com/id/943067460/photo/male-it-specialist-holds-laptop-and-discusses-work-with-female-server-technician-theyre.jpg?s=612x612&w=0&k=20&c=851ArmF2ooz-2yQCRCWkjJLCYwDdpTCYzPinl9WgA_s="
+                     alt="Who We Are" class="rounded-2xl w-full h-auto object-cover shadow-md mx-auto">
             </figure>
             <div class="card-body p-0 flex flex-col justify-center items-center sm:items-start">
-                <h2 class="text-4xl font-bold mb-4 leading-tight">Galaxy Series Smartphones</h2>
+                <h2 class="text-4xl font-bold mb-4 leading-tight">Who We Are</h2>
                 <p class="text-lg text-white/90 leading-relaxed max-w-xl">
-                    Discover the cutting-edge innovation behind Samsung Galaxy phones. Experience power, style, and
-                    performance in one sleek device.
+                    At Samseng, we are driven by innovation and inspired by real human needs. We design cutting-edge
+                    mobile devices,
+                    smart TVs, and connected accessories that power everyday life. Trusted by over <strong>12
+                    million users</strong> worldwide.
                 </p>
             </div>
         </div>
@@ -396,31 +446,35 @@
     <div class="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat px-4">
         <div
                 class="card flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left max-w-6xl w-full bg-white/10 backdrop-blur-2xl border border-white/20 rounded-3xl overflow-hidden shadow-2xl text-white p-8 gap-10">
-            <figure class="w-full max-w-xs">
-                <img src="https://cdn.flyonui.com/fy-assets/components/card/image-7.png" alt="Airpods Max"
-                     class="rounded-2xl w-full h-auto object-cover shadow-md mx-auto">
-            </figure>
             <div class="card-body p-0 flex flex-col justify-center items-center sm:items-start">
-                <h2 class="text-4xl font-bold mb-4 leading-tight">Galaxy Series Smartphones</h2>
+                <h2 class="text-4xl font-bold mb-4 leading-tight">What We Do</h2>
                 <p class="text-lg text-white/90 leading-relaxed max-w-xl">
-                    Discover the cutting-edge innovation behind Samsung Galaxy phones. Experience power, style, and
-                    performance in one sleek device.
+                    From ultra-fast smartphones to immersive displays and smart accessories, we create seamless
+                    experiences for work,
+                    play, and everything in between. Proudly shipping to <strong>50+ countries</strong> and
+                    supporting <strong>200+ retailers</strong>.
                 </p>
             </div>
+            <figure class="w-full max-w-xs">
+                <img src="https://media.istockphoto.com/id/1390456645/photo/metaverse-and-blockchain-technology-concepts-person-with-an-experiences-of-metaverse-virtual.jpg?s=612x612&w=0&k=20&c=eoKihFdi8QF2s2WomQJxpiy-pvM5tKLYAIaWdP_kQwc="
+                     alt="What We Do" class="rounded-2xl w-full h-auto object-cover shadow-md mx-auto">
+            </figure>
+
         </div>
     </div>
     <div class="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat px-4">
         <div
                 class="card flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left max-w-6xl w-full bg-white/10 backdrop-blur-2xl border border-white/20 rounded-3xl overflow-hidden shadow-2xl text-white p-8 gap-10">
             <figure class="w-full max-w-xs">
-                <img src="https://cdn.flyonui.com/fy-assets/components/card/image-7.png" alt="Airpods Max"
-                     class="rounded-2xl w-full h-auto object-cover shadow-md mx-auto">
+                <img src="https://media.istockphoto.com/id/1346125184/photo/group-of-successful-multiethnic-business-team.jpg?s=612x612&w=0&k=20&c=5FHgRQZSZed536rHji6w8o5Hco9JVMRe8bpgTa69hE8="
+                     alt="Why Choose Us" class="rounded-2xl w-full h-auto object-cover shadow-md mx-auto">
             </figure>
             <div class="card-body p-0 flex flex-col justify-center items-center sm:items-start">
-                <h2 class="text-4xl font-bold mb-4 leading-tight">Galaxy Series Smartphones</h2>
+                <h2 class="text-4xl font-bold mb-4 leading-tight">Why Choose Us</h2>
                 <p class="text-lg text-white/90 leading-relaxed max-w-xl">
-                    Discover the cutting-edge innovation behind Samsung Galaxy phones. Experience power, style, and
-                    performance in one sleek device.
+                    Our mission is to redefine modern tech living. With a <strong>99.8% satisfaction rate</strong>
+                    and award-winning support,
+                    Samseng delivers not just devices—but an entire lifestyle built on excellence and trust.
                 </p>
             </div>
         </div>
@@ -428,17 +482,12 @@
 </div>
 
 
-<footer class="footer bg-base-200/60 flex flex-col items-center gap-4 p-6">
+<footer class="footer bg-base-200 flex flex-col items-center gap-4 p-6" data-theme="dark">
     <div class="flex items-center gap-2 text-xl font-bold">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M17.6745 16.9224L12.6233 10.378C12.2167 9.85117 11.4185 9.8611 11.0251 10.3979L6.45728 16.631C6.26893 16.888 5.96935 17.0398 5.65069 17.0398H3.79114C2.9635 17.0398 2.49412 16.0919 2.99583 15.4336L11.0224 4.90319C11.4206 4.38084 12.2056 4.37762 12.608 4.89668L20.9829 15.6987C21.4923 16.3558 21.024 17.3114 20.1926 17.3114H18.4661C18.1562 17.3114 17.8638 17.1677 17.6745 16.9224ZM12.5866 15.5924L14.8956 18.3593C15.439 19.0105 14.976 20 14.1278 20H9.74075C8.9164 20 8.4461 19.0586 8.94116 18.3994L11.0192 15.6325C11.4065 15.1169 12.1734 15.0972 12.5866 15.5924Z"
-                  fill="var(--color-primary)" />
-        </svg>
-        <span>FlyonUI</span>
+        <span>SAMSENG</span>
     </div>
     <aside>
-        <p>©2024FlyonUI</p>
+        <p>©2025 SAMSENG</p>
     </aside>
     <nav class="text-base-content grid-flow-col gap-4">
         <a class="link link-hover" href="#">License</a>
@@ -465,11 +514,28 @@
 <script>
     window.addEventListener("load", () => {
         const loader = document.querySelector(".loader");
-        loader.classList.add("hidden");
+        setTimeout(() => {
+            loader.classList.add("hidden");
 
-        loader.addEventListener("transitionend", () => {
-            loader.remove();
-        });
+            loader.addEventListener("transitionend", () => {
+                loader.remove();
+            });
+        }, 500); // slight delay for visual effect
+
+        //HTML modal combo box
+        const htmlOverlay = HSOverlay.getInstance('#html-modal-combo-box', true)
+        const htmlCombobox = HSComboBox.getInstance('#html-modal-combo-box [data-combo-box]', true)
+
+        window.addEventListener('keydown', function (evt) {
+            if (evt.code === 'Semicolon' && evt.shiftKey) {
+                if (htmlOverlay.element && htmlOverlay.element.el.classList.contains('open')) return false
+
+                htmlOverlay.element.open()
+                htmlCombobox.element.setCurrent()
+            }
+        })
+
+
     });
 
     const searchInput = document.getElementById("searchInput");
@@ -483,8 +549,21 @@
         searchContainer.classList.replace("w-[60%]", "w-[20%]");
     });
 
-</script>
-</body>
+    const heroVideo = document.getElementById('hero-video');
 
+    // Check if video pauses unexpectedly
+    heroVideo.addEventListener('pause', () => {
+        heroVideo.play().catch(e => console.warn("Autoplay blocked or error:", e));
+    });
+
+    // Optional: Retry every few seconds
+    setInterval(() => {
+        if (heroVideo.paused) {
+            heroVideo.play().catch(e => console.warn("Retry autoplay error:", e));
+        }
+    }, 5000); // retry every 5s
+</script>
+
+</body>
 
 </html>
