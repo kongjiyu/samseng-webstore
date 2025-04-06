@@ -6,6 +6,8 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
+import static org.hibernate.Length.LONG32;
+
 @Data
 @Entity
 @Table(name = "\"Product\"")
@@ -26,7 +28,7 @@ public class Product {
     @Column(name="product_images")
     private String images;
 
-    @Column(name="product_desc")
+    @Column(name="product_desc", length = LONG32)
     private String desc;
 
     @NotNull
