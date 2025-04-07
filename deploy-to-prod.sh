@@ -1,16 +1,5 @@
 #!/bin/sh
 
-# ensure uploads directory exists and has correct permissions
-mkdir -p ${SAMSENG_EXT_VOLUME}/uploads/products
-chmod 755 ${SAMSENG_EXT_VOLUME}/uploads
-chmod 755 ${SAMSENG_EXT_VOLUME}/uploads/products
-
-# create caddy directories
-mkdir -p ${SAMSENG_EXT_VOLUME}/caddy/logs
-mkdir -p ${SAMSENG_EXT_VOLUME}/caddy/data
-mkdir -p ${SAMSENG_EXT_VOLUME}/caddy/config
-chmod -R 755 ${SAMSENG_EXT_VOLUME}/caddy
-
 # build war file
 docker build --target build-env -t samseng-war-build:latest .
 
