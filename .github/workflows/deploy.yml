@@ -22,39 +22,12 @@ jobs:
       - name: Copy project to server
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@140.245.115.94 "mkdir -p ~/samseng-webstore"
-          ssh -o StrictHostKeyChecking=no ubuntu@140.245.115.94 "mkdir -p ~/samseng-webstore/uploads/products"
-          # First sync everything except uploads directory
-          rsync -avz --exclude '.git' --exclude 'uploads' --delete ./ ubuntu@140.245.115.94:~/samseng-webstore
-          # Then sync uploads directory with special permission handling
-          rsync -avz --no-perms --chmod=Du=rwx,Dgo=rx,Fu=rw,Fog=r uploads/ ubuntu@140.245.115.94:~/samseng-webstore/uploads/
+          rsync -avz --exclude '.git' --delete ./ ubuntu@140.245.115.94:~/samseng-webstore
 
       - name: Build & Deploy Docker container
         run: |
           ssh ubuntu@140.245.115.94 << 'EOF'
           cd ~/samseng-webstore
-          
-          # Create .env file if it doesn't exist
-          if [ ! -f .env ]; then
-            echo "Creating .env file..."
-            echo "POSTGRES_DB=samseng" > .env
-            echo "POSTGRES_USER=postgres" >> .env
-            echo "POSTGRES_PASSWORD=postgres" >> .env
-            echo "AS_ADMIN_MASTERPASSWORD=changeit" >> .env
-            echo "AS_ADMIN_PASSWORD=admin" >> .env
-            echo "JTA_DATA_SOURCE=jdbc/samseng" >> .env
-            echo "SAMSENG_SITE_URL=140.245.115.94" >> .env
-            echo "SAMSENG_EXT_VOLUME=/opt/samseng-data" >> .env
-          fi
-          
-          # Create external volume directory with proper permissions
-          sudo mkdir -p /opt/samseng-data
-          sudo chown -R ubuntu:ubuntu /opt/samseng-data
-          
-          # Export SAMSENG_EXT_VOLUME for script usage
-          export SAMSENG_EXT_VOLUME=/opt/samseng-data
-          
-          # Run deployment
-          docker-compose -f docker-compose.prod.yml -p samseng-webstore up -d
-          chmod +x deploy-to-prod.sh
-          ./deploy-to-prod.sh
+          docker-compose down || true
+          docker-compose up -d --build
           EOF
