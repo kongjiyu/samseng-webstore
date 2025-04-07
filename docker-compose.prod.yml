@@ -35,6 +35,9 @@ services:
             - ${SAMSENG_EXT_VOLUME}:/var/www/data:z
         depends_on:
             - db
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
+            start_period: 30s
     caddy:
         image: caddy:2-alpine
         container_name: samseng-proxy
