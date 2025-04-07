@@ -3,6 +3,8 @@ services:
         image: postgres
         container_name: samseng-db
         restart: unless-stopped
+        networks:
+            - samseng-network
         environment:
             PGDATA: /var/lib/postgresql/data/pgdb
             POSTGRES_DB: ${POSTGRES_DB}
@@ -20,6 +22,8 @@ services:
         image: ghcr.io/eclipse-ee4j/glassfish
         container_name: samseng-web
         restart: unless-stopped
+        networks:
+            - samseng-network
         environment:
             AS_ADMIN_MASTERPASSWORD: ${AS_ADMIN_MASTERPASSWORD}
             AS_ADMIN_PASSWORD: ${AS_ADMIN_PASSWORD}
@@ -39,6 +43,8 @@ services:
         image: caddy:2-alpine
         container_name: samseng-proxy
         restart: unless-stopped
+        networks:
+            - samseng-network
         cap_add:
             - NET_ADMIN
         ports:
@@ -49,8 +55,12 @@ services:
         volumes:
             - ./Caddyfile:/etc/caddy/Caddyfile:ro,z
             - ${SAMSENG_EXT_VOLUME}/uploads:/var/www/uploads:z
-            - ${SAMSENG_EXT_VOLUME}:/var/log:z
-            - ${SAMSENG_EXT_VOLUME}:/data:z
-            - ${SAMSENG_EXT_VOLUME}:/config:z
+            - ${SAMSENG_EXT_VOLUME}/caddy/logs:/var/log/caddy:z
+            - ${SAMSENG_EXT_VOLUME}/caddy/data:/data:z
+            - ${SAMSENG_EXT_VOLUME}/caddy/config:/config:z
         depends_on:
             - web
+
+networks:
+    samseng-network:
+        driver: bridge

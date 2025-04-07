@@ -1,4 +1,9 @@
 {$SAMSENG_SITE_URL} {
+    log {
+        output file /var/log/caddy/access.log
+        format json
+    }
+
     handle_path /uploads/* {
         root * /var/www/uploads
         file_server
@@ -7,5 +12,11 @@
     }
 
     reverse_proxy {$SAMSENG_SERVER} {
+        transport http {
+            keepalive 30s
+            keepalive_idle_conns 10
+        }
+        health_timeout 10s
+        timeout 60s
     }
 }
