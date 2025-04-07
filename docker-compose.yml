@@ -15,6 +15,7 @@ services:
             - ./deploy/glassfish_init:/opt/glassfish7/custom:ro
             - ./deploy/artifacts:/opt/glassfish7/glassfish/domains/domain1/autodeploy
         environment:
+            JAVA_OPTS: "-Xmx1024m"
             AS_ADMIN_MASTERPASSWORD: ${AS_ADMIN_MASTERPASSWORD}
             AS_ADMIN_PASSWORD: ${AS_ADMIN_PASSWORD}
 
