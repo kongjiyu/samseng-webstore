@@ -28,8 +28,3 @@ services:
         ports:
             - "8080:8080"
             - "4848:4848"
-        command: >
-            bash -c "
-              /opt/glassfish7/bin/asadmin start-domain &&
-              /opt/glassfish7/bin/asadmin deploy --force=true --contextroot / /opt/glassfish7/ROOT.war &&
-              tail -f /opt/glassfish7/glassfish/domains/domain1/logs/server.log"

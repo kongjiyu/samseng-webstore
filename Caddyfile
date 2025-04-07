@@ -1,6 +1,6 @@
 {$SAMSENG_SITE_URL} {
     handle_path /uploads/* {
-        root * /var/www/media
+        root * /var/www/uploads
         file_server
 
         header Content-Disposition attachment

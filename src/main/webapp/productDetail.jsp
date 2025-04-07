@@ -92,7 +92,7 @@
     <div class="w-full lg:w-1/3 p-10 space-y-4">
       <h2 class="text-2xl font-bold">Product Information</h2>
       <div class="card bg-base-100 shadow-md p-4 space-y-4">
-        <img class="rounded-lg mt-4" src="http://140.245.115.94<%= ((Product) request.getAttribute("product")).getImages() %>" alt="Product Image">        <div>
+        <img class="rounded-lg mt-4" src="/uploads/<%= ((Product) request.getAttribute("product")).getImages() %>" alt="Product Image">        <div>
           <label class="block font-semibold">Product ID:</label>
           <input type="text" class="input input-bordered w-full" value="<%= ((Product) request.getAttribute("product")).getId() %>" disabled>
         </div>
