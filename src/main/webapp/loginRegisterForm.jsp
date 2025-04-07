@@ -20,14 +20,14 @@
         <!--LOGIN FORM-->
         <div class="form-box Login">
             <h1 class="switch-animation" style="--X:0; --Z:15">Login</h1>
-            <form action="j_security_check"  method="POST">
+            <form action="login"  method="POST">
                 <div class="input-box switch-animation" style="--X:1; --Z:16">
-                    <input type="text" name="j_username" required>
+                    <input type="text" name="email" required>
                     <label>Username</label>
                     <span class="icon-[tabler--user] size-5"></span>
                 </div>
                 <div class="input-box switch-animation" style="--X:2; --Z:17">
-                    <input type="password" name="j_password" required>
+                    <input type="password" name="password" required>
                     <label>Password</label>
                     <span class="icon-[tabler--lock] size-5"></span>
                 </div>
