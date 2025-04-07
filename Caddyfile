@@ -1,4 +1,20 @@
+# Logging configuration for Caddy
+(log_common) {
+    log {
+        output file /var/log/caddy/{args[0]}.access.log
+        format console
+    }
+}
+
 {$SAMSENG_SITE_URL} {
+    import log_common samseng
+
+    encode gzip
+
+    request_body {
+        max_size 100MB
+    }
+
     handle_path /uploads/* {
         root * /var/www/uploads
         file_server
