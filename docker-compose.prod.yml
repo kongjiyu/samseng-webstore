@@ -1,0 +1,56 @@
+services:
+    db:
+        image: postgres
+        container_name: samseng-db
+        restart: unless-stopped
+        environment:
+            PGDATA: /var/lib/postgresql/data/pgdb
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        volumes:
+            - ${SAMSENG_EXT_VOLUME:?You must specify the 'SAMSENG_EXT_VOLUME' variable in the .env file!}:/var/lib/postgresql/data
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready", "-d", "${POSTGRES_DB}" ]
+            interval: 30s
+            timeout: 60s
+            retries: 5
+            start_period: 80s
+    web:
+        image: ghcr.io/eclipse-ee4j/glassfish
+        container_name: samseng-web
+        restart: unless-stopped
+        environment:
+            AS_ADMIN_MASTERPASSWORD: ${AS_ADMIN_MASTERPASSWORD}
+            AS_ADMIN_PASSWORD: ${AS_ADMIN_PASSWORD}
+
+            POSTGRES_CONTAINER_NAME: samseng-db
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+            JTA_DATA_SOURCE: ${JTA_DATA_SOURCE}
+        volumes:
+            - ./deploy/glassfish_init:/opt/glassfish7/custom:ro
+            - ${SAMSENG_EXT_VOLUME}:/var/www/data:z
+        depends_on:
+            - db
+    caddy:
+        image: caddy:2-alpine
+        container_name: samseng-proxy
+        restart: unless-stopped
+        cap_add:
+            - NET_ADMIN
+        ports:
+            - "80:80"
+        environment:
+            SAMSENG_SITE_URL: ${SAMSENG_SITE_URL}
+            SAMSENG_SERVER: "samseng-web:8080"
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile:ro,z
+            - ${SAMSENG_EXT_VOLUME}/uploads:/var/www/uploads:z
+            - ${SAMSENG_EXT_VOLUME}:/var/log:z
+            - ${SAMSENG_EXT_VOLUME}:/data:z
+            - ${SAMSENG_EXT_VOLUME}:/config:z
+        depends_on:
+            - web

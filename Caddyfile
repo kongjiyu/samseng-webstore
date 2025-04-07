@@ -1,0 +1,11 @@
+{$SAMSENG_SITE_URL} {
+    handle_path /uploads/* {
+        root * /var/www/media
+        file_server
+
+        header Content-Disposition attachment
+    }
+
+    reverse_proxy {$SAMSENG_SERVER} {
+    }
+}
