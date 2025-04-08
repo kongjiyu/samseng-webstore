@@ -35,7 +35,7 @@ jobs:
                     HOST: 140.245.115.94
                     DIR: /home/ubuntu/samseng-webstore
                 run: |
-                    ssh $USER@$HOST mkdir -p $DIR
+                    ssh -o StrictHostKeyChecking=no $USER@$HOST mkdir -p $DIR
                     
                     scp .env docker-compose.prod.yml ./target/*.war ./deploy Caddyfile $USER@$HOST:$DIR
                     
