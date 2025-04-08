@@ -28,6 +28,7 @@ jobs:
         run: |
           ssh ubuntu@140.245.115.94 << 'EOF'
           cd ~/samseng-webstore
-          docker-compose down || true
-          docker-compose up -d --build
+          docker-compose -f docker-compose.prod.yml -p samseng-webstore up -d
+          chmod +x deploy-to-prod.sh
+          ./deploy-to-prod.sh
           EOF
