@@ -37,7 +37,7 @@ jobs:
                 run: |
                     ssh -o StrictHostKeyChecking=no $USER@$HOST mkdir -p $DIR
                     
-                    scp .env docker-compose.prod.yml ./target/*.war ./deploy Caddyfile $USER@$HOST:$DIR
+                    scp -r .env docker-compose.prod.yml ./target/*.war ./deploy Caddyfile $USER@$HOST:$DIR
                     
                     ssh $USER@$HOST << 'EOF'
                     cd $DIR
