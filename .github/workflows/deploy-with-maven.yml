@@ -38,7 +38,6 @@ jobs:
                     scp -o StrictHostKeyChecking=no -r .env docker-compose.prod.yml ./target/*.war ./deploy Caddyfile $USER@$HOST:$DIR
 
                     ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
-                    cd $DIR
-                    docker-compose -f docker-compose.prod.yml -p samseng-webstore up -d --wait
-                    docker cp deploy/artifacts/ROOT.war samseng-web:/opt/glassfish7/glassfish/domains/domain1/autodeploy
+                    docker-compose -f $DIR/docker-compose.prod.yml -p samseng-webstore up -d --wait
+                    docker cp $DIR/ROOT.war samseng-web:/opt/glassfish7/glassfish/domains/domain1/autodeploy
                     EOF
