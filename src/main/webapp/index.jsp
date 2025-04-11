@@ -5,9 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/static/css/output.css" rel="stylesheet">
-    <link href="/static/css/index.css" rel="stylesheet">
-    <script src="/static/js/flyonui.js"></script>
+    <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
+    <link href="<%= request.getContextPath() %>/static/css/index.css" rel="stylesheet">
+    <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 </head>
 
 <body data-theme="dark" class="bg-base-200">
