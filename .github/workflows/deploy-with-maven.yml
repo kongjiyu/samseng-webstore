@@ -23,6 +23,9 @@ jobs:
             -   name: Run npm build script
                 run: npm run build
 
+            -   name: Confirm Tailwind output
+                run: ls -lh src/main/webapp/static/css/
+
             -   name: Set up JDK 17
                 uses: actions/setup-java@v4
                 with:
@@ -32,6 +35,8 @@ jobs:
 
             -   name: Build with Maven
                 run: mvn -B package --file pom.xml
+            -   name: Check WAR contents
+                run: unzip -l target/*.war | grep static/css/output.css
 
             # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #            -   name: Update dependency graph
