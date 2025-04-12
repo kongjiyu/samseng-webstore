@@ -16,7 +16,7 @@
     }
 
     handle_path /uploads/* {
-        root * /home/ubuntu/samseng-webstore/samseng-data/uploads
+        root * /var/www/uploads
         file_server
 
         header Content-Disposition attachment
