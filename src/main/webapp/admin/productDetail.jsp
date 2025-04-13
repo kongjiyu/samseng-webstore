@@ -20,7 +20,7 @@
   </div>
   <div class="navbar-center max-md:hidden">
     <ul class="menu menu-horizontal p-0 font-medium [--menu-active-bg:transparent]">
-      <li><a href="staffProfile.jsp">Profile</a></li>
+      <li><a href="customerDetail.jsp">Profile</a></li>
       <li><a href="orderList.jsp">Order</a></li>
       <li><a href="productList.jsp">Product</a></li>
       <li><a href="#">Customers</a></li>
@@ -97,7 +97,7 @@
           <input type="text" class="input input-bordered w-full" value="<%= ((Product) request.getAttribute("product")).getId() %>" disabled>
         </div>
         <div>
-          <label class="block font-semibold">Product Name:</label>
+          <label class="block font-semibold">Product Name:  </label>
           <input type="text" class="input input-bordered w-full" value="<%= ((Product) request.getAttribute("product")).getName() %>">
         </div>
         <div>
@@ -106,7 +106,7 @@
         </div>
         <div>
           <label class="block font-semibold">Description:</label>
-          <textarea class="textarea resize-y textarea-bordered w-full" rows="5"><%= ((Product) request.getAttribute("product")).getDesc() %></textarea>
+          <textarea class="textarea resize-y textarea-bordered w-full" rows="20"><%= ((Product) request.getAttribute("product")).getDesc() %></textarea>
         </div>
       </div>
     </div>
@@ -114,6 +114,12 @@
     <!-- Right Panel: Product Variants -->
     <div class="w-full lg:w-2/3 p-10 space-y-4">
       <h2 class="text-2xl font-bold">Product Variants</h2>
+      <div class="flex justify-end mb-4">
+        <button class="btn btn-info btn-sm">
+          <span class="icon-[tabler--plus] mr-1"></span>
+          Add Variant
+        </button>
+      </div>
       <div class="overflow-x-auto">
         <table class="table table-zebra w-full">
           <thead>

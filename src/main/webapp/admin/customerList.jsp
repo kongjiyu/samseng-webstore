@@ -1,4 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,10 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Order</title>
   <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
-  <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
+  <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 </head>
 
-<body data-theme="light" class="bg-base-100">
+<body>
 <nav class="navbar rounded-box flex w-full items-center justify-between gap-2 shadow-base-300/20 shadow-sm">
   <div class="navbar-start max-md:w-1/4">
     <a class="link text-base-content link-neutral text-xl font-bold no-underline" href="#">
@@ -19,9 +18,9 @@
   </div>
   <div class="navbar-center max-md:hidden">
     <ul class="menu menu-horizontal p-0 font-medium [--menu-active-bg:transparent]">
-      <li><a href="staffProfile.jsp">Profile</a></li>
-      <li><a href="orderList.jsp">Order</a></li>
-      <li><a href="productList.jsp">Product</a></li>
+      <li><a href="#">Profile</a></li>
+      <li><a href="#">Order</a></li>
+      <li><a href="#">Product</a></li>
       <li><a href="#">Customers</a></li>
     </ul>
   </div>
@@ -102,17 +101,16 @@
       <!-- head -->
       <thead>
       <tr>
-        <th>Order ID</th>
+        <th>User ID</th>
         <th>Customer</th>
-        <th>Date</th>
-        <th>Status</th>
-        <th>Total</th>
+        <th>Date Of Birth</th>
+        <th>Role</th>
         <th>Action</th>
       </tr>
       </thead>
       <tbody>
       <tr>
-        <td>#ORD001</td>
+        <td>#AC0001</td>
         <td>
           <div class="flex items-center gap-3">
             <div class="avatar avatar-placeholder">
@@ -128,8 +126,7 @@
           </div>
         </td>
         <td>Apr 5, 2025</td>
-        <td><span class="badge badge-warning badge-soft">Packaging</span></td>
-        <td>$1,499</td>
+        <td><span class="badge badge-warning badge-soft">Admin</span></td>
         <td>
           <div class="dropdown relative inline-flex">
             <button id="dropdown-menu-icon" type="button"
@@ -145,7 +142,7 @@
         </td>
       </tr>
       <tr>
-        <td>#ORD002</td>
+        <td>#AC0002</td>
         <td>
           <div class="flex items-center gap-3">
             <div class="avatar">
@@ -161,8 +158,7 @@
           </div>
         </td>
         <td>Apr 5, 2025</td>
-        <td><span class="badge badge-info badge-soft">Shipping</span></td>
-        <td>$1,499</td>
+        <td><span class="badge badge-info badge-soft">Staff</span></td>
         <td>
           <div class="dropdown relative inline-flex">
             <button id="dropdown-menu-icon" type="button"
@@ -178,7 +174,7 @@
         </td>
       </tr>
       <tr>
-        <td>#ORD003</td>
+        <td>#AC0003</td>
         <td>
           <div class="flex items-center gap-3">
             <div class="avatar">
@@ -194,8 +190,7 @@
           </div>
         </td>
         <td>Apr 5, 2025</td>
-        <td><span class="badge badge-success badge-soft">Delivery</span></td>
-        <td>$1,499</td>
+        <td><span class="badge badge-success badge-soft">User</span></td>
         <td>
           <div class="dropdown relative inline-flex">
             <button id="dropdown-menu-icon" type="button"

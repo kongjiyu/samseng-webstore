@@ -1,16 +1,14 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Staff Profile</title>
+  <title>Document</title>
   <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
-  <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
+  <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 </head>
-
-<body data-theme="light">
+<body>
+<!--Header-->
 <nav class="navbar rounded-box flex w-full items-center justify-between gap-2 shadow-base-300/20 shadow-sm">
   <div class="navbar-start max-md:w-1/4">
     <a class="link text-base-content link-neutral text-xl font-bold no-underline" href="#">
@@ -19,9 +17,9 @@
   </div>
   <div class="navbar-center max-md:hidden">
     <ul class="menu menu-horizontal p-0 font-medium [--menu-active-bg:transparent]">
-      <li><a href="staffProfile.jsp">Profile</a></li>
-      <li><a href="orderList.jsp">Order</a></li>
-      <li><a href="productList.jsp">Product</a></li>
+      <li><a href="#">Profile</a></li>
+      <li><a href="#">Order</a></li>
+      <li><a href="#">Product</a></li>
       <li><a href="#">Customers</a></li>
     </ul>
   </div>
@@ -84,8 +82,21 @@
   </div>
 
 </nav>
+<div class="breadcrumbs ml-6">
+  <ul>
+    <li>
+      <a href="#">Admin</a>
+    </li>
+    <li class="breadcrumbs-separator rtl:rotate-180"><span class="icon-[tabler--chevron-right]"></span></li>
+    <li>
+      <a href="#">Users</a>
+    </li>
+    <li class="breadcrumbs-separator rtl:rotate-180"><span class="icon-[tabler--chevron-right]"></span></li>
+    <li aria-current="page">User Info</li>
+  </ul>
+</div>
 
-<div class="flex flex-col gap-6 p-10 pt-[5.5rem] backdrop-blur-lg min-h-screen">
+<div class="flex flex-col gap-6 p-10 backdrop-blur-lg min-h-screen">
   <!-- Profile Section -->
   <div class="bg-base-100 p-8 rounded-lg shadow-lg">
     <h1 class="text-2xl font-bold mb-6">Profile</h1>
@@ -120,7 +131,7 @@
             </div>
             <div>
               <label class="label">Date of Birth</label>
-              <input type="date" class="input input-bordered w-full" value="2000-01-01" disabled />
+              <input type="date" class="input input-bordered w-full" value="2000-01-01" />
             </div>
             <div>
               <label class="label">Email</label>
@@ -129,7 +140,11 @@
             </div>
             <div>
               <label class="label">Role</label>
-              <input type="text" class="input input-bordered w-full" placeholder="User" disabled />
+              <select class="select w-full appearance-none" aria-label="select">
+                <option disabled selected>User</option>
+                <option>Staff</option>
+                <option>Admin</option>
+              </select>
             </div>
           </div>
           <div class="text-right">
@@ -172,5 +187,4 @@
   </div>
 </div>
 </body>
-
 </html>

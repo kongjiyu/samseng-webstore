@@ -325,7 +325,7 @@
 
 <!--Banner-->
 <div class="h-[40%] flex">
-    <img class="hero-image" src="./static/img/phone-store-banner.jpg" alt="phoneBanner" />
+    <img class="hero-image" src="../static/img/phone-store-banner.jpg" alt="phoneBanner" />
     <!--
     <image class="hero-image" style="background-image: url('<%-- request.getContextPath() --%>/static/img/phone-store-banner.jpg');"></image>
     -->

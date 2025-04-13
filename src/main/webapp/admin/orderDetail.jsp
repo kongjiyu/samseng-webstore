@@ -18,7 +18,7 @@
   </div>
   <div class="navbar-center max-md:hidden">
     <ul class="menu menu-horizontal p-0 font-medium [--menu-active-bg:transparent]">
-      <li><a href="staffProfile.jsp">Profile</a></li>
+      <li><a href="customerDetail.jsp">Profile</a></li>
       <li><a href="orderList.jsp">Order</a></li>
       <li><a href="productList.jsp">Product</a></li>
       <li><a href="#">Customers</a></li>
