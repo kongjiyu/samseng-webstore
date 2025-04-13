@@ -6,7 +6,7 @@
     <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 </head>
 <body>
-<nav data-theme="dark" class="navbar backdrop-blur-lg bg-black/10 text-white shadow-lg gap-4 fixed top-0 left-0 w-full z-50">
+<nav class="navbar backdrop-blur-lg bg-white/10 text-white shadow-lg gap-4 fixed top-0 left-0 w-full z-50">
     <div class="navbar-start items-center justify-between max-md:w-full">
         <a class="link text-white text-xl font-bold no-underline" href="#">
             SAMSENG
@@ -15,7 +15,8 @@
     <div class="navbar-center max-md:hidden bg-transparent text-white">
         <ul
                 class="menu menu-horizontal gap-2 p-0 text-base rtl:ml-20 !bg-transparent !text-white !shadow-none !border-none ">
-            <li class="dropdown relative inline-flex [--auto-close:inside] [--offset:9] [--placement:bottom-end]">
+            <li
+                    class="dropdown relative inline-flex [--auto-close:inside] [--offset:9] [--placement:bottom-end]">
                 <button id="dropdown-end" type="button"
                         class="dropdown-toggle dropdown-open:bg-base-content/10 dropdown-open:text-base-content max-md:px-2 !bg-transparent !text-white"
                         aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
@@ -63,7 +64,8 @@
                     <div class="dropdown-item">
                         <div class="avatar away-bottom">
                             <div class="w-10 rounded-full">
-                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" alt="avatar 1" />
+                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png"
+                                     alt="avatar 1" />
                             </div>
                         </div>
                         <div class="w-60">
@@ -74,7 +76,8 @@
                     <div class="dropdown-item">
                         <div class="avatar">
                             <div class="w-10 rounded-full">
-                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-2.png" alt="avatar 2" />
+                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-2.png"
+                                     alt="avatar 2" />
                             </div>
                         </div>
                         <div class="w-60">
@@ -86,7 +89,8 @@
                     <div class="dropdown-item">
                         <div class="avatar online-bottom">
                             <div class="w-10 rounded-full">
-                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-8.png" alt="avatar 8" />
+                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-8.png"
+                                     alt="avatar 8" />
                             </div>
                         </div>
                         <div class="w-60">
@@ -110,7 +114,8 @@
                     <div class="dropdown-item">
                         <div class="avatar">
                             <div class="w-10 rounded-full">
-                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-10.png" alt="avatar 10" />
+                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-10.png"
+                                     alt="avatar 10" />
                             </div>
                         </div>
                         <div class="w-60">
@@ -122,7 +127,8 @@
                     <div class="dropdown-item">
                         <div class="avatar">
                             <div class="w-10 rounded-full">
-                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-3.png" alt="avatar 3" />
+                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-3.png"
+                                     alt="avatar 3" />
                             </div>
                         </div>
                         <div class="w-60">
@@ -191,7 +197,9 @@
                 </li>
             </ul>
         </div>
-        <button class="btn btn-gradient btn-secondary rounded-full">Log In -></button>
+        <a href="<%= request.getContextPath() %>loginRegisterForm.jsp">
+            <button class="btn btn-gradient btn-secondary rounded-full">Log In -></button>
+        </a>
     </div>
 </nav>
 <div id="html-modal-combo-box" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 [--body-scroll:true] hidden"

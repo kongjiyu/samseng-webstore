@@ -11,7 +11,11 @@
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 
 </head>
-<body class="bg-cover bg-center" style="background-image: url('<%= request.getContextPath() %>/static/img/login-background.jpg');">
+<body class="bg-cover bg-center">
+<video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover" id="hero-video">
+    <source src="<%= request.getContextPath() %>/static/video/lightWave.mp4" type="video/mp4"/>
+    Your browser does not support the video tag.
+</video>
     <div data-theme="light" class="capsule rounded-xl">
         <div class="right-slant-seperator opacity-50"></div>
         <div class="left-slant-seperator opacity-50"></div>
