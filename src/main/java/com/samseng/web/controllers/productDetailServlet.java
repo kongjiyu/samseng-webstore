@@ -25,11 +25,11 @@ public class productDetailServlet extends HttpServlet {
             Product product = productRepository.findById(productId);
             if (product != null) {
                 request.setAttribute("product", product);
-                request.getRequestDispatcher("productDetail.jsp").forward(request, response);
+                request.getRequestDispatcher("/admin/productDetail.jsp").forward(request, response);
                 return;
             }
         }
 
-        response.sendRedirect("productList.jsp"); // fallback if product not found
+        response.sendRedirect("/admin/productList.jsp"); // fallback if product not found
     }
 }
