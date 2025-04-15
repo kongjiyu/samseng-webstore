@@ -1,18 +1,15 @@
 package com.samseng.web.repositories.Cart_Product;
 
-
 import com.samseng.web.models.Cart_Product;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
-
 @ApplicationScoped // can go ahead call no need to import the method
 @Transactional
-public class Cart_ProductRepositoryRepository implements Cart_ProductRepository{
+public class Cart_ProductRepositoryImpl implements Cart_ProductRepository {
     @PersistenceContext
     private EntityManager em;
 
@@ -33,4 +30,5 @@ public class Cart_ProductRepositoryRepository implements Cart_ProductRepository{
                 .setParameter("account",account)
                 .getResultList();
     }
+
 }
