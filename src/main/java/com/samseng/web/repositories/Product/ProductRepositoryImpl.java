@@ -18,13 +18,9 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public void create(Product product) {
-        try{
-            em.persist(product);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-
+        em.persist(product);
     }
+
     @Override
     public Product findById(String id) {
         return em.find(Product.class, id);
@@ -58,7 +54,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public void update(Product product) {
-        em.persist(product);
+        em.merge(product);
     }
 
 

@@ -13,8 +13,6 @@ import org.hibernate.annotations.NaturalId;
 public class Variant {
 
     @Id
-    @GeneratedValue(generator = "prefix_id")
-    @GenericGenerator(name = "prefix_id", strategy = "com.samseng.web.DummyData.PrefixIdGenerator")
     @Column(name = "variant_id", unique = true, nullable = false)
     private String variantId;
 
@@ -24,11 +22,11 @@ public class Variant {
 
     @NaturalId
     @NotBlank
-    @Column(name="variant_name",unique = true)
+    @Column(name="variant_name")
     private String variantName;
 
     @NotNull
-    @Column(name="variant_price",unique = true)
+    @Column(name="variant_price")
     private double price;
 
 
