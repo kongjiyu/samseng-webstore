@@ -5,17 +5,19 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.validator.constraints.URL;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.hibernate.Length.LONG32;
 
 @Data
 @Entity
-@Table(name = "\"Product\"")
+@Table(name = "\"product\"")
 public class Product {
 
     @Id
-    @GeneratedValue(generator = "prefix_id")
-    @GenericGenerator(name = "prefix_id", strategy = "com.samseng.web.DummyData.PrefixIdGenerator")
     @Column(name="product_id", nullable = false, unique=true)
     private String id;
 
@@ -24,9 +26,13 @@ public class Product {
     @Column(name="product_name")
     private String name;
 
-    @NotNull
-    @Column(name="product_images")
-    private String images;
+    @ElementCollection
+    @CollectionTable(
+            name = "product_images",
+            joinColumns = @JoinColumn(name = "product_id")
+    )
+    @Column(name = "image_url")
+    private Set<@URL String> imageUrls = new HashSet<>();
 
     @Column(name="product_desc", length = LONG32)
     private String desc;
