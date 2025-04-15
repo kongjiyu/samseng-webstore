@@ -142,56 +142,54 @@
         </div>
       </div>
       <div class="bg-base-100 border rounded-lg shadow p-6 w-full">
-        <h2 class="text-2xl font-bold">Order Detail</h2>
-        <div class="overflow-x-auto mt-4">
+        <h2 class="text-2xl font-bold mb-4">Invoice</h2>
+        <div class="overflow-x-auto">
           <table class="table table-zebra w-full">
             <thead>
-            <tr>
-              <th class="font-bold">Product</th>
-              <th class="font-bold">Qty</th>
-              <th class="font-bold text-right">Price</th>
-            </tr>
+              <tr>
+                <th class="font-bold">Product</th>
+                <th class="font-bold text-center">Qty</th>
+                <th class="font-bold text-right">Price</th>
+              </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>Samsung Galaxy Z Flip</td>
-              <td>1</td>
-              <td class="text-right">$999</td>
-            </tr>
-            <tr>
-              <td>Galaxy Buds Pro</td>
-              <td>1</td>
-              <td class="text-right">$199</td>
-            </tr>
-            <tr>
-              <td class="font-bold">Subtotal</td>
-              <td></td>
-              <td class="font-bold text-right">$1198</td>
-            </tr>
+              <tr>
+                <td>Samsung Galaxy Z Flip</td>
+                <td class="text-center">1</td>
+                <td class="text-right">$999</td>
+              </tr>
+              <tr>
+                <td>Galaxy Buds Pro</td>
+                <td class="text-center">1</td>
+                <td class="text-right">$199</td>
+              </tr>
+              <tr class="font-bold">
+                <td></td>
+                <td class="text-right">Subtotal</td>
+                <td class="text-right">$1198</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="text-right text-base-content/80">Gross Price</td>
+                <td class="text-right text-base-content font-medium">$1198</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="text-right text-base-content/80">Tax Charge</td>
+                <td class="text-right text-base-content font-medium">$119.8</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="text-right text-base-content/80">Delivery Charge</td>
+                <td class="text-right text-base-content font-medium">$20</td>
+              </tr>
+              <tr class="text-lg font-bold">
+                <td></td>
+                <td class="text-right">Grand Total</td>
+                <td class="text-right">$1337.8</td>
+              </tr>
             </tbody>
           </table>
-        </div>
-      </div>
-
-      <div class="bg-base-100 border rounded-lg shadow p-6 w-full">
-        <h2 class="text-2xl font-bold">Price Summary</h2>
-        <div class="divide-y divide-base-200 mt-4">
-          <div class="flex justify-between py-2">
-            <span class="text-base-content/80">Gross Price</span>
-            <span class="text-base-content font-medium">$1198</span>
-          </div>
-          <div class="flex justify-between py-2">
-            <span class="text-base-content/80">Tax Charge</span>
-            <span class="text-base-content font-medium">$119.8</span>
-          </div>
-          <div class="flex justify-between py-2">
-            <span class="text-base-content/80">Delivery Charge</span>
-            <span class="text-base-content font-medium">$20</span>
-          </div>
-          <div class="flex justify-between py-3 text-lg font-bold">
-            <span>Grand Total</span>
-            <span>$1337.8</span>
-          </div>
         </div>
       </div>
     </div>

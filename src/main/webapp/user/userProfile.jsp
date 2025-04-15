@@ -99,7 +99,50 @@
             </div>
         </div>
         <div class="text-right mt-4">
-            <button class="btn btn-info btn-sm">Add New Address</button>
+            <!-- Add Address Button -->
+            <button type="button" class="btn btn-info btn-sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="add-address-modal" data-overlay="#add-address-modal">
+                Add New Address
+            </button>
+
+            <!-- Add Address Modal -->
+            <div id="add-address-modal"
+                 class="overlay modal modal-middle overlay-open:opacity-100 overlay-open:duration-300 hidden overflow-y-auto backdrop-blur-sm [--body-scroll:true] z-0"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300 max-w-xl w-full">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Add New Address</h3>
+                            <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close"
+                                    data-overlay="#add-address-modal">
+                                <span class="icon-[tabler--x] size-4"></span>
+                            </button>
+                        </div>
+                        <div class="modal-body space-y-4">
+                            <form id="new-address-form" class="grid grid-cols-1 gap-4">
+                                <input type="text" class="input input-bordered w-full" placeholder="Address Title (e.g. Rose Avenue)" required />
+                                <input type="text" class="input input-bordered w-full" placeholder="Address Line 1" required />
+                                <input type="text" class="input input-bordered w-full" placeholder="Address Line 2" />
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <input type="text" class="input input-bordered w-full" placeholder="City / District" required />
+                                    <input type="text" class="input input-bordered w-full" placeholder="State / Province" required />
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <input type="text" class="input input-bordered w-full" placeholder="Postal Code" required />
+                                    <select class="select select-bordered w-full" required></select>
+                                </div>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="checkbox" />
+                                    <span>Set as default</span>
+                                </label>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-soft btn-secondary" data-overlay="#add-address-modal">Cancel</button>
+                            <button type="submit" class="btn btn-info" form="new-address-form">Save Address</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -132,6 +175,24 @@
         </a>
     </div>
 </footer>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        fetch('https://restcountries.com/v3.1/all')
+            .then(res => res.json())
+            .then(data => {
+                const countrySelect = document.querySelector('#add-address-modal select');
+                data
+                    .sort((a, b) => a.name.common.localeCompare(b.name.common))
+                    .forEach(country => {
+                        const option = document.createElement('option');
+                        option.value = country.name.common;
+                        option.textContent = country.name.common;
+                        countrySelect.appendChild(option);
+                    });
+            })
+            .catch(err => console.error('Failed to load countries:', err));
+    });
+</script>
 </body>
 
 </html>

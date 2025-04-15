@@ -12,11 +12,13 @@
 
 </head>
 <body class="bg-cover bg-center">
-<video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover" id="hero-video">
-    <source src="<%= request.getContextPath() %>/static/video/lightWave.mp4" type="video/mp4"/>
-    Your browser does not support the video tag.
-</video>
-    <div data-theme="light" class="capsule rounded-xl">
+  <div class="min-h-screen w-screen flex items-center justify-center relative">
+    <video autoplay muted loop playsinline preload="auto" class="absolute top-0 left-0 w-full h-full object-cover z-0 backdrop-blur-md blur-md brightness-75" id="hero-video">
+        <source src="<%= request.getContextPath() %>/static/video/lightWave.mp4" type="video/mp4"/>
+        Your browser does not support the video tag.
+    </video>
+
+    <div data-theme="light" class="relative z-10 capsule rounded-xl bg-white/30 backdrop-blur-md">
         <div class="right-slant-seperator opacity-50"></div>
         <div class="left-slant-seperator opacity-50"></div>
 
@@ -59,7 +61,7 @@
                     <label for="username">Username</label>
                     <span class="icon-[tabler--user] size-5"></span>
                 </div>
-                
+
                 <div class="input-box switch-animation" style="--Y:18; --Z:2">
                     <input type="email" name="email" id="email" placeholder='' required>
                     <label for="email">Email</label>
@@ -90,5 +92,6 @@
             </p>
         </div>
     </div>
+  </div>
 </body>
 </html>
