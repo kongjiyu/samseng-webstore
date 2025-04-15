@@ -472,10 +472,10 @@ INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES
 INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('MT-WT-32-OG8', 'MT-OG8', '    Olympus OLED G8 4k 240Hz Gaming Monitor 32'''' White', 4199.00);
 INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('MT-BK-49-OS6', 'MT-OS6', '    49'''' Olympus Monitor S6 Black', 6900.00);
 INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('MT-BK-27-SM5', 'MT-SM5', '    Smart Monitor M5 UHD 27'''' Black', 999.00);
-INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('MMT-SM7'', ''Smart Monitor M7 UHD 32'''''''' White'', 1699.00);
-INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES (''WT-BK-43-SW6'', ''WT-SW6'', ''Sirius SmartwatchT-BK-32-SM5', 'MT-SM5', '    Smart Monitor M5 UHD 32'''' Black', 1299.00);
+INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('MT-BK-32-SM5', 'MT-SM5', '    Smart Monitor M5 UHD 32'''' Black', 1299.00);
 INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('MT-WT-27-SM7', 'MT-SM7', '    Smart Monitor M7 UHD 27'''' White', 1399.00);
-INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('MT-WT-32-SM7','MT-SM7', '6 43mm Black', 1399.00);
+INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('MT-WT-32-SM7', 'MT-SM7', '    Smart Monitor M7 UHD 32'''' White', 1699.00);
+INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('WT-BK-43-SW6', 'WT-SW6', 'Sirius Smartwatch 6 43mm Black', 1399.00);
 INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('WT-BK-47-SW6', 'WT-SW6', 'Sirius Smartwatch 6 47mm Black', 1499.00);
 INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('WT-WT-43-SW6', 'WT-SW6', 'Sirius Smartwatch 6 43mm White', 1399.00);
 INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('WT-WT-47-SW6', 'WT-SW6', 'Sirius Smartwatch 6 47mm White', 1499.00);
@@ -495,8 +495,10 @@ INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES
 INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('B-LD-AB2', 'B-AB2', 'Sirius Buds2 Lavender', 399.00);
 INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('B-BK-AB3', 'B-AB3', 'Sirius Buds3 Black', 599.00);
 INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('B-WT-AB3', 'B-AB3', 'Sirius Buds3 White', 599.00);
-INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('PB-WT-10K-v10', 'PB-V10', 'Wireless Power Bank v10', 199.00);
+INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES ('PB-WT-10K-v10', 'PB-v10', 'Wireless Power Bank v10', 199.00);
 INSERT INTO variant (variant_id, product_id, variant_name, variant_price) VALUES
                                                                               ('T-WT-128-S6L', 'T-S6L', 'Milkyway Tab S6 Lite White', 1299.00),
                                                                               ('T-BK-128-S6L', 'T-S6L', 'Milkyway Tab S6 Lite Black', 1299.00),
                                                                               ('T-GR-128-S6L', 'T-S6L', 'Milkyway Tab S6 Lite Green', 1299.00);
+
+
