@@ -18,7 +18,7 @@ public class Sales_Order {
 
 
     @ManyToOne
-    @JoinColumn(name="addrerss_id")
+    @JoinColumn(name="address_id")
     private Address address;
 
     @ManyToOne

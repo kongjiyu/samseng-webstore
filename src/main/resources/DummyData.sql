@@ -656,7 +656,38 @@ INSERT INTO variant_attribute(attribute_id, value, variant_id) VALUES ('AT0001',
 INSERT INTO variant_attribute(attribute_id, value, variant_id) VALUES ('AT0003', '10,000mAh', 'PB-WT-10K-v10');
 INSERT INTO variant_attribute(attribute_id, value, variant_id) VALUES ('AT0001', 'White', 'PB-WT-10K-v10');
 
+-- Sales Order Inserts
+INSERT INTO sales_order(order_id, address_id, user_id, gross_price, tax_charge, delivery_charge, net_price, status, payment_method, ref_no) VALUES ('OR0001', 'AD0008', 'AC0006', 1699.0, 101.94, 10.0, 1810.94, 'CANCELLED', 'E-wallet', 'REF00001');
+INSERT INTO sales_order(order_id, address_id, user_id, gross_price, tax_charge, delivery_charge, net_price, status, payment_method, ref_no) VALUES ('OR0002', 'AD0001', 'AC0002', 2598.0, 155.88, 10.0, 2763.88, 'PAID', 'E-wallet', 'REF00002');
+INSERT INTO sales_order(order_id, address_id, user_id, gross_price, tax_charge, delivery_charge, net_price, status, payment_method, ref_no) VALUES ('OR0003', 'AD0009', 'AC0003', 1399.0, 83.94, 10.0, 1492.94, 'CANCELLED', 'Credit Card', 'REF00003');
+INSERT INTO sales_order(order_id, address_id, user_id, gross_price, tax_charge, delivery_charge, net_price, status, payment_method, ref_no) VALUES ('OR0004', 'AD0003', 'AC0010', 2798.0, 167.88, 10.0, 2975.88, 'CANCELLED', 'Cash', 'REF00004');
+INSERT INTO sales_order(order_id, address_id, user_id, gross_price, tax_charge, delivery_charge, net_price, status, payment_method, ref_no) VALUES ('OR0005', 'AD0009', 'AC0009', 15197.0, 911.82, 10.0, 16118.82, 'CANCELLED', 'E-wallet', 'REF00005');
+INSERT INTO sales_order(order_id, address_id, user_id, gross_price, tax_charge, delivery_charge, net_price, status, payment_method, ref_no) VALUES ('OR0006', 'AD0004', 'AC0007', 1399.0, 83.94, 10.0, 1492.94, 'PENDING', 'Cash', 'REF00006');
+INSERT INTO sales_order(order_id, address_id, user_id, gross_price, tax_charge, delivery_charge, net_price, status, payment_method, ref_no) VALUES ('OR0007', 'AD0003', 'AC0002', 5297.0, 317.82, 10.0, 5624.82, 'PENDING', 'Cash', 'REF00007');
+INSERT INTO sales_order(order_id, address_id, user_id, gross_price, tax_charge, delivery_charge, net_price, status, payment_method, ref_no) VALUES ('OR0008', 'AD0009', 'AC0002', 5799.0, 347.94, 10.0, 6156.94, 'CANCELLED', 'E-wallet', 'REF00008');
+INSERT INTO sales_order(order_id, address_id, user_id, gross_price, tax_charge, delivery_charge, net_price, status, payment_method, ref_no) VALUES ('OR0009', 'AD0006', 'AC0006', 4798.0, 287.88, 10.0, 5095.88, 'CANCELLED', 'E-wallet', 'REF00009');
+INSERT INTO sales_order(order_id, address_id, user_id, gross_price, tax_charge, delivery_charge, net_price, status, payment_method, ref_no) VALUES ('OR0010', 'AD0001', 'AC0007', 4697.0, 281.82, 10.0, 4988.82, 'PAID', 'E-wallet', 'REF00010');
 
+-- Order Product Inserts
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0001', 'SP-S24', 2, 1699.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0002', 'WT-SW6', 2, 1399.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0002', 'WT-SW7', 2, 1199.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0003', 'WT-SW6', 2, 1399.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0004', 'SP-C36g', 1, 2599.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0004', 'PB-V10', 1, 199.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0005', 'SP-S25U', 1, 4399.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0005', 'T-S10+', 1, 4999.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0005', 'SP-AF6', 1, 5799.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0006', 'WT-SW6', 2, 1399.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0007', 'SP-C36g', 2, 2599.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0007', 'T-S6L', 2, 1299.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0007', 'WT-SW6', 2, 1399.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0008', 'SP-AF6', 2, 5799.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0009', 'SP-B06g', 1, 2199.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0009', 'SP-C36g', 1, 2599.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0010', 'T-S6L', 1, 1299.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0010', 'WT-SW7', 2, 1199.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0010', 'SP-B06g', 2, 2199.0, 'CONFIRMED');
 
 
 
