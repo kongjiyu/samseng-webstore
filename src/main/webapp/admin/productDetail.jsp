@@ -30,7 +30,7 @@
                                 %>
                                 <div class="carousel-slide">
                                     <div class="flex size-full justify-center">
-                                        <img src="/uploads/<%= image %>" class="object-contain w-64 h-64 mx-auto" alt="product image"/>
+                                        <img src="/uploads/<%= image %>" class="object-contain w-auto h-[28rem] mx-auto" alt="product image"/>
                                     </div>
                                 </div>
                                 <%
