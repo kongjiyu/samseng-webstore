@@ -5,35 +5,25 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.time.LocalDateTime;
-
 @Data
 @Entity
-@Table(name = "\"Voucher\"")
-public class Voucher {
+@Table(name = "\"Promo_Code\"")
+public class Promo_Code {
 
     @Id
     @GeneratedValue(generator = "prefix_id")
     @GenericGenerator(name = "prefix_id", strategy = "com.samseng.web.DummyData.PrefixIdGenerator")
-    @Column(name = "voucher_id", unique = true, nullable = false)
+    @Column(name = "promo_code", unique = true, nullable = false)
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Account user;
-
-    @OneToOne
-    @JoinColumn(name="order_Id")
-    private Sales_Order salesOrder;
 
     @NotNull
     private String availability;
 
-    @NotNull
-    private LocalDateTime expiredOn;
 
     @NotNull
     @Size(min=0,max=1)
+    @Column(name = "discount_rate")
     private double discount;
 
 }

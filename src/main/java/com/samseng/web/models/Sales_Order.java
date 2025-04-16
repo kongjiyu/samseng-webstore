@@ -25,6 +25,10 @@ public class Sales_Order {
     @JoinColumn(name="user_id")
     private Account user;
 
+    @ManyToOne
+    @JoinColumn(name="promo_code")
+    private Promo_Code promo_code;
+
     @NotNull
     @Min(value=0)
     private double grossPrice;
@@ -40,6 +44,10 @@ public class Sales_Order {
     @NotNull
     @Min(value=0)
     private double netPrice;
+
+    @Min(value=0)
+    @Column(name = "discount_amount")
+    private double discountAmount;
 
     @NotNull
     private String status;
