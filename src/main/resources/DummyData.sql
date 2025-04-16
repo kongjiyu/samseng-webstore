@@ -658,7 +658,7 @@ INSERT INTO variant_attribute(attribute_id, value, variant_id) VALUES ('AT0001',
 
 INSERT INTO promo_code (promo_code, availability, discount_rate) VALUES ('PROMO20', 'Available', 0.1);
 INSERT INTO promo_code (promo_code, availability, discount_rate) VALUES ('PROMO30', 'Available', 0.15);
-INSERT INTO promo_code (promo_code, availability, discount_rate) VALUES ('PROMO10', 'Expired', 0.2);
+INSERT INTO promo_code (promo_code, availability, discount_rate) VALUES ('PROMO10', 'Unavailable', 0.2);
 
 
 -- Sales Order Inserts
@@ -674,22 +674,30 @@ INSERT INTO sales_order (order_id, address_id, user_id, promo_code, gross_price,
 INSERT INTO sales_order (order_id, address_id, user_id, promo_code, gross_price, tax_charge, delivery_charge, discount_amount, net_price, status, payment_method, ref_no) VALUES ('OR0010', 'AD0004', 'AC0003', 'PROMO30', 3896.84, 233.81, 14.35, 1169.05, 2975.95, 'COMPLETED', 'Card', '6d6051f2');
 -- Order Product Inserts
 -- Order Product Inserts
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0001', 'SP-S24', 2, 1699.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0002', 'WT-SW6', 2, 1399.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0002', 'WT-SW7', 2, 1199.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0003', 'WT-SW6', 2, 1399.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0004', 'SP-C36g', 1, 2599.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0004', 'PB-V10', 1, 199.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0005', 'SP-S25U', 1, 4399.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0005', 'T-S10+', 1, 4999.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0005', 'SP-AF6', 1, 5799.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0006', 'WT-SW6', 2, 1399.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0007', 'SP-C36g', 2, 2599.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0007', 'T-S6L', 2, 1299.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0007', 'WT-SW6', 2, 1399.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0008', 'SP-AF6', 2, 5799.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0009', 'SP-B06g', 1, 2199.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0009', 'SP-C36g', 1, 2599.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0010', 'T-S6L', 1, 1299.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0010', 'WT-SW7', 2, 1199.0, 'CONFIRMED');
-INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0010', 'SP-B06g', 2, 2199.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0001', 'SP-S24', 2, 1699.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0002', 'WT-SW6', 2, 1399.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0002', 'WT-SW7', 2, 1199.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0003', 'WT-SW6', 2, 1399.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0004', 'SP-C36g', 1, 2599.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0004', 'PB-V10', 1, 199.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0005', 'SP-S25U', 1, 4399.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0005', 'T-S10+', 1, 4999.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0005', 'SP-AF6', 1, 5799.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0006', 'WT-SW6', 2, 1399.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0007', 'SP-C36g', 2, 2599.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0007', 'T-S6L', 2, 1299.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0007', 'WT-SW6', 2, 1399.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0008', 'SP-AF6', 2, 5799.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0009', 'SP-B06g', 1, 2199.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0009', 'SP-C36g', 1, 2599.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0010', 'T-S6L', 1, 1299.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0010', 'WT-SW7', 2, 1199.0);
+INSERT INTO order_product(order_id, product_id, quantity, unit_price) VALUES ('OR0010', 'SP-B06g', 2, 2199.0);
+
+INSERT INTO comment(rating, message, comment_id, product_id, user_id) VALUES('5','very good for using','CO0001','WT-SW7','AC0001');
+
+INSERT INTO  reply(reply_message, comment_id, reply_id) VALUES ('Thankyou','CO0001','RE0001');
+
+INSERT INTO comment(rating, message, comment_id, product_id, user_id) VALUES ('5','very good to use','CO0002','SP-B06g');
+
+INSERT INTO reply(reply_message, comment_id, reply_id) VALUES ('Thankyou','CO0002','RE0002');

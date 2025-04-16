@@ -28,9 +28,6 @@ public class Order_Product {
     @Column(name = "unit_price")
     private double price;
 
-    @NotBlank
-    @Size(min=0,max=50)
-    private String status;
 
 
 }
