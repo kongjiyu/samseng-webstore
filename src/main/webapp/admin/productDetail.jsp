@@ -23,14 +23,14 @@
                 <div class="card bg-base-100 shadow-md p-4 space-y-4">
                     <div id="horizontal-thumbnails" data-carousel class="relative w-full">
                         <div class="carousel">
-                            <div class="carousel-body h-72 opacity-100">
+                            <div class="carousel-body opacity-100">
                                 <%
                                     Set<String> imageSet = (Set<String>) request.getAttribute("imageSet");
                                     for (String image : imageSet) {
                                 %>
                                 <div class="carousel-slide">
                                     <div class="flex size-full justify-center">
-                                    <img src="/uploads/<%= image %>" class="object-contain w-auto h-[32rem] mx-auto" alt="product image"/>
+                                    <img src="/uploads/<%= image %>" class="object-contain w-auto h-[28rem] mx-auto" alt="product image"/>
                                     </div>
                                 </div>
                                 <%
@@ -42,7 +42,7 @@
                                     for (String image : imageSet) {
                                 %>
                                 <img src="/uploads/<%= image %>"
-                                     class="carousel-pagination-item carousel-active:opacity-100 grow object-cover opacity-30 w-12 h-12"
+                                     class="carousel-pagination-item carousel-active:opacity-100 grow object-cover opacity-30 h-20"
                                      alt="thumb"/>
                                 <%
                                     }
