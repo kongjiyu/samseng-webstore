@@ -60,4 +60,13 @@ public class Variant_AttributeRepositoryImpl implements Variant_AttributeReposit
                 .getSingleResult();
 
     }
+
+    @Override
+    public List<Variant_Attribute> findByProductId(String productId) {
+        return em.createQuery(
+                "SELECT va FROM Variant_Attribute va WHERE va.variantID.product.id = :productId",
+                Variant_Attribute.class)
+                .setParameter("productId", productId)
+                .getResultList();
+    }
 }

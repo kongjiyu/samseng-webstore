@@ -50,7 +50,7 @@ public class VariantRepositoryImpl implements  VariantRepository {
     @Override
     public List<Variant> findByProductId(String product) {
         try {
-            return em.createQuery("SELECT v FROM  Variant v WHERE v.product=:product",Variant.class)
+            return em.createQuery("SELECT v FROM  Variant v WHERE v.product.id=:product",Variant.class)
                     .setParameter("product", product)
                     .getResultList();
         } catch (NoResultException e) {

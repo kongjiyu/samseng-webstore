@@ -1,3 +1,5 @@
+<%@ page import="com.samseng.web.models.Product" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -103,389 +105,45 @@
       <thead>
       <tr>
         <th>Product</th>
-        <th>Color</th>
         <th>Category</th>
         <th>Price</th>
         <th>Action</th>
       </tr>
       </thead>
       <tbody>
-      <!-- row 1 -->
+      <%
+        List<Product> products = (List<Product>) request.getAttribute("products");
+        if (products != null) {
+          for (Product product : products) {
+      %>
       <tr>
-
         <td>
           <div class="flex items-center gap-3">
             <div class="avatar">
               <div class="bg-base-content/10 h-10 w-10 rounded-md">
-                <img src="https://cdn.flyonui.com/fy-assets/components/table/product-2.png"
-                     alt="product image" />
+                <img src="<%= product.getImageUrls().isEmpty() ? '#' : product.getImageUrls().iterator().next() %>" alt="product image" />
               </div>
             </div>
             <div>
-              <div class="text-sm opacity-50">Apple</div>
-              <div class="font-medium">iPhone 14 Pro</div>
+              <div class="text-sm opacity-50"><%= product.getCategory() %></div>
+              <div class="font-medium"><%= product.getName() %></div>
             </div>
           </div>
         </td>
+        <td><%= product.getCategory() %></td>
         <td>
-          Stealth black<br />
-          Milk White
-        </td>
-        <td>
-          <div class="flex items-center">
-                                <span class="badge badge-primary badge-soft me-2 rounded-full p-1">
-                                    <span class="icon-[tabler--device-mobile]"></span>
-                                </span>
-            Phone
-          </div>
-        </td>
-        <td>$599</td>
-        <td>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--pencil] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--trash] size-5"></span></button>
-
-          <div class="dropdown relative inline-flex">
-            <button id="dropdown-menu-icon" type="button"
-                    class="dropdown-toggle btn btn-circle btn-text btn-sm" aria-haspopup="menu"
-                    aria-expanded="false" aria-label="Dropdown">
-              <span class="icon-[tabler--dots-vertical] size-5"></span>
-            </button>
-            <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu"
-                aria-orientation="vertical" aria-labelledby="dropdown-menu-icon">
-              <li><a class="dropdown-item" href="#">My Profile</a></li>
-              <li><a class="dropdown-item" href="#">Settings</a></li>
-              <li><a class="dropdown-item" href="#">Billing</a></li>
-              <li><a class="dropdown-item" href="#">FAQs</a></li>
-            </ul>
-          </div>
+          <button class="btn btn-circle btn-text btn-sm" aria-label="Edit">
+            <span class="icon-[tabler--pencil] size-5"></span>
+          </button>
+          <button class="btn btn-circle btn-text btn-sm" aria-label="Delete">
+            <span class="icon-[tabler--trash] size-5"></span>
+          </button>
         </td>
       </tr>
-      <!-- row 2 -->
-      <tr>
-
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="bg-base-content/10 h-10 w-10 rounded-md">
-                <img src="https://cdn.flyonui.com/fy-assets/components/table/product-1.png"
-                     alt="product image" />
-              </div>
-            </div>
-            <div>
-              <div class="text-sm opacity-50">Apple</div>
-              <div class="font-medium">Watch series 7</div>
-            </div>
-          </div>
-        </td>
-        <td>Peach</td>
-        <td>
-          <div class="flex items-center">
-                                <span class="badge badge-info badge-soft me-2 rounded-full p-1">
-                                    <span class="icon-[tabler--device-watch]"></span>
-                                </span>
-            Watch
-          </div>
-        </td>
-        <td>$999</td>
-        <td>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--pencil] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--trash] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--dots-vertical] size-5"></span></button>
-        </td>
-      </tr>
-      <!-- row 3 -->
-      <tr>
-
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="bg-base-content/15 h-10 w-10 rounded-md">
-                <img src="https://cdn.flyonui.com/fy-assets/components/table/product-19.png"
-                     alt="product image" />
-              </div>
-            </div>
-            <div>
-              <div class="text-sm opacity-50">Meta</div>
-              <div class="font-medium">Quest</div>
-            </div>
-          </div>
-        </td>
-        <td>Elegant white</td>
-        <td>
-          <div class="flex items-center">
-                                <span class="badge badge-success badge-soft me-2 rounded-full p-1">
-                                    <span class="icon-[tabler--device-vision-pro]"></span>
-                                </span>
-            VR headset
-          </div>
-        </td>
-        <td>$499</td>
-        <td>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--pencil] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--trash] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--dots-vertical] size-5"></span></button>
-        </td>
-      </tr>
-      <!-- row 4 -->
-      <tr>
-
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="bg-base-content/15 h-10 w-10 rounded-md">
-                <img src="https://cdn.flyonui.com/fy-assets/components/table/product-5.png"
-                     alt="product image" />
-              </div>
-            </div>
-            <div>
-              <div class="text-sm opacity-50">Apple</div>
-              <div class="font-medium">Macbook Pro 16</div>
-            </div>
-          </div>
-        </td>
-        <td>Space gray</td>
-        <td>
-          <div class="flex items-center">
-                                <span class="badge badge-warning badge-soft me-2 rounded-full p-1">
-                                    <span class="icon-[tabler--device-laptop]"></span>
-                                </span>
-            Laptop
-          </div>
-        </td>
-        <td>$1999</td>
-        <td>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--pencil] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--trash] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--dots-vertical] size-5"></span></button>
-        </td>
-      </tr>
-      <!-- row 4 -->
-      <tr>
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="bg-base-content/15 h-10 w-10 rounded-md">
-                <img src="https://cdn.flyonui.com/fy-assets/components/table/product-5.png"
-                     alt="product image" />
-              </div>
-            </div>
-            <div>
-              <div class="text-sm opacity-50">Apple</div>
-              <div class="font-medium">Macbook Pro 16</div>
-            </div>
-          </div>
-        </td>
-        <td>Space gray</td>
-        <td>
-          <div class="flex items-center">
-                                <span class="badge badge-warning badge-soft me-2 rounded-full p-1">
-                                    <span class="icon-[tabler--device-laptop]"></span>
-                                </span>
-            Laptop
-          </div>
-        </td>
-        <td>$1999</td>
-        <td>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--pencil] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--trash] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--dots-vertical] size-5"></span></button>
-        </td>
-      </tr>
-      <!-- row 4 -->
-      <tr>
-
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="bg-base-content/15 h-10 w-10 rounded-md">
-                <img src="https://cdn.flyonui.com/fy-assets/components/table/product-5.png"
-                     alt="product image" />
-              </div>
-            </div>
-            <div>
-              <div class="text-sm opacity-50">Apple</div>
-              <div class="font-medium">Macbook Pro 16</div>
-            </div>
-          </div>
-        </td>
-        <td>Space gray</td>
-        <td>
-          <div class="flex items-center">
-                                <span class="badge badge-warning badge-soft me-2 rounded-full p-1">
-                                    <span class="icon-[tabler--device-laptop]"></span>
-                                </span>
-            Laptop
-          </div>
-        </td>
-        <td>$1999</td>
-        <td>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--pencil] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--trash] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--dots-vertical] size-5"></span></button>
-        </td>
-      </tr>
-      <!-- row 4 -->
-      <tr>
-
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="bg-base-content/15 h-10 w-10 rounded-md">
-                <img src="https://cdn.flyonui.com/fy-assets/components/table/product-5.png"
-                     alt="product image" />
-              </div>
-            </div>
-            <div>
-              <div class="text-sm opacity-50">Apple</div>
-              <div class="font-medium">Macbook Pro 16</div>
-            </div>
-          </div>
-        </td>
-        <td>Space gray</td>
-        <td>
-          <div class="flex items-center">
-                                <span class="badge badge-warning badge-soft me-2 rounded-full p-1">
-                                    <span class="icon-[tabler--device-laptop]"></span>
-                                </span>
-            Laptop
-          </div>
-        </td>
-        <td>$1999</td>
-        <td>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--pencil] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--trash] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--dots-vertical] size-5"></span></button>
-        </td>
-      </tr>
-      <!-- row 4 -->
-      <tr>
-
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="bg-base-content/15 h-10 w-10 rounded-md">
-                <img src="https://cdn.flyonui.com/fy-assets/components/table/product-5.png"
-                     alt="product image" />
-              </div>
-            </div>
-            <div>
-              <div class="text-sm opacity-50">Apple</div>
-              <div class="font-medium">Macbook Pro 16</div>
-            </div>
-          </div>
-        </td>
-        <td>Space gray</td>
-        <td>
-          <div class="flex items-center">
-                                <span class="badge badge-warning badge-soft me-2 rounded-full p-1">
-                                    <span class="icon-[tabler--device-laptop]"></span>
-                                </span>
-            Laptop
-          </div>
-        </td>
-        <td>$1999</td>
-        <td>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--pencil] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--trash] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--dots-vertical] size-5"></span></button>
-        </td>
-      </tr>
-      <!-- row 4 -->
-      <tr>
-
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="bg-base-content/15 h-10 w-10 rounded-md">
-                <img src="https://cdn.flyonui.com/fy-assets/components/table/product-5.png"
-                     alt="product image" />
-              </div>
-            </div>
-            <div>
-              <div class="text-sm opacity-50">Apple</div>
-              <div class="font-medium">Macbook Pro 16</div>
-            </div>
-          </div>
-        </td>
-        <td>Space gray</td>
-        <td>
-          <div class="flex items-center">
-                                <span class="badge badge-warning badge-soft me-2 rounded-full p-1">
-                                    <span class="icon-[tabler--device-laptop]"></span>
-                                </span>
-            Laptop
-          </div>
-        </td>
-        <td>$1999</td>
-        <td>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--pencil] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--trash] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--dots-vertical] size-5"></span></button>
-        </td>
-      </tr>
-
-      <!-- row 5 -->
-      <tr>
-
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="bg-base-content/10 h-10 w-10 rounded-md">
-                <img src="https://cdn.flyonui.com/fy-assets/components/table/product-1.png"
-                     alt="product image" />
-              </div>
-            </div>
-            <div>
-              <div class="text-sm opacity-50">Apple</div>
-              <div class="font-medium">Watch series 7</div>
-            </div>
-          </div>
-        </td>
-        <td>Peach</td>
-        <td>
-          <div class="flex items-center">
-                                <span class="badge badge-info badge-soft me-2 rounded-full p-1">
-                                    <span class="icon-[tabler--device-watch]"></span>
-                                </span>
-            Watch
-          </div>
-        </td>
-        <td>$999</td>
-        <td>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--pencil] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--trash] size-5"></span></button>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Action button"><span
-                  class="icon-[tabler--dots-vertical] size-5"></span></button>
-        </td>
-      </tr>
+      <%
+          }
+        }
+      %>
       </tbody>
     </table>
   </div>

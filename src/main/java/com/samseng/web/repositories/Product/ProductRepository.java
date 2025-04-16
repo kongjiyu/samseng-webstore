@@ -18,4 +18,7 @@ public interface ProductRepository {
 
     Product findByName(String name);
 
+    List<Product> findPaged(int page, int pageSize);
+
+    long count();
 }

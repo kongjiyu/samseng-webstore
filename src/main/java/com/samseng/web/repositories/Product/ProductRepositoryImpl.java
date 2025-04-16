@@ -57,6 +57,17 @@ public class ProductRepositoryImpl implements ProductRepository {
         em.merge(product);
     }
 
+    @Override
+    public List<Product> findPaged(int page, int pageSize) {
+        return em.createQuery("SELECT p FROM Product p ORDER BY p.name", Product.class)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+    }
 
-
+    @Override
+    public long count() {
+        return em.createQuery("SELECT COUNT(p) FROM Product p", Long.class)
+                .getSingleResult();
+    }
 }

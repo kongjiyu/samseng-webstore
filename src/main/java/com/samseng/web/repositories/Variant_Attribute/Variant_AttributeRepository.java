@@ -14,6 +14,8 @@ public interface Variant_AttributeRepository {
 
     List<Variant_Attribute> findByVariantId(String variantID);
 
+    List<Variant_Attribute> findByProductId(String productID);
+
     List<Variant_Attribute> findByAttributeId(String  attributeID);
 
     Variant_Attribute findByVariantIdAndAttributeId(String variantId, String attributeId);

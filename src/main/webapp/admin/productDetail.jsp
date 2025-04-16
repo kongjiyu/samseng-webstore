@@ -1,6 +1,9 @@
 <jsp:useBean id="product" scope="session" class="com.samseng.web.models.Product"/>
 <%@page import="com.samseng.web.models.*" %>
 <%@page import="java.util.Set" %>
+<%@page import="java.util.List" %>
+<%@page import="java.util.Map" %>
+<%@page import="java.util.HashMap" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,7 +95,40 @@
 
         <!-- Right Panel: Product Variants -->
         <div class="w-full lg:w-2/3 p-10 space-y-4">
-            <h2 class="text-2xl font-bold">Product Variants</h2>
+            <h2 class="text-2xl font-bold mb-2">Attribute</h2>
+            <div class="flex justify-end">
+                <button class="btn btn-info btn-sm">
+                    <span class="icon-[tabler--plus] mr-1"></span>
+                    Add Attribute
+                </button>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <label class="font-semibold block mb-2">Color</label>
+                    <div class="flex flex-wrap gap-2">
+                        <input type="text" placeholder="e.g. White" class="input input-bordered input-sm" />
+                        <input type="text" placeholder="e.g. Black" class="input input-bordered input-sm" />
+                        <input type="text" placeholder="e.g. Yellow" class="input input-bordered input-sm" />
+                    </div>
+                    <button type="button" class="btn btn-outline btn-sm mt-2" onclick="addValue(this)">Add Value</button>
+                </div>
+                <div>
+                    <label class="font-semibold block mb-2">Storage</label>
+                    <div class="flex flex-wrap gap-2">
+                        <input type="text" placeholder="e.g. 256GB" class="input input-bordered input-sm" />
+                        <input type="text" placeholder="e.g. 512GB" class="input input-bordered input-sm" />
+                        <input type="text" placeholder="e.g. 1TB" class="input input-bordered input-sm" />
+                    </div>
+                    <button type="button" class="btn btn-outline btn-sm mt-2" onclick="addValue(this)">Add Value</button>
+                </div>
+            </div>
+            <div class="flex justify-end mt-4">
+                <button class="btn btn-info btn-sm">
+                    <span class="icon-[tabler--device-floppy] mr-1"></span>
+                    Save attributes
+                </button>
+            </div>
+            <h2 class="text-2xl font-bold mb-2">Variant</h2>
             <div class="flex justify-end mb-4">
                 <button class="btn btn-info btn-sm">
                     <span class="icon-[tabler--plus] mr-1"></span>
@@ -105,19 +141,38 @@
                     <tr>
                         <th class="w-24">VARIANT ID</th>
                         <th class="w-60">NAME</th>
-                        <th>COLOR</th>
-                        <th>STORAGE</th>
+                        <%
+    List<Attribute> dynamicAttributes = (List<Attribute>) request.getAttribute("dynamicAttributes");
+    if (dynamicAttributes != null) {
+        for (Attribute attr : dynamicAttributes) {
+%>
+                            <th><%= attr.getName().toUpperCase() %></th>
+                        <%
+        }
+    }
+%>
                         <th>PRICE</th>
                         <th>ACTION</th>
                     </tr>
                     </thead>
                     <tbody>
+                    <%
+                        List<Variant> variants = (List<Variant>) request.getAttribute("variantList");
+                        Map<String, Map<String, String>> variantAttrMap = (Map<String, Map<String, String>>) request.getAttribute("variantAttrMap");
+                        for (Variant v : variants) {
+                            Map<String, String> attributes = variantAttrMap.getOrDefault(v.getVariantId(), new HashMap<>());
+                    %>
                     <tr>
-                        <td><input type="text" class="input input-bordered input-sm" value="V001" disabled></td>
-                        <td><input type="text" class="input input-bordered input-sm" value="Galaxy Z Flip - Graphite"></td>
-                        <td><input type="text" class="input input-bordered input-sm" value="Graphite"></td>
-                        <td><input type="text" class="input input-bordered input-sm" value="256GB"></td>
-                        <td><input type="text" class="input input-bordered input-sm" value="$999"></td>
+                        <td><input type="text" class="input input-bordered input-sm" value="<%= v.getVariantId() %>" disabled></td>
+                        <td><input type="text" class="input input-bordered input-sm" value="<%= v.getVariantName() %>"></td>
+                        <%
+                            for (Attribute attr : dynamicAttributes) {
+                        %>
+                            <td><input type="text" class="input input-bordered input-sm" value="<%= attributes.getOrDefault(attr.getName(), "") %>"></td>
+                        <%
+                            }
+                        %>
+                        <td><input type="text" class="input input-bordered input-sm" value="$<%= v.getPrice() %>"></td>
                         <td>
                             <button class="btn btn-circle btn-text btn-sm" aria-label="Edit">
                                 <span class="icon-[tabler--pencil] size-5"></span>
@@ -127,21 +182,9 @@
                             </button>
                         </td>
                     </tr>
-                    <tr>
-                        <td><input type="text" class="input input-bordered input-sm" value="V002" disabled></td>
-                        <td><input type="text" class="input input-bordered input-sm" value="Galaxy Z Flip - Lavender"></td>
-                        <td><input type="text" class="input input-bordered input-sm" value="Lavender"></td>
-                        <td><input type="text" class="input input-bordered input-sm" value="512GB"></td>
-                        <td><input type="text" class="input input-bordered input-sm" value="$1199"></td>
-                        <td>
-                            <button class="btn btn-circle btn-text btn-sm" aria-label="Edit">
-                                <span class="icon-[tabler--pencil] size-5"></span>
-                            </button>
-                            <button class="btn btn-circle btn-text btn-sm" aria-label="Delete">
-                                <span class="icon-[tabler--trash] size-5"></span>
-                            </button>
-                        </td>
-                    </tr>
+                    <%
+                        }
+                    %>
                     </tbody>
                 </table>
                 <div class="flex justify-end mt-6">
@@ -155,5 +198,15 @@
         </div>
     </form>
 </div>
+<script>
+    function addValue(button) {
+      const container = button.previousElementSibling;
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.placeholder = 'e.g. New Value';
+      input.className = 'input input-bordered input-sm';
+      container.appendChild(input);
+    }
+</script>
 </body>
 </html>
