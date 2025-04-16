@@ -17,10 +17,10 @@ public class Variant_Attribute {
 
     @Id
     @ManyToOne
-    @JoinColumn(name="attirbute_id")
+    @JoinColumn(name="attribute_id")
     private Attribute attributeID;
 
     @NotNull
-    @Column(name="value",unique = true)
+    @Column(name="value")
     private String value;
 }
