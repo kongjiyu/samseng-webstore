@@ -30,7 +30,7 @@
                                 %>
                                 <div class="carousel-slide">
                                     <div class="flex size-full justify-center">
-                                        <img src="/uploads/<%= image %>" class="object-contain max-h-72 mx-auto" alt="product image"/>
+                                        <img src="/uploads/<%= image %>" class="object-contain w-64 h-64 mx-auto" alt="product image"/>
                                     </div>
                                 </div>
                                 <%
@@ -42,7 +42,7 @@
                                     for (String image : imageSet) {
                                 %>
                                 <img src="/uploads/<%= image %>"
-                                     class="carousel-pagination-item carousel-active:opacity-100 grow object-cover opacity-30 h-12"
+                                     class="carousel-pagination-item carousel-active:opacity-100 grow object-cover opacity-30 w-12 h-12"
                                      alt="thumb"/>
                                 <%
                                     }
