@@ -656,9 +656,40 @@ INSERT INTO variant_attribute(attribute_id, value, variant_id) VALUES ('AT0001',
 INSERT INTO variant_attribute(attribute_id, value, variant_id) VALUES ('AT0003', '10,000mAh', 'PB-WT-10K-v10');
 INSERT INTO variant_attribute(attribute_id, value, variant_id) VALUES ('AT0001', 'White', 'PB-WT-10K-v10');
 
+INSERT INTO promo_code (promo_code, availability, discount_rate) VALUES ('PROMO20', 'Available', 0.1);
+INSERT INTO promo_code (promo_code, availability, discount_rate) VALUES ('PROMO30', 'Available', 0.15);
+INSERT INTO promo_code (promo_code, availability, discount_rate) VALUES ('PROMO10', 'Expired', 0.2);
 
 
-
-
-
-
+-- Sales Order Inserts
+INSERT INTO sales_order (order_id, address_id, user_id, promo_code, gross_price, tax_charge, delivery_charge, discount_amount, net_price, status, payment_method, ref_no) VALUES ('OR0001', 'AD0003', 'AC0004', 'PROMO30', 5422.82, 325.37, 17.51, 1626.85, 4138.85, 'PENDING', 'Card', '7abef628');
+INSERT INTO sales_order (order_id, address_id, user_id, promo_code, gross_price, tax_charge, delivery_charge, discount_amount, net_price, status, payment_method, ref_no) VALUES ('OR0002', 'AD0017', 'AC0005', NULL, 1209.45, 72.57, 16.01, 0.0, 1298.03, 'CANCELLED', 'TNG', '20602da5');
+INSERT INTO sales_order (order_id, address_id, user_id, promo_code, gross_price, tax_charge, delivery_charge, discount_amount, net_price, status, payment_method, ref_no) VALUES ('OR0003', 'AD0013', 'AC0002', 'PROMO30', 1172.7, 70.36, 24.72, 351.81, 915.97, 'CANCELLED', 'TNG', '04998c20');
+INSERT INTO sales_order (order_id, address_id, user_id, promo_code, gross_price, tax_charge, delivery_charge, discount_amount, net_price, status, payment_method, ref_no) VALUES ('OR0004', 'AD0019', 'AC0001', 'PROMO10', 3617.4, 217.04, 21.6, 361.74, 3494.3, 'COMPLETED', 'TNG', '4e036163');
+INSERT INTO sales_order (order_id, address_id, user_id, promo_code, gross_price, tax_charge, delivery_charge, discount_amount, net_price, status, payment_method, ref_no) VALUES ('OR0005', 'AD0008', 'AC0009', 'PROMO20', 4895.88, 293.75, 17.84, 979.18, 4228.29, 'CANCELLED', 'TNG', '7793a32b');
+INSERT INTO sales_order (order_id, address_id, user_id, promo_code, gross_price, tax_charge, delivery_charge, discount_amount, net_price, status, payment_method, ref_no) VALUES ('OR0006', 'AD0007', 'AC0010', 'PROMO10', 5421.63, 325.3, 11.94, 542.16, 5216.71, 'PENDING', 'Cash', '4ffc58da');
+INSERT INTO sales_order (order_id, address_id, user_id, promo_code, gross_price, tax_charge, delivery_charge, discount_amount, net_price, status, payment_method, ref_no) VALUES ('OR0007', 'AD0008', 'AC0010', 'PROMO30', 2957.85, 177.47, 20.78, 887.35, 2268.75, 'COMPLETED', 'TNG', '80d81a11');
+INSERT INTO sales_order (order_id, address_id, user_id, promo_code, gross_price, tax_charge, delivery_charge, discount_amount, net_price, status, payment_method, ref_no) VALUES ('OR0008', 'AD0003', 'AC0010', 'PROMO20', 5457.5, 327.45, 22.92, 1091.5, 4716.37, 'CANCELLED', 'Card', '042458b6');
+INSERT INTO sales_order (order_id, address_id, user_id, promo_code, gross_price, tax_charge, delivery_charge, discount_amount, net_price, status, payment_method, ref_no) VALUES ('OR0009', 'AD0004', 'AC0006', NULL, 2816.12, 168.97, 21.24, 0.0, 3006.33, 'COMPLETED', 'TNG', '01383edb');
+INSERT INTO sales_order (order_id, address_id, user_id, promo_code, gross_price, tax_charge, delivery_charge, discount_amount, net_price, status, payment_method, ref_no) VALUES ('OR0010', 'AD0004', 'AC0003', 'PROMO30', 3896.84, 233.81, 14.35, 1169.05, 2975.95, 'COMPLETED', 'Card', '6d6051f2');
+-- Order Product Inserts
+-- Order Product Inserts
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0001', 'SP-S24', 2, 1699.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0002', 'WT-SW6', 2, 1399.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0002', 'WT-SW7', 2, 1199.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0003', 'WT-SW6', 2, 1399.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0004', 'SP-C36g', 1, 2599.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0004', 'PB-V10', 1, 199.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0005', 'SP-S25U', 1, 4399.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0005', 'T-S10+', 1, 4999.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0005', 'SP-AF6', 1, 5799.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0006', 'WT-SW6', 2, 1399.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0007', 'SP-C36g', 2, 2599.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0007', 'T-S6L', 2, 1299.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0007', 'WT-SW6', 2, 1399.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0008', 'SP-AF6', 2, 5799.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0009', 'SP-B06g', 1, 2199.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0009', 'SP-C36g', 1, 2599.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0010', 'T-S6L', 1, 1299.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0010', 'WT-SW7', 2, 1199.0, 'CONFIRMED');
+INSERT INTO order_product(order_id, product_id, quantity, unit_price, status) VALUES ('OR0010', 'SP-B06g', 2, 2199.0, 'CONFIRMED');
