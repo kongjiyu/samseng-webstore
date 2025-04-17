@@ -106,7 +106,6 @@
       <tr>
         <th>Product</th>
         <th>Category</th>
-        <th>Price</th>
         <th>Action</th>
       </tr>
       </thead>
@@ -125,16 +124,20 @@
               </div>
             </div>
             <div>
-              <div class="text-sm opacity-50"><%= product.getCategory() %></div>
-              <div class="font-medium"><%= product.getName() %></div>
+              <div class="text-sm opacity-50"><%= product.getId() %></div>
+              <div class="font-medium">
+                <a class="link link-animated" href="<%= request.getContextPath() %>/admin/productDetail?id=<%= product.getId() %>">
+                  <%= product.getName() %>
+                </a>
+              </div>
             </div>
           </div>
         </td>
         <td><%= product.getCategory() %></td>
         <td>
-          <button class="btn btn-circle btn-text btn-sm" aria-label="Edit">
+          <a href="<%= request.getContextPath() %>/admin/productDetail?id=<%= product.getId() %>" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
             <span class="icon-[tabler--pencil] size-5"></span>
-          </button>
+          </a>
           <button class="btn btn-circle btn-text btn-sm" aria-label="Delete">
             <span class="icon-[tabler--trash] size-5"></span>
           </button>
@@ -151,25 +154,28 @@
   <div class="flex flex-wrap items-center justify-between gap-2 py-4 pt-6">
     <div class="me-2 block max-w-sm text-sm text-base-content/80 sm:mb-0">
       Showing
-      <span class="font-semibold text-base-content/80">1-4</span>
+      <span class="font-semibold text-base-content/80"><%= request.getAttribute("startItem") %> - <%= request.getAttribute("endItem") %></span>
       of
-      <span class="font-semibold">20</span>
+      <span class="font-semibold"><%= request.getAttribute("totalItems") %></span>
       products
     </div>
-    <nav class="join">
-      <button type="button" class="btn btn-text btn-square" aria-label="Previous Button">
+    <%
+      Integer currentPageAttr = (Integer) request.getAttribute("currentPage");
+      Integer totalPagesAttr = (Integer) request.getAttribute("totalPages");
+
+      int currentPage = currentPageAttr != null ? currentPageAttr : 1;
+      int totalPages = totalPagesAttr != null ? totalPagesAttr : 1;
+    %>
+    <form method="get" action="<%= request.getContextPath() %>/admin/productDetail" class="flex items-center gap-x-1">
+      <input name="action" value="list" type="hidden" />
+      <button type="submit" name="page" value="<%= currentPage - 1 %>" class="btn btn-text btn-square" <%= currentPage <= 1 ? "disabled" : "" %> aria-label="Previous Button">
         <span class="icon-[tabler--chevron-left] size-5 rtl:rotate-180"></span>
       </button>
-      <div class="flex items-center gap-x-1">
-        <button type="button" class="btn btn-text btn-square pointer-events-none"
-                aria-current="page">1</button>
-        <span class="text-base-content/80 mx-3">of</span>
-        <button type="button" class="btn btn-text btn-square pointer-events-none">3</button>
-      </div>
-      <button type="button" class="btn btn-text btn-square" aria-label="Next Button">
+      <span class="text-base-content/80 mx-3"><%= currentPage %> of <%= totalPages %></span>
+      <button type="submit" name="page" value="<%= currentPage + 1 %>" class="btn btn-text btn-square" <%= currentPage >= totalPages ? "disabled" : "" %> aria-label="Next Button">
         <span class="icon-[tabler--chevron-right] size-5 rtl:rotate-180"></span>
       </button>
-    </nav>
+    </form>
   </div>
 </div>
 

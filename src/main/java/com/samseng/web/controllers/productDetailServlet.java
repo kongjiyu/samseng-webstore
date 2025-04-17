@@ -1,14 +1,12 @@
 package com.samseng.web.controllers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
+
 import com.samseng.web.models.Attribute;
 import com.samseng.web.models.Variant;
 import com.samseng.web.models.Variant_Attribute;
 import com.samseng.web.repositories.Attribute.AttributeRepository;
+import com.samseng.web.repositories.Attribute.AttributeRepositoryImpl;
 import com.samseng.web.repositories.Variant.VariantRepository;
 import com.samseng.web.repositories.Variant_Attribute.Variant_AttributeRepository;
 
@@ -39,6 +37,8 @@ public class productDetailServlet extends HttpServlet {
 
     @Inject
     private VariantRepository variantRepository;
+    @Inject
+    private AttributeRepositoryImpl attributeRepositoryImpl;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -86,13 +86,20 @@ public class productDetailServlet extends HttpServlet {
                 page = Integer.parseInt(pageParam);
             }
 
-            List<Product> products = productRepository.findPaged(page, pageSize);
             long totalCount = productRepository.count();
             int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+            int startItem = (page - 1) * pageSize + 1;
+            int endItem = Math.min(page * pageSize, (int) totalCount);
+
+            List<Product> products = productRepository.findPaged(page, pageSize);
 
             request.setAttribute("products", products);
             request.setAttribute("currentPage", page);
             request.setAttribute("totalPages", totalPages);
+            request.setAttribute("totalItems", totalCount);
+            request.setAttribute("startItem", startItem);
+            request.setAttribute("endItem", endItem);
+
             request.getRequestDispatcher("/admin/productList.jsp").forward(request, response);
             return;
         }
@@ -100,29 +107,45 @@ public class productDetailServlet extends HttpServlet {
         String productId = request.getParameter("id");
         if (productId != null && !productId.isEmpty()) {
             Product product = productRepository.findById(productId);
-            List<Attribute> dynamicAttributes = attributeRepository.findAll();
-            List<Variant_Attribute> variantAttributes = variantAttributeRepository.findByProductId(productId);
 
+            if (product == null) {
+                request.setAttribute("errorMessage", "Product not found.");
+                request.getRequestDispatcher("/errorPage.jsp").forward(request, response);
+                return;
+            }
+
+            request.setAttribute("images", product.getImageUrls());
+
+            List<Attribute> attributeList = attributeRepository.findByProductId(productId);
+            List<Variant> variantList = variantRepository.findByProductId(productId);
             Map<String, Map<String, String>> variantAttrMap = new HashMap<>();
-            for (Variant_Attribute va : variantAttributes) {
+
+            for (Variant_Attribute va : variantAttributeRepository.findByProductId(productId)) {
                 String variantId = va.getVariantID().getVariantId();
                 String attrName = va.getAttributeID().getName();
                 String value = va.getValue();
-                variantAttrMap.computeIfAbsent(variantId, k -> new HashMap<>()).put(attrName, value);
-            }
-            request.setAttribute("variantAttrMap", variantAttrMap);
 
-            List<Variant> variants = variantRepository.findByProductId(productId);
-            request.setAttribute("variantList", variants);
-            Set<String> imageSet = new HashSet<>(product.getImageUrls());
-            if (product != null) {
-                request.setAttribute("imageSet", imageSet);
-                request.setAttribute("product", product);
-                request.setAttribute("dynamicAttributes", dynamicAttributes);
-                request.setAttribute("variantAttributes", variantAttributes);
-                request.getRequestDispatcher("/admin/productDetail.jsp").forward(request, response);
-                return;
+                variantAttrMap
+                        .computeIfAbsent(variantId, k -> new HashMap<>())
+                        .put(attrName, value);
             }
+
+            Map<String, Set<String>> attributeValuesMap = new HashMap<>();
+
+            for (Variant_Attribute va : variantAttributeRepository.findByProductId(productId)) {
+                String attrName = va.getAttributeID().getName();
+                attributeValuesMap
+                        .computeIfAbsent(attrName, k -> new LinkedHashSet<>())
+                        .add(va.getValue());
+            }
+
+            request.setAttribute("attributeValuesMap", attributeValuesMap);
+            request.setAttribute("imageSet", product.getImageUrls());
+            request.setAttribute("variantAttrMap", variantAttrMap);
+            request.setAttribute("attributeList", attributeList);
+            request.setAttribute("variantList", variantList);
+            request.setAttribute("product", product);
+            request.getRequestDispatcher("/admin/productDetail.jsp").forward(request, response);
         }
 
         response.sendRedirect("/admin/productList.jsp");
