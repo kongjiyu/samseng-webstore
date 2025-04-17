@@ -698,6 +698,12 @@ INSERT INTO comment(rating, message, comment_id, product_id, user_id) VALUES('5'
 
 INSERT INTO  reply(reply_message, comment_id, reply_id) VALUES ('Thankyou','CO0001','RE0001');
 
-INSERT INTO comment(rating, message, comment_id, product_id, user_id) VALUES ('5','very good to use','CO0002','SP-B06g');
+INSERT INTO comment(rating, message, comment_id, product_id, user_id) VALUES ('5','very good to use','CO0002','SP-B06g','AC0002');
 
 INSERT INTO reply(reply_message, comment_id, reply_id) VALUES ('Thankyou','CO0002','RE0002');
+
+INSERT INTO comment(rating, message, comment_id, product_id, user_id) VALUES ('5','GOOD','CO0003','T-S6L','AC0003');
+
+INSERT INTO cart_product(quantity, account_id, product_id) VALUES (1,'AC0005','SP-C36g');
+
+INSERT INTO cart_product(quantity, account_id, product_id) VALUES (2,'AC0006','T-S6L');
