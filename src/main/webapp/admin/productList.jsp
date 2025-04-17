@@ -126,7 +126,7 @@
             <div>
               <div class="text-sm opacity-50"><%= product.getId() %></div>
               <div class="font-medium">
-                <a class="link link-animated" href="<%= request.getContextPath() %>/admin/productDetail?id=<%= product.getId() %>">
+                <a class="link link-animated" href="<%= request.getContextPath() %>/admin/product?id=<%= product.getId() %>">
                   <%= product.getName() %>
                 </a>
               </div>
@@ -135,7 +135,7 @@
         </td>
         <td><%= product.getCategory() %></td>
         <td>
-          <a href="<%= request.getContextPath() %>/admin/productDetail?id=<%= product.getId() %>" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
+          <a href="<%= request.getContextPath() %>/admin/product?id=<%= product.getId() %>" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
             <span class="icon-[tabler--pencil] size-5"></span>
           </a>
           <button class="btn btn-circle btn-text btn-sm" aria-label="Delete">
@@ -166,7 +166,7 @@
       int currentPage = currentPageAttr != null ? currentPageAttr : 1;
       int totalPages = totalPagesAttr != null ? totalPagesAttr : 1;
     %>
-    <form method="get" action="<%= request.getContextPath() %>/admin/productDetail" class="flex items-center gap-x-1">
+    <form method="get" action="<%= request.getContextPath() %>/admin/product" class="flex items-center gap-x-1">
       <input name="action" value="list" type="hidden" />
       <button type="submit" name="page" value="<%= currentPage - 1 %>" class="btn btn-text btn-square" <%= currentPage <= 1 ? "disabled" : "" %> aria-label="Previous Button">
         <span class="icon-[tabler--chevron-left] size-5 rtl:rotate-180"></span>

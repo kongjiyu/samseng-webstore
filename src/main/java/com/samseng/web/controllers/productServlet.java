@@ -23,8 +23,8 @@ import jakarta.transaction.Transactional;
 import java.io.IOException;
 
 @Transactional
-@WebServlet(name = "productDetail", urlPatterns = {"/admin/productDetail"})
-public class productDetailServlet extends HttpServlet {
+@WebServlet(name = "product", urlPatterns = {"/admin/product"})
+public class productServlet extends HttpServlet {
 
     @Inject
     private ProductRepository productRepository;

@@ -18,7 +18,7 @@
 <!--Header-->
 
 <div class="container mx-auto p-6 py-16">
-    <form method="post" action="<%= request.getContextPath() %>/admin/productDetail?action=update">
+    <form method="post" action="<%= request.getContextPath() %>/admin/product?action=update">
         <div class="flex flex-col lg:flex-row lg:items-stretch bg-base-100 border rounded-lg shadow divide-y lg:divide-y-0 lg:divide-x divide-base-300">
             <!-- Left Panel: Product Information -->
             <div class="w-full lg:w-1/3 p-10 space-y-4">
