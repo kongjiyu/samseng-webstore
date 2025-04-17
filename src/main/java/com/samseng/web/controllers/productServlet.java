@@ -54,53 +54,13 @@ public class productServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         if ("update".equals(action)) {
-            String productId = request.getParameter("productId");
-            String name = request.getParameter("name");
-            String category = request.getParameter("category");
-            String desc = request.getParameter("desc");
-            String[] images = request.getParameterValues("imageUrls");
-            Set<String> imageSet = new HashSet<>();
-            if (images != null) {
-                for (String img : images) {
-                    imageSet.add(img);
-                }
-            }
-
-            Product product = productRepository.findById(productId);
-            if (product != null) {
-                product.setName(name);
-                product.setCategory(category);
-                product.setDesc(desc);
-                product.setImageUrls(imageSet);
-                productRepository.update(product);
-            }
-
-            response.sendRedirect(request.getContextPath() + "/admin/productDetail?id=" + productId);
+            updateProduct(request, response);
             return;
         } else if ("list".equals(action)) {
-            int page = 1;
-            int pageSize = 10;
-
-            String pageParam = request.getParameter("page");
-            if (pageParam != null && pageParam.matches("\\d+")) {
-                page = Integer.parseInt(pageParam);
-            }
-
-            long totalCount = productRepository.count();
-            int totalPages = (int) Math.ceil((double) totalCount / pageSize);
-            int startItem = (page - 1) * pageSize + 1;
-            int endItem = Math.min(page * pageSize, (int) totalCount);
-
-            List<Product> products = productRepository.findPaged(page, pageSize);
-
-            request.setAttribute("products", products);
-            request.setAttribute("currentPage", page);
-            request.setAttribute("totalPages", totalPages);
-            request.setAttribute("totalItems", totalCount);
-            request.setAttribute("startItem", startItem);
-            request.setAttribute("endItem", endItem);
-
-            request.getRequestDispatcher("/admin/productList.jsp").forward(request, response);
+            listProducts(request, response);
+            return;
+        } else if ("delete".equals(action)) {
+            deleteProduct(request, response);
             return;
         }
 
@@ -149,5 +109,67 @@ public class productServlet extends HttpServlet {
         }
 
         response.sendRedirect("/admin/productList.jsp");
+    }
+
+    private void listProducts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int page = 1;
+        int pageSize = 10;
+
+        String pageParam = request.getParameter("page");
+        if (pageParam != null && pageParam.matches("\\d+")) {
+            page = Integer.parseInt(pageParam);
+        }
+
+        long totalCount = productRepository.count();
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+        int startItem = (page - 1) * pageSize + 1;
+        int endItem = Math.min(page * pageSize, (int) totalCount);
+
+        List<Product> products = productRepository.findPaged(page, pageSize);
+
+        request.setAttribute("products", products);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("totalItems", totalCount);
+        request.setAttribute("startItem", startItem);
+        request.setAttribute("endItem", endItem);
+
+        request.getRequestDispatcher("/admin/productList.jsp").forward(request, response);
+    }
+
+    private void updateProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String productId = request.getParameter("productId");
+        String name = request.getParameter("name");
+        String category = request.getParameter("category");
+        String desc = request.getParameter("desc");
+        String[] images = request.getParameterValues("imageUrls");
+        Set<String> imageSet = new HashSet<>();
+        if (images != null) {
+            for (String img : images) {
+                imageSet.add(img);
+            }
+        }
+
+        Product product = productRepository.findById(productId);
+        if (product != null) {
+            product.setName(name);
+            product.setCategory(category);
+            product.setDesc(desc);
+            product.setImageUrls(imageSet);
+            productRepository.update(product);
+        }
+
+        response.sendRedirect(request.getContextPath() + "/admin/productDetail?id=" + productId);
+    }
+
+    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String productId = request.getParameter("id");
+        if (productId != null && !productId.isEmpty()) {
+            Product product = productRepository.findById(productId);
+            if (product != null) {
+                productRepository.remove(product);
+            }
+        }
+        response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
     }
 }
