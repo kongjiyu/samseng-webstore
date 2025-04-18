@@ -267,7 +267,7 @@ public class productServlet extends HttpServlet {
         Product product = productRepository.findById(productId);
 
 
-        Path uploadDir = Path.of("/home/ubuntu/samseng-webstore/samseng-data/uploads"); // or your actual folder in server
+        Path uploadDir = Path.of("/var/www/data/uploads"); // or your actual folder in server
         Part filePart = request.getPart("imageFile");
         int nextNo = product.getImageUrls().size()+1;
 
