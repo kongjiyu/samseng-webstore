@@ -40,4 +40,7 @@ public class Product {
     @NotNull
     @Column(name="product_category")
     private String category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Variant> variants = new HashSet<>();
 }

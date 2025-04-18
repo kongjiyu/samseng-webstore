@@ -16,12 +16,18 @@
 </head>
 <body data-theme="light">
 <!--Header-->
+<%@ include file="/general/adminHeader.jsp" %>
 
 <div class="container mx-auto p-6 py-16">
-    <form method="post" action="<%= request.getContextPath() %>/admin/product?action=update">
-        <div class="flex flex-col lg:flex-row lg:items-stretch bg-base-100 border rounded-lg shadow divide-y lg:divide-y-0 lg:divide-x divide-base-300">
-            <!-- Left Panel: Product Information -->
-            <div class="w-full lg:w-1/3 p-10 space-y-4">
+    <div class="flex flex-col lg:flex-row lg:items-stretch bg-base-100 border rounded-lg shadow divide-y lg:divide-y-0 lg:divide-x divide-base-300">
+        <!-- Left Panel: Product Information -->
+
+        <div class="w-full lg:w-1/3 p-10 space-y-4">
+            <form method="post" action="<%= request.getContextPath() %>/admin/product">
+                <%
+                    Product productObj = (Product) request.getAttribute("product");
+                %>
+                <input type="hidden" name="action" value="<%= productObj.getId() == null ? "save" : "update" %>">
                 <h2 class="text-2xl font-bold">Product Information</h2>
                 <div class="card bg-base-100 shadow-md p-4 space-y-4">
                     <div id="horizontal-thumbnails" data-carousel class="relative w-full">
@@ -33,7 +39,8 @@
                                 %>
                                 <div class="carousel-slide">
                                     <div class="flex size-full justify-center">
-                                        <img src="/uploads/<%= image %>" class="object-contain w-auto h-[28rem] mx-auto"
+                                        <img src="/uploads/<%= image %>"
+                                             class="object-contain w-auto h-[28rem] mx-auto"
                                              alt="product image"/>
                                     </div>
                                 </div>
@@ -41,6 +48,7 @@
                                     }
                                 %>
                             </div>
+                            <div class="my-4 flex flex-col items-start gap-2">
                             <div class="carousel-pagination bg-base-100 absolute bottom-0 end-0 start-0 z-1 h-16 flex justify-center gap-2 overflow-x-auto pt-2">
                                 <%
                                     for (String image : imageSet) {
@@ -70,35 +78,60 @@
                             </button>
                         </div>
                     </div>
+                        <% if (productObj.getId() != null) { %>
+                        <form method="post" action="${pageContext.request.contextPath}/admin/product?action=uploadImage" enctype="multipart/form-data">
+                            <input type="hidden" name="productId" value="${product.id}" />
+                            <input type="file" name="imageFile" accept="image/png" required />
+                            <button type="submit" class="btn btn-outline btn-info w-full max-w-xs">
+                                Upload Product Image
+                            </button>
+                        </form>
+                        <% } else { %>
+                        <p class="text-sm text-warning">Please save the product before uploading images.</p>
+                        <% } %>
+                    </div>
                     <div>
                         <label class="block font-semibold">Product ID:</label>
                         <input type="text" name="productId" class="input input-bordered w-full"
-                               value="<%= ((Product) request.getAttribute("product")).getId() %>" disabled>
+                               value="<%= productObj.getId() != null ? productObj.getId() : "" %>">
                     </div>
                     <div>
                         <label class="block font-semibold">Product Name: </label>
                         <input type="text" name="productName" class="input input-bordered w-full"
-                               value="<%= ((Product) request.getAttribute("product")).getName() %>">
+                               value="<%= productObj.getName() != null ? productObj.getName() : "" %>">
                     </div>
                     <div>
                         <label class="block font-semibold">Category:</label>
                         <input type="text" name="productCategory" class="input input-bordered w-full"
-                               value="<%= ((Product) request.getAttribute("product")).getCategory() %>">
+                               value="<%= productObj.getCategory() != null ? productObj.getCategory() : "" %>">
                     </div>
                     <div>
                         <label class="block font-semibold">Description:</label>
                         <textarea name="productDesc" class="textarea resize-y textarea-bordered w-full"
-                                  rows="20"><%= ((Product) request.getAttribute("product")).getDesc() %></textarea>
+                                  rows="20"><%= productObj.getDesc() != null ? productObj.getDesc() : "" %></textarea>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <button class="btn btn-info btn-sm" type="submit" name="action" value="save">
+                            <span class="icon-[tabler--device-floppy] mr-1"></span>
+                            Save
+                        </button>
                     </div>
                 </div>
-            </div>
+            </form>
+        </div>
 
 
-            <!-- Right Panel: Product Variants -->
-            <div class="w-full lg:w-2/3 p-10 space-y-4">
+        <!-- Right Panel: Product Variants -->
+
+        <div class="w-full lg:w-2/3 p-10 space-y-4">
+            <form method="post" action="<%= request.getContextPath() %>/admin/product">
+                <input type="hidden" name="action" value="save-attributes">
+                <input type="hidden" name="productId" value="<%= productObj.getId() %>">
                 <h2 class="text-2xl font-bold mb-2">Attribute</h2>
                 <div class="flex justify-end">
-                    <button type="button" class="btn btn-info btn-sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="add-attribute-modal" data-overlay="#add-attribute-modal">                        <span class="icon-[tabler--plus] mr-1"></span>
+                    <button type="button" class="btn btn-info btn-sm" aria-haspopup="dialog" aria-expanded="false"
+                            aria-controls="add-attribute-modal" data-overlay="#add-attribute-modal"><span
+                            class="icon-[tabler--plus] mr-1"></span>
                         Add Attribute
                     </button>
                 </div>
@@ -117,7 +150,8 @@
                             <input type="text" class="input input-bordered input-sm" value="<%= value %>"/>
                             <% } %>
                         </div>
-                        <button type="button" class="btn btn-outline btn-sm mt-2" onclick="addValue(this)">Add Value</button>
+                        <button type="button" class="btn btn-outline btn-sm mt-2" onclick="addValue(this)">Add Value
+                        </button>
                     </div>
                     <%
                         }
@@ -129,6 +163,10 @@
                         Save attributes
                     </button>
                 </div>
+            </form>
+            <form method="post" action="<%= request.getContextPath() %>/admin/product">
+                <input type="hidden" name="action" value="save-variants">
+                <input type="hidden" name="productId" value="<%= productObj.getId() %>">
                 <h2 class="text-2xl font-bold mb-2">Variant</h2>
                 <div class="flex justify-end mb-4">
                     <button class="btn btn-info btn-sm">
@@ -196,16 +234,19 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
-<div id="add-attribute-modal" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog" tabindex="-1">
+<div id="add-attribute-modal"
+     class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog"
+     tabindex="-1">
     <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Add Attribute</h3>
-                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#add-attribute-modal">
+                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close"
+                        data-overlay="#add-attribute-modal">
                     <span class="icon-[tabler--x] size-4"></span>
                 </button>
             </div>
@@ -214,7 +255,8 @@
                 <input id="attributeName" type="text" placeholder="e.g. Color" class="input input-bordered w-full">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-soft btn-secondary" data-overlay="#add-attribute-modal">Cancel</button>
+                <button type="button" class="btn btn-soft btn-secondary" data-overlay="#add-attribute-modal">Cancel
+                </button>
                 <button type="button" class="btn btn-info" onclick="saveAttribute()">Add Attribute</button>
             </div>
         </div>
