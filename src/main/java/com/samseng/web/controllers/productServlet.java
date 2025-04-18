@@ -273,9 +273,16 @@ public class productServlet extends HttpServlet {
 
         String newFileName = productId + "-" + nextNo + ".png";
         Path uploadPath = uploadDir.resolve(newFileName);
+        System.out.println("Receiving file upload for product: " + productId);
+        System.out.println("Saving to path: " + uploadPath.toAbsolutePath());
+
         if (filePart != null && filePart.getSize() > 0) {
+            System.out.println("File part received: " + filePart.getSubmittedFileName() + " (" + filePart.getSize() + " bytes)");
             try (InputStream input = filePart.getInputStream()) {
                 Files.copy(input, uploadPath, StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Upload successful.");
+            } catch (IOException e) {
+                System.err.println("Upload failed: " + e.getMessage());
             }
 
             // Save filename to product imageUrls
