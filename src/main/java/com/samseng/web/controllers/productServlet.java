@@ -136,9 +136,9 @@ public class productServlet extends HttpServlet {
             request.setAttribute("variantList", variantList);
             request.setAttribute("product", product);
             request.getRequestDispatcher("/admin/productDetail.jsp").forward(request, response);
+        }else{
+            response.sendRedirect("/admin/productList.jsp");
         }
-
-        response.sendRedirect("/admin/productList.jsp");
     }
 
     private void saveProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -165,7 +165,7 @@ public class productServlet extends HttpServlet {
 
         productRepository.create(product);
 
-        response.sendRedirect(request.getContextPath() + "/admin/product?id=" + productId);
+        response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
     }
 
     private void listProducts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
