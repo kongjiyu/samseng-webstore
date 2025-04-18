@@ -26,14 +26,14 @@
         <!--LOGIN FORM-->
         <div class="form-box Login">
             <h1 class="switch-animation" style="--X:0; --Z:15">Login</h1>
-            <form action="#">
+            <form action="j_security_check" method="post">
                 <div class="input-box switch-animation" style="--X:1; --Z:16">
-                    <input type="text" required>
-                    <label>Username</label>
+                    <input type="email" name="j_username" required>
+                    <label>Email</label>
                     <span class="icon-[tabler--user] size-5"></span>
                 </div>
                 <div class="input-box switch-animation" style="--X:2; --Z:17">
-                    <input type="password" required>
+                    <input type="password" name="j_password" required>
                     <label>Password</label>
                     <span class="icon-[tabler--lock] size-5"></span>
                 </div>
@@ -55,7 +55,7 @@
         <!--REGISTER FORM-->
         <div class="form-box Register">
             <h2 class="switch-animation" style="--Y:16; --Z:0">Register</h2>
-            <form action="#">
+            <form action="<%= request.getContextPath() %>/register" method="post">
                 <div class="input-box switch-animation" style="--Y:17; --Z:1">
                     <input type="text" name="username" id="username" placeholder='' required>
                     <label for="username">Username</label>

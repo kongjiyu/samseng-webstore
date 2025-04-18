@@ -142,6 +142,8 @@
                 </a>
             </div>
         </div>
+        <!--User Profile-->
+        <% if(request.getUserPrincipal() !=null) { %>
         <div class="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
             <button id="dropdown-scrollable" type="button" class="dropdown-toggle flex items-center"
                     aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
@@ -189,16 +191,18 @@
                     </a>
                 </li>
                 <li class="dropdown-footer gap-2">
-                    <a class="btn btn-error btn-soft btn-block" href="#">
+                    <a class="btn btn-error btn-soft btn-block" href="<%= request.getContextPath() %>/logout"><!--logout-->
                         <span class="icon-[tabler--logout]"></span>
                         Sign out
                     </a>
                 </li>
             </ul>
         </div>
-        <a href="<%= request.getContextPath() %>loginRegisterForm.jsp">
+        <% } else {%>
+        <a href="<%= request.getContextPath() %>/login-flow">
             <button class="btn btn-gradient btn-secondary rounded-full">Log In -></button>
         </a>
+        <%}%>
     </div>
 </nav>
 <div id="html-modal-combo-box" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 [--body-scroll:true] hidden"
