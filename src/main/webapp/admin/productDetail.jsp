@@ -78,7 +78,8 @@
                         </div>
                     </div>
                         <% if (productObj.getId() != null) { %>
-                        <form method="post" action="${pageContext.request.contextPath}/admin/product?action=uploadImage" enctype="multipart/form-data">
+                        <form method="post" action="${pageContext.request.contextPath}/admin/product" enctype="multipart/form-data">
+                            <input type="hidden" name="action" value="uploadImage">
                             <input type="hidden" name="productId" value="${product.id}" />
                             <input type="file" name="imageFile" accept="image/png" />
                             <button type="submit" class="btn btn-outline btn-info w-full max-w-xs">
