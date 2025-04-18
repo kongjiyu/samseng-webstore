@@ -78,24 +78,17 @@
                     </div>
                     <% if (productObj.getId() != null) { %>
                     <form method="post" action="${pageContext.request.contextPath}/admin/product"
-                          enctype="multipart/form-data" id="uploadForm">
+                          enctype="multipart/form-data">
                         <input type="hidden" name="action" value="uploadImage">
                         <input type="hidden" name="productId" value="${product.id}"/>
-                        <!-- Hidden file input -->
-                        <input
-                                type="file"
-                                name="imageFile"
-                                id="productImageInput"
-                                class="hidden"
-                                accept="image/png"
-                                onchange="document.getElementById('uploadForm').submit();"
-                        />
-
-                        <!-- FlyonUI-styled Button -->
-                        <label for="productImageInput" class="btn btn-primary gap-2 rounded-lg px-4 py-2 cursor-pointer">
-                            <span class="icon-[tabler--upload] size-5"></span>
+                        <div class="my-5">
+                            <label class="label-text" for="fileInputHelperText"> Pick a file </label>
+                            <input type="file" class="input" id="fileInputHelperText" name="imageFile" accept="image/png"/>
+                            <span class="helper-text">Only PNG file support</span>
+                        </div>
+                        <button type="submit" class="btn btn-outline btn-info w-full max-w-xs">
                             Upload Product Image
-                        </label>
+                        </button>
                     </form>
                     <% } else { %>
                     <p class="text-sm text-warning">Please save the product before uploading images.</p>
@@ -263,15 +256,17 @@
                     <span class="icon-[tabler--x] size-4"></span>
                 </button>
             </div>
-            <div class="modal-body">
-                <label for="attributeName" class="block font-medium mb-1">Attribute Name:</label>
-                <input id="attributeName" type="text" placeholder="e.g. Color" class="input input-bordered w-full">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-soft btn-secondary" data-overlay="#add-attribute-modal">Cancel
-                </button>
-                <button type="button" class="btn btn-info" onclick="saveAttribute()">Add Attribute</button>
-            </div>
+            <form method="post" >
+                <div class="modal-body">
+                    <label for="attributeName" class="block font-medium mb-1">Attribute Name:</label>
+                    <input id="attributeName" type="text" placeholder="e.g. Color" class="input input-bordered w-full">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-soft btn-secondary" data-overlay="#add-attribute-modal">Cancel
+                    </button>
+                    <button type="button" class="btn btn-info" onclick="saveAttribute()">Add Attribute</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
