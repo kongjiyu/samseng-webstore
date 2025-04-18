@@ -26,10 +26,13 @@ import jakarta.transaction.Transactional;
 import java.io.IOException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.Part;
+import lombok.extern.log4j.Log4j2;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+@Log4j2
 @Transactional
 @WebServlet(name = "product", urlPatterns = {"/admin/product"})
 @MultipartConfig
@@ -273,16 +276,16 @@ public class productServlet extends HttpServlet {
 
         String newFileName = productId + "-" + nextNo + ".png";
         Path uploadPath = uploadDir.resolve(newFileName);
-        System.out.println("Receiving file upload for product: " + productId);
-        System.out.println("Saving to path: " + uploadPath.toAbsolutePath());
+        log.info("Receiving file upload for product: {}", productId);
+        log.info("Saving to path: {}", uploadPath.toAbsolutePath());
 
         if (filePart != null && filePart.getSize() > 0) {
-            System.out.println("File part received: " + filePart.getSubmittedFileName() + " (" + filePart.getSize() + " bytes)");
+            log.info("File part received: {} ({} bytes)", filePart.getSubmittedFileName(), filePart.getSize());
             try (InputStream input = filePart.getInputStream()) {
                 Files.copy(input, uploadPath, StandardCopyOption.REPLACE_EXISTING);
-                System.out.println("Upload successful.");
+                log.info("Upload successful.");
             } catch (IOException e) {
-                System.err.println("Upload failed: " + e.getMessage());
+                log.error("Upload failed", e);
             }
 
             // Save filename to product imageUrls
