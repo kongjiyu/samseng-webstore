@@ -264,7 +264,7 @@ public class productServlet extends HttpServlet {
         }
 
         // Absolute path on disk where images are saved (match reverse proxy setup)
-        String uploadDir = "/var/www/uploads"; // or your actual folder in server
+        String uploadDir = "/var/www/data/uploads"; // or your actual folder in server
         File uploadFolder = new File(uploadDir);
         if (!uploadFolder.exists()) uploadFolder.mkdirs();
 
@@ -289,6 +289,7 @@ public class productServlet extends HttpServlet {
         if (filePart != null && filePart.getSize() > 0) {
             File outputFile = new File(uploadFolder, newFileName);
             filePart.write(outputFile.getAbsolutePath());
+            System.out.println("Saving to: " + outputFile.getAbsolutePath());
 
             // Save filename to product imageUrls
             Product product = productRepository.findById(productId);
