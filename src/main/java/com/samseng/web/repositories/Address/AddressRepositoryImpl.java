@@ -55,16 +55,31 @@ public class AddressRepositoryImpl implements  AddressRepository {
 
     }
 
-    public Address findByUserId(String user) {
-        try {
-            return em.createQuery("SELECT a FROM Address a WHERE a.user = :user", Address.class)
-                    .setParameter("user", user)
-                    .getSingleResult();
-        }catch(NoResultException e) {
-            return null;
-        }
+    public List<Address> findByUserId(String id) {
+        return em.createQuery("SELECT a FROM Address a WHERE a.user.id = :userId", Address.class)
+                .setParameter("userId", id)
+                .getResultList();
     }
 
+    public void unsetOtherDefaults(String userId, String currentAddressId) {
+        em.getTransaction().begin();
+        em.createQuery("UPDATE Address a SET a.isdefault = false WHERE a.user.id = :userId AND a.id != :currentId")
+                .setParameter("userId", userId)
+                .setParameter("currentId", currentAddressId)
+                .executeUpdate();
+        em.getTransaction().commit();
+    }
 
+    public void clearDefaultForUser(String userId) {
+        em.getTransaction().begin();
+        em.createQuery("UPDATE Address a SET a.isdefault = false WHERE a.user.id = :userId")
+                .setParameter("userId", userId)
+                .executeUpdate();
+        em.getTransaction().commit();
+    }
+
+    public Address findById(String id) {
+        return em.find(Address.class, id);
+    }
 
 }

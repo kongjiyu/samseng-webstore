@@ -1,3 +1,4 @@
+<jsp:useBean id="Account" scope="request" type="jakarta.security.auth.message.callback.PasswordValidationCallback"/>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +49,7 @@
                         </div>
                         <div>
                             <label class="label">Username</label>
-                            <input type="text" class="input input-bordered w-full" placeholder="admin" />
+                            <input type="text" class="input input-bordered w-full" placeholder="admin" name="username" value="${Account.username}"/>
                         </div>
                         <div>
                             <label class="label">Date of Birth</label>
@@ -118,7 +119,7 @@
                             </button>
                         </div>
                         <div class="modal-body space-y-4">
-                            <form id="new-address-form" class="grid grid-cols-1 gap-4">
+                            <form id="new-address-form" class="grid grid-cols-1 gap-4" action="${pageContext.request.contextPath}/addAddress" method="post">
                                 <input type="text" class="input input-bordered w-full" placeholder="Address Title (e.g. Rose Avenue)" required />
                                 <input type="text" class="input input-bordered w-full" placeholder="Address Line 1" required />
                                 <input type="text" class="input input-bordered w-full" placeholder="Address Line 2" />
