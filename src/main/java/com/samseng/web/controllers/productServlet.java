@@ -1,6 +1,8 @@
 package com.samseng.web.controllers;
 
 import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.*;
 
 import com.samseng.web.models.Attribute;
@@ -262,42 +264,26 @@ public class productServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product ID is required.");
             return;
         }
+        Product product = productRepository.findById(productId);
 
-        String root = getServletContext().getRealPath("/");
-        String uploadDir = root + "samseng-data/uploads/"; // or your actual folder in server
-        File uploadFolder = new File(uploadDir);
-        if (!uploadFolder.exists()) uploadFolder.mkdirs();
 
-        // Find next image number
-        File[] existing = uploadFolder.listFiles((dir, name) ->
-                name.startsWith(productId + "-") && name.endsWith(".png"));
-        int max = 0;
-        if (existing != null) {
-            for (File file : existing) {
-                String name = file.getName();
-                try {
-                    int num = Integer.parseInt(name.substring((productId + "-").length(), name.length() - 4));
-                    if (num > max) max = num;
-                } catch (NumberFormatException ignored) {}
-            }
-        }
-
-        int nextNo = max + 1;
-        String newFileName = productId + "-" + nextNo + ".png";
+        Path uploadDir = Path.of("/home/ubuntu/samseng-webstore/samseng-data/uploads"); // or your actual folder in server
         Part filePart = request.getPart("imageFile");
+        int nextNo = product.getImageUrls().size()+1;
 
+        String newFileName = productId + "-" + nextNo + ".png";
+        Path uploadPath = uploadDir.resolve(newFileName);
         if (filePart != null && filePart.getSize() > 0) {
-            File outputFile = new File(uploadFolder, newFileName);
-            filePart.write(outputFile.getAbsolutePath());
+            try (InputStream input = filePart.getInputStream()) {
+                Files.copy(input, uploadPath, StandardCopyOption.REPLACE_EXISTING);
+            }
 
             // Save filename to product imageUrls
-            Product product = productRepository.findById(productId);
-            if (product != null) {
                 Set<String> urls = product.getImageUrls();
                 urls.add(newFileName);
                 product.setImageUrls(urls);
                 productRepository.update(product);
-            }
+
         }
 
         response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
