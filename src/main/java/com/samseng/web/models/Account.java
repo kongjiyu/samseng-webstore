@@ -2,17 +2,19 @@ package com.samseng.web.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name = "\"Account\"")
-
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class Account {
     @Id
@@ -47,4 +49,6 @@ public class Account {
         USER, ADMIN, STAFF
     }
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Address> addresses;
 }
