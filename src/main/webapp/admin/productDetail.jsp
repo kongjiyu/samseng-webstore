@@ -23,31 +23,30 @@
         <!-- Left Panel: Product Information -->
 
         <div class="w-full lg:w-1/3 p-10 space-y-4">
-            <form method="post" action="<%= request.getContextPath() %>/admin/product">
-                <%
-                    Product productObj = (Product) request.getAttribute("product");
-                %>
-                <h2 class="text-2xl font-bold">Product Information</h2>
-                <div class="card bg-base-100 shadow-md p-4 space-y-4">
-                    <div id="horizontal-thumbnails" data-carousel class="relative w-full">
-                        <div class="carousel">
-                            <div class="carousel-body opacity-100">
-                                <%
-                                    Set<String> imageSet = (Set<String>) request.getAttribute("imageSet");
-                                    for (String image : imageSet) {
-                                %>
-                                <div class="carousel-slide">
-                                    <div class="flex size-full justify-center">
-                                        <img src="/uploads/<%= image %>"
-                                             class="object-contain w-auto h-[28rem] mx-auto"
-                                             alt="product image"/>
-                                    </div>
+            <%
+                Product productObj = (Product) request.getAttribute("product");
+            %>
+            <h2 class="text-2xl font-bold">Product Information</h2>
+            <div class="card bg-base-100 shadow-md p-4 space-y-4">
+                <div id="horizontal-thumbnails" data-carousel class="relative w-full">
+                    <div class="carousel">
+                        <div class="carousel-body opacity-100">
+                            <%
+                                Set<String> imageSet = (Set<String>) request.getAttribute("imageSet");
+                                for (String image : imageSet) {
+                            %>
+                            <div class="carousel-slide">
+                                <div class="flex size-full justify-center">
+                                    <img src="/uploads/<%= image %>"
+                                         class="object-contain w-auto h-[28rem] mx-auto"
+                                         alt="product image"/>
                                 </div>
-                                <%
-                                    }
-                                %>
                             </div>
-                            <div class="my-4 flex flex-col items-start gap-2">
+                            <%
+                                }
+                            %>
+                        </div>
+                        <div class="my-4 flex flex-col items-start gap-2">
                             <div class="carousel-pagination bg-base-100 absolute bottom-0 end-0 start-0 z-1 h-16 flex justify-center gap-2 overflow-x-auto pt-2">
                                 <%
                                     for (String image : imageSet) {
@@ -77,19 +76,21 @@
                             </button>
                         </div>
                     </div>
-                        <% if (productObj.getId() != null) { %>
-                        <form method="post" action="${pageContext.request.contextPath}/admin/product" enctype="multipart/form-data">
-                            <input type="hidden" name="action" value="uploadImage">
-                            <input type="hidden" name="productId" value="${product.id}" />
-                            <input type="file" name="imageFile" accept="image/png" />
-                            <button type="submit" class="btn btn-outline btn-info w-full max-w-xs">
-                                Upload Product Image
-                            </button>
-                        </form>
-                        <% } else { %>
-                        <p class="text-sm text-warning">Please save the product before uploading images.</p>
-                        <% } %>
-                    </div>
+                    <% if (productObj.getId() != null) { %>
+                    <form method="post" action="${pageContext.request.contextPath}/admin/product"
+                          enctype="multipart/form-data">
+                        <input type="hidden" name="action" value="uploadImage">
+                        <input type="hidden" name="productId" value="${product.id}"/>
+                        <input type="file" name="imageFile" accept="image/png"/>
+                        <button type="submit" class="btn btn-outline btn-info w-full max-w-xs">
+                            Upload Product Image
+                        </button>
+                    </form>
+                    <% } else { %>
+                    <p class="text-sm text-warning">Please save the product before uploading images.</p>
+                    <% } %>
+                </div>
+                <form method="post" action="<%= request.getContextPath() %>/admin/product">
                     <div>
                         <label class="block font-semibold">Product ID:</label>
                         <input type="text" name="productId" class="input input-bordered w-full"
@@ -111,13 +112,14 @@
                                   rows="20"><%= productObj.getDesc() != null ? productObj.getDesc() : "" %></textarea>
                     </div>
                     <div class="flex justify-end mt-4">
-                        <button class="btn btn-info btn-sm" type="submit" name="action" value="<%= productObj.getId() != null ? "update" : "save" %>">
+                        <button class="btn btn-info btn-sm" type="submit" name="action"
+                                value="<%= productObj.getId() != null ? "update" : "save" %>">
                             <span class="icon-[tabler--device-floppy] mr-1"></span>
                             Save
                         </button>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
 
 
