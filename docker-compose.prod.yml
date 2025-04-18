@@ -21,6 +21,8 @@ services:
         container_name: samseng-web
         restart: unless-stopped
         environment:
+            JAVA_OPTS: "-Xms8g -Xmx12g"
+
             AS_ADMIN_MASTERPASSWORD: ${AS_ADMIN_MASTERPASSWORD}
             AS_ADMIN_PASSWORD: ${AS_ADMIN_PASSWORD}
 
