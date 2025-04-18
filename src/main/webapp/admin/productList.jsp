@@ -13,83 +13,12 @@
 </head>
 
 <body data-theme="light">
-<nav class="navbar rounded-box flex w-full items-center justify-between gap-2 shadow-base-300/20 shadow-sm">
-  <div class="navbar-start max-md:w-1/4">
-    <a class="link text-base-content link-neutral text-xl font-bold no-underline" href="#">
-      FlyonUI
-    </a>
-  </div>
-  <div class="navbar-center max-md:hidden">
-    <ul class="menu menu-horizontal p-0 font-medium [--menu-active-bg:transparent]">
-      <li><a href="customerDetail.jsp">Profile</a></li>
-      <li><a href="orderList.jsp">Order</a></li>
-      <li><a href="productList.jsp">Product</a></li>
-      <li><a href="#">Customers</a></li>
-    </ul>
-  </div>
+<%@ include file="/general/adminHeader.jsp" %>
 
-  <div class="navbar-end items-center gap-4">
-    <div class="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
-      <button id="dropdown-scrollable" type="button" class="dropdown-toggle flex items-center"
-              aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-        <div class="avatar">
-          <div class="size-9.5 rounded-full">
-            <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" alt="avatar 1" />
-          </div>
-        </div>
-      </button>
-      <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu"
-          aria-orientation="vertical" aria-labelledby="dropdown-avatar">
-        <li class="dropdown-header gap-2">
-          <div class="avatar">
-            <div class="w-10 rounded-full">
-              <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" alt="avatar" />
-            </div>
-          </div>
-          <div>
-            <h6 class="text-base-content text-base font-semibold">John Doe</h6>
-            <small class="text-base-content/50">Admin</small>
-          </div>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#">
-            <span class="icon-[tabler--user]"></span>
-            My Profile
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#">
-            <span class="icon-[tabler--settings]"></span>
-            Settings
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#">
-            <span class="icon-[tabler--receipt-rupee]"></span>
-            Billing
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#">
-            <span class="icon-[tabler--help-triangle]"></span>
-            FAQs
-          </a>
-        </li>
-        <li class="dropdown-footer gap-2">
-          <a class="btn btn-error btn-soft btn-block" href="#">
-            <span class="icon-[tabler--logout]"></span>
-            Sign out
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-</nav>
 
 <div class="container mx-auto my-5 py-5 px-4 bg-base-100 rounded-lg border border-base-200 shadow-sm">
   <div class="flex flex-col flex-wrap gap-3 sm:flex-row sm:items-center sm:justify-between">
-    <button class="btn btn-soft btn-info rounded-full">+ New Product</button>
+    <a href="<%= request.getContextPath() %>/admin/product?action=create" class="btn btn-soft btn-info rounded-full">+ New Product</a>
     <div class="form-control w-full sm:w-80">
       <div
               class="input input-bordered flex items-center gap-2 focus-within:ring-2 focus-within:ring-cyan-400">
@@ -126,7 +55,7 @@
             <div>
               <div class="text-sm opacity-50"><%= product.getId() %></div>
               <div class="font-medium">
-                <a class="link link-animated" href="<%= request.getContextPath() %>/admin/product?id=<%= product.getId() %>">
+                <a class="link link-animated" href="<%= request.getContextPath() %>/admin/product?productId=<%= product.getId() %>">
                   <%= product.getName() %>
                 </a>
               </div>
@@ -135,7 +64,7 @@
         </td>
         <td><%= product.getCategory() %></td>
         <td>
-          <a href="<%= request.getContextPath() %>/admin/product?id=<%= product.getId() %>" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
+          <a href="<%= request.getContextPath() %>/admin/product?productId=<%= product.getId() %>" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
             <span class="icon-[tabler--pencil] size-5"></span>
           </a>
           <button type="button" class="btn btn-circle btn-text btn-sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="delete-modal-<%= product.getId() %>" data-overlay="#delete-modal-<%= product.getId() %>" aria-label="Delete">            <span class="icon-[tabler--trash] size-5"></span>

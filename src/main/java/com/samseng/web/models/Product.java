@@ -32,7 +32,7 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id")
     )
     @Column(name = "image_url")
-    private Set<@URL String> imageUrls = new HashSet<>();
+    private Set<String> imageUrls = new HashSet<>();
 
     @Column(name="product_desc", length = LONG32)
     private String desc;
@@ -40,4 +40,7 @@ public class Product {
     @NotNull
     @Column(name="product_category")
     private String category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Variant> variants = new HashSet<>();
 }

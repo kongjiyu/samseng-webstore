@@ -48,8 +48,37 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public void remove(Product product) {
-        em.remove(product);
+    public void delete(Product product) {
+        try {
+            String productId = product.getId();
+            
+            // First, delete any Variant_Attribute entries related to variants of this product
+            em.createNativeQuery("DELETE FROM variant_attribute va WHERE EXISTS " +
+                                "(SELECT 1 FROM variant v WHERE v.variant_id = va.variant_id AND v.product_id = :productId)")
+                .setParameter("productId", productId)
+                .executeUpdate();
+            
+            // Delete related records from product_images table
+            em.createNativeQuery("DELETE FROM product_images WHERE product_id = :productId")
+                .setParameter("productId", productId)
+                .executeUpdate();
+            
+            // Delete any variants of this product
+            em.createNativeQuery("DELETE FROM variant WHERE product_id = :productId")
+                .setParameter("productId", productId)
+                .executeUpdate();
+            
+            // Finally delete the product itself
+            em.createNativeQuery("DELETE FROM product WHERE product_id = :productId")
+                .setParameter("productId", productId)
+                .executeUpdate();
+            
+            // Flush to ensure all operations are executed
+            em.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @Override

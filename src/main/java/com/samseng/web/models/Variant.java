@@ -29,5 +29,9 @@ public class Variant {
     @Column(name="variant_price")
     private double price;
 
+    @NotNull
+    @Column(name="variant_availability")
+    private boolean availability;
+
 
 }
