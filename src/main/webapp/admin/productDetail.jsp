@@ -84,7 +84,7 @@
                         <!-- Hidden file input -->
                         <input
                                 type="file"
-                                name="productImage"
+                                name="imageFile"
                                 id="productImageInput"
                                 class="hidden"
                                 accept="image/png"
