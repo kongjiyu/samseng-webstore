@@ -2,13 +2,18 @@ package com.samseng.web.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Range;
 
 @Data
 @Entity
-@Table(name = "\"Addrerss\"")
+@Table(name = "\"address\"")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Address {
     @Id
     @GeneratedValue(generator = "prefix_id")

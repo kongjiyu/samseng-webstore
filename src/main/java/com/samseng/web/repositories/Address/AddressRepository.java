@@ -10,7 +10,7 @@ public interface AddressRepository {
 
     void delete(Address addressId);
 
-    Address findByUserId(String user);
+    List<Address> findByUserId(String user);
 
     //Find the default address for the user
     Address findDefaultByUserId(String user);
