@@ -264,7 +264,7 @@ public class productServlet extends HttpServlet {
         }
 
         // Absolute path on disk where images are saved (match reverse proxy setup)
-        String uploadDir = "/var/www/samseng-data/uploads"; // or your actual folder in server
+        String uploadDir = "/var/www/uploads"; // or your actual folder in server
         File uploadFolder = new File(uploadDir);
         if (!uploadFolder.exists()) uploadFolder.mkdirs();
 
