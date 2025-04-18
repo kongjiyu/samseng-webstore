@@ -194,27 +194,19 @@ public class productServlet extends HttpServlet {
 
     private void updateProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String productId = request.getParameter("productId");
-        String name = request.getParameter("name");
-        String category = request.getParameter("category");
-        String desc = request.getParameter("desc");
-        String[] images = request.getParameterValues("imageUrls");
-        Set<String> imageSet = new HashSet<>();
-        if (images != null) {
-            for (String img : images) {
-                imageSet.add(img);
-            }
-        }
+        String name = request.getParameter("productName");
+        String category = request.getParameter("productCategory");
+        String desc = request.getParameter("productDesc");
 
         Product product = productRepository.findById(productId);
         if (product != null) {
             product.setName(name);
             product.setCategory(category);
             product.setDesc(desc);
-            product.setImageUrls(imageSet);
             productRepository.update(product);
         }
 
-        response.sendRedirect(request.getContextPath() + "/admin/product?id=" + productId);
+        response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
     }
 
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -238,7 +230,7 @@ public class productServlet extends HttpServlet {
             attributeRepository.create(attribute);
         }
 
-        response.sendRedirect(request.getContextPath() + "/admin/product?id=" + productId);
+        response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
     }
 
     private void saveVariant(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -261,7 +253,7 @@ public class productServlet extends HttpServlet {
             }
         }
 
-        response.sendRedirect(request.getContextPath() + "/admin/product?id=" + productId);
+        response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
     }
 
     private void uploadProductImage(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -309,6 +301,6 @@ public class productServlet extends HttpServlet {
             }
         }
 
-        response.sendRedirect(request.getContextPath() + "/admin/product?id=" + productId);
+        response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
     }
 }

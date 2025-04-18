@@ -55,7 +55,7 @@
             <div>
               <div class="text-sm opacity-50"><%= product.getId() %></div>
               <div class="font-medium">
-                <a class="link link-animated" href="<%= request.getContextPath() %>/admin/product?id=<%= product.getId() %>">
+                <a class="link link-animated" href="<%= request.getContextPath() %>/admin/product?productId=<%= product.getId() %>">
                   <%= product.getName() %>
                 </a>
               </div>
@@ -64,7 +64,7 @@
         </td>
         <td><%= product.getCategory() %></td>
         <td>
-          <a href="<%= request.getContextPath() %>/admin/product?id=<%= product.getId() %>" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
+          <a href="<%= request.getContextPath() %>/admin/product?productId=<%= product.getId() %>" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
             <span class="icon-[tabler--pencil] size-5"></span>
           </a>
           <button type="button" class="btn btn-circle btn-text btn-sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="delete-modal-<%= product.getId() %>" data-overlay="#delete-modal-<%= product.getId() %>" aria-label="Delete">            <span class="icon-[tabler--trash] size-5"></span>

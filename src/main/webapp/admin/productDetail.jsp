@@ -27,7 +27,6 @@
                 <%
                     Product productObj = (Product) request.getAttribute("product");
                 %>
-                <input type="hidden" name="action" value="<%= productObj.getId() == null ? "save" : "update" %>">
                 <h2 class="text-2xl font-bold">Product Information</h2>
                 <div class="card bg-base-100 shadow-md p-4 space-y-4">
                     <div id="horizontal-thumbnails" data-carousel class="relative w-full">
@@ -81,7 +80,7 @@
                         <% if (productObj.getId() != null) { %>
                         <form method="post" action="${pageContext.request.contextPath}/admin/product?action=uploadImage" enctype="multipart/form-data">
                             <input type="hidden" name="productId" value="${product.id}" />
-                            <input type="file" name="imageFile" accept="image/png" required />
+                            <input type="file" name="imageFile" accept="image/png" />
                             <button type="submit" class="btn btn-outline btn-info w-full max-w-xs">
                                 Upload Product Image
                             </button>
@@ -93,7 +92,7 @@
                     <div>
                         <label class="block font-semibold">Product ID:</label>
                         <input type="text" name="productId" class="input input-bordered w-full"
-                               value="<%= productObj.getId() != null ? productObj.getId() : "" %>">
+                               value="<%= productObj.getId() != null ? productObj.getId() : "" %>" <%= productObj.getId() != null ? "disabled" : ""%> >
                     </div>
                     <div>
                         <label class="block font-semibold">Product Name: </label>
@@ -111,7 +110,7 @@
                                   rows="20"><%= productObj.getDesc() != null ? productObj.getDesc() : "" %></textarea>
                     </div>
                     <div class="flex justify-end mt-4">
-                        <button class="btn btn-info btn-sm" type="submit" name="action" value="save">
+                        <button class="btn btn-info btn-sm" type="submit" name="action" value="<%= productObj.getId() != null ? "update" : "save" %>">
                             <span class="icon-[tabler--device-floppy] mr-1"></span>
                             Save
                         </button>
