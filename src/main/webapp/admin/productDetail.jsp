@@ -78,13 +78,24 @@
                     </div>
                     <% if (productObj.getId() != null) { %>
                     <form method="post" action="${pageContext.request.contextPath}/admin/product"
-                          enctype="multipart/form-data">
+                          enctype="multipart/form-data" id="uploadForm">
                         <input type="hidden" name="action" value="uploadImage">
                         <input type="hidden" name="productId" value="${product.id}"/>
-                        <input type="file" name="imageFile" accept="image/png"/>
-                        <button type="submit" class="btn btn-outline btn-info w-full max-w-xs">
+                        <!-- Hidden file input -->
+                        <input
+                                type="file"
+                                name="productImage"
+                                id="productImageInput"
+                                class="hidden"
+                                accept="image/png"
+                                onchange="document.getElementById('uploadForm').submit();"
+                        />
+
+                        <!-- FlyonUI-styled Button -->
+                        <label for="productImageInput" class="btn btn-primary gap-2 rounded-lg px-4 py-2 cursor-pointer">
+                            <span class="icon-[tabler--upload] size-5"></span>
                             Upload Product Image
-                        </button>
+                        </label>
                     </form>
                     <% } else { %>
                     <p class="text-sm text-warning">Please save the product before uploading images.</p>
