@@ -33,7 +33,7 @@ public class Account {
 
     @NotNull
     @Size(max = 60)
-    private byte[] password;
+    private String password;
 
     @Enumerated(EnumType.STRING)
     @ColumnDefault("USER")

@@ -51,7 +51,7 @@ public class insertDummydata {
                 account.setUsername(name1);
                 account.setEmail(email);
                 account.setDob(LocalDate.of(2004, 6, 12));
-                account.setPassword(password1.getBytes());
+                account.setPassword(password1);
 
                 if (i == 0) {
                     account.setRole(Account.Role.USER);
