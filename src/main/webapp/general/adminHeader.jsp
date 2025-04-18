@@ -16,8 +16,8 @@
     <ul class="menu menu-horizontal p-0 font-medium [--menu-active-bg:transparent]">
       <li><a href="<%= request.getContextPath() %>/admin/customerDetail.jsp">Profile</a></li>
       <li><a href="<%= request.getContextPath() %>/admin/orderList.jsp">Order</a></li>
-      <li><a href="<%= request.getContextPath() %>/admin/productList.jsp">Product</a></li>
-      <li><a href="#">Customers</a></li>
+      <li><a href="<%= request.getContextPath() %>/admin/product?action=list">Product</a></li>
+      <li><a href="<%= request.getContextPath() %>/admin/customerList.jsp">Customers</a></li>
     </ul>
   </div>
 

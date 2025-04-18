@@ -15,4 +15,6 @@ public interface AttributeRepository {
     Attribute findByName(String name);
 
     List<Attribute> findAll();
+
+    List<Attribute> findByProductId(String productId);
 }

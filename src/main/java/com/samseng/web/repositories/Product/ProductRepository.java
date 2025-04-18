@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProductRepository {
     void create(Product product);
 
-    void remove(Product product);
+    void delete(Product product);
 
     void update(Product productId);
 

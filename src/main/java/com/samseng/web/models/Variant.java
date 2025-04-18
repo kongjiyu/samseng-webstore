@@ -30,8 +30,9 @@ public class Variant {
     private double price;
 
     @NotNull
-    @Column(name = "availability")
-    private String availability;
+
+    @Column(name="variant_availability")
+    private boolean availability;
 
 
 }
