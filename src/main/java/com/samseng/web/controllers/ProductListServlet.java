@@ -1,12 +1,14 @@
 package com.samseng.web.controllers;
 
-import com.samseng.web.models.*;
 import com.samseng.web.dto.ProductListingDTO;
-import jakarta.inject.Inject;
+import com.samseng.web.models.*;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
-import jakarta.persistence.Query;
-import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,15 +27,49 @@ import java.util.Map;
 @WebServlet("/products")
 public class ProductListServlet extends HttpServlet {
     @PersistenceUnit
-    private SessionFactory sf;
+    private EntityManagerFactory emf;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // get user search query
-        String namePattern = req.getParameter("namePattern");
+        String queryName = req.getParameter("query");
         Map<String, Object[]> attributeFilters = new HashMap<>();
-        attributeFilters.put("AT0001", new Object[]{"Blue", "Red"});
-        attributeFilters.put("AT0005", new Object[]{"512gb"});
+        attributeFilters.put("AT0001", new Object[]{"Blue", "Black"});
+        attributeFilters.put("AT0005", new Object[]{"256gb"});
+
+        // run the search thingy
+        List<Product> products = search(queryName, attributeFilters);
+
+        // map output from database model into dto form ay macarena
+        List<ProductListingDTO> dtos = products.stream()
+                .map(p -> {
+                    double lowest = p.getVariants()
+                            .stream()
+                            .map(Variant::getPrice)
+                            .sorted()
+                            .findFirst()
+                            .orElse(0.0);
+
+                    return new ProductListingDTO(
+                            p.getId(),
+                            p.getName(),
+                            p.getDesc(),
+                            p.getImageUrls()
+                                    .stream()
+                                    .toList(),
+                            lowest
+                    );
+                }).toList();
+
+        // pass dto to jsp use
+        req.setAttribute("products", dtos);
+
+        // pass the next step to jsp
+        RequestDispatcher view = req.getRequestDispatcher("/user/productPage.jsp");
+        view.forward(req, resp);
+    }
+
+    private List<Product> search(String queryName, Map<String, Object[]> attributeFilters) {
         /*
         AT0001 = [blue, red]
         AT0005 = [512 GB]
@@ -44,7 +80,7 @@ public class ProductListServlet extends HttpServlet {
                  JOIN variant_attribute va2 ON v.variant_id = va2.variant_id AND va2.attribute_id = 'AT0005' AND va2.value IN ('512gb')
         ORDER BY product_id, variant_id;
          */
-
+        SessionFactory sf = emf.unwrap(SessionFactory.class);
         HibernateCriteriaBuilder cb = sf.getCriteriaBuilder();
 
         CriteriaQuery<Product> criteria = cb.createQuery(Product.class);
@@ -57,17 +93,19 @@ public class ProductListServlet extends HttpServlet {
         /*
         build the conditions here
         */
-        if (namePattern != null)
+        if (queryName != null)
             // WHERE name ILIKE '%{namePattern}%'
-            where = cb.and(where, cb.ilike(product.get(Product_.name), "%" + namePattern + "%"));
+            where = cb.and(where, cb.ilike(product.get(Product_.name), "%" + queryName + "%"));
 
         for (var entry : attributeFilters.entrySet()) {
             // JOIN variant_attribute ON variant_id = :variant_id
             //     AND attribute_id = :attributeId
             //     AND value IN :attributeValues
             Join<Variant, Variant_Attribute> variantAttribute = variant.join(Variant_.attributes);
+            Join<Variant_Attribute, Attribute> attribute = variantAttribute.join(Variant_Attribute_.attributeID);
+
             variantAttribute.on(
-                    cb.equal(variantAttribute.get(Variant_Attribute_.attributeID), entry.getKey()),
+                    cb.equal(attribute.get(Attribute_.id), entry.getKey()),
                     cb.in(variantAttribute.get(Variant_Attribute_.value), entry.getValue())
             );
         }
@@ -80,12 +118,6 @@ public class ProductListServlet extends HttpServlet {
         StatelessSession session = sf.openStatelessSession();
         SelectionQuery<Product> query = session.createSelectionQuery(criteria);
 
-        List<Product> products = query.getResultList();
-
-
-
-        req.setAttribute("products", products);
+        return query.getResultList();
     }
-
-
 }
