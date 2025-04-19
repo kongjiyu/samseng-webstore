@@ -74,6 +74,10 @@ public class productServlet extends HttpServlet {
             return;
         } else if ("create".equals(action)) {
             Product emptyProduct = new Product();
+            
+            // Get all available attributes for the dropdown
+            List<Attribute> allAttributes = attributeRepository.findAll();
+            request.setAttribute("allAttributes", allAttributes);
 
             request.setAttribute("product", emptyProduct);
             request.setAttribute("variantList", Collections.emptyList());
@@ -89,11 +93,17 @@ public class productServlet extends HttpServlet {
         } else if ("saveAttribute".equals(action)) {
             saveAttribute(request, response);
             return;
+        } else if ("saveAttributeValues".equals(action)) {
+            saveAttributeValue(request, response);
+            return;
         } else if ("saveVariant".equals(action)) {
             saveVariant(request, response);
             return;
         } else if ("uploadImage".equals(action)) {
             uploadProductImage(request, response);
+            return;
+        } else if ("saveVariantAttributes".equals(action)) {
+            saveVariantAttributes(request, response);
             return;
         }
 
@@ -109,9 +119,13 @@ public class productServlet extends HttpServlet {
 
             request.setAttribute("images", product.getImageUrls());
 
+            // Get all available attributes for the dropdown
+            List<Attribute> allAttributes = attributeRepository.findAll();
+            request.setAttribute("allAttributes", allAttributes);
+
             List<Attribute> attributeList = attributeRepository.findByProductId(productId);
             List<Variant> variantList = variantRepository.findByProductId(productId);
-            Map<String, Map<String, String>> variantAttrMap = new HashMap<>();
+            variantList.sort(Comparator.comparing(Variant::getVariantName, String.CASE_INSENSITIVE_ORDER));            Map<String, Map<String, String>> variantAttrMap = new HashMap<>();
 
             for (Variant_Attribute va : variantAttributeRepository.findByProductId(productId)) {
                 String variantId = va.getVariantID().getVariantId();
@@ -146,7 +160,9 @@ public class productServlet extends HttpServlet {
 
     private void saveProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String productId = request.getParameter("productId");
-        if (productId == null || productId.isEmpty()) {
+        boolean isNewProduct = (productId == null || productId.isEmpty());
+        
+        if (isNewProduct) {
             productId = UUID.randomUUID().toString();
         }
 
@@ -166,7 +182,35 @@ public class productServlet extends HttpServlet {
         product.setDesc(desc);
         product.setImageUrls(imageSet);
 
-        productRepository.create(product);
+        if (isNewProduct) {
+            productRepository.create(product);
+            
+            // Create default variant
+            Variant defaultVariant = new Variant();
+            defaultVariant.setVariantId(UUID.randomUUID().toString());
+            defaultVariant.setVariantName("Default");
+            defaultVariant.setProduct(product);
+            defaultVariant.setPrice(0.0);
+            defaultVariant.setAvailability(true);
+            variantRepository.create(defaultVariant);
+
+            // Add default color attribute
+            Attribute colorAttribute = attributeRepository.findByName("Color");
+            if (colorAttribute == null) {
+                colorAttribute = new Attribute();
+                colorAttribute.setName("Color");
+                attributeRepository.create(colorAttribute);
+            }
+
+            // Create variant attribute relationship
+            Variant_Attribute variantAttribute = new Variant_Attribute();
+            variantAttribute.setVariantID(defaultVariant);
+            variantAttribute.setAttributeID(colorAttribute);
+            variantAttribute.setValue(""); // Empty value to be filled by user
+            variantAttributeRepository.create(variantAttribute);
+        } else {
+            productRepository.update(product);
+        }
 
         response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
     }
@@ -227,12 +271,42 @@ public class productServlet extends HttpServlet {
 
     private void saveAttribute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String productId = request.getParameter("productId");
-        String attrName = request.getParameter("attributeName");
+        String attributeId = request.getParameter("attributeId");
+        String attributeValue = request.getParameter("attributeValue");
 
-        if (productId != null && attrName != null && !attrName.trim().isEmpty()) {
-            Attribute attribute = new Attribute();
-            attribute.setName(attrName);
-            attributeRepository.create(attribute);
+        try {
+            Product product = productRepository.findById(productId);
+            Attribute attribute = attributeRepository.findById(attributeId);
+
+            // Get the default variant for this product
+            List<Variant> variants = variantRepository.findByProductId(productId);
+            Variant defaultVariant = variants.stream()
+                    .filter(v -> v.getVariantName().equalsIgnoreCase("Default"))
+                    .findFirst()
+                    .orElse(null);
+
+            if (defaultVariant == null) {
+                // If no default variant, create one
+                defaultVariant = new Variant();
+                defaultVariant.setVariantId(UUID.randomUUID().toString());
+                defaultVariant.setVariantName("Default");
+                defaultVariant.setProduct(product);
+                defaultVariant.setPrice(0.0);
+                defaultVariant.setAvailability(true);
+                variantRepository.create(defaultVariant);
+            }
+
+            // Create and persist the Variant_Attribute
+            Variant_Attribute variantAttribute = new Variant_Attribute();
+            variantAttribute.setVariantID(defaultVariant);
+            variantAttribute.setAttributeID(attribute);
+            variantAttribute.setValue(attributeValue);
+            variantAttributeRepository.create(variantAttribute);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId + "&error=1");
+            return;
         }
 
         response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
@@ -240,22 +314,23 @@ public class productServlet extends HttpServlet {
 
     private void saveVariant(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String productId = request.getParameter("productId");
-        String variantId = request.getParameter("variantId");
-        String variantName = request.getParameter("variantName");
-        String priceStr = request.getParameter("variantPrice");
+        String[] variantIds = request.getParameterValues("variantId");
+        String[] variantNames = request.getParameterValues("variantName");
+        String[] variantPrices = request.getParameterValues("variantPrice");
+        String[] variantAvailability = request.getParameterValues("variantAvailability");
 
-        if (productId != null && variantId != null && variantName != null && priceStr != null) {
-            try {
-                double price = Double.parseDouble(priceStr);
-                Variant variant = new Variant();
-                variant.setVariantId(variantId);
-                variant.setVariantName(variantName);
-                variant.setPrice(price);
-                variant.setProduct(productRepository.findById(productId));
-                variantRepository.create(variant);
-            } catch (NumberFormatException e) {
-                // Log or handle invalid price
-            }
+        // Convert array to Set for quick lookup
+        Set<String> availableVariantIds = new HashSet<>();
+        if (variantAvailability != null) {
+            availableVariantIds.addAll(Arrays.asList(variantAvailability));
+        }
+
+        for(int i = 0; i < variantIds.length; i++) {
+            Variant variant = variantRepository.findById(variantIds[i]);
+            variant.setVariantName(variantNames[i]);
+            variant.setPrice(Double.parseDouble(variantPrices[i].replace("RM", "").trim()));
+            variant.setAvailability(availableVariantIds.contains(variantIds[i]));
+            variantRepository.update(variant);
         }
 
         response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
@@ -294,6 +369,86 @@ public class productServlet extends HttpServlet {
                 product.setImageUrls(urls);
                 productRepository.update(product);
 
+        }
+
+        response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
+    }
+
+    private void saveVariantAttributes(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String productId = request.getParameter("productId");
+        String variantId = request.getParameter("variantId");
+        
+        if (productId != null && variantId != null) {
+            Variant variant = variantRepository.findById(variantId);
+            if (variant != null) {
+                // Get all attributes for this variant
+                List<Attribute> attributes = attributeRepository.findByProductId(productId);
+                
+                for (Attribute attribute : attributes) {
+                    String value = request.getParameter("attr_" + attribute.getId());
+                    if (value != null) {
+                        // Find existing variant attribute or create new one
+                        Variant_Attribute variantAttribute = variantAttributeRepository.findByVariantIdAndAttributeId(variantId, attribute.getId());
+                        if (variantAttribute == null) {
+                            variantAttribute = new Variant_Attribute();
+                            variantAttribute.setVariantID(variant);
+                            variantAttribute.setAttributeID(attribute);
+                        }
+                        variantAttribute.setValue(value);
+                        variantAttributeRepository.create(variantAttribute);
+                    }
+                }
+            }
+        }
+        
+        response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
+    }
+
+    private void saveAttributeValue(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String productId = request.getParameter("productId");
+        String[] attributeList = request.getParameterValues("attributeList");
+
+        try {
+            Product product = productRepository.findById(productId);
+
+            // Get or create default variant
+            List<Variant> variants = variantRepository.findByProductId(productId);
+            Variant defaultVariant = variants.stream()
+                    .filter(v -> v.getVariantName().equalsIgnoreCase("Default"))
+                    .findFirst()
+                    .orElse(null);
+
+            if (defaultVariant == null) {
+                defaultVariant = new Variant();
+                defaultVariant.setVariantId(UUID.randomUUID().toString());
+                defaultVariant.setVariantName("Default");
+                defaultVariant.setProduct(product);
+                defaultVariant.setPrice(0.0);
+                defaultVariant.setAvailability(true);
+                variantRepository.create(defaultVariant);
+            }
+
+            for (String attrName : attributeList) {
+                String[] values = request.getParameterValues("attr-" + attrName);
+                if (values != null && values.length > 0) {
+                    Attribute attribute = attributeRepository.findByName(attrName);
+                    if (attribute == null) continue;
+
+                    for (String value : values) {
+                        if (value == null || value.isBlank()) continue;
+
+                        Variant_Attribute va = new Variant_Attribute();
+                        va.setVariantID(defaultVariant);
+                        va.setAttributeID(attribute);
+                        va.setValue(value);
+                        variantAttributeRepository.create(va);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId + "&error=1");
+            return;
         }
 
         response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
