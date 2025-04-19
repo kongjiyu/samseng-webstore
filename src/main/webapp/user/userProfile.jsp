@@ -1,4 +1,3 @@
-<jsp:useBean id="Account" scope="request" type="jakarta.security.auth.message.callback.PasswordValidationCallback"/>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,7 +85,9 @@
                     <p class="text-sm">USA</p>
                     <span class="badge badge-info mt-2">Default</span>
                 </div>
-                <button class="btn btn-outline btn-sm">Edit</button>
+                <button type="button" class="btn btn-outline btn-sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="edit-address-modal-home" data-overlay="#edit-address-modal-home">
+                    Edit
+                </button>
             </div>
 
             <div class="border border-base-300 p-4 rounded-lg flex justify-between items-start">
@@ -96,7 +97,9 @@
                     <p class="text-sm">+1 987 654 321</p>
                     <p class="text-sm">USA</p>
                 </div>
-                <button class="btn btn-outline btn-sm">Edit</button>
+                <button type="button" class="btn btn-outline btn-sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="edit-address-modal-work" data-overlay="#edit-address-modal-work">
+                    Edit
+                </button>
             </div>
         </div>
         <div class="text-right mt-4">
@@ -140,6 +143,84 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-soft btn-secondary" data-overlay="#add-address-modal">Cancel</button>
                             <button type="submit" class="btn btn-info" form="new-address-form">Save Address</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Edit Address Modal for Home Address -->
+            <div id="edit-address-modal-home"
+                 class="overlay modal modal-middle overlay-open:opacity-100 overlay-open:duration-300 hidden overflow-y-auto backdrop-blur-sm [--body-scroll:true] z-0"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300 max-w-xl w-full">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Edit Address</h3>
+                            <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close"
+                                    data-overlay="#edit-address-modal-home">
+                                <span class="icon-[tabler--x] size-4"></span>
+                            </button>
+                        </div>
+                        <div class="modal-body space-y-4">
+                            <form id="edit-address-form-home" class="grid grid-cols-1 gap-4">
+                                <input type="text" class="input input-bordered w-full" placeholder="Address Title (e.g. Home Address)" value="Home Address" />
+                                <input type="text" class="input input-bordered w-full" placeholder="Address Line 1" value="123 Main Street" />
+                                <input type="text" class="input input-bordered w-full" placeholder="Address Line 2" />
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <input type="text" class="input input-bordered w-full" placeholder="City / District" value="Springfield" />
+                                    <input type="text" class="input input-bordered w-full" placeholder="State / Province" />
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <input type="text" class="input input-bordered w-full" placeholder="Postal Code" />
+                                    <select class="select select-bordered w-full"></select>
+                                </div>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="checkbox" checked />
+                                    <span>Set as default</span>
+                                </label>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-soft btn-secondary" data-overlay="#edit-address-modal-home">Cancel</button>
+                            <button type="submit" class="btn btn-info" form="edit-address-form-home">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Edit Address Modal for Workplace -->
+            <div id="edit-address-modal-work"
+                 class="overlay modal modal-middle overlay-open:opacity-100 overlay-open:duration-300 hidden overflow-y-auto backdrop-blur-sm [--body-scroll:true] z-0"
+                 role="dialog" tabindex="-1">
+                <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300 max-w-xl w-full">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Edit Address</h3>
+                            <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close"
+                                    data-overlay="#edit-address-modal-work">
+                                <span class="icon-[tabler--x] size-4"></span>
+                            </button>
+                        </div>
+                        <div class="modal-body space-y-4">
+                            <form id="edit-address-form-work" class="grid grid-cols-1 gap-4">
+                                <input type="text" class="input input-bordered w-full" placeholder="Address Title (e.g. Workplace)" value="Workplace" />
+                                <input type="text" class="input input-bordered w-full" placeholder="Address Line 1" value="456 Side Road" />
+                                <input type="text" class="input input-bordered w-full" placeholder="Address Line 2" />
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <input type="text" class="input input-bordered w-full" placeholder="City / District" value="Shelbyville" />
+                                    <input type="text" class="input input-bordered w-full" placeholder="State / Province" />
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <input type="text" class="input input-bordered w-full" placeholder="Postal Code" />
+                                    <select class="select select-bordered w-full"></select>
+                                </div>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="checkbox" />
+                                    <span>Set as default</span>
+                                </label>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-soft btn-secondary" data-overlay="#edit-address-modal-work">Cancel</button>
+                            <button type="submit" class="btn btn-info" form="edit-address-form-work">Save Changes</button>
                         </div>
                     </div>
                 </div>
