@@ -149,7 +149,7 @@
             <figure><img src="${product.imageUrls()[0]}" alt="Watch" /></figure>
             <div class="card-body">
                 <h5 class="card-title mb-2.5">${product.name()}</h5>
-                <p class="mb-4">${product.desc().substring(0, 40) + "..."}</p>
+                <p class="mb-4">${product.desc().substring(0, 40)}...</p>
                 <p>Starting at <span class="text-xl font-bold">
                     <fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " />
                 </span></p>
