@@ -25,7 +25,8 @@ public class EditAddressServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Address address = addressDao.findById(req.getParameter("id"));        address.setName(req.getParameter("name"));
+        Address address = addressDao.findById(req.getParameter("id"));
+        address.setName(req.getParameter("name"));
         address.setContact_no(req.getParameter("contact_no"));
         address.setAddress_1(req.getParameter("address_1"));
         address.setAddress_2(req.getParameter("address_2"));

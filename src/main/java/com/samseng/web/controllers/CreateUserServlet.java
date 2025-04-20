@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 
-@WebServlet("/createUser")
+@WebServlet("/createUser")//This is for admin to create admin, staff and user account
 public class CreateUserServlet extends HttpServlet {
 
     @Inject
