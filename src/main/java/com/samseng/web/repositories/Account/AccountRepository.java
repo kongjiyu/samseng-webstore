@@ -19,4 +19,6 @@ public interface AccountRepository {
     Account findAccountByEmail(String email);
 
     List<Account> findAccountByRole(Account.Role role);
+
+    List<Account> searchAllFields(String keyword);
 }
