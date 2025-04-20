@@ -39,7 +39,7 @@ public class Address {
     private String address_3;
 
     @NotNull
-    @Range(min=10000,max=80000)
+    @Range(min=0,max=80000)
     private int postcode;
 
     @NotNull
