@@ -61,6 +61,9 @@ public class AccountProfileServlet extends HttpServlet {
         } else if ("addressAdd".equals(action)) {
             addressAdd(request,response);
             return;
+        } else if ("addressDelete".equals(action)) {
+            addressDelete(request,response);
+            return;
         }
 
 
@@ -70,8 +73,6 @@ public class AccountProfileServlet extends HttpServlet {
         request.setAttribute("addresses", addressList);
         request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
     }
-
-
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -140,11 +141,10 @@ public class AccountProfileServlet extends HttpServlet {
         request.getRequestDispatcher("/userList.jsp").forward(request, response);
     }
     private void addressEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Account account = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
-        String id =account.getId();
+        String id = request.getParameter("address_id");
         Address address = addressRepo.findById(id);
         if (address != null) {
-            address.setName(request.getParameter("name"));
+            address.setName(request.getParameter("address_title"));
             address.setContact_no(request.getParameter("contact_no"));
             address.setAddress_1(request.getParameter("address_1"));
             address.setAddress_2(request.getParameter("address_2"));
@@ -154,7 +154,6 @@ public class AccountProfileServlet extends HttpServlet {
             address.setCountry(request.getParameter("country"));
             address.setIsdefault(request.getParameter("isdefault") != null);
         }
-
 
         addressRepo.update(address);
 
@@ -202,6 +201,18 @@ public class AccountProfileServlet extends HttpServlet {
         }
 
         resp.sendRedirect(req.getContextPath() + "/user/profile");
+    }
+    private void addressDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String addressId = request.getParameter("id");
+
+        if (addressId != null && !addressId.isEmpty()) {
+            Address address = addressRepo.findById(addressId);
+            if (address != null) {
+                addressRepo.delete(address);
+            }
+        }
+
+        response.sendRedirect(request.getContextPath() + "/user/profile"); // Redirect to address list
     }
 
 
