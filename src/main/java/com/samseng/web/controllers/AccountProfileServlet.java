@@ -60,6 +60,7 @@ public class AccountProfileServlet extends HttpServlet {
             return;
         } else if ("addressAdd".equals(action)) {
             addressAdd(request,response);
+            return;
         }
 
 
@@ -200,7 +201,7 @@ public class AccountProfileServlet extends HttpServlet {
             addressRepo.unsetOtherDefaults(user.getId(), address.getId());
         }
 
-        resp.sendRedirect(req.getContextPath() + "/index.jsp");
+        resp.sendRedirect(req.getContextPath() + "/user/profile");
     }
 
 

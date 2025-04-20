@@ -141,33 +141,35 @@
                                 <span class="icon-[tabler--x] size-4"></span>
                             </button>
                         </div>
-
+                        <form id="new-address-form"  action="<%= request.getContextPath() %>/user/profile"  method="post">
                         <div class="modal-body space-y-4">
-                            <form id="new-address-form" class="grid grid-cols-1 gap-4" >
 
+                                <div class="grid grid-cols-1 gap-4">
                                 <input type="text" class="input input-bordered w-full" placeholder="Address Title (e.g. Rose Avenue)" name="address_title" required />
                                 <input type="text" class="input input-bordered w-full" placeholder="Address Line 1"  name="address_1" required />
                                 <input type="text" class="input input-bordered w-full" placeholder="Address Line 2" name="address_2" />
+                                </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <input type="text" class="input input-bordered w-full" placeholder="City / District" name="address_3" required />
                                     <input type="text" class="input input-bordered w-full" placeholder="State / Province" name="state" required />
-                                    <input type="text" class="input input-bordered w-full" placeholder="Contact_No" name="contact_no" required />
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <input type="text" class="input input-bordered w-full" placeholder="Postal Code"  name="postcode" required />
                                     <select class="select select-bordered w-full" name="country" required></select>
                                 </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <input type="text" class="input input-bordered w-full" placeholder="Contact_No" name="contact_no" required />
+                                </div>
                                 <label class="flex items-center gap-2">
                                     <input type="checkbox" class="checkbox" name="isdefault"/>
                                     <span>Set as default</span>
                                 </label>
-                            </form>
+
                         </div>
-                        <form method="post"  action="<%= request.getContextPath()%>/user/profile">
                         <div class="modal-footer">
                             <button type="button" class="btn btn-soft btn-secondary" data-overlay="#add-address-modal">Cancel</button>
                             <input type="hidden" name="action" value="addressAdd" />
-                            <button type="submit" class="btn btn-info" form="new-address-form" >Save Address </button>
+                            <button type="submit" class="btn btn-info" form="new-address-form">Save Address </button>
                         </div>
                         </form>
                     </div>
