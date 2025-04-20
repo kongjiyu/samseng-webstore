@@ -17,6 +17,11 @@ public class Variant_AttributeRepositoryImpl implements Variant_AttributeReposit
     private EntityManager em;
 
     @Override
+    public void merge(Variant_Attribute variant_attribute){
+        em.merge(variant_attribute);
+    }
+
+    @Override
     public void create(Variant_Attribute variant_attribute) {
         em.persist(variant_attribute);
     }
@@ -38,7 +43,7 @@ public class Variant_AttributeRepositoryImpl implements Variant_AttributeReposit
 
     @Override
     public List<Variant_Attribute> findByVariantId(String variantID){
-        return em.createQuery("SELECT v FROM Variant_Attribute v WHERE v.variantID=:variantID", Variant_Attribute.class)
+        return em.createQuery("SELECT v FROM Variant_Attribute v WHERE v.variant.id=:variantID", Variant_Attribute.class)
                 .setParameter("variantID", variantID)
                 .getResultList();
 
@@ -46,7 +51,7 @@ public class Variant_AttributeRepositoryImpl implements Variant_AttributeReposit
 
     @Override
     public List<Variant_Attribute> findByAttributeId(String attributeID){
-        return em.createQuery("SELECT v FROM Variant_Attribute v WHERE v.attributeID=:attributeID", Variant_Attribute.class)
+        return em.createQuery("SELECT v FROM Variant_Attribute v WHERE v.attribute.id=:attributeID", Variant_Attribute.class)
                 .setParameter("attributeID", attributeID)
                 .getResultList();
 
@@ -54,17 +59,22 @@ public class Variant_AttributeRepositoryImpl implements Variant_AttributeReposit
 
     @Override
     public Variant_Attribute findByVariantIdAndAttributeId(String variantID, String attributeID){
-        return em.createQuery("SELECT v FROM Variant_Attribute v WHERE v.attributeID=:attributeID AND v.variantID=:variantID", Variant_Attribute.class)
-                .setParameter("attributeID", attributeID)
-                .setParameter("variantID", variantID)
-                .getSingleResult();
+        try{
+            return em.createQuery("SELECT va FROM Variant_Attribute va WHERE va.attribute.id=:attributeID AND va.variant.variantId=:variantID", Variant_Attribute.class)
+                    .setParameter("attributeID", attributeID)
+                    .setParameter("variantID", variantID)
+                    .getSingleResult();
+
+        }catch(NoResultException e){
+            return null;
+        }
 
     }
 
     @Override
     public List<Variant_Attribute> findByProductId(String productId) {
         return em.createQuery(
-                "SELECT va FROM Variant_Attribute va WHERE va.variantID.product.id = :productId",
+                "SELECT va FROM Variant_Attribute va WHERE va.variant.product.id = :productId",
                 Variant_Attribute.class)
                 .setParameter("productId", productId)
                 .getResultList();
