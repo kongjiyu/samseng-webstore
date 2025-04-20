@@ -7,7 +7,7 @@
 <body>
 <nav class="navbar backdrop-blur-lg bg-white/10 text-white shadow-lg gap-4 fixed top-0 left-0 w-full z-50">
     <div class="navbar-start items-center justify-between max-md:w-full">
-        <a class="link text-white text-xl font-bold no-underline" href="#">
+        <a class="link text-white text-xl font-bold no-underline" href="<%= request.getContextPath() %>/index.jsp">
             SAMSENG
         </a>
     </div>
@@ -167,7 +167,7 @@
                     </div>
                 </li>
                 <li>
-                    <a class="dropdown-item active:text-cyan-500" href="#">
+                    <a class="dropdown-item active:text-cyan-500" href="<%= request.getContextPath() %>/user/profile">
                         <span class="icon-[tabler--user]"></span>
                         My Profile
                     </a>

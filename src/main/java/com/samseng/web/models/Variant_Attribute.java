@@ -13,12 +13,12 @@ import lombok.Setter;
 public class Variant_Attribute {
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="variant_id")
     private Variant variant;
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="attribute_id")
     private Attribute attribute;
 

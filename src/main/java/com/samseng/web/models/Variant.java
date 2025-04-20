@@ -24,20 +24,20 @@ public class Variant {
     private String variantId;
 
     @ManyToOne
-    @JoinColumn(name="product_id")
+    @JoinColumn(name = "product_id")
     private Product product;
 
+    @NaturalId
     @NotBlank
-    @Column(name="variant_name")
+    @Column(name = "variant_name")
     private String variantName;
 
     @NotNull
-    @Column(name="variant_price")
+    @Column(name = "variant_price")
     private double price;
 
     @NotNull
-
-    @Column(name="variant_availability")
+    @Column(name = "variant_availability")
     private boolean availability;
 
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL, orphanRemoval = true)
