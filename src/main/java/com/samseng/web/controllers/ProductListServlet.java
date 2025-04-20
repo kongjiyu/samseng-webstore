@@ -126,8 +126,8 @@ public class ProductListServlet extends HttpServlet {
             // JOIN variant_attribute ON variant_id = :variant_id
             //     AND attribute_id = :attributeId
             //     AND value IN :attributeValues
-            Join<Variant, Variant_Attribute> variantAttribute = variant.join(Variant_.attributes);
-            Join<Variant_Attribute, Attribute> attribute = variantAttribute.join(Variant_Attribute_.attributeID);
+            Join<Variant, Variant_Attribute> variantAttribute = variant.join(Variant_.variant_attribute);
+            Join<Variant_Attribute, Attribute> attribute = variantAttribute.join(Variant_Attribute_.attribute);
 
             variantAttribute.on(
                     cb.equal(attribute.get(Attribute_.id), entry.getKey()),
