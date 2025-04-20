@@ -2,7 +2,6 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <jsp:useBean id="products" type="java.util.List<com.samseng.web.dto.ProductListingDTO>" scope="request" />
 
 <!DOCTYPE html>
@@ -55,32 +54,32 @@
                     data-overlay="#overlay-body-scrolling-with-backdrop">
                 <span class="icon-[tabler--x] size-5"></span>
             </button>
-        </div>
-        <form>
+        </div>                                          <!--../../java/com.samseng.web/controllers/productListServlet-->
+        <form action="${pageContext.request.contextPath}/products" method="get">
             <div class="drawer-body justify-start">
 
                 <!--Product Name-->
                 <div class="mb-4">
-                    <label class="label-text font-medium" for="productName"> Product Name </label>
-                    <input type="text" placeholder="Samseng Galaxy S22" class="input" id="productName" />
+                    <label class="label-text font-medium" for="nameFilterInput"> Product Name </label>
+                    <input type="text" placeholder="Samseng Galaxy S22" class="input" id="nameFilterInput" name="name"/>
                 </div>
 
                 <!--Price Range-->
                 <div class="mb-4 flex flex-row space-x-4 rtl:flex-row-reverse">
                     <div class="basis-1/2">
-                        <label for="inputs-min-target" class="mb-2 block text-sm font-medium">Min price:</label>
-                        <input id="inputs-min-target" class="input" type="number" value="150" />
+                        <label for="minPriceFilterInput" class="mb-2 block text-sm font-medium">Min price:</label>
+                        <input id="minPriceFilterInput" name="minPrice" class="input" type="number" value="150" />
                     </div>
                     <div class="basis-1/2">
-                        <label for="inputs-max-target" class="mb-2 block text-sm font-medium">Max price:</label>
-                        <input id="inputs-max-target" class="input" type="number" value="650" />
+                        <label for="maxPriceFilterInput" class="mb-2 block text-sm font-medium">Max price:</label>
+                        <input id="maxPriceFilterInput" name="maxPrice" class="input" type="number" value="650" />
                     </div>
                 </div>
 
                 <!--Color Options-->
                 <div class="max-w-sm mb-4">
-                    <label class="label-text font-medium" for="color-options">Color Options</label>
-                    <select id="color-options" multiple="" data-select='{
+                    <label class="label-text font-medium" for="colorFilterInput">Color Options</label>
+                    <select name="color" id="colorFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
                       "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
                       "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
@@ -97,18 +96,19 @@
                       "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
                     }' class="hidden">
                         <option value="">Choose</option>
-                        <option>Milky White</option>
-                        <option>Matte Black</option>
-                        <option>Navy Blue</option>
-                        <option>Titanium Grey</option>
-                        <option>Mint Green</option>
+                        <option>White</option>
+                        <option>Black</option>
+                        <option>Yellow</option>
+                        <option>Pink</option>
+                        <option>Lavender</option>
+
                     </select>
                 </div>
 
                 <!--Storage Options-->
                 <div class="max-w-sm mb-4">
-                    <label class="label-text font-medium" for="color-options">Storage Options</label>
-                    <select id="multi-cond-count" multiple="" data-select='{
+                    <label class="label-text font-medium" for="storageFilterInput">Storage Options</label>
+                    <select name="storage" id="storageFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
                       "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
                       "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
@@ -131,13 +131,11 @@
                     </select>
                     <!-- End Select -->
                 </div>
-
-
             </div>
 
             <div class="drawer-footer">
                 <button type="button" class="btn btn-soft btn-secondary" data-overlay="#overlay-form-example">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="submit" class="btn btn-primary">Filter</button>
             </div>
         </form>
     </div>
@@ -146,10 +144,10 @@
 <%--        for (var product : products )--%>
         <c:forEach var="product" items="${products}">
         <div class="product-card card sm:max-w-xs">
-            <figure><img src="${product.imageUrls()[0]}" alt="Watch" /></figure>
+            <figure><img src="${product.imageUrls()[0]}" alt="product-image" /></figure>
             <div class="card-body">
                 <h5 class="card-title mb-2.5">${product.name()}</h5>
-                <p class="mb-4">${product.desc().substring(0, 40)}...</p>
+                <p class="mb-4">${product.desc().substring(0, 45)}...</p>
                 <p>Starting at <span class="text-xl font-bold">
                     <fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " />
                 </span></p>

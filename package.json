@@ -5,7 +5,8 @@
   "main": "index.jsp",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tailwindcss -i ./src/main/webapp/static/css/tailwind.css -o ./src/main/webapp/static/css/output.css"
+    "build": "npx tailwindcss -i ./src/main/webapp/static/css/tailwind.css -o ./src/main/webapp/static/css/output.css",
+    "dev": "npx tailwindcss -i ./src/main/webapp/static/css/tailwind.css -o ./src/main/webapp/static/css/output.css --watch"
   },
   "keywords": [],
   "author": "",
