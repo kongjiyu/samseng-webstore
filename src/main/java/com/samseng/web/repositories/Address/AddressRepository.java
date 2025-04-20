@@ -15,7 +15,14 @@ public interface AddressRepository {
     //Find the default address for the user
     Address findDefaultByUserId(String user);
 
+    void unsetOtherDefaults(String userId, String currentAddressId);
+
+    void clearDefaultForUser(String userId);
+
     List<Address> findByAddressName(String addressName);
+
+    Address findById(String id);
+
 
 
 }

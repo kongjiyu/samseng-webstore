@@ -1,7 +1,7 @@
 package com.samseng.web.controllers;
 
-import com.samseng.web.Dao.AddressDao;
 import com.samseng.web.models.Address;
+import com.samseng.web.repositories.Address.AddressRepository;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,7 +13,7 @@ import java.io.IOException;
 public class DeleteAddressServlet extends HttpServlet {
 
     @Inject
-    private AddressDao addressDao;
+    private AddressRepository addressRepo;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -22,9 +22,9 @@ public class DeleteAddressServlet extends HttpServlet {
         String addressId = request.getParameter("id");
 
         if (addressId != null && !addressId.isEmpty()) {
-            Address address = addressDao.findById(addressId);
+            Address address = addressRepo.findById(addressId);
             if (address != null) {
-                addressDao.delete(address);
+                addressRepo.delete(address);
             }
         }
 
