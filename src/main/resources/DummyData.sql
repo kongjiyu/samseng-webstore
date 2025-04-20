@@ -1,3 +1,39 @@
+INSERT INTO account (user_id, username, password, email, role, dob) VALUES
+                                                                        ('AC0001', 'tester0', '123456', 'test0@test.com', 'USER', '2004-06-12'),
+                                                                        ('AC0002', 'tester1', '123456', 'test1@test.com', 'USER', '2004-06-12'),
+                                                                        ('AC0003', 'tester2', '123456', 'test2@test.com', 'ADMIN', '2004-06-12'),
+                                                                        ('AC0004', 'tester3', '123456', 'test3@test.com', 'STAFF', '2004-06-12'),
+                                                                        ('AC0005', 'tester4', '123456', 'test4@test.com', 'ADMIN', '2004-06-12'),
+                                                                        ('AC0006', 'tester5', '123456', 'test5@test.com', 'USER', '2004-06-12'),
+                                                                        ('AC0007', 'tester6', '123456', 'test6@test.com', 'ADMIN', '2004-06-12'),
+                                                                        ('AC0008', 'tester7', '123456', 'test7@test.com', 'USER', '2004-06-12'),
+                                                                        ('AC0009', 'tester8', '123456', 'test8@test.com', 'ADMIN', '2004-06-12'),
+                                                                        ('AC0010', 'tester9', '123456', 'test9@test.com', 'STAFF', '2004-06-12');
+
+
+
+INSERT INTO address (id, user_id, address_name, contact_no, address_1, address_2, address_3, postcode, state, country, is_default) VALUES
+                                                                                                                                       ('AD0001', 'AC0001', 'tester0 Address 1', '+60121000000', 'No 1, Jalan Bukit Bintang', 'Apt 1-1', 'Block A', '50100', 'Sarawak', 'Malaysia', true),
+                                                                                                                                       ('AD0002', 'AC0002', 'tester1 Address 1', '+60121000001', 'No 1, Jalan Bukit Bintang', 'Apt 2-1', 'Block A', '50200', 'Perlis', 'Malaysia', true),
+                                                                                                                                       ('AD0003', 'AC0002', 'tester1 Address 2', '+60121000010', 'No 2, Jalan Imbi', 'Apt 2-2', NULL, '50201', 'Labuan', 'Malaysia', false),
+                                                                                                                                       ('AD0004', 'AC0003', 'tester2 Address 1', '+60121000020', 'No 1, Jalan Imbi', 'Apt 3-1', 'Block A', '50300', 'Labuan', 'Malaysia', true),
+                                                                                                                                       ('AD0005', 'AC0003', 'tester2 Address 2', '+60121000021', 'No 2, Jalan Bukit Bintang', 'Apt 3-2', NULL, '50301', 'Penang', 'Malaysia', false),
+                                                                                                                                       ('AD0006', 'AC0003', 'tester2 Address 3', '+60121000030', 'No 3, Jalan Changkat', 'Apt 3-3', 'Block C', '50320', 'Penang', 'Malaysia', false),
+                                                                                                                                       ('AD0007', 'AC0004', 'tester3 Address 1', '+60121000031', 'No 1, Jalan Changkat', 'Apt 4-1', 'Block A', '50400', 'Negeri Sembilan', 'Malaysia', true),
+                                                                                                                                       ('AD0008', 'AC0005', 'tester4 Address 1', '+60121000040', 'No 1, Jalan Changkat', 'Apt 5-1', 'Block A', '50500', 'Selangor', 'Malaysia', true),
+                                                                                                                                       ('AD0009', 'AC0005', 'tester4 Address 2', '+60121000041', 'No 2, Jalan Pudu', 'Apt 5-2', 'Block A', '50520', 'Kelantan', 'Malaysia', false),
+                                                                                                                                       ('AD0010', 'AC0006', 'tester5 Address 1', '+60121000050', 'No 1, Jalan Imbi', 'Apt 6-1', 'Block A', '50600', 'Sabah', 'Malaysia', true),
+                                                                                                                                       ('AD0011', 'AC0006', 'tester5 Address 2', '+60121000051', 'No 2, Jalan Pudu', 'Apt 6-2', NULL, '50601', 'Kuala Lumpur', 'Malaysia', false),
+                                                                                                                                       ('AD0012', 'AC0007', 'tester6 Address 1', '+60121000052', 'No 3, Jalan Changkat', 'Apt 6-3', 'Block C', '50602', 'Terengganu', 'Malaysia', false),
+                                                                                                                                       ('AD0013', 'AC0007', 'tester6 Address 2', '+60121000060', 'No 1, Jalan Changkat', 'Apt 7-1', 'Block A', '50700', 'Kelantan', 'Malaysia', true),
+                                                                                                                                       ('AD0014', 'AC0008', 'tester7 Address 1', '+60121000070', 'No 1, Jalan Raja Chulan', 'Apt 8-1', 'Block A', '50800', 'Selangor', 'Malaysia', true),
+                                                                                                                                       ('AD0015', 'AC0008', 'tester7 Address 2', '+60121000071', 'No 2, Jalan Sultan Ismail', 'Apt 8-2', NULL, '50801', 'Perak', 'Malaysia', false),
+                                                                                                                                       ('AD0016', 'AC0009', 'tester8 Address 1', '+60121000080', 'No 1, Jalan Imbi', 'Apt 9-1', 'Block A', '50900', 'Malacca', 'Malaysia', true),
+                                                                                                                                       ('AD0017', 'AC0009', 'tester8 Address 2', '+60121000081', 'No 2, Jalan Pudu', 'Apt 9-2', 'Block C', '50901', 'Labuan', 'Malaysia', false),
+                                                                                                                                       ('AD0018', 'AC0009', 'tester8 Address 3', '+60121000082', 'No 3, Jalan Petaling', 'Apt 9-3', 'Block C', '50902', 'Kelantan', 'Malaysia', false),
+                                                                                                                                       ('AD0019', 'AC0010', 'tester9 Address 1', '+60121000090', 'No 1, Jalan Pudu', 'Apt 10-1', 'Block A', '51000', 'Kuala Lumpur', 'Malaysia', true);
+
+
 INSERT INTO product (product_id, product_name, product_desc, product_category) VALUES ('SP-S24', 'Samseng Milkyway S24', 'Design and Display:
 -Models and Sizes: The series includes the Galaxy S25 with a 6.2-inch display, the S25 Ultra with a 6.7-inch display, and the S25 Ultra featuring a 6.9-inch screen. 
 -Display Technology: Each model is equipped with a Dynamic AMOLED 2X screen, offering vibrant visuals and smooth scrolling experiences. 
@@ -363,6 +399,14 @@ Active Noise Cancellation (ANC): The Apollo Buds3 offer ANC capabilities, allowi
 Design: Featuring an all-new, open-type design, these earbuds provide a comfortable fit for extended listening sessions. 
 
 Adaptive EQ: The Adaptive EQ feature automatically adjusts the sound quality based on your environment, ensuring an optimal listening experience. ', 'earbuds');
+
+INSERT INTO attribute (attribute_id, name) VALUES
+                                               ('AT0001', 'Color'),
+                                               ('AT0002', 'Length'),
+                                               ('AT0003', 'Capacity'),
+                                               ('AT0004', 'Size'),
+                                               ('AT0005', 'Storage');
+
 
 INSERT INTO product_images (product_id, image_url) VALUES ('B-AB2', 'B-AB2-3.png');
 INSERT INTO product_images (product_id, image_url) VALUES ('B-AB2', 'B-AB2-1.png');

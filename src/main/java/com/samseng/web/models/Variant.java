@@ -3,12 +3,13 @@ package com.samseng.web.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import lombok.Data;
 import org.hibernate.annotations.NaturalId;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,6 +18,8 @@ import java.util.Set;
 public class Variant {
 
     @Id
+    @GeneratedValue(generator = "variant_id")
+    @GenericGenerator(name = "variant_id", strategy = "com.samseng.web.DummyData.PrefixIdGenerator")
     @Column(name = "variant_id", unique = true, nullable = false)
     private String variantId;
 
@@ -37,7 +40,7 @@ public class Variant {
     @Column(name = "variant_availability")
     private boolean availability;
 
-    @OneToMany(mappedBy = Variant_Attribute_.VARIANT_ID, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Variant_Attribute> attributes;
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Variant_Attribute> variant_attribute;
 
 }
