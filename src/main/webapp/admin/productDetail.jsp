@@ -152,13 +152,14 @@
                     <div>
                         <label class="font-semibold block mb-2"><%= attrName %>
                         </label>
-                        <input type="hidden" name="attributeList" value="<%= attrName %>" />
+                        <input type="hidden" name="attributeList" value="<%= attrName %>"/>
                         <div class="flex flex-wrap gap-2">
                             <% 
                                 for (String value : values) {
                             %>
                             <input type="text" class="input input-bordered input-sm attribute-field" 
-                                   name="attr-<%= attrName %>" value="<%= value %>"/>
+                                   name="attr-<%= attrName %>" value="<%= value %>" disabled/>
+                            <input type="hidden" name="attr-<%= attrName %>" value="<%= value %>"/>
                             <% 
                                 }
                             %>
@@ -192,18 +193,17 @@
                         <thead>
                         <tr>
                             <th class="w-24">VARIANT ID</th>
-                            <th class="w-60">NAME</th>
+                            <th class="w-50">NAME</th>
                             <%
                                 List<Attribute> attributeList = ((List<Attribute>) request.getAttribute("attributeList"));
                                 for (Attribute attribute : attributeList) {
                             %>
-                            <th><%=attribute.getName()%>
+                            <th class="w-10"><%=attribute.getName()%>
                             </th>
                             <%
                                 }
                             %>
                             <th>PRICE</th>
-                            <th>AVAILABILITY</th>
                             <th>ACTION</th>
                         </tr>
                         </thead>
@@ -225,13 +225,16 @@
                             <td>
                                 <input type="text" name="variantName"
                                        class="input input-bordered input-sm variant-field"
-                                       value="<%= v.getVariantName() %>">
+                                       value="<%= v.getVariantName() %>"
+                                >
                             </td>
                             <% for (Attribute attr : dynamicAttributes) { %>
                             <td>
                                 <input type="text" name="variantAttr_<%= attr.getId() %>"
                                        class="input input-bordered input-sm variant-field"
-                                       value="<%= attributes.getOrDefault(attr.getName(), "") %>">
+                                       value="<%= attributes.getOrDefault(attr.getName(), "") %>"
+                                       disabled
+                                >
                             </td>
                             <% } %>
                             <td>
@@ -246,14 +249,6 @@
                                            value="<%= v.getVariantId() %>"
                                         <%= v.isAvailability() ? "checked" : "" %>>
                                 </div>
-                            </td>
-                            <td>
-                                <button class="btn btn-circle btn-text btn-sm" aria-label="Edit">
-                                    <span class="icon-[tabler--pencil] size-5"></span>
-                                </button>
-                                <button class="btn btn-circle btn-text btn-sm" aria-label="Delete">
-                                    <span class="icon-[tabler--trash] size-5"></span>
-                                </button>
                             </td>
                         </tr>
                         <%

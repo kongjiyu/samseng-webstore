@@ -3,6 +3,8 @@ package com.samseng.web.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.URL;
@@ -12,7 +14,8 @@ import java.util.Set;
 
 import static org.hibernate.Length.LONG32;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "\"product\"")
 public class Product {

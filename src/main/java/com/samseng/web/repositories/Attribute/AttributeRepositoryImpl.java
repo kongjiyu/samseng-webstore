@@ -63,7 +63,7 @@ public class AttributeRepositoryImpl implements AttributeRepository {
     public List<Attribute> findByProductId(String productId){
         try{
             return em.createQuery(
-                    "SELECT DISTINCT va.attributeID FROM Variant_Attribute va WHERE va.variantID.product.id = :productId",
+                    "SELECT DISTINCT va.attribute FROM Variant_Attribute va WHERE va.variant.product.id = :productId",
                     Attribute.class)
                     .setParameter("productId", productId)
                     .getResultList();

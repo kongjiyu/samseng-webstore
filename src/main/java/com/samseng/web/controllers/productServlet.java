@@ -128,8 +128,8 @@ public class productServlet extends HttpServlet {
             variantList.sort(Comparator.comparing(Variant::getVariantName, String.CASE_INSENSITIVE_ORDER));            Map<String, Map<String, String>> variantAttrMap = new HashMap<>();
 
             for (Variant_Attribute va : variantAttributeRepository.findByProductId(productId)) {
-                String variantId = va.getVariantID().getVariantId();
-                String attrName = va.getAttributeID().getName();
+                String variantId = va.getVariant().getVariantId();
+                String attrName = va.getAttribute().getName();
                 String value = va.getValue();
 
                 variantAttrMap
@@ -140,7 +140,7 @@ public class productServlet extends HttpServlet {
             Map<String, Set<String>> attributeValuesMap = new HashMap<>();
 
             for (Variant_Attribute va : variantAttributeRepository.findByProductId(productId)) {
-                String attrName = va.getAttributeID().getName();
+                String attrName = va.getAttribute().getName();
                 attributeValuesMap
                         .computeIfAbsent(attrName, k -> new LinkedHashSet<>())
                         .add(va.getValue());
@@ -187,7 +187,6 @@ public class productServlet extends HttpServlet {
             
             // Create default variant
             Variant defaultVariant = new Variant();
-            defaultVariant.setVariantId(UUID.randomUUID().toString());
             defaultVariant.setVariantName("Default");
             defaultVariant.setProduct(product);
             defaultVariant.setPrice(0.0);
@@ -204,8 +203,8 @@ public class productServlet extends HttpServlet {
 
             // Create variant attribute relationship
             Variant_Attribute variantAttribute = new Variant_Attribute();
-            variantAttribute.setVariantID(defaultVariant);
-            variantAttribute.setAttributeID(colorAttribute);
+            variantAttribute.setVariant(defaultVariant);
+            variantAttribute.setAttribute(colorAttribute);
             variantAttribute.setValue(""); // Empty value to be filled by user
             variantAttributeRepository.create(variantAttribute);
         } else {
@@ -278,31 +277,33 @@ public class productServlet extends HttpServlet {
             Product product = productRepository.findById(productId);
             Attribute attribute = attributeRepository.findById(attributeId);
 
-            // Get the default variant for this product
-            List<Variant> variants = variantRepository.findByProductId(productId);
-            Variant defaultVariant = variants.stream()
-                    .filter(v -> v.getVariantName().equalsIgnoreCase("Default"))
-                    .findFirst()
-                    .orElse(null);
+            List<Variant> existingVariants = variantRepository.findByProductId(productId);
+            if (existingVariants == null || existingVariants.isEmpty()) {
+                // Create new variant for product
+                Variant newVariant = new Variant();
+                newVariant.setProduct(product);
+                newVariant.setVariantName(product.getName() + " " + attributeValue);
+                newVariant.setPrice(0.0);
+                newVariant.setAvailability(false);
+                variantRepository.create(newVariant);
 
-            if (defaultVariant == null) {
-                // If no default variant, create one
-                defaultVariant = new Variant();
-                defaultVariant.setVariantId(UUID.randomUUID().toString());
-                defaultVariant.setVariantName("Default");
-                defaultVariant.setProduct(product);
-                defaultVariant.setPrice(0.0);
-                defaultVariant.setAvailability(true);
-                variantRepository.create(defaultVariant);
+                Variant_Attribute newVA = new Variant_Attribute();
+                newVA.setVariant(newVariant);
+                newVA.setAttribute(attribute);
+                newVA.setValue(attributeValue);
+                variantAttributeRepository.create(newVA);
+            } else {
+                for (Variant variant : existingVariants) {
+                    variant.setVariantName(variant.getVariantName() + " " + attributeValue);
+                    variantRepository.update(variant);
+
+                    Variant_Attribute newVA = new Variant_Attribute();
+                    newVA.setVariant(variant);
+                    newVA.setAttribute(attribute);
+                    newVA.setValue(attributeValue);
+                    variantAttributeRepository.create(newVA);
+                }
             }
-
-            // Create and persist the Variant_Attribute
-            Variant_Attribute variantAttribute = new Variant_Attribute();
-            variantAttribute.setVariantID(defaultVariant);
-            variantAttribute.setAttributeID(attribute);
-            variantAttribute.setValue(attributeValue);
-            variantAttributeRepository.create(variantAttribute);
-
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId + "&error=1");
@@ -391,8 +392,8 @@ public class productServlet extends HttpServlet {
                         Variant_Attribute variantAttribute = variantAttributeRepository.findByVariantIdAndAttributeId(variantId, attribute.getId());
                         if (variantAttribute == null) {
                             variantAttribute = new Variant_Attribute();
-                            variantAttribute.setVariantID(variant);
-                            variantAttribute.setAttributeID(attribute);
+                            variantAttribute.setVariant(variant);
+                            variantAttribute.setAttribute(attribute);
                         }
                         variantAttribute.setValue(value);
                         variantAttributeRepository.create(variantAttribute);
@@ -411,40 +412,67 @@ public class productServlet extends HttpServlet {
         try {
             Product product = productRepository.findById(productId);
 
-            // Get or create default variant
-            List<Variant> variants = variantRepository.findByProductId(productId);
-            Variant defaultVariant = variants.stream()
-                    .filter(v -> v.getVariantName().equalsIgnoreCase("Default"))
-                    .findFirst()
-                    .orElse(null);
-
-            if (defaultVariant == null) {
-                defaultVariant = new Variant();
-                defaultVariant.setVariantId(UUID.randomUUID().toString());
-                defaultVariant.setVariantName("Default");
-                defaultVariant.setProduct(product);
-                defaultVariant.setPrice(0.0);
-                defaultVariant.setAvailability(true);
-                variantRepository.create(defaultVariant);
+            List<Variant> existingVariants = variantRepository.findByProductId(productId);
+            Map<String, Variant> variantNameMap = new HashMap<>();
+            for (Variant v : existingVariants) {
+                variantNameMap.put(v.getVariantName().toLowerCase(), v);
             }
+
+            // Collect all attributes and their new values
+            Map<String, List<String>> attributeMap = new LinkedHashMap<>();
+            Map<String, Attribute> attrObjects = new HashMap<>();
 
             for (String attrName : attributeList) {
-                String[] values = request.getParameterValues("attr-" + attrName);
-                if (values != null && values.length > 0) {
-                    Attribute attribute = attributeRepository.findByName(attrName);
-                    if (attribute == null) continue;
-
-                    for (String value : values) {
-                        if (value == null || value.isBlank()) continue;
-
-                        Variant_Attribute va = new Variant_Attribute();
-                        va.setVariantID(defaultVariant);
-                        va.setAttributeID(attribute);
-                        va.setValue(value);
-                        variantAttributeRepository.create(va);
+                String[] original = request.getParameterValues("attr-" + attrName);
+                if (original != null && original.length > 0) {
+                    Attribute attr = attributeRepository.findByName(attrName);
+                    if (attr == null) continue;
+                    attrObjects.put(attrName, attr);
+                    List<String> filtered = new ArrayList<>();
+                    for(String value : original) {
+                        if(value != null && !value.isEmpty()){
+                            filtered.add(value);
+                        }
                     }
+                    String [] result = filtered.toArray(new String[0]);
+                    attributeMap.put(attrName, Arrays.asList(result));
                 }
             }
+
+            // Generate all combinations
+            List<Map<String, String>> combinations = new ArrayList<>();
+            generateCombinations(attributeMap, new LinkedHashMap<>(), new ArrayList<>(attributeMap.keySet()), combinations);
+
+            for (Map<String, String> combo : combinations) {
+                String variantName = product.getName() + " " + String.join(" ", combo.values());
+                Variant variant = variantRepository.findVariantByAttributes(product.getId(), combo);
+
+                if (variant == null) {
+                    variant = new Variant();
+                    variant.setVariantName(variantName);
+                    variant.setProduct(product);
+                    variant.setPrice(0.0);
+                    variant.setAvailability(false);
+                    variantRepository.create(variant);
+                } else {
+                    variant.setVariantName(variantName);
+                    variant.setProduct(product);
+                    variantRepository.update(variant);
+                }
+
+                for (Map.Entry<String, String> entry : combo.entrySet()) {
+                    Attribute attr = attrObjects.get(entry.getKey());
+                    Variant_Attribute va = variantAttributeRepository.findByVariantIdAndAttributeId(variant.getVariantId(), attr.getId());
+                    if (va == null) {
+                        va = new Variant_Attribute();
+                        va.setVariant(variant);
+                        va.setAttribute(attr);
+                    }
+                    va.setValue(entry.getValue());
+                    variantAttributeRepository.create(va);
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId + "&error=1");
@@ -452,5 +480,22 @@ public class productServlet extends HttpServlet {
         }
 
         response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
+    }
+
+    private void generateCombinations(Map<String, List<String>> attributeMap, Map<String, String> current,
+                                      List<String> keys, List<Map<String, String>> result) {
+        if (keys.isEmpty()) {
+            result.add(new LinkedHashMap<>(current));
+            return;
+        }
+
+        String key = keys.get(0);
+        List<String> remainingKeys = keys.subList(1, keys.size());
+
+        for (String val : attributeMap.get(key)) {
+            current.put(key, val);
+            generateCombinations(attributeMap, current, remainingKeys, result);
+            current.remove(key);
+        }
     }
 }
