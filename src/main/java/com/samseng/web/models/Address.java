@@ -2,14 +2,12 @@ package com.samseng.web.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Range;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "\"address\"")
 @NoArgsConstructor

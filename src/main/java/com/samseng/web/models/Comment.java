@@ -3,9 +3,12 @@ package com.samseng.web.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "\"Comment\"")
 
