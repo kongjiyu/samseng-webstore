@@ -79,7 +79,7 @@
                 <!--Color Options-->
                 <div class="max-w-sm mb-4">
                     <label class="label-text font-medium" for="colorFilterInput">Color Options</label>
-                    <select name="color" id="colorFilterInput" multiple="" data-select='{
+                    <select name="Color" id="colorFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
                       "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
                       "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
@@ -108,7 +108,7 @@
                 <!--Storage Options-->
                 <div class="max-w-sm mb-4">
                     <label class="label-text font-medium" for="storageFilterInput">Storage Options</label>
-                    <select name="storage" id="storageFilterInput" multiple="" data-select='{
+                    <select name="Storage" id="storageFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
                       "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
                       "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
@@ -125,9 +125,9 @@
                       "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
                     }' class="hidden">
                         <option value="">Choose</option>
-                        <option>256GB</option>
-                        <option>512GB</option>
-                        <option>1TB</option>
+                        <option value="256gb">256GB</option>
+                        <option value="512gb">512GB</option>
+                        <option value="1tb">1TB</option>
                     </select>
                     <!-- End Select -->
                 </div>
@@ -151,76 +151,12 @@
                 <p>Starting at <span class="text-xl font-bold">
                     <fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " />
                 </span></p>
+                <p>
+                    <span class="icon-[tabler--IconFilledStar] size-2"></span>
+                    <span><fmt:formatNumber value="${product.ratingSummary().avgRating()}" /></span>
+                </p>
                 <div class="card-actions">
                     <button class="btn btn-block btn-primary">Add to Cart</button>
-                    <div class="tooltip [--trigger:hover]">
-                        <div class="tooltip-toggle">
-                            <p class="text-primary cursor-pointer select-none flex items-center gap-1">
-                                Ratings & reviews
-                                <span class="icon-[tabler--eye-closed] tooltip-shown:hidden"></span>
-                                <span class="icon-[tabler--eye] hidden tooltip-shown:inline-block"></span>
-                            </p>
-
-                            <div class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible p-4" role="popover">
-                                <div
-                                        class="tooltip-body bg-base-100 text-base-content/80 flex max-w-xs flex-col gap-1 rounded-lg p-4 text-start">
-                                    <div class="text-primary text-xl flex items-center gap-1 font-medium">
-                                        4.35
-                                        <span class="icon-[tabler--star-filled] size-5"></span>
-                                    </div>
-                                    <div class="text-base-content font-medium">Total 300 reviews</div>
-                                    <p>All reviews are from genuine customers.</p>
-                                    <div class="mt-4 flex items-center justify-between">
-                                        <span class="badge badge-soft badge-primary rounded-full">+6 this week</span>
-                                        <a href="#" class="link link-primary link-hover text-sm">See all</a>
-                                    </div>
-                                    <div class="divider my-2"></div>
-                                    <div class="space-y-2">
-                                        <div class="flex w-full items-center gap-2">
-                                            <span class="text-sm text-nowrap font-medium leading-5">5 Star</span>
-                                            <div class="progress" role="progressbar" aria-valuenow="75" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <div class="progress-bar progress-primary w-3/4"></div>
-                                            </div>
-                                            <span class="text-sm font-medium leading-5">225</span>
-                                        </div>
-                                        <div class="flex w-full items-center gap-2">
-                                            <span class="text-sm text-nowrap font-medium leading-5">4 Star</span>
-                                            <div class="progress" role="progressbar" aria-valuenow="10" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <div class="progress-bar progress-primary w-[10%]"></div>
-                                            </div>
-                                            <span class="text-sm font-medium leading-5">30</span>
-                                        </div>
-                                        <div class="flex w-full items-center gap-2">
-                                            <span class="text-sm text-nowrap font-medium leading-5">3 Star</span>
-                                            <div class="progress" role="progressbar" aria-valuenow="10" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <div class="progress-bar progress-primary w-[10%]"></div>
-                                            </div>
-                                            <span class="text-sm font-medium leading-5">30</span>
-                                        </div>
-                                        <div class="flex w-full items-center gap-2">
-                                            <span class="text-sm text-nowrap font-medium leading-5">2 Star</span>
-                                            <div class="progress" role="progressbar" aria-valuenow="5" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <div class="progress-bar progress-primary w-[5%]"></div>
-                                            </div>
-                                            <span class="text-sm font-medium leading-5">15</span>
-                                        </div>
-                                        <div class="flex w-full items-center gap-2">
-                                            <span class="text-sm text-nowrap font-medium leading-5">1 Star</span>
-                                            <div class="progress" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <div class="progress-bar progress-primary w-0"></div>
-                                            </div>
-                                            <span class="text-sm font-medium leading-5">00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
