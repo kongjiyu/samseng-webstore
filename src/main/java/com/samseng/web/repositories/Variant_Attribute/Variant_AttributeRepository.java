@@ -4,6 +4,8 @@ import com.samseng.web.models.Variant_Attribute;
 import java.util.List;
 
 public interface Variant_AttributeRepository {
+    void merge(Variant_Attribute variant_attribute);
+
     void create(Variant_Attribute variant_attribute);
 
     void update(Variant_Attribute variant_attribute);

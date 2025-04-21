@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @Entity
@@ -16,12 +15,12 @@ public class Variant_Attribute {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="variant_id")
-    private Variant variantID;
+    private Variant variant;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="attribute_id")
-    private Attribute attributeID;
+    private Attribute attribute;
 
     @NotNull
     @Column(name="value")

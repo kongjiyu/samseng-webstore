@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * DTO for {@link com.samseng.web.models.Product}
  */
+
 public record ProductListingDTO(
         String id,
         String name,

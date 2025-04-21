@@ -18,6 +18,7 @@ import org.hibernate.StatelessSession;
 import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,15 +31,29 @@ public class ProductListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // get user search query
-        String queryName = req.getParameter("query");
-        Map<String, String[]> attributeFilters = new HashMap<>();
-        attributeFilters.put("AT0001", new String[]{"Blue", "Black"});
-        attributeFilters.put("AT0005", new String[]{"256gb"});
+        String[] colorQuery = req.getParameterValues("color");
+        String[] storageQuery = req.getParameterValues("storage");
+        String[] capacityQuery = req.getParameterValues("capacity");
+        String[] lengthQuery = req.getParameterValues("length");
+        String nameQuery = req.getParameter("name");
+        double minQuery = Double.parseDouble(req.getParameter("minPrice"));
+        double maxQuery = Double.parseDouble(req.getParameter("maxPrice"));
+
+        if (minQuery > maxQuery) {
+            // Lazy Validation. Will change this later
+            minQuery = maxQuery;
+        }
+
+        // Creating HashMap of attributes by trying to put all params in and removing the ones that are not attributes.
+        var ignoreParams = List.of("name", "minPrice", "maxPrice");
+        var attributeFilters = req.getParameterMap();
+        ignoreParams.forEach(attributeFilters::remove);
+
 
         // run the search thingy
-        List<Product> products = search(queryName, attributeFilters);
+        List<Product> products = search(colorQuery, capacityQuery, lengthQuery, nameQuery, minQuery, maxQuery, attributeFilters);
 
-        // map output from database model into dto form ay macarena
+        // map output from database model into dto form
         List<ProductListingDTO> dtos = products.stream()
                 .map(p -> {
                     double lowest = p.getVariants()
@@ -67,7 +82,12 @@ public class ProductListServlet extends HttpServlet {
         view.forward(req, resp);
     }
 
-    private List<Product> search(String queryName, Map<String, String[]> attributeFilters) {
+
+    // search thingy
+    private List<Product> search(
+            String[] colorQuery, String[] lengthQuery, String[] capacityQuery,
+            String nameQuery, double minQuery, double maxQuery,
+            Map<String, String[]> attributeFilters) {
         /*
         AT0001 = [Blue, Black]
         AT0005 = [512 GB]
@@ -92,25 +112,29 @@ public class ProductListServlet extends HttpServlet {
         product.fetch(Product_.variants);
 
         Predicate where = cb.conjunction();
+
         /*
         build the conditions here
         */
-        if (queryName != null)
-            // WHERE name ILIKE '%{namePattern}%'
-            where = cb.and(where, cb.ilike(product.get(Product_.name), "%" + queryName + "%"));
 
+        // WHERE name ILIKE '%{namePattern}%'
+        where = cb.and(where, cb.ilike(product.get(Product_.name), "%" + nameQuery + "%"));
+
+
+        // For every entry in the product table, apply attributeFilters.
         for (var entry : attributeFilters.entrySet()) {
             // JOIN variant_attribute ON variant_id = :variant_id
             //     AND attribute_id = :attributeId
             //     AND value IN :attributeValues
-            Join<Variant, Variant_Attribute> variantAttribute = variant.join(Variant_.attributes);
-            Join<Variant_Attribute, Attribute> attribute = variantAttribute.join(Variant_Attribute_.attributeID);
+            Join<Variant, Variant_Attribute> variantAttribute = variant.join(Variant_.variant_attribute);
+            Join<Variant_Attribute, Attribute> attribute = variantAttribute.join(Variant_Attribute_.attribute);
 
             variantAttribute.on(
                     cb.equal(attribute.get(Attribute_.id), entry.getKey()),
                     cb.in(variantAttribute.get(Variant_Attribute_.value), entry.getValue())
             );
         }
+
 
         // combines all the criteria
         criteria = criteria.select(product)
@@ -119,4 +143,6 @@ public class ProductListServlet extends HttpServlet {
         return session.createSelectionQuery(criteria)
                 .getResultList();
     }
+
+
 }
