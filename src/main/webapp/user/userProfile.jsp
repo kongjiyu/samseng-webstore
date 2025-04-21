@@ -23,40 +23,42 @@
 
 <div class="flex flex-col gap-6 p-10 pt-[5.5rem] backdrop-blur-lg min-h-screen">
     <!-- Profile Section -->
+    <%
+        Account accountObj=(Account)request.getAttribute("profile");
+    %>
     <div class="bg-base-100 p-8 rounded-lg shadow-lg">
         <h1 class="text-2xl font-bold mb-6">Profile</h1>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Profile Picture -->
-            <div class="col-span-1 flex flex-col items-center">
-                <div class="avatar mb-4">
-                    <div class="w-32 rounded-full ring ring-cyan-400 ring-offset-base-100 ring-offset-2">
-                        <img src="https://i.pravatar.cc/150?img=3" alt="User Avatar">
-                    </div>
-                </div>
-                <input id="avatarUpload" type="file" class="hidden" />
-                <button class="btn btn-outline btn-info w-full max-w-xs"
-                        onclick="document.getElementById('avatarUpload').click();">
-                    Upload Profile Picture
-                </button>
-                <button class="btn btn-outline btn-error mt-2">Delete</button>
+            <div class="col-span-1 flex flex-col items-center my-auto">
+                <div class="relative inline-flex items-center justify-center w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    <%
+                        String[] nameParts = accountObj.getUsername().trim().split("\\s+");
+                        StringBuilder initials = new StringBuilder();
+                        for (String part : nameParts) {
+                            if (!part.isEmpty()) {
+                                initials.append(part.charAt(0));
+                                if (initials.length() == 2) break;
+                            }
+                        }
+                    %>
+                    <span class="text-3xl uppercase"><%= initials.toString() %></span>                </div>
+                <button class="btn btn-outline btn-error mt-6">Delete</button>
             </div>
 
             <!-- Profile Information Form -->
             <div class="col-span-2">
-                <%
-                    Account accountObj=(Account)request.getAttribute("profile");
-                %>
                 <form class="space-y-4" >
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="label">User ID</label>
-                            <input type="text" class="input input-bordered w-full" placeholder="<%=accountObj.getId()%>"
+                            <input type="text" class="input input-bordered w-full" value="<%=accountObj.getId()%>"
                                    disabled />
                         </div>
                         <div>
                             <label class="label">Username</label>
-                            <input type="text" class="input input-bordered w-full"  name="username"  placeholder="<%=accountObj.getUsername()%>"/>
+                            <input type="text" class="input input-bordered w-full"  name="username"  value="<%=accountObj.getUsername()%>"/>
                         </div>
                         <div>
                             <label class="label">Date of Birth</label>
@@ -65,7 +67,7 @@
                         <div>
                             <label class="label">Email</label>
                             <input type="email" class="input input-bordered w-full" name="email"
-                                   placeholder="<%=accountObj.getEmail()%>"  />
+                                   value="<%=accountObj.getEmail()%>"  />
                         </div>
                         <div>
                             <label class="label">Role</label>
