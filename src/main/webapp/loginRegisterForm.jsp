@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
@@ -37,6 +38,11 @@
                     <label>Password</label>
                     <span class="icon-[tabler--lock] size-5"></span>
                 </div>
+
+                <c:if test="${param.error != null}">
+                    <p class="text-red-600 text-sm mt-2 switch-animation">Incorrect email or password.</p>
+                </c:if>
+
                 <div class="input-box switch-animation" style="--X:3; --Z:18">
                     <button class="button" type="submit">Login</button>
                 </div>

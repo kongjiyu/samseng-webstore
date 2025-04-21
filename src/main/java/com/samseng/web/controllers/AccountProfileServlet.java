@@ -66,12 +66,16 @@ public class AccountProfileServlet extends HttpServlet {
             return;
         }
 
+        try{
+            Account accountProfile = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
+            List<Address> addressList = addressRepo.findByUserId(accountProfile.getId());
+            request.setAttribute("addresses", addressList);
+            request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+        }catch (Exception e){
+            e.printStackTrace();
+            request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+        }
 
-        Account accountProfile = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
-        List<Address> addressList = addressRepo.findByUserId(accountProfile.getId());
-        request.setAttribute("profile", accountProfile);
-        request.setAttribute("addresses", addressList);
-        request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
