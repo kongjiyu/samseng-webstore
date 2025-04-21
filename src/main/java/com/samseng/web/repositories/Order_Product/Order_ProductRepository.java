@@ -15,4 +15,8 @@ public interface Order_ProductRepository {
     List<Order_Product> findByOrderId(String id);
 
     List<Order_Product> findByOrderIdAndProductId(String orderId, String productId);
+
+    public List<Object[]> getTopSellingProducts();
+
+    List<Object[]> getMonthlySales();
 }

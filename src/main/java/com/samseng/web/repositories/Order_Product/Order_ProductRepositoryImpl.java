@@ -52,6 +52,25 @@ public class Order_ProductRepositoryImpl implements Order_ProductRepository {
                 .getResultList();
     }
 
+    @Override
+    public List<Object[]> getTopSellingProducts() {
+        return em.createQuery(
+                        "SELECT p.name, SUM(op.quantity) " +
+                                "FROM Order_Product op JOIN op.product p " +
+                                "GROUP BY p.name ORDER BY SUM(op.quantity) DESC", Object[].class)
+                .setMaxResults(5)
+                .getResultList();
+    }
 
-
+    @Override
+    public List<Object[]> getMonthlySales() {
+        return em.createQuery(
+                "SELECT FUNCTION('TO_CHAR', o.createdAt, 'Mon'), SUM(op.unitPrice * op.quantity) " +
+                "FROM Order_Product op JOIN op.salesOrder o " +
+                "GROUP BY FUNCTION('TO_CHAR', o.createdAt, 'Mon') " +
+                "ORDER BY MIN(o.createdAt)", Object[].class)
+            .getResultList();
+    }
 }
+
+
