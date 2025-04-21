@@ -76,6 +76,36 @@
                     </div>
                 </div>
 
+                <!--Product Category-->
+                <div class="max-w-sm mb-4">
+                    <label class="label-text font-medium" for="categoryFilterInput">Category</label>
+                    <select name="category" id="categoryFilterInput" multiple="" data-select='{
+                      "placeholder": "Select multiple options...",
+                      "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+                      "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
+                      "toggleSeparators": {
+                        "betweenItemsAndCounter": "&"
+                      },
+                      "toggleCountText": "+",
+                      "toggleCountTextPlacement": "prefix-no-space",
+                      "toggleCountTextMinItems": 3,
+                      "toggleCountTextMode": "nItemsAndCount",
+                      "dropdownClasses": "advance-select-menu max-h-44 overflow-y-auto",
+                      "optionClasses": "advance-select-option selected:select-active",
+                      "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"icon-[tabler--check] shrink-0 size-4 text-primary hidden selected:block \"></span></div>",
+                      "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
+                    }' class="hidden">
+                        <option value="">Choose</option>
+                        <option>Mobile Phone</option>
+                        <option>Tab</option>
+                        <option>Monitor</option>
+                        <option>Powerbank</option>
+                        <option value="smart watch">Smart Watch</option>
+                        <option value="smart pen">Smart Pen</option>
+                        <option value="earbuds">Earbuds</option>
+                    </select>
+                </div>
+
                 <!--Color Options-->
                 <div class="max-w-sm mb-4">
                     <label class="label-text font-medium" for="colorFilterInput">Color Options</label>
@@ -101,7 +131,85 @@
                         <option>Yellow</option>
                         <option>Pink</option>
                         <option>Lavender</option>
+                        <option>Green</option>
 
+                    </select>
+                </div>
+
+                <!--Length Options-->
+                <div class="max-w-sm mb-4">
+                    <label class="label-text font-medium" for="lengthFilterInput">Length Options</label>
+                    <select name="Length" id="lengthFilterInput" multiple="" data-select='{
+                      "placeholder": "Select multiple options...",
+                      "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+                      "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
+                      "toggleSeparators": {
+                        "betweenItemsAndCounter": "&"
+                      },
+                      "toggleCountText": "+",
+                      "toggleCountTextPlacement": "prefix-no-space",
+                      "toggleCountTextMinItems": 3,
+                      "toggleCountTextMode": "nItemsAndCount",
+                      "dropdownClasses": "advance-select-menu max-h-44 overflow-y-auto",
+                      "optionClasses": "advance-select-option selected:select-active",
+                      "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"icon-[tabler--check] shrink-0 size-4 text-primary hidden selected:block \"></span></div>",
+                      "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
+                    }' class="hidden">
+                        <option value="">Choose</option>
+                        <option>40mm</option>
+                        <option>43mm</option>
+                        <option>44mm</option>
+                        <option>47mm</option>
+                    </select>
+                </div>
+
+                <!--Capacity Options-->
+                <div class="max-w-sm mb-4">
+                    <label class="label-text font-medium" for="capacityFilterInput">Capacity Options</label>
+                    <select name="Capacity" id="capacityFilterInput" multiple="" data-select='{
+                      "placeholder": "Select multiple options...",
+                      "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+                      "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
+                      "toggleSeparators": {
+                        "betweenItemsAndCounter": "&"
+                      },
+                      "toggleCountText": "+",
+                      "toggleCountTextPlacement": "prefix-no-space",
+                      "toggleCountTextMinItems": 3,
+                      "toggleCountTextMode": "nItemsAndCount",
+                      "dropdownClasses": "advance-select-menu max-h-44 overflow-y-auto",
+                      "optionClasses": "advance-select-option selected:select-active",
+                      "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"icon-[tabler--check] shrink-0 size-4 text-primary hidden selected:block \"></span></div>",
+                      "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
+                    }' class="hidden">
+                        <option value="">Choose</option>
+                        <option>10,000mAh</option>
+                    </select>
+                </div>
+
+                <!--Size Option-->
+                <div class="max-w-sm mb-4">
+                    <label class="label-text font-medium" for="sizeFilterInput">Length Options</label>
+                    <select name="Size" id="sizeFilterInput" multiple="" data-select='{
+                      "placeholder": "Select multiple options...",
+                      "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+                      "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
+                      "toggleSeparators": {
+                        "betweenItemsAndCounter": "&"
+                      },
+                      "toggleCountText": "+",
+                      "toggleCountTextPlacement": "prefix-no-space",
+                      "toggleCountTextMinItems": 3,
+                      "toggleCountTextMode": "nItemsAndCount",
+                      "dropdownClasses": "advance-select-menu max-h-44 overflow-y-auto",
+                      "optionClasses": "advance-select-option selected:select-active",
+                      "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"icon-[tabler--check] shrink-0 size-4 text-primary hidden selected:block \"></span></div>",
+                      "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
+                    }' class="hidden">
+                        <option value="">Choose</option>
+                        <option>49'</option>
+                        <option>32'</option>
+                        <option>27'</option>
                     </select>
                 </div>
 
@@ -131,6 +239,7 @@
                     </select>
                     <!-- End Select -->
                 </div>
+
             </div>
 
             <div class="drawer-footer">
@@ -151,10 +260,10 @@
                 <p>Starting at <span class="text-xl font-bold">
                     <fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " />
                 </span></p>
-                <p>
-                    <span class="icon-[tabler--IconFilledStar] size-2"></span>
-                    <span><fmt:formatNumber value="${product.ratingSummary().avgRating()}" /></span>
-                </p>
+                <div class="p-3 items-center">
+                    <span class="icon-[tabler--star-filled] size-5"></span>
+                    <span class="text-xl font-bold"><fmt:formatNumber value="${product.ratingSummary().avgRating()}" /></span>
+                </div>
                 <div class="card-actions">
                     <button class="btn btn-block btn-primary">Add to Cart</button>
                 </div>

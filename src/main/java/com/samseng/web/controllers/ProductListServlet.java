@@ -31,6 +31,7 @@ public class ProductListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // get user search query
         String nameQuery = req.getParameter("name");
+        String[] categoryQuery = req.getParameterValues("category");
 
         Double minPrice = null, maxPrice = null;
         try {
@@ -43,13 +44,13 @@ public class ProductListServlet extends HttpServlet {
         }
 
         // Creating HashMap of attributes by trying to put all possible params in and removing the ones that are not attributes.
-        var ignoreParams = List.of("name", "minPrice", "maxPrice");
+        var ignoreParams = List.of("name", "minPrice", "maxPrice", "category");
         var attributeFilters = new HashMap<>(req.getParameterMap());
         ignoreParams.forEach(attributeFilters::remove);
 
 
         // run the search thingy
-        List<Product> products = search(nameQuery, minPrice, maxPrice, attributeFilters);
+        List<Product> products = search(nameQuery, minPrice, maxPrice, categoryQuery ,attributeFilters);
 
         // map output from database model into dto form
         List<ProductListingDTO> dtos = products.stream()
@@ -90,7 +91,7 @@ public class ProductListServlet extends HttpServlet {
             @Nullable String nameQuery,
             @Nullable Double minPrice,
             @Nullable Double maxPrice,
-            Map<String, String[]> attributeFilters
+            String[] categoryQuery, Map<String, String[]> attributeFilters
     ) {
         /*
         AT0001 = [Blue, Black]
@@ -110,13 +111,13 @@ public class ProductListServlet extends HttpServlet {
 
         // creates the components of the criteria
         Root<Product> product = criteria.from(Product.class); //FROM product
-        product.fetch(Product_.imageUrls);
+        product.fetch(Product_.imageUrls, JoinType.LEFT);
 
         Join<Product, Variant> variant = product.join(Product_.variants);
-        product.fetch(Product_.variants);
+        product.fetch(Product_.variants, JoinType.LEFT);
 
         //Join<Product, Comment> comment = product.join(Product_.comments);
-        product.fetch(Product_.comments);
+        product.fetch(Product_.comments, JoinType.LEFT);
 
         Predicate where = cb.conjunction();
 
@@ -131,6 +132,8 @@ public class ProductListServlet extends HttpServlet {
         if (minPrice != null && maxPrice != null)
             where = cb.and(where, cb.between(variant.get(Variant_.price), minPrice, maxPrice));
 
+        if (categoryQuery != null)
+            where = cb.and(where, cb.in(product.get(Product_.category), categoryQuery));
 
         // For every entry in the product table, apply attributeFilters.
         for (var entry : attributeFilters.entrySet()) {
