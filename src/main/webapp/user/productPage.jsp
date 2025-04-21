@@ -54,7 +54,7 @@
                     data-overlay="#overlay-body-scrolling-with-backdrop">
                 <span class="icon-[tabler--x] size-5"></span>
             </button>
-        </div>                                          <!--../../java/com.samseng.web/controllers/productListServlet-->
+        </div>                                          
         <form action="${pageContext.request.contextPath}/products" method="get">
             <div class="drawer-body justify-start">
 
