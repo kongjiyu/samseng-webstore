@@ -1,3 +1,8 @@
+<%@ page import="com.samseng.web.models.Product" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="com.samseng.web.models.Variant" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -22,112 +27,99 @@
 
         <!--Left Panel-->
         <div class="w-full lg:w-2/5 p-10 space-y-4">
-            <div class="card h-full bg-base-100 shadow-md p-4 space-y-4">
+            <%
+                Product productObj = (Product) request.getAttribute("product");
+            %>
+            <div class="card bg-base-100 shadow-md p-4 space-y-4">
                 <div id="horizontal-thumbnails" data-carousel class="relative w-full">
                     <div class="carousel">
                         <div class="carousel-body opacity-100">
+                            <%
+                                Set<String> imageSet = (Set<String>) request.getAttribute("imageSet");
+                                for (String image : imageSet) {
+                            %>
                             <div class="carousel-slide">
                                 <div class="flex size-full justify-center">
-                                    <img src="https://halleyey.uk/uploads/B-AB2-1.png"
+                                    <img src="/uploads/<%= image %>"
                                          class="object-contain w-auto h-[28rem] mx-auto"
                                          alt="product image"/>
                                 </div>
                             </div>
+                            <%
+                                }
+                            %>
                         </div>
-                        <div
-                                class="carousel-pagination bg-base-100 absolute bottom-0 end-0 start-0 z-1 h-16 flex justify-center gap-2 overflow-x-auto pt-2">
-
-                            <img src="https://halleyey.uk/uploads/B-AB2-2.png"
-                                 class="carousel-pagination-item carousel-active:opacity-100 grow object-cover opacity-30 h-20"
-                                 alt="thumb"/>
-
-                        </div>
+                        <div class="my-4 flex flex-col items-start gap-2">
+                            <div class="carousel-pagination bg-base-100 absolute bottom-0 end-0 start-0 z-1 h-16 flex justify-center gap-2 overflow-x-auto pt-2">
+                                <%
+                                    for (String image : imageSet) {
+                                %>
+                                <img src="/uploads/<%= image %>"
+                                     class="carousel-pagination-item carousel-active:opacity-100 grow object-cover opacity-30 h-20"
+                                     alt="thumb"/>
+                                <%
+                                    }
+                                %>
+                            </div>
                         <button type="button" class="carousel-prev">
-                                <span class="mb-15" aria-hidden="true">
-                                    <span
-                                            class="size-9.5 bg-base-100 flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm">
-                                        <span
-                                                class="icon-[tabler--chevron-left] size-5 cursor-pointer rtl:rotate-180"></span>
-                                    </span>
-                                </span>
+                          <span class="mb-15" aria-hidden="true">
+                            <span class="size-9.5 bg-base-100 flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm">
+                              <span class="icon-[tabler--chevron-left] size-5 cursor-pointer rtl:rotate-180"></span>
+                            </span>
+                          </span>
                             <span class="sr-only">Previous</span>
                         </button>
                         <button type="button" class="carousel-next">
                             <span class="sr-only">Next</span>
                             <span class="mb-15" aria-hidden="true">
-                                    <span
-                                            class="size-9.5 bg-base-100 flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm">
-                                        <span
-                                                class="icon-[tabler--chevron-right] size-5 cursor-pointer rtl:rotate-180"></span>
-                                    </span>
-                                </span>
+                            <span class="size-9.5 bg-base-100 flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm">
+                              <span class="icon-[tabler--chevron-right] size-5 cursor-pointer rtl:rotate-180"></span>
+                            </span>
+                          </span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-
+    </div>
         <!--Right Panel-->
+
         <div class="w-full lg:w-3/5 p-10">
-            <h1 class="text-3xl font-bold mt-3 mb-3">SAMSENG Earbuds or Smth Idk</h1>
+            <h1 class="text-3xl font-bold mt-3 mb-3"><%=productObj.getName()%></h1>
             <span id="rating" class="font-bold text-[#4b4c5d]">4.9</span>
             <span>rating</span>
             <span> | </span>
             <span id="amount-sold" class="font-bold text-[#4b4c5d]">4593</span>
             <span>reviews</span>
 
+            <%
+                List<Variant> variantList = (List<Variant>) request.getAttribute("variantList");
+                Variant firstVariant = (variantList != null && !variantList.isEmpty()) ? variantList.get(0) : null;
+            %>
+
             <div class="bg-base-200 justify-start py-3 ml-3 mt-5">
-                <span id="price" class="text-3xl font-bold m-5">$999.00</span>
+                <span id="price" class="text-3xl font-bold m-5"> $<%= firstVariant != null ? firstVariant.getPrice() : "N/A" %></span>
             </div>
 
             <!-- Specifications Selection -->
             <div class="w-full">
                 <h2 class="text-2xl mt-3 mb-3">Select specifications: </h2>
-
-
-                <label>Storage Capacity</label>
+                <%
+                    Map<String, Set<String>> attributeValuesMap = (Map<String, Set<String>>) request.getAttribute("attributeValuesMap");
+                    for (Map.Entry<String, Set<String>> entry : attributeValuesMap.entrySet()) {
+                        String attrName = entry.getKey();
+                        Set<String> values = entry.getValue();
+                %>
+                <label class="block font-semibold mb-2"><%= attrName %></label>
                 <div class="flex w-[80%] items-start gap-3 mt-1 mb-4 ml-1 flex-wrap sm:flex-nowrap">
+                    <% for (String value : values) { %>
                     <label class="custom-option flex sm:w-1/2 flex-row items-start gap-3">
-                        <input type="radio" name="capacity" class="radio hidden" checked/>
-                        <span class="label-text w-full text-start text-[16px]">
-                                256 GB
-                            </span>
+                        <input type="radio" name="<%= attrName %>" value="<%= value %>" class="radio hidden"/>
+                        <span class="label-text w-full text-start text-[16px]"><%= value %></span>
                     </label>
-                    <label class="custom-option flex sm:w-1/2 flex-row items-start gap-3">
-                        <input type="radio" name="capacity" class="radio hidden"/>
-                        <span class="label-text w-full text-start text-[16px]">
-                                512 GB
-                            </span>
-                    </label>
-                    <label class="custom-option flex sm:w-1/2 flex-row items-start gap-3">
-                        <input type="radio" name="capacity" class="radio hidden"/>
-                        <span class="label-text w-full text-start text-[16px]">
-                                1 TB
-                            </span>
-                    </label>
+                    <% } %>
                 </div>
-
-                <label>Color</label>
-                <div class="flex w-[80%] items-start gap-3 mt-1 mb-4 ml-1 flex-wrap sm:flex-nowrap">
-                    <label class="custom-option flex sm:w-1/2 flex-row items-start gap-3">
-                        <input type="radio" name="color" class="radio hidden" checked/>
-                        <span class="label-text w-full text-start text-[16px]">
-                                Titanium White
-                            </span>
-                    </label>
-                    <label class="custom-option flex sm:w-1/2 flex-row items-start gap-3">
-                        <input type="radio" name="color" class="radio hidden"/>
-                        <span class="label-text w-full text-start text-[16px]">
-                                Midnight Black
-                            </span>
-                    </label>
-                    <label class="custom-option flex sm:w-1/2 flex-row items-start gap-3">
-                        <input type="radio" name="color" class="radio hidden"/>
-                        <span class="label-text w-full text-start text-[16px]">
-                                Platinum Silver
-                            </span>
-                    </label>
-                </div>
+                <% } %>
             </div>
             <label>Quantity</label>
             <div class="flex items-center px-1 py-2 gap-6">
@@ -141,9 +133,7 @@
                     <button id="add-to-cart" class="btn btn-primary rounded-lg">Add to Cart</button>
                 </div>
             </div>
-
-        </div>
-
+       </div>
     </div>
 
     <!-- Description -->
@@ -152,31 +142,7 @@
     </div>
     <div class="w-full p-10 space-y-4">
         <p class="text-base-content/50 text-[18px]">
-            "Design and Display:
-            -Models and Sizes: The series includes the Galaxy S25 with a 6.2-inch display, the S25 Ultra with a
-            6.7-inch display, and the S25 Ultra featuring a 6.9-inch screen. ​
-            -Display Technology: Each model is equipped with a Dynamic AMOLED 2X screen, offering vibrant visuals
-            and smooth scrolling experiences. ​
-
-            Performance:
-            -Processor: All models are powered by the Snapdragon 8 Elite chipset, delivering a 40% performance boost
-            over previous generations. ​
-            Battery Life: Optimized battery performance ensures extended usage, with fast and wireless charging
-            options available across the series. ​
-
-            Camera System:
-            -Milkyway S36: Feature a multi-camera setup, including a 50 MP main camera, a 12 MP ultra-wide lens, and
-            a 10 MP telephoto lens, complemented by a 12 MP front-facing camera. ​
-            -Milkyway S36: Boasts a 200-megapixel main camera, enhanced ultra-wide and telephoto lenses, and
-            advanced AI-driven features like Virtual Aperture for improved depth of field control. ​
-
-            Artificial Intelligence Features:
-
-            -AI Integration: The series introduces Galaxy AI, offering features such as Live Translation for
-            real-time language interpretation and Nightography for capturing stunning low-light photos. ​
-            -Enhanced User Experience: AI-driven functionalities like Circle to Search with Google and AI Select
-            anticipate user needs, providing a more intuitive and personalized experience. ​"
-
+            <%=productObj.getDesc()%>
         </p>
     </div>
 
