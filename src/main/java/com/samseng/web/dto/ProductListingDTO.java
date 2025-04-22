@@ -12,6 +12,7 @@ public record ProductListingDTO(
         String name,
         String desc,
         List<String> imageUrls,
-        double startingPrice
+        double startingPrice,
+        RatingSummaryDTO ratingSummary
 ) implements Serializable {
 }
