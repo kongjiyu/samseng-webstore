@@ -27,7 +27,7 @@
     <image class="hero-image" style="background-image: url('<%-- request.getContextPath() --%>/static/img/phone-store-banner.jpg');"></image>
     -->
     <div class="hero-text">
-        <h1>Smart Phones</h1>
+        <h1>Product Listing</h1>
     </div>
 </div>
 
@@ -68,18 +68,48 @@
                 <div class="mb-4 flex flex-row space-x-4 rtl:flex-row-reverse">
                     <div class="basis-1/2">
                         <label for="minPriceFilterInput" class="mb-2 block text-sm font-medium">Min price:</label>
-                        <input id="minPriceFilterInput" name="minPrice" class="input" type="number" value="150" />
+                        <input id="minPriceFilterInput" min="1" max="9999"  name="minPrice" class="input" type="number" value="3000" />
                     </div>
                     <div class="basis-1/2">
                         <label for="maxPriceFilterInput" class="mb-2 block text-sm font-medium">Max price:</label>
-                        <input id="maxPriceFilterInput" name="maxPrice" class="input" type="number" value="650" />
+                        <input id="maxPriceFilterInput" min="2" max="10000" name="maxPrice" class="input" type="number" value="6000" />
                     </div>
+                </div>
+
+                <!--Product Category-->
+                <div class="max-w-sm mb-4">
+                    <label class="label-text font-medium" for="categoryFilterInput">Category</label>
+                    <select name="category" id="categoryFilterInput" multiple="" data-select='{
+                      "placeholder": "Select multiple options...",
+                      "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+                      "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
+                      "toggleSeparators": {
+                        "betweenItemsAndCounter": "&"
+                      },
+                      "toggleCountText": "+",
+                      "toggleCountTextPlacement": "prefix-no-space",
+                      "toggleCountTextMinItems": 3,
+                      "toggleCountTextMode": "nItemsAndCount",
+                      "dropdownClasses": "advance-select-menu max-h-44 overflow-y-auto",
+                      "optionClasses": "advance-select-option selected:select-active",
+                      "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"icon-[tabler--check] shrink-0 size-4 text-primary hidden selected:block \"></span></div>",
+                      "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
+                    }' class="hidden">
+                        <option value="">Choose</option>
+                        <option value="Mobile Phone">Smart Phone</option>
+                        <option>Tab</option>
+                        <option>Monitor</option>
+                        <option>Powerbank</option>
+                        <option value="smart watch">Smart Watch</option>
+                        <option value="smart pen">Smart Pen</option>
+                        <option value="earbuds">Earbuds</option>
+                    </select>
                 </div>
 
                 <!--Color Options-->
                 <div class="max-w-sm mb-4">
                     <label class="label-text font-medium" for="colorFilterInput">Color Options</label>
-                    <select name="color" id="colorFilterInput" multiple="" data-select='{
+                    <select name="Color" id="colorFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
                       "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
                       "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
@@ -101,14 +131,15 @@
                         <option>Yellow</option>
                         <option>Pink</option>
                         <option>Lavender</option>
+                        <option>Green</option>
 
                     </select>
                 </div>
 
-                <!--Storage Options-->
+                <!--Length Options-->
                 <div class="max-w-sm mb-4">
-                    <label class="label-text font-medium" for="storageFilterInput">Storage Options</label>
-                    <select name="storage" id="storageFilterInput" multiple="" data-select='{
+                    <label class="label-text font-medium" for="lengthFilterInput">Length Options</label>
+                    <select name="Length" id="lengthFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
                       "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
                       "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
@@ -125,12 +156,90 @@
                       "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
                     }' class="hidden">
                         <option value="">Choose</option>
-                        <option>256GB</option>
-                        <option>512GB</option>
-                        <option>1TB</option>
+                        <option>40mm</option>
+                        <option>43mm</option>
+                        <option>44mm</option>
+                        <option>47mm</option>
+                    </select>
+                </div>
+
+                <!--Capacity Options-->
+                <div class="max-w-sm mb-4">
+                    <label class="label-text font-medium" for="capacityFilterInput">Capacity Options</label>
+                    <select name="Capacity" id="capacityFilterInput" multiple="" data-select='{
+                      "placeholder": "Select multiple options...",
+                      "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+                      "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
+                      "toggleSeparators": {
+                        "betweenItemsAndCounter": "&"
+                      },
+                      "toggleCountText": "+",
+                      "toggleCountTextPlacement": "prefix-no-space",
+                      "toggleCountTextMinItems": 3,
+                      "toggleCountTextMode": "nItemsAndCount",
+                      "dropdownClasses": "advance-select-menu max-h-44 overflow-y-auto",
+                      "optionClasses": "advance-select-option selected:select-active",
+                      "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"icon-[tabler--check] shrink-0 size-4 text-primary hidden selected:block \"></span></div>",
+                      "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
+                    }' class="hidden">
+                        <option value="">Choose</option>
+                        <option>10,000mAh</option>
+                    </select>
+                </div>
+
+                <!--Size Option-->
+                <div class="max-w-sm mb-4">
+                    <label class="label-text font-medium" for="sizeFilterInput">Length Options</label>
+                    <select name="Size" id="sizeFilterInput" multiple="" data-select='{
+                      "placeholder": "Select multiple options...",
+                      "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+                      "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
+                      "toggleSeparators": {
+                        "betweenItemsAndCounter": "&"
+                      },
+                      "toggleCountText": "+",
+                      "toggleCountTextPlacement": "prefix-no-space",
+                      "toggleCountTextMinItems": 3,
+                      "toggleCountTextMode": "nItemsAndCount",
+                      "dropdownClasses": "advance-select-menu max-h-44 overflow-y-auto",
+                      "optionClasses": "advance-select-option selected:select-active",
+                      "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"icon-[tabler--check] shrink-0 size-4 text-primary hidden selected:block \"></span></div>",
+                      "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
+                    }' class="hidden">
+                        <option value="">Choose</option>
+                        <option>49'</option>
+                        <option>32'</option>
+                        <option>27'</option>
+                    </select>
+                </div>
+
+                <!--Storage Options-->
+                <div class="max-w-sm mb-4">
+                    <label class="label-text font-medium" for="storageFilterInput">Storage Options</label>
+                    <select name="Storage" id="storageFilterInput" multiple="" data-select='{
+                      "placeholder": "Select multiple options...",
+                      "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+                      "toggleClasses": "advance-select-toggle select-disabled:pointer-events-none select-disabled:opacity-40",
+                      "toggleSeparators": {
+                        "betweenItemsAndCounter": "&"
+                      },
+                      "toggleCountText": "+",
+                      "toggleCountTextPlacement": "prefix-no-space",
+                      "toggleCountTextMinItems": 3,
+                      "toggleCountTextMode": "nItemsAndCount",
+                      "dropdownClasses": "advance-select-menu max-h-44 overflow-y-auto",
+                      "optionClasses": "advance-select-option selected:select-active",
+                      "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"icon-[tabler--check] shrink-0 size-4 text-primary hidden selected:block \"></span></div>",
+                      "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
+                    }' class="hidden">
+                        <option value="">Choose</option>
+                        <option value="256gb">256GB</option>
+                        <option value="512gb">512GB</option>
+                        <option value="1tb">1TB</option>
                     </select>
                     <!-- End Select -->
                 </div>
+
             </div>
 
             <div class="drawer-footer">
@@ -146,81 +255,17 @@
         <div class="product-card card sm:max-w-xs">
             <figure><img src="${product.imageUrls()[0]}" alt="product-image" /></figure>
             <div class="card-body">
-                <h5 class="card-title mb-2.5">${product.name()}</h5>
+                <h5 class="card-title mb-2.5"><a href="#">${product.name()}</a>></h5>
                 <p class="mb-4">${product.desc().substring(0, 45)}...</p>
-                <p>Starting at <span class="text-xl font-bold">
+                <p class="text-xl">Starting at <span class="font-bold">
                     <fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " />
                 </span></p>
+                <div class="my-2 align-middle">
+                    <span class="icon-[tabler--star-filled] size-5"></span>
+                    <span class="text-xl font-bold"><fmt:formatNumber value="${product.ratingSummary().avgRating()}" /></span>
+                </div>
                 <div class="card-actions">
-                    <button class="btn btn-block btn-primary">Add to Cart</button>
-                    <div class="tooltip [--trigger:hover]">
-                        <div class="tooltip-toggle">
-                            <p class="text-primary cursor-pointer select-none flex items-center gap-1">
-                                Ratings & reviews
-                                <span class="icon-[tabler--eye-closed] tooltip-shown:hidden"></span>
-                                <span class="icon-[tabler--eye] hidden tooltip-shown:inline-block"></span>
-                            </p>
-
-                            <div class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible p-4" role="popover">
-                                <div
-                                        class="tooltip-body bg-base-100 text-base-content/80 flex max-w-xs flex-col gap-1 rounded-lg p-4 text-start">
-                                    <div class="text-primary text-xl flex items-center gap-1 font-medium">
-                                        4.35
-                                        <span class="icon-[tabler--star-filled] size-5"></span>
-                                    </div>
-                                    <div class="text-base-content font-medium">Total 300 reviews</div>
-                                    <p>All reviews are from genuine customers.</p>
-                                    <div class="mt-4 flex items-center justify-between">
-                                        <span class="badge badge-soft badge-primary rounded-full">+6 this week</span>
-                                        <a href="#" class="link link-primary link-hover text-sm">See all</a>
-                                    </div>
-                                    <div class="divider my-2"></div>
-                                    <div class="space-y-2">
-                                        <div class="flex w-full items-center gap-2">
-                                            <span class="text-sm text-nowrap font-medium leading-5">5 Star</span>
-                                            <div class="progress" role="progressbar" aria-valuenow="75" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <div class="progress-bar progress-primary w-3/4"></div>
-                                            </div>
-                                            <span class="text-sm font-medium leading-5">225</span>
-                                        </div>
-                                        <div class="flex w-full items-center gap-2">
-                                            <span class="text-sm text-nowrap font-medium leading-5">4 Star</span>
-                                            <div class="progress" role="progressbar" aria-valuenow="10" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <div class="progress-bar progress-primary w-[10%]"></div>
-                                            </div>
-                                            <span class="text-sm font-medium leading-5">30</span>
-                                        </div>
-                                        <div class="flex w-full items-center gap-2">
-                                            <span class="text-sm text-nowrap font-medium leading-5">3 Star</span>
-                                            <div class="progress" role="progressbar" aria-valuenow="10" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <div class="progress-bar progress-primary w-[10%]"></div>
-                                            </div>
-                                            <span class="text-sm font-medium leading-5">30</span>
-                                        </div>
-                                        <div class="flex w-full items-center gap-2">
-                                            <span class="text-sm text-nowrap font-medium leading-5">2 Star</span>
-                                            <div class="progress" role="progressbar" aria-valuenow="5" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <div class="progress-bar progress-primary w-[5%]"></div>
-                                            </div>
-                                            <span class="text-sm font-medium leading-5">15</span>
-                                        </div>
-                                        <div class="flex w-full items-center gap-2">
-                                            <span class="text-sm text-nowrap font-medium leading-5">1 Star</span>
-                                            <div class="progress" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                                                 aria-valuemax="100">
-                                                <div class="progress-bar progress-primary w-0"></div>
-                                            </div>
-                                            <span class="text-sm font-medium leading-5">00</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <button class="btn btn-block btn-primary"><a href="#">Learn More</a></button>
                 </div>
             </div>
         </div>

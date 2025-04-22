@@ -21,7 +21,7 @@ public class Comment {
     private String id;
 
     @NotNull
-    private double rating;
+    private int rating;
 
     @NotBlank
     @Size(min=1,max = 200)
