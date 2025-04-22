@@ -68,11 +68,11 @@
                 <div class="mb-4 flex flex-row space-x-4 rtl:flex-row-reverse">
                     <div class="basis-1/2">
                         <label for="minPriceFilterInput" class="mb-2 block text-sm font-medium">Min price:</label>
-                        <input id="minPriceFilterInput" name="minPrice" class="input" type="number" value="150" />
+                        <input id="minPriceFilterInput" min="1" max="9999"  name="minPrice" class="input" type="number" value="3000" />
                     </div>
                     <div class="basis-1/2">
                         <label for="maxPriceFilterInput" class="mb-2 block text-sm font-medium">Max price:</label>
-                        <input id="maxPriceFilterInput" name="maxPrice" class="input" type="number" value="650" />
+                        <input id="maxPriceFilterInput" min="2" max="10000" name="maxPrice" class="input" type="number" value="6000" />
                     </div>
                 </div>
 
@@ -96,7 +96,7 @@
                       "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
                     }' class="hidden">
                         <option value="">Choose</option>
-                        <option>Mobile Phone</option>
+                        <option value="Mobile Phone">Smart Phone</option>
                         <option>Tab</option>
                         <option>Monitor</option>
                         <option>Powerbank</option>
@@ -257,15 +257,15 @@
             <div class="card-body">
                 <h5 class="card-title mb-2.5">${product.name()}</h5>
                 <p class="mb-4">${product.desc().substring(0, 45)}...</p>
-                <p>Starting at <span class="text-xl font-bold">
+                <p class="text-xl">Starting at <span class="font-bold">
                     <fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " />
                 </span></p>
-                <div class="p-3 items-center">
+                <div class="my-2 align-middle">
                     <span class="icon-[tabler--star-filled] size-5"></span>
                     <span class="text-xl font-bold"><fmt:formatNumber value="${product.ratingSummary().avgRating()}" /></span>
                 </div>
                 <div class="card-actions">
-                    <button class="btn btn-block btn-primary">Add to Cart</button>
+                    <button class="btn btn-block btn-primary">Learn More</button>
                 </div>
             </div>
         </div>
