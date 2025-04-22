@@ -15,7 +15,7 @@
     <span class="loading loading-spinner loading-lg"></span>
 </div>
 <div class="h-screen">
-    <%@ include file="/general/userHeader.jsp" %>
+    <%@ include file="/general/homeHeader.jsp" %>
 
     <div class="relative isolate px-6 pt-14 lg:px-8">
         <div class="absolute inset-0 z-[-10]">

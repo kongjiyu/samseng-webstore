@@ -22,7 +22,7 @@
 <%@ include file="/general/userHeader.jsp" %>
 
 <!-- Product Detail / Description -->
-<div class="bg-base-100 w-[70%] mt-10 mx-auto rounded-lg">
+<div data-theme="light" class="bg-base-100 w-[70%] mt-10 mx-auto rounded-lg">
     <div class="flex flex-col lg:flex-row lg:item-stretch">
 
         <!--Left Panel-->
@@ -98,7 +98,7 @@
             %>
 
             <div class="bg-base-200 justify-start py-3 ml-3 mt-5">
-                <span id="price" class="text-3xl font-bold m-5"> $<%= firstVariant != null ? firstVariant.getPrice() : "N/A" %></span>
+                <span id="price" class="text-3xl font-bold m-5"> RM<%= firstVariant != null ? String.format("%.2f", firstVariant.getPrice()) : "N/A" %></span>
             </div>
 
             <!-- Specifications Selection -->
@@ -112,9 +112,13 @@
                 %>
                 <label class="block font-semibold mb-2"><%= attrName %></label>
                 <div class="flex w-[80%] items-start gap-3 mt-1 mb-4 ml-1 flex-wrap sm:flex-nowrap">
-                    <% for (String value : values) { %>
+                    <%
+                        int index = 0;
+                        for (String value : values) {
+                            index++;
+                    %>
                     <label class="custom-option flex sm:w-1/2 flex-row items-start gap-3">
-                        <input type="radio" name="<%= attrName %>" value="<%= value %>" class="radio hidden"/>
+                        <input type="radio" name="<%= attrName %>" value="<%= value %>" class="radio hidden" <%= index == 1 ? "checked" : "" %>/>
                         <span class="label-text w-full text-start text-[16px]"><%= value %></span>
                     </label>
                     <% } %>
@@ -128,10 +132,12 @@
                     <span id="quantity-number" class="text-[16px] mx-auto">01</span>
                     <span id="increment-button" class="icon-[tabler--plus] border-l-2 border-blue-300"></span>
                 </div>
-
-                <div>
-                    <button id="add-to-cart" class="btn btn-primary rounded-lg">Add to Cart</button>
-                </div>
+                <form action="<%= request.getContextPath() %>/cart" method="post" class="flex items-center gap-6">
+                    <input type="hidden" name="action" value="add"/>
+                    <input type="hidden" name="variantId" id="selected-variant-id" />
+                    <input type="hidden" name="qty" id="quantity-input" value="1" />
+                    <button type="submit" class="btn btn-primary rounded-lg">Add to Cart</button>
+                </form>
             </div>
        </div>
     </div>
@@ -149,7 +155,7 @@
 </div>
 
 <!-- Rating / Review -->
-<div id="lower-container" class="bg-base-100 w-[70%] mt-10 mx-auto rounded-lg rounded-b-none">
+<div data-theme="light" id="lower-container" class="bg-base-100 w-[70%] mt-10 mx-auto rounded-lg rounded-b-none">
     <div class="m-5 mb-0">
         <h1 class="text-3xl font-bold mt-3 pt-8 pb-1">Rating & Reviews</h1>
     </div>
@@ -250,7 +256,7 @@
         })
         ratingReadOnly.init()
     })
-</script>
+//</script>
 
 <!-- Quantity Button -->
 <script>
@@ -273,7 +279,91 @@
     });
 </script>
 
+<script>
+    const variants = [
+        <%
+            Map<String, Map<String, String>> variantAttrMap = (Map<String, Map<String, String>>) request.getAttribute("variantAttrMap");
+            for (Variant v : variantList) {
+                Map<String, String> attrMap = variantAttrMap.get(v.getVariantId());
+        %>
+        {
+            id: "<%= v.getVariantId() %>",
+            name: "<%= v.getVariantName() %>",
+            price: <%= String.format("%.2f", v.getPrice()) %>,
+            attributes: {
+                <%
+                    for (Map.Entry<String, String> entry : attrMap.entrySet()) {
+                %>
+                "<%= entry.getKey() %>": "<%= entry.getValue() %>",
+                <%
+                    }
+                %>
+            }
+        },
+        <% } %>
+    ];
+</script>
+
+<script>
+    function updatePriceDisplay(matchingVariant) {
+        document.getElementById('price').innerText = "RM" + matchingVariant.price.toFixed(2);
+    }
+
+    function getSelectedAttributes() {
+        const selected = {};
+        document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
+            selected[input.name] = input.value;
+        });
+        return selected;
+    }
+
+    function findMatchingVariant(selectedAttrs) {
+        return variants.find(v => {
+            return Object.keys(selectedAttrs).every(attr =>
+                v.attributes[attr] === selectedAttrs[attr]
+            );
+        });
+    }
+
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            const selectedAttrs = getSelectedAttributes();
+            const matched = findMatchingVariant(selectedAttrs);
+            if (matched) updatePriceDisplay(matched);
+        });
+    });
+</script>
+
 </body>
 
 
 </html>
+
+</script>
+
+<script>
+    function updateSelectedVariantId() {
+        const selectedAttrs = getSelectedAttributes();
+        const matched = findMatchingVariant(selectedAttrs);
+        if (matched) {
+            document.getElementById('selected-variant-id').value = matched.id;
+        }
+    }
+
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', updateSelectedVariantId);
+    });
+
+    // Update quantity field on quantity button click
+    document.getElementById('increment-button').addEventListener('click', () => {
+        const q = parseInt(document.getElementById('quantity-number').textContent, 10);
+        document.getElementById('quantity-input').value = q;
+    });
+    document.getElementById('decrement-button').addEventListener('click', () => {
+        const q = parseInt(document.getElementById('quantity-number').textContent, 10);
+        document.getElementById('quantity-input').value = q;
+    });
+
+    // Initial trigger
+    updateSelectedVariantId();
+</script>

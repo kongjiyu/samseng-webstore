@@ -89,7 +89,7 @@ public class UserProductDetail extends HttpServlet {
             request.setAttribute("product", product);
             request.getRequestDispatcher("/user/productDetail.jsp").forward(request, response);
         }else{
-            response.sendRedirect("/user/productList.jsp");
+            response.sendRedirect("/user/products");
         }
 
     }

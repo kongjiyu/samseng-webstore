@@ -61,7 +61,7 @@ public class Cart_ProductRepositoryImpl implements Cart_ProductRepository {
 
     @Override
     public void addOrUpdate(String accountId, String variantId, int quantity) {
-        Cart_Product existing = em.createQuery("SELECT c FROM Cart_Product c WHERE c.account = :accountId AND c.variant.id = :variantId", Cart_Product.class)
+        Cart_Product existing = em.createQuery("SELECT c FROM Cart_Product c WHERE c.account.id = :accountId AND c.variant.id = :variantId", Cart_Product.class)
                 .setParameter("accountId", accountId)
                 .setParameter("variantId", variantId)
                 .getResultStream()

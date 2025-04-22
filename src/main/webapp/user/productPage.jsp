@@ -253,9 +253,9 @@
 <%--        for (var product : products )--%>
         <c:forEach var="product" items="${products}">
         <div class="product-card card sm:max-w-xs">
-            <figure><img src="${product.imageUrls()[0]}" alt="product-image" /></figure>
+            <figure><img src="/uploads/${product.imageUrls()[0]}" alt="product-image" /></figure>
             <div class="card-body">
-                <h5 class="card-title mb-2.5"><a href="#">${product.name()}</a>></h5>
+                <h5 class="card-title mb-2.5"><a href="<%=request.getContextPath()%>/user/product?productId=${product.id()}">${product.name()}</a>></h5>
                 <p class="mb-4">${product.desc().substring(0, 45)}...</p>
                 <p class="text-xl">Starting at <span class="font-bold">
                     <fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " />
@@ -274,34 +274,7 @@
 </div>
 
 
-<footer class="footer bg-base-200 flex flex-col items-center gap-4 p-6" data-theme="dark">
-    <div class="flex items-center gap-2 text-xl font-bold">
-        <span>SAMSENG</span>
-    </div>
-    <aside>
-        <p>©2025 SAMSENG</p>
-    </aside>
-    <nav class="text-base-content grid-flow-col gap-4">
-        <a class="link link-hover" href="#">License</a>
-        <a class="link link-hover" href="#">Help</a>
-        <a class="link link-hover" href="#">Contact</a>
-        <a class="link link-hover" href="#">Policy</a>
-    </nav>
-    <div class="flex h-5 gap-4">
-        <a href="#" class="link" aria-label="Github Link">
-            <span class="icon-[tabler--brand-github] size-5"></span>
-        </a>
-        <a href="#" class="link" aria-label="Facebook Link">
-            <span class="icon-[tabler--brand-facebook] size-5"></span>
-        </a>
-        <a href="#" class="link" aria-label="X Link">
-            <span class="icon-[tabler--brand-x] size-5"></span>
-        </a>
-        <a href="#" class="link" aria-label="Google Link">
-            <span class="icon-[tabler--brand-google] size-5"></span>
-        </a>
-    </div>
-</footer>
+<%@include file="/general/userFooter.jsp"%>
 
 </body>
 </html>
