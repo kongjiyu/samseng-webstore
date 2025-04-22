@@ -66,12 +66,16 @@ public class AccountProfileServlet extends HttpServlet {
             return;
         }
 
+        try{
+            Account accountProfile = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
+            List<Address> addressList = addressRepo.findByUserId(accountProfile.getId());
+            request.setAttribute("addresses", addressList);
+            request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+        }catch (Exception e){
+            e.printStackTrace();
+            request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+        }
 
-        Account accountProfile = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
-        List<Address> addressList = addressRepo.findByUserId(accountProfile.getId());
-        request.setAttribute("profile", accountProfile);
-        request.setAttribute("addresses", addressList);
-        request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -79,32 +83,16 @@ public class AccountProfileServlet extends HttpServlet {
        Account account = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
         Account.Role newRole = account.getRole();
         LocalDate newDob = account.getDob();
+        String password = account.getPassword();
         String newUsername = request.getParameter("username");
         String email = request.getParameter("email");
+
         if (account != null) {
-            if(request.getParameter("username") == null) {
-                String oldUsername = account.getUsername();
-                account.setUsername(oldUsername);
-                account.setEmail(email);
-                account.setRole(newRole);
-                account.setDob(newDob);
-                account.setPassword(account.getPassword());
-            }
-            else if(request.getParameter("email") == null) {
-                account.setUsername(newUsername);
-                String oldEmail = account.getEmail();
-                account.setEmail(oldEmail);
-                account.setRole(newRole);
-                account.setDob(newDob);
-                account.setPassword(account.getPassword());
-            }
-            else {
                 account.setUsername(newUsername);
                 account.setEmail(email);
                 account.setRole(newRole);
                 account.setDob(newDob);
-                account.setPassword(account.getPassword());
-            }
+                account.setPassword(password);
             try {
                 accountRepo.update(account);
                 response.sendRedirect(request.getContextPath()+"/login-flow");

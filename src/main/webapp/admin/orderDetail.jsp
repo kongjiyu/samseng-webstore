@@ -146,48 +146,48 @@
         <div class="overflow-x-auto">
           <table class="table table-zebra w-full">
             <thead>
-              <tr>
-                <th class="font-bold">Product</th>
-                <th class="font-bold text-center">Qty</th>
-                <th class="font-bold text-right">Price</th>
-              </tr>
+            <tr>
+              <th class="font-bold">Product</th>
+              <th class="font-bold text-center">Qty</th>
+              <th class="font-bold text-right">Price</th>
+            </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Samsung Galaxy Z Flip</td>
-                <td class="text-center">1</td>
-                <td class="text-right">$999</td>
-              </tr>
-              <tr>
-                <td>Galaxy Buds Pro</td>
-                <td class="text-center">1</td>
-                <td class="text-right">$199</td>
-              </tr>
-              <tr class="font-bold">
-                <td></td>
-                <td class="text-right">Subtotal</td>
-                <td class="text-right">$1198</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td class="text-right text-base-content/80">Gross Price</td>
-                <td class="text-right text-base-content font-medium">$1198</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td class="text-right text-base-content/80">Tax Charge</td>
-                <td class="text-right text-base-content font-medium">$119.8</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td class="text-right text-base-content/80">Delivery Charge</td>
-                <td class="text-right text-base-content font-medium">$20</td>
-              </tr>
-              <tr class="text-lg font-bold">
-                <td></td>
-                <td class="text-right">Grand Total</td>
-                <td class="text-right">$1337.8</td>
-              </tr>
+            <tr>
+              <td>Samsung Galaxy Z Flip</td>
+              <td class="text-center">1</td>
+              <td class="text-right">$999</td>
+            </tr>
+            <tr>
+              <td>Galaxy Buds Pro</td>
+              <td class="text-center">1</td>
+              <td class="text-right">$199</td>
+            </tr>
+            <tr class="font-bold">
+              <td></td>
+              <td class="text-right">Subtotal</td>
+              <td class="text-right">$1198</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-right text-base-content/80">Gross Price</td>
+              <td class="text-right text-base-content font-medium">$1198</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-right text-base-content/80">Tax Charge</td>
+              <td class="text-right text-base-content font-medium">$119.8</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-right text-base-content/80">Delivery Charge</td>
+              <td class="text-right text-base-content font-medium">$20</td>
+            </tr>
+            <tr class="text-lg font-bold">
+              <td></td>
+              <td class="text-right">Grand Total</td>
+              <td class="text-right">$1337.8</td>
+            </tr>
             </tbody>
           </table>
         </div>
@@ -222,24 +222,69 @@
       </div>
       <div class="bg-base-100 border rounded-lg shadow p-6">
         <h2 class="text-2xl font-bold">Order History</h2>
+
+        <!-- Trigger Button -->
+        <div class="flex justify-center my-4">
+          <button type="button" class="btn btn-info" aria-haspopup="dialog" aria-expanded="false"
+                  aria-controls="middle-center-modal" data-overlay="#middle-center-modal">
+            Update Stage
+          </button>
+        </div>
+
+        <!-- FlyonUI Modal -->
+        <div id="middle-center-modal"
+             class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle overlay-backdrop-open:bg-black/30 overlay-scroll-lock hidden"
+             role="dialog" tabindex="-1">
+          <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title">Update Order Stage</h3>
+                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
+                        aria-label="Close" data-overlay="#middle-center-modal">
+                  <span class="icon-[tabler--x] size-4"></span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to update the stage of this order?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-soft btn-secondary" data-overlay="#middle-center-modal">Cancel</button>
+                <button type="button" class="btn btn-info" onclick="confirmStageUpdate()">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
         <ul class="timeline timeline-vertical">
           <li>
             <div class="timeline-start text-base-content font-medium">4 April 2025</div>
             <div class="timeline-middle">
-                            <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
-                              <span class="badge badge-info size-3 rounded-full p-0"></span>
-                            </span>
+        <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+          <span class="badge badge-info size-3 rounded-full p-0"></span>
+        </span>
             </div>
             <div class="timeline-end timeline-box">Delivered</div>
             <hr />
           </li>
           <li>
             <hr />
+            <div class="timeline-start text-base-content font-medium">3 April 2025</div>
+            <div class="timeline-middle">
+        <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+          <span class="badge badge-info size-3 rounded-full p-0"></span>
+        </span>
+            </div>
+            <div class="timeline-end timeline-box">Shipped</div>
+            <hr />
+          </li>
+          <li>
+            <hr />
             <div class="timeline-start text-base-content font-medium">2 April 2025</div>
             <div class="timeline-middle">
-                            <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
-                              <span class="badge badge-info size-3 rounded-full p-0"></span>
-                            </span>
+        <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+          <span class="badge badge-info size-3 rounded-full p-0"></span>
+        </span>
             </div>
             <div class="timeline-end timeline-box">Packed</div>
             <hr />
@@ -248,11 +293,11 @@
             <hr />
             <div class="timeline-start text-base-content font-medium">1 April 2025</div>
             <div class="timeline-middle">
-                            <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
-                              <span class="badge badge-info size-3 rounded-full p-0"></span>
-                            </span>
+        <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+          <span class="badge badge-info size-3 rounded-full p-0"></span>
+        </span>
             </div>
-            <div class="timeline-end timeline-box">Orderd</div>
+            <div class="timeline-end timeline-box">Ordered</div>
             <hr />
           </li>
         </ul>
@@ -260,5 +305,21 @@
     </div>
   </div>
 </div>
+
+<script>
+  function openStageModal() {
+    const modal = document.getElementById('confirm-stage-modal');
+    if (modal) {
+      // Toggle modal visibility using FlyonUI's overlay attributes
+      modal.classList.toggle('hidden');
+      modal.classList.toggle('overlay-open:opacity-100');
+    }
+  }
+
+  function confirmStageUpdate() {
+    alert("Order stage updated (frontend only)");
+  }
+</script>
+
 </body>
 </html>

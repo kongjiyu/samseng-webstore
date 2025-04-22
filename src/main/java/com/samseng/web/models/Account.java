@@ -10,7 +10,8 @@ import org.hibernate.annotations.NaturalId;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "\"Account\"")
 @NoArgsConstructor

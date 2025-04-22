@@ -3,8 +3,11 @@ package com.samseng.web.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "\"Cart_Product\"")
 
@@ -13,8 +16,8 @@ public class Cart_Product {
 
     @Id
     @ManyToOne
-    @JoinColumn(name="product_id")
-    private Product product;
+    @JoinColumn(name="variant_id")
+    private Variant variant;
 
     @Id
     @ManyToOne

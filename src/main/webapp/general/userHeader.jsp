@@ -1,3 +1,5 @@
+<jsp:useBean id="Account" scope="session" class="com.samseng.web.models.Account"/>
+<%@page import="com.samseng.web.models.*" %>
 <html>
 <head>
     <title>Header</title>
@@ -143,27 +145,36 @@
             </div>
         </div>
         <!--User Profile-->
-        <% if(request.getUserPrincipal() !=null) { %>
+        <%
+            if(request.getUserPrincipal() !=null) {
+                Account profile = (Account) session.getAttribute("profile");
+        %>
         <div class="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
             <button id="dropdown-scrollable" type="button" class="dropdown-toggle flex items-center"
                     aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                <div class="avatar">
-                    <div class="size-9.5 rounded-full">
-                        <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" alt="avatar 1" />
-                    </div>
+                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    <%
+                        String[] nameParts = profile.getUsername().trim().split("\\s+");
+                        StringBuilder initials = new StringBuilder();
+                        for (String part : nameParts) {
+                            if (!part.isEmpty()) {
+                                initials.append(part.charAt(0));
+                                if (initials.length() == 2) break;
+                            }
+                        }
+                    %>
+                    <span class="text-3xl text-base-content uppercase"><%= initials.toString() %></span>
                 </div>
             </button>
             <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu"
                 aria-orientation="vertical" aria-labelledby="dropdown-avatar">
                 <li class="dropdown-header gap-2">
-                    <div class="avatar">
-                        <div class="w-10 rounded-full">
-                            <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" alt="avatar" />
-                        </div>
+                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                        <span class="text-3xl uppercase"><%= initials.toString() %></span>
                     </div>
                     <div>
-                        <h6 class="text-base-content text-base font-semibold">John Doe</h6>
-                        <small class="text-base-content/50">Admin</small>
+                        <h6 class="text-base-content text-base font-semibold"><%=profile.getUsername()%></h6>
+                        <small class="text-base-content/50"><%=profile.getRole().name()%></small>
                     </div>
                 </li>
                 <li>

@@ -3,9 +3,12 @@ package com.samseng.web.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "\"Comment\"")
 
@@ -18,7 +21,7 @@ public class Comment {
     private String id;
 
     @NotNull
-    private double rating;
+    private int rating;
 
     @NotBlank
     @Size(min=1,max = 200)

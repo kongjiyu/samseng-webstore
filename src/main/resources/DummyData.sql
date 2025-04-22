@@ -754,6 +754,6 @@ INSERT INTO reply(reply_message, comment_id, reply_id) VALUES ('Thankyou','CO000
 
 INSERT INTO comment(rating, message, comment_id, product_id, user_id) VALUES ('5','GOOD','CO0003','T-S6L','AC0003');
 
-INSERT INTO cart_product(quantity, account_id, product_id) VALUES (1,'AC0005','SP-C36g');
+INSERT INTO cart_product(quantity, account_id, variant_id) VALUES (1,'AC0005','SP-YL-256-S24');
 
-INSERT INTO cart_product(quantity, account_id, product_id) VALUES (2,'AC0006','T-S6L');
+INSERT INTO cart_product(quantity, account_id, variant_id) VALUES (2,'AC0006','WT-WT-40-SW7');
