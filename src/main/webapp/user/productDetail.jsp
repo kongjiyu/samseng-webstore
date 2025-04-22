@@ -61,31 +61,32 @@
                                     }
                                 %>
                             </div>
-                        <button type="button" class="carousel-prev">
+                            <button type="button" class="carousel-prev">
                           <span class="mb-15" aria-hidden="true">
                             <span class="size-9.5 bg-base-100 flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm">
                               <span class="icon-[tabler--chevron-left] size-5 cursor-pointer rtl:rotate-180"></span>
                             </span>
                           </span>
-                            <span class="sr-only">Previous</span>
-                        </button>
-                        <button type="button" class="carousel-next">
-                            <span class="sr-only">Next</span>
-                            <span class="mb-15" aria-hidden="true">
+                                <span class="sr-only">Previous</span>
+                            </button>
+                            <button type="button" class="carousel-next">
+                                <span class="sr-only">Next</span>
+                                <span class="mb-15" aria-hidden="true">
                             <span class="size-9.5 bg-base-100 flex items-center justify-center rounded-full shadow-base-300/20 shadow-sm">
                               <span class="icon-[tabler--chevron-right] size-5 cursor-pointer rtl:rotate-180"></span>
                             </span>
                           </span>
-                        </button>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
         <!--Right Panel-->
 
         <div class="w-full lg:w-3/5 p-10">
-            <h1 class="text-3xl font-bold mt-3 mb-3"><%=productObj.getName()%></h1>
+            <h1 class="text-3xl font-bold mt-3 mb-3"><%=productObj.getName()%>
+            </h1>
             <span id="rating" class="font-bold text-[#4b4c5d]">4.9</span>
             <span>rating</span>
             <span> | </span>
@@ -98,7 +99,8 @@
             %>
 
             <div class="bg-base-200 justify-start py-3 ml-3 mt-5">
-                <span id="price" class="text-3xl font-bold m-5"> $<%= firstVariant != null ? firstVariant.getPrice() : "N/A" %></span>
+                <span id="price"
+                      class="text-3xl font-bold m-5"> $<%= firstVariant != null ? firstVariant.getPrice() : "N/A" %></span>
             </div>
 
             <!-- Specifications Selection -->
@@ -110,7 +112,8 @@
                         String attrName = entry.getKey();
                         Set<String> values = entry.getValue();
                 %>
-                <label class="block font-semibold mb-2"><%= attrName %></label>
+                <label class="block font-semibold mb-2"><%= attrName %>
+                </label>
                 <div class="flex w-[80%] items-start gap-3 mt-1 mb-4 ml-1 flex-wrap sm:flex-nowrap">
                     <% for (String value : values) { %>
                     <label class="custom-option flex sm:w-1/2 flex-row items-start gap-3">
@@ -133,7 +136,7 @@
                     <button id="add-to-cart" class="btn btn-primary rounded-lg">Add to Cart</button>
                 </div>
             </div>
-       </div>
+        </div>
     </div>
 
     <!-- Description -->
@@ -155,13 +158,17 @@
     </div>
     <div class="divider"></div>
 
-
-    <!-- <div class="mx-10 pb-5">
-        <form method="#">
-        <textarea class="textarea textarea-xl" placeholder="Write a comment..." aria-label="Textarea"></textarea>
-        <button type="submit" class="btn btn-primary rounded-lg mt-2">Submit</button>
-        </form>
-    </div> -->
+    <!-- Comment Writing Section. Commented out as implementation still unclear. btw this is broken -->
+<%--    <div class="mx-10 pb-5">--%>
+<%--        <form method="#">--%>
+<%--            <textarea class="textarea textarea-xl" placeholder="Write a comment..." aria-label="Textarea"></textarea>--%>
+<%--            <div class="flex flex-col">--%>
+<%--                <div class="flex mt-2" id="raty-with-hints"></div>--%>
+<%--                <div class="h-6" data-hint></div>--%>
+<%--                <button type="submit" class="w-auto btn btn-primary rounded-lg mt-2 flex item-end justify-end">Submit</button>--%>
+<%--            </div>--%>
+<%--        </form>--%>
+<%--    </div>--%>
 
     <div id="comment-section" class="mx-10 pb-5">
         <!-- Test comment -->
@@ -172,29 +179,22 @@
                          alt="avatar 1"/>
                 </div>
                 <div class="gap-3 mt-1 ml-4">
-                    <p class="font-semibold text-[16px]">Guest</p>
+                    <p class="font-semibold text-[18px]">Guest</p>
                     <div class="flex flex-row user-rating size-5"></div>
+                    <p class="w-full text-[18px] mt-3">Fantastic product yes wow look at me i have so much money i can
+                        buy your fucking house</p>
+
+                    <div id="reply" class="mt-5 ml-5">
+                        <p class="font-bold text-lg py-2">Reply By Staff Personnel</p>
+                        <p class="text-lg">Man shut yo goofy ass up dawg</p>
+                    </div>
                 </div>
             </div>
-            <p class="w-full text-[18px] ml-3 px-15">Fantastic product yes wow look at me i have so much money i can
-                buy your fucking house</p>
+
             <div class="divider"></div>
         </div>
-        <div id="comment" class="flex flex-col items-right gap-2 m-5">
-            <div class="flex">
-                <div class="w-14">
-                    <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" class="rounded-full"
-                         alt="avatar 1"/>
-                </div>
-                <div class="gap-3 mt-1 ml-4">
-                    <p class="font-semibold text-[16px]">Guest</p>
-                    <div class="flex flex-row user-rating size-5 user-rating2"></div>
-                </div>
-            </div>
-            <p class="w-full text-[18px] ml-3 px-15">Fantastic product yes wow look at me i have so much money i can
-                buy your fucking house</p>
-            <div class="divider"></div>
-        </div>
+
+
     </div>
 </div>
 
@@ -231,8 +231,20 @@
 <!-- Raty Initialize -->
 <script src="<%= request.getContextPath() %> https://cdn.jsdelivr.net/npm/raty-js@4.3.0/build/raty.min.js"></script>
 
-<!-- Raty Script -->
+
+<!-- Comment Raty -->
 <script id="rating-control">
+    document.addEventListener('DOMContentLoaded', function () {
+        const ratingHints = new Raty(document.querySelector('#raty-with-hints'), {
+            path: '../static/img',
+            hints: ['Terrible 😔', 'Unsatisfactory 😑', 'Average 😊', 'Nice 😁', 'Splendid 😍'],
+            target: '[data-hint]',
+            targetFormat: 'Your experience was: {score}'
+        })
+        ratingHints.init()
+    })
+
+
     document.addEventListener('DOMContentLoaded', function () {
         const ratingReadOnly = new Raty(document.querySelector('.user-rating'), {
             path: '../static/img',
