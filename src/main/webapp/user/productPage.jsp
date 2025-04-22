@@ -27,7 +27,7 @@
     <image class="hero-image" style="background-image: url('<%-- request.getContextPath() --%>/static/img/phone-store-banner.jpg');"></image>
     -->
     <div class="hero-text">
-        <h1>Smart Phones</h1>
+        <h1>Product Listing</h1>
     </div>
 </div>
 
