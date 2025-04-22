@@ -47,8 +47,7 @@ public class UserProductDetail extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            String action = request.getParameter("action");
-        String productId = "T-S6L";
+        String productId = request.getParameter("productId");
         if (productId != null && !productId.isEmpty()) {
             Product product = productRepository.findById(productId);
 
@@ -64,8 +63,8 @@ public class UserProductDetail extends HttpServlet {
             Map<String, Map<String, String>> variantAttrMap = new HashMap<>();
 
             for (Variant_Attribute va : variantAttributeRepository.findByProductId(productId)) {
-                String variantId = va.getVariantID().getVariantId();
-                String attrName = va.getAttributeID().getName();
+                String variantId = va.getVariant().getVariantId();
+                String attrName = va.getAttribute().getName();
                 String value = va.getValue();
 
                 variantAttrMap
@@ -76,7 +75,7 @@ public class UserProductDetail extends HttpServlet {
             Map<String, Set<String>> attributeValuesMap = new HashMap<>();
 
             for (Variant_Attribute va : variantAttributeRepository.findByProductId(productId)) {
-                String attrName = va.getAttributeID().getName();
+                String attrName = va.getAttribute().getName();
                 attributeValuesMap
                         .computeIfAbsent(attrName, k -> new LinkedHashSet<>())
                         .add(va.getValue());

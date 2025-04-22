@@ -1,5 +1,3 @@
-<jsp:useBean id="cart" scope="session" type="java.util.List<CartItemDTO>" />
-<%@ page import="java.util.Map" %>
 <%@ page import="com.samseng.web.dto.CartItemDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
@@ -43,13 +41,13 @@
                 <!-- head -->
                 <thead>
                 <tr class="mt-5 border-0 bg-base-300/20">
-                    <th>No.</th>
-                    <th>Product</th>
-                    <th>Variant</th>
-                    <th>Category</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Action</th>
+                    <th class="text-center">No.</th>
+                    <th class="text-center">Product</th>
+                    <th class="text-center">Variant</th>
+                    <th class="text-center">Category</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -60,7 +58,7 @@
                         for (CartItemDTO item : cartItems) {
                 %>
                             <tr>
-                                <td><%= index %></td>
+                                <td class="text-center"><%= index %></td>
                                 <td>
                                     <div class="flex items-center gap-3">
                                         <div class="avatar">
@@ -74,14 +72,14 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="whitespace-normal break-words max-w-[200px]">
+                                <td class="whitespace-normal break-words max-w-[200px] text-center">
                                     <%= item.variant().getVariantName() %>
                                 </td>
-                                <td><%= item.variant().getProduct().getCategory() %></td>
-                                <td><%= item.quantity() %></td>
-                                <td>RM<%= item.variant().getPrice() %></td>
+                                <td class="text-center"><%= item.variant().getProduct().getCategory() %></td>
+                                <td class="text-center"><%= item.quantity() %></td>
+                                <td class="text-center">RM<%= item.variant().getPrice() %></td>
                                 <td>
-                                    <form action="<%= request.getContextPath() %>/cart/update" method="post" style="display:inline;">
+                                    <form action="<%= request.getContextPath() %>/cart" method="post" style="display:inline;">
                                         <input type="hidden" name="variantId" value="<%= item.variant().getVariantId() %>" />
                                         <input type="hidden" name="action" value="increase" />
                                         <button type="submit" class="btn btn-circle btn-text btn-sm">
@@ -89,7 +87,7 @@
                                         </button>
                                     </form>
 
-                                    <form action="<%= request.getContextPath() %>/cart/update" method="post" style="display:inline;">
+                                    <form action="<%= request.getContextPath() %>/cart" method="post" style="display:inline;">
                                         <input type="hidden" name="variantId" value="<%= item.variant().getVariantId() %>" />
                                         <input type="hidden" name="action" value="decrease" />
                                         <button type="submit" class="btn btn-circle btn-text btn-sm">
@@ -97,9 +95,9 @@
                                         </button>
                                     </form>
 
-                                    <form action="<%= request.getContextPath() %>/cart/update" method="post" style="display:inline;">
+                                    <form action="<%= request.getContextPath() %>/cart" method="post" style="display:inline;">
                                         <input type="hidden" name="variantId" value="<%= item.variant().getVariantId() %>" />
-                                        <input type="hidden" name="action" value="delete" />
+                                        <input type="hidden" name="action" value="remove" />
                                         <button type="submit" class="btn btn-circle btn-text btn-sm">
                                             <span class="icon-[tabler--trash] size-5"></span>
                                         </button>
