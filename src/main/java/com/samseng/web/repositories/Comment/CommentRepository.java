@@ -1,6 +1,7 @@
 package com.samseng.web.repositories.Comment;
 
 import com.samseng.web.models.Comment;
+import com.samseng.web.models.Product;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface CommentRepository {
 
     Comment findById(String id);
 
-    Comment findByProductId(String productId);
+    List<Comment> findByProductId(String productId);
 
     Comment findByUserId(String userId);
 }
