@@ -51,7 +51,7 @@
                                 <%
                                     for (String image : imageSet) {
                                 %>
-                                <img src="/uploads/<%= image %>"
+                                <img src="<%= request.getContextPath() %>/uploads/<%= image %>"
                                      class="carousel-pagination-item carousel-active:opacity-100 grow object-cover opacity-30 h-20"
                                      alt="thumb"/>
                                 <%
