@@ -275,7 +275,7 @@
         fetch('https://restcountries.com/v3.1/all')
             .then(res => res.json())
             .then(data => {
-                // 填充 Add Address 的 select
+               
                 const addCountrySelect = document.querySelector('#add-address-modal select[name="country"]');
                 if (addCountrySelect) {
                     data.sort((a, b) => a.name.common.localeCompare(b.name.common))
@@ -287,7 +287,7 @@
                         });
                 }
 
-                // 填充所有 Edit Address 的 select
+
                 document.querySelectorAll('div[id^="edit-address-modal-"] select[name="country"]').forEach(select => {
                     const currentCountry = select.getAttribute('data-selected-country');
                     data.sort((a, b) => a.name.common.localeCompare(b.name.common))

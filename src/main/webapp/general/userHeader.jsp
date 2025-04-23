@@ -1,5 +1,7 @@
 <jsp:useBean id="Account" scope="session" class="com.samseng.web.models.Account"/>
 <%@page import="com.samseng.web.models.*" %>
+<%@page import="com.samseng.web.dto.CartItemDTO" %>
+<%@page import="java.util.List" %>
 <html>
 <head>
     <title>Header</title>
@@ -7,32 +9,18 @@
     <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 </head>
 <body>
-<nav class="navbar backdrop-blur-lg bg-white/10 text-white shadow-lg gap-4 fixed top-0 left-0 w-full z-50">
+<nav  class="navbar bg-base-100 rounded-box shadow-base-300/20 shadow-sm">
     <div class="navbar-start items-center justify-between max-md:w-full">
-        <a class="link text-white text-xl font-bold no-underline" href="<%= request.getContextPath() %>/index.jsp">
+        <a class="link text-xl font-bold no-underline" href="<%= request.getContextPath() %>/index.jsp">
             SAMSENG
         </a>
     </div>
-    <div class="navbar-center max-md:hidden bg-transparent text-white">
+    <div class="navbar-center max-md:hidden">
         <ul
-                class="menu menu-horizontal gap-2 p-0 text-base rtl:ml-20 !bg-transparent !text-white !shadow-none !border-none ">
-            <li
-                    class="dropdown relative inline-flex [--auto-close:inside] [--offset:9] [--placement:bottom-end]">
-                <button id="dropdown-end" type="button"
-                        class="dropdown-toggle dropdown-open:bg-base-content/10 dropdown-open:text-base-content max-md:px-2 !bg-transparent !text-white"
-                        aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                    Products
-                    <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-open:opacity-100 hidden w-48" role="menu"
-                    aria-orientation="vertical" aria-labelledby="nested-dropdown">
-                    <li><a class="dropdown-item" href="#">Mobile</a></li>
-                    <li><a class="dropdown-item" href="#">TV</a></li>
-                    <li><a class="dropdown-item" href="#">Accessories</a></li>
-                </ul>
-            </li>
-            <li><a href="#" class="!bg-transparent !text-white">Promotion</a></li>
-            <li><a href="#" class="!bg-transparent !text-white">Contact Us</a></li>
+                class="menu menu-horizontal gap-2 p-0 text-base rtl:ml-20 !shadow-none !border-none ">
+            <li><a href="/products" >Products</a></li>
+            <li><a href="#" >Promotion</a></li>
+            <li><a href="#" >Contact Us</a></li>
         </ul>
     </div>
 
@@ -42,7 +30,7 @@
             <button class="btn btn-sm btn-text btn-circle size-8.5" aria-label="Search Button" type="button"
                     aria-haspopup="dialog" aria-expanded="false" aria-controls="html-modal-combo-box"
                     data-overlay="#html-modal-combo-box">
-                <span class="icon-[tabler--search] text-white size-[1.375rem] text-base"></span>
+                <span class="icon-[tabler--search] size-[1.375rem] text-base"></span>
             </button>
         </div>
         <!--Cart Button-->
@@ -52,7 +40,7 @@
                     aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
                 <div class="indicator">
                     <span class="indicator-item bg-error size-2 rounded-full"></span>
-                    <span class="icon-[tabler--shopping-bag] text-white size-[1.375rem] text-base"></span>
+                    <span class="icon-[tabler--shopping-bag] size-[1.375rem] text-base"></span>
                 </div>
             </button>
             <div class="dropdown-menu dropdown-open:opacity-100 hidden" role="menu" aria-orientation="vertical"
@@ -62,83 +50,36 @@
                 </div>
                 <div
                         class="vertical-scrollbar horizontal-scrollbar rounded-scrollbar text-base-content/80 max-h-56 overflow-auto max-md:max-w-60">
-                    <div class="dropdown-item">
-                        <div class="avatar away-bottom">
-                            <div class="w-10 rounded-full">
-                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png"
-                                     alt="avatar 1" />
-                            </div>
-                        </div>
-                        <div class="w-60">
-                            <h6 class="truncate text-base">Charles Franklin</h6>
-                            <small class="text-base-content/50 truncate">Accepted your connection</small>
-                        </div>
-                    </div>
+                    <%
+                        List<CartItemDTO> cart = (List<CartItemDTO>) session.getAttribute("cart");
+                        if (cart != null && !cart.isEmpty()) {
+                            for (CartItemDTO item : cart) {
+                    %>
                     <div class="dropdown-item">
                         <div class="avatar">
                             <div class="w-10 rounded-full">
-                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-2.png"
-                                     alt="avatar 2" />
+                                <img src="/uploads/<%= item.imageUrl() %>" alt="product image" />
                             </div>
                         </div>
                         <div class="w-60">
-                            <h6 class="truncate text-base">Martian added moved Charts & Maps task to the done
-                                board.</h6>
-                            <small class="text-base-content/50 truncate">Today 10:00 AM</small>
+                            <h6 class="truncate text-base"><%= item.variant().getVariantName() %></h6>
+                            <small class="text-base-content/50 truncate">Qty: <%= item.quantity() %></small>
                         </div>
                     </div>
+                    <%
+                        }
+                    } else {
+                    %>
                     <div class="dropdown-item">
-                        <div class="avatar online-bottom">
-                            <div class="w-10 rounded-full">
-                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-8.png"
-                                     alt="avatar 8" />
-                            </div>
-                        </div>
-                        <div class="w-60">
-                            <h6 class="truncate text-base">New Message</h6>
-                            <small class="text-base-content/50 truncate">You have new message from
-                                Natalie</small>
+                        <div class="w-full text-center text-base-content/50">
+                            No products in cart
                         </div>
                     </div>
-                    <div class="dropdown-item">
-                        <div class="avatar placeholder">
-                            <div class="bg-neutral text-neutral-content w-10 rounded-full p-2">
-                                <span class="icon-[tabler--user] size-full"></span>
-                            </div>
-                        </div>
-                        <div class="w-60">
-                            <h6 class="truncate text-base">Application has been approved 🚀</h6>
-                            <small class="text-base-content/50 text-wrap">Your ABC project application has been
-                                approved.</small>
-                        </div>
-                    </div>
-                    <div class="dropdown-item">
-                        <div class="avatar">
-                            <div class="w-10 rounded-full">
-                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-10.png"
-                                     alt="avatar 10" />
-                            </div>
-                        </div>
-                        <div class="w-60">
-                            <h6 class="truncate text-base">New message from Jane</h6>
-                            <small class="text-base-content/50 text-wrap">Your have new message from
-                                Jane</small>
-                        </div>
-                    </div>
-                    <div class="dropdown-item">
-                        <div class="avatar">
-                            <div class="w-10 rounded-full">
-                                <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-3.png"
-                                     alt="avatar 3" />
-                            </div>
-                        </div>
-                        <div class="w-60">
-                            <h6 class="truncate text-base">Barry Commented on App review task.</h6>
-                            <small class="text-base-content/50 truncate">Today 8:32 AM</small>
-                        </div>
-                    </div>
+                    <%
+                        }
+                    %>
                 </div>
-                <a href="#" class="dropdown-footer justify-center gap-1">
+                <a href="<%= request.getContextPath() %>/cart" class="dropdown-footer justify-center gap-1">
                     <span class="icon-[tabler--eye] size-4"></span>
                     View all
                 </a>
@@ -152,7 +93,7 @@
         <div class="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
             <button id="dropdown-scrollable" type="button" class="dropdown-toggle flex items-center"
                     aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-secondary rounded-full">
                     <%
                         String[] nameParts = profile.getUsername().trim().split("\\s+");
                         StringBuilder initials = new StringBuilder();
@@ -163,14 +104,14 @@
                             }
                         }
                     %>
-                    <span class="text-3xl text-base-content uppercase"><%= initials.toString() %></span>
+                    <span class="text-3xl text-white uppercase"><%= initials.toString() %></span>
                 </div>
             </button>
             <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu"
                 aria-orientation="vertical" aria-labelledby="dropdown-avatar">
                 <li class="dropdown-header gap-2">
-                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                        <span class="text-3xl uppercase"><%= initials.toString() %></span>
+                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-secondary rounded-full">
+                        <span class="text-3xl text-white uppercase"><%= initials.toString() %></span>
                     </div>
                     <div>
                         <h6 class="text-base-content text-base font-semibold"><%=profile.getUsername()%></h6>
@@ -216,6 +157,7 @@
         <%}%>
     </div>
 </nav>
+
 <div id="html-modal-combo-box" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 [--body-scroll:true] hidden"
      role="dialog" tabindex="-1">
     <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
@@ -341,6 +283,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

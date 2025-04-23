@@ -1,5 +1,3 @@
-<jsp:useBean id="cart" scope="session" type="java.util.List<CartItemDTO>" />
-<%@ page import="java.util.Map" %>
 <%@ page import="com.samseng.web.dto.CartItemDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
@@ -16,7 +14,7 @@
     <title>Cart</title>
 </head>
 
-<body onload="getRowCount()">
+<body data-theme="light">
 
 <%@ include file="/general/userHeader.jsp" %>
 
@@ -43,13 +41,12 @@
                 <!-- head -->
                 <thead>
                 <tr class="mt-5 border-0 bg-base-300/20">
-                    <th>No.</th>
-                    <th>Product</th>
-                    <th>Variant</th>
-                    <th>Category</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Action</th>
+                    <th class="text-center">No.</th>
+                    <th class="text-center">Product</th>
+                    <th class="text-center">Category</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -60,7 +57,7 @@
                         for (CartItemDTO item : cartItems) {
                 %>
                             <tr>
-                                <td><%= index %></td>
+                                <td class="text-center"><%= index %></td>
                                 <td>
                                     <div class="flex items-center gap-3">
                                         <div class="avatar">
@@ -70,18 +67,15 @@
                                         </div>
                                         <div>
                                             <div class="text-sm opacity-50"><%= item.variant().getProduct().getId() %></div>
-                                            <div class="font-medium"><%= item.variant().getProduct().getName() %></div>
+                                            <div class="font-medium"><%= item.variant().getVariantName() %></div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="whitespace-normal break-words max-w-[200px]">
-                                    <%= item.variant().getVariantName() %>
-                                </td>
-                                <td><%= item.variant().getProduct().getCategory() %></td>
-                                <td><%= item.quantity() %></td>
-                                <td>RM<%= item.variant().getPrice() %></td>
+                                <td class="text-center"><%= item.variant().getProduct().getCategory() %></td>
+                                <td class="text-center"><%= item.quantity() %></td>
+                                <td class="text-center">RM<%= item.variant().getPrice() %></td>
                                 <td>
-                                    <form action="<%= request.getContextPath() %>/cart/update" method="post" style="display:inline;">
+                                    <form action="<%= request.getContextPath() %>/cart" method="post" style="display:inline;">
                                         <input type="hidden" name="variantId" value="<%= item.variant().getVariantId() %>" />
                                         <input type="hidden" name="action" value="increase" />
                                         <button type="submit" class="btn btn-circle btn-text btn-sm">
@@ -89,7 +83,7 @@
                                         </button>
                                     </form>
 
-                                    <form action="<%= request.getContextPath() %>/cart/update" method="post" style="display:inline;">
+                                    <form action="<%= request.getContextPath() %>/cart" method="post" style="display:inline;">
                                         <input type="hidden" name="variantId" value="<%= item.variant().getVariantId() %>" />
                                         <input type="hidden" name="action" value="decrease" />
                                         <button type="submit" class="btn btn-circle btn-text btn-sm">
@@ -97,9 +91,9 @@
                                         </button>
                                     </form>
 
-                                    <form action="<%= request.getContextPath() %>/cart/update" method="post" style="display:inline;">
+                                    <form action="<%= request.getContextPath() %>/cart" method="post" style="display:inline;">
                                         <input type="hidden" name="variantId" value="<%= item.variant().getVariantId() %>" />
-                                        <input type="hidden" name="action" value="delete" />
+                                        <input type="hidden" name="action" value="remove" />
                                         <button type="submit" class="btn btn-circle btn-text btn-sm">
                                             <span class="icon-[tabler--trash] size-5"></span>
                                         </button>
@@ -124,7 +118,7 @@
         <div class="flex flex-wrap items-center justify-between gap-2 pl-2 py-4 pt-4">
             <div class="me-2 block max-w-sm text-sm text-base-content/80 sm:mb-0">
                 Showing
-                <span id="row-count" class="font-semibold text-base-content/80"></span>
+                <span class="font-semibold text-base-content/80"> <%=cartItems.isEmpty()? "0" : cartItems.size() %> </span>
                 products
             </div>
         </div>
@@ -137,34 +131,49 @@
         </div>
 
         <div>
-            <h2 class="ml-2 text-2xl">Enter Voucher Code</h2>
-            <div class="join form-control max-w-sm m-3 w-full">
-                <input type="text" style="text-transform:uppercase" class="input join-item" placeholder="Voucher Code"/>
-                <input type="submit" value="Submit" class="btn btn-primary join-item"/>
+            <h2 class="ml-2 text-xl">Enter Voucher Code</h2>
+            <div class="join form-control max-w-sm m-3 w-[90%]">
+                <input id="voucher-code" type="text" style="text-transform:uppercase" class="input join-item" placeholder="Voucher Code"/>
+                <button type="button" onclick="applyVoucher()" class="btn btn-primary join-item">Submit</button>
             </div>
         </div>
+
+        <%
+            double grossPrice = 0.0;
+            for (CartItemDTO item : cartItems) {
+                grossPrice += item.variant().getPrice() * item.quantity();
+            }
+
+            double taxRate = 0.06;
+            double taxCharge = grossPrice * taxRate;
+
+            double deliveryCharge = 35.0; // fixed delivery cost
+            double discountAmount = 0.0;  // update if you apply discount logic
+            double netPrice = grossPrice + taxCharge + deliveryCharge - discountAmount;
+        %>
 
         <div class="overflow-x-auto mt-5">
             <table id="price-calc" class="table">
                 <tbody>
                 <tr class="border-0">
-                    <td>Shipping Cost</td>
-                    <td>$10</td>
+                    <td>Gross Price</td>
+                    <td>RM<%= String.format("%.2f", grossPrice) %></td>
                 </tr>
-
+                <tr class="border-0">
+                    <td>Tax (6%)</td>
+                    <td>RM<%= String.format("%.2f", taxCharge) %></td>
+                </tr>
+                <tr class="border-0">
+                    <td>Delivery Charge</td>
+                    <td>RM<%= String.format("%.2f", deliveryCharge) %></td>
+                </tr>
                 <tr class="border-0">
                     <td>Discount</td>
-                    <td>0%</td>
+                    <td>RM<%= String.format("%.2f", discountAmount) %></td>
                 </tr>
-
-                <tr class="border-0">
-                    <td>Tax</td>
-                    <td>$60 (6%)</td>
-                </tr>
-
                 <tr class="border-0 bg-base-300/20">
-                    <td class="text-2xl">Estimated Total</td>
-                    <td class="text-2xl">$3999.00</td>
+                    <td class="text-xl font-bold">Net Price</td>
+                    <td class="text-xl font-bold">RM<%= String.format("%.2f", netPrice) %></td>
                 </tr>
                 </tbody>
             </table>
@@ -551,16 +560,29 @@
         })
     })
 </script>
-<script>
-    function getRowCount() {
-        var oRows = document.getElementById('item-list').getElementsByTagName('tr');
-        var iRowCount = oRows.length - 1; // Subtract 1 for the header row
-
-        document.getElementById("row-count").innerText = iRowCount; // Display the result
-    }
-</script>
 
 <%@ include file="/general/userFooter.jsp" %>
+
+<script>
+  function applyVoucher() {
+    const voucherCode = document.getElementById("voucher-code").value.trim();
+    if (!voucherCode) return;
+
+    fetch(`/api/voucher/validate?code=${voucherCode}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Invalid voucher");
+        return res.json();
+      })
+      .then(data => {
+        const discount = parseFloat(data.discountAmount).toFixed(2);
+        document.cookie = `voucherDiscount=${discount}; path=/`;
+        location.reload();
+      })
+      .catch(err => {
+        alert("Invalid voucher code!");
+      });
+  }
+</script>
 
 </body>
 

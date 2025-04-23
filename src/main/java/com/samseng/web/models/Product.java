@@ -28,7 +28,7 @@ public class Product {
     @Column(name = "product_name")
     private String name;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "product_images",
             joinColumns = @JoinColumn(name = "product_id")
