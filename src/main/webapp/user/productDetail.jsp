@@ -18,7 +18,7 @@
           rel="stylesheet">
 </head>
 
-<% List<Comment> commentList= (List<Comment>) request.getAttribute("commentsList"); %>
+<% List<Comment> commentList= (List<Comment>) request.getAttribute("commentList"); %>
 <body class="bg-[#dadada]">
 <%@ include file="/general/userHeader.jsp" %>
 
@@ -180,6 +180,7 @@
 
     <div id="comment-section" class="mx-10 pb-5">
         <!-- Test comment -->
+
         <% if (commentList != null) {
             for (Comment c : commentList) {
         %>
@@ -190,13 +191,13 @@
                          alt="avatar 1"/>
                 </div>
                 <div class="gap-3 mt-1 ml-4">
-                    <p class="font-semibold text-[18px]"><%=c.getUser()%></p>
+                    <p class="font-semibold text-[18px]"><%=c.getUser().getUsername()%></p>
                     <div class="flex flex-row user-rating size-5"></div>
                     <p class="w-full text-[18px] mt-3"><%= c.getMessage()%></p>
                     <% if(c.getReply() !=null ){ %>
                     <div id="reply" class="mt-5 ml-5">
                         <p class="font-bold text-lg py-2">Reply By Staff Personnel</p>
-                        <p class="text-lg"><%= c.getReply()%></p>
+                        <p class="text-lg"><%= c.getReply().getMessage()%></p>
                     </div>
                     <% } %>
                 </div>
