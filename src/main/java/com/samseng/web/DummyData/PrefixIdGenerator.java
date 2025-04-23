@@ -10,7 +10,7 @@ public class PrefixIdGenerator implements IdentifierGenerator {
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) {
         String className = object.getClass().getSimpleName();
-        String prefix = className.substring(0, 2).toUpperCase();
+        String prefix = className.substring(0, 3).toUpperCase();
 
         String query = String.format("SELECT e.id FROM %s e ORDER BY e.id DESC", className);
 
