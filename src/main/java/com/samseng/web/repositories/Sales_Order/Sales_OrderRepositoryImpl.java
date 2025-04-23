@@ -51,4 +51,19 @@ public class Sales_OrderRepositoryImpl implements Sales_OrderRepository {
 
     }
 
+    @Override
+    public List<Sales_Order> findPaged(int page, int pageSize) {
+        return em.createQuery("SELECT o FROM Sales_Order o ORDER BY o.id", Sales_Order.class)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+    }
+
+    @Override
+    public long count() {
+        return em.createQuery("SELECT COUNT(o) FROM Sales_Order o", Long.class)
+                .getSingleResult();
+    }
+
+
 }
