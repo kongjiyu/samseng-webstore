@@ -1,10 +1,8 @@
 package com.samseng.web.controllers;
 
-import com.samseng.web.models.Attribute;
-import com.samseng.web.models.Product;
-import com.samseng.web.models.Variant;
-import com.samseng.web.models.Variant_Attribute;
+import com.samseng.web.models.*;
 import com.samseng.web.repositories.Attribute.AttributeRepository;
+import com.samseng.web.repositories.Comment.CommentRepository;
 import com.samseng.web.repositories.Product.ProductRepository;
 import com.samseng.web.repositories.Variant.VariantRepository;
 import com.samseng.web.repositories.Variant_Attribute.Variant_AttributeRepository;
@@ -21,7 +19,7 @@ import java.io.IOException;
 import java.util.*;
 
 @Transactional
-@WebServlet(name = "product", urlPatterns = {"/user/product"})
+@WebServlet("/user/product")
 @MultipartConfig
 public class UserProductDetail extends HttpServlet {
     @Inject
@@ -35,6 +33,9 @@ public class UserProductDetail extends HttpServlet {
 
     @Inject
     private VariantRepository variantRepository;
+
+    @Inject
+    private CommentRepository commentRepository;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -81,12 +82,16 @@ public class UserProductDetail extends HttpServlet {
                         .add(va.getValue());
             }
 
+            List<Comment> commentList = commentRepository.findByProductId(productId);
+
+
             request.setAttribute("attributeValuesMap", attributeValuesMap);
             request.setAttribute("imageSet", product.getImageUrls());
             request.setAttribute("variantAttrMap", variantAttrMap);
             request.setAttribute("attributeList", attributeList);
             request.setAttribute("variantList", variantList);
             request.setAttribute("product", product);
+            request.setAttribute("commentList", commentList);
             request.getRequestDispatcher("/user/productDetail.jsp").forward(request, response);
         }else{
             response.sendRedirect("/user/products");

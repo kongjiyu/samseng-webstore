@@ -31,6 +31,4 @@ public class PromoCodeRepositoryImpl implements PromoCodeRepository {
         return em.find(Promo_Code.class, id);
     }
 
-
-
 }

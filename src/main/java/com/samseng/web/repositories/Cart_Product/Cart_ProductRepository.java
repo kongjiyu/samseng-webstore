@@ -22,4 +22,6 @@ public interface Cart_ProductRepository {
     void remove(String accountId, String productId);
 
     void updateQuantity(String accountId, String productId, int quantity);
+
+    void removeAll(String accountId);
 }

@@ -168,17 +168,89 @@ public class AccountProfileServlet extends HttpServlet {
             resp.sendRedirect("loginRegisterForm.jsp");
             return;
         }
+
+        // Validation logic
+        String name = req.getParameter("address_title");
+        String contactNo = req.getParameter("contact_no");
+        String address1 = req.getParameter("address_1");
+        String postcodeStr = req.getParameter("postcode");
+        String state = req.getParameter("state");
+        String country = req.getParameter("country");
+
+        // Retrieve addresses for request attribute (needed for all forwards)
+        Account accountProfile = accountRepo.findAccountByEmail(req.getUserPrincipal().getName());
+        List<Address> addressList = addressRepo.findByUserId(accountProfile.getId());
+        req.setAttribute("addresses", addressList);
+
+        if (name == null || name.isBlank() || contactNo == null || contactNo.isBlank() ||
+            address1 == null || address1.isBlank() || postcodeStr == null || postcodeStr.isBlank() ||
+            state == null || state.isBlank() || country == null || country.isBlank()) {
+            try {
+                req.setAttribute("toastType", "error");
+                req.setAttribute("toastMessage", "All required fields must be filled.");
+                req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
+            } catch (ServletException e) {
+                throw new IOException(e);
+            }
+            return;
+        }
+
+        // Malaysian phone number validation
+        if (!contactNo.matches("^(\\+?60)?1[0-9]{8,9}$")) {
+            req.setAttribute("toastType", "error");
+            req.setAttribute("toastMessage", "Invalid Malaysian phone number.");
+            try {
+                req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
+            } catch (ServletException e) {
+                throw new IOException(e);
+            }
+            return;
+        }
+
+        if (!postcodeStr.matches("[A-Za-z0-9\\s\\-]{3,10}")) {
+            req.setAttribute("toastType", "error");
+            req.setAttribute("toastMessage", "Invalid postcode format.");
+            try {
+                req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
+            } catch (ServletException e) {
+                throw new IOException(e);
+            }
+            return;
+        }
+
+        int postcode;
+        try {
+            postcode = Integer.parseInt(postcodeStr);
+        } catch (NumberFormatException e) {
+            req.setAttribute("toastType", "error");
+            req.setAttribute("toastMessage", "Postcode must be a number.");
+            try {
+                req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
+            } catch (ServletException ex) {
+                throw new IOException(ex);
+            }
+            return;
+        }
+
         Address address = new Address();
         address.setUser(user);
-        address.setName(req.getParameter("address_title"));
-        address.setContact_no(req.getParameter("contact_no"));
-        address.setAddress_1(req.getParameter("address_1"));
+        address.setName(name);
+        address.setContact_no(contactNo);
+        address.setAddress_1(address1);
         address.setAddress_2(req.getParameter("address_2"));
         address.setAddress_3(req.getParameter("address_3"));
-        address.setPostcode(Integer.parseInt(req.getParameter("postcode")));
-        address.setState(req.getParameter("state"));
-        address.setCountry(req.getParameter("country"));
-        address.setIsdefault(req.getParameter("isdefault") != null);
+        address.setPostcode(postcode);
+        address.setState(state);
+        address.setCountry(country);
+        List<Address> existingAddresses = addressRepo.findByUserId(user.getId());
+        boolean hasDefault = false;
+        for (Address a : existingAddresses) {
+            if (a.getIsdefault()) {
+                hasDefault = true;
+                break;
+            }
+        }
+        address.setIsdefault(!hasDefault || req.getParameter("isdefault") != null);
 
         System.out.println("User ID: " + user.getId());
         System.out.println("Address user: " + address.getUser());
@@ -190,7 +262,17 @@ public class AccountProfileServlet extends HttpServlet {
             addressRepo.unsetOtherDefaults(user.getId(), address.getId());
         }
 
-        resp.sendRedirect(req.getContextPath() + "/user/profile");
+        try {
+            // refresh addresses after add
+            List<Address> updatedAddressList = addressRepo.findByUserId(user.getId());
+            req.setAttribute("addresses", updatedAddressList);
+            req.setAttribute("toastType", "success");
+            req.setAttribute("toastMessage", "Address added successfully.");
+            req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
+        } catch (ServletException e) {
+            throw new IOException(e);
+        }
+        return;
     }
     private void addressDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String addressId = request.getParameter("id");
@@ -208,5 +290,3 @@ public class AccountProfileServlet extends HttpServlet {
 
 
 }
-
-
