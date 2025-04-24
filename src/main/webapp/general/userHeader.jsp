@@ -191,27 +191,34 @@
                 <div class="modal-body overflow-y-auto mt-0 max-h-72 p-1.5" data-combo-box-output="">
                     <div class="space-y-0.5 p-0.5" data-combo-box-output-items-wrapper="">
                         <!-- Item -->
-                        <c:forEach var="product" items="${products}">
+                        <%
+                            List<Product> searchableProducts = (List<Product>) session.getAttribute("searchableProducts");
+                            if (searchableProducts != null) {
+                                for (Product product : searchableProducts) {
+                        %>
                             <div data-combo-box-output-item='{"group": {"name": "best" , "title": ""}}'
                                  tabindex="0">
                                 <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none"
-                                   href="<%= request.getContextPath() %>/admin/product?productId=${product.id()}">
+                                   href="<%= request.getContextPath() %>/user/product?productId=<%= product.getId() %>">
                                     <div class="avatar">
                                         <div class="bg-base-content/10 h-10 w-10 rounded-md">
-                                            <img src="/uploads/${product.imageUrls()[0]}" alt="productImage"/>
+                                            <img src="/uploads/<%= product.getImageUrls().isEmpty() ? '#' : product.getImageUrls().iterator().next() %>" alt="product image" />
                                         </div>
                                     </div>
 
                                     <div class="flex flex-col">
-                                        <div class="text-sm opacity-50">${product.id()}</div>
-                                        <div class="font-medium">${product.name()}</div>
+                                        <div class="text-sm opacity-50"><%= product.getId() %></div>
+                                        <div class="font-medium"><%= product.getName() %></div>
                                         <span class="text-base-content/50 ms-auto hidden text-xs sm:inline"
-                                              data-combo-box-search-text="${product.name()}" data-combo-box-value="">
+                                              data-combo-box-search-text="<%= product.getName() %>" data-combo-box-value="">
                                         </span>
                                     </div>
                                 </a>
                             </div>
-                        </c:forEach>
+                        <%
+                                }
+                            }
+                        %>
                     </div>
                 </div>
             </div>
