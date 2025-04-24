@@ -15,4 +15,10 @@ public interface Sales_OrderRepository {
     List<Sales_Order> findByUserId(String userId);
 
     Sales_Order findByRefNo(String refNo);
+
+    List<Sales_Order> findPaged(int page, int pageSize);
+
+    long count();
+
+    List<Sales_Order> findByUserIdPaged(String user, int page, int pageSize);
 }

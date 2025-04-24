@@ -192,18 +192,17 @@
                     <table class="table table-zebra w-full">
                         <thead>
                         <tr>
-                            <th class="w-24">VARIANT ID</th>
-                            <th class="w-50">NAME</th>
+                            <th class="w-48">NAME</th>
                             <%
                                 List<Attribute> attributeList = ((List<Attribute>) request.getAttribute("attributeList"));
                                 for (Attribute attribute : attributeList) {
                             %>
-                            <th class="w-10"><%=attribute.getName()%>
+                            <th><%=attribute.getName()%>
                             </th>
                             <%
                                 }
                             %>
-                            <th>PRICE</th>
+                            <th>PRICE (RM)</th>
                             <th>ACTION</th>
                         </tr>
                         </thead>
@@ -219,12 +218,8 @@
                         <tr>
                             <td>
                                 <input type="hidden" name="variantId" value="<%= v.getVariantId() %>">
-                                <input type="text" class="input input-bordered input-sm" value="<%= v.getVariantId() %>"
-                                       disabled>
-                            </td>
-                            <td>
                                 <input type="text" name="variantName"
-                                       class="input input-bordered input-sm variant-field"
+                                       class="input input-bordered input-sm variant-field w-48"
                                        value="<%= v.getVariantName() %>"
                                 >
                             </td>
@@ -240,7 +235,7 @@
                             <td>
                                 <input type="text" name="variantPrice"
                                        class="input input-bordered input-sm variant-field"
-                                       value="RM<%= v.getPrice() %>">
+                                       value="<%= v.getPrice() %>">
                             </td>
                             <td>
                                 <div class="flex items-center gap-1">

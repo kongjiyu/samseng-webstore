@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.*;
 
 @Transactional
-@WebServlet(name = "product", urlPatterns = {"/user/product"})
+@WebServlet("/user/product")
 @MultipartConfig
 public class UserProductDetail extends HttpServlet {
     @Inject

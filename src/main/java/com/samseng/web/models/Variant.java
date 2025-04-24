@@ -27,7 +27,6 @@ public class Variant {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @NaturalId
     @NotBlank
     @Column(name = "variant_name")
     private String variantName;
