@@ -173,7 +173,7 @@
         </table>
     </div>
 
-    <!-- Pagination Logic -->
+    <!-- Pagination View -->
     <div class="flex flex-wrap items-center justify-between gap-2 py-4 pt-6">
         <div class="me-2 block max-w-sm text-sm text-base-content/80 sm:mb-0">
             Showing
