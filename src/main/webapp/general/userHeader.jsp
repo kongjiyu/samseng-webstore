@@ -20,7 +20,7 @@
                 class="menu menu-horizontal gap-2 p-0 text-base rtl:ml-20 !shadow-none !border-none ">
             <li><a href="/products" >Products</a></li>
             <li><a href="#" >Promotion</a></li>
-            <li><a href="#" >Contact Us</a></li>
+            <li><a href="/contactUs.jsp" >Contact Us</a></li>
         </ul>
     </div>
 
@@ -34,12 +34,15 @@
             </button>
         </div>
         <!--Cart Button-->
+        <%
+            List<CartItemDTO> cart = (List<CartItemDTO>) session.getAttribute("cart");
+        %>
         <div class="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
             <button id="dropdown-scrollable" type="button"
                     class="dropdown-toggle btn btn-text btn-circle dropdown-open:bg-base-content/10 size-10"
                     aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
                 <div class="indicator">
-                    <span class="indicator-item bg-error size-2 rounded-full"></span>
+                    <span class="indicator-item badge badge-secondary badge-sm rounded-full"><%=cart != null && !cart.isEmpty() ? cart.size() : "0"%></span>
                     <span class="icon-[tabler--shopping-bag] size-[1.375rem] text-base"></span>
                 </div>
             </button>
@@ -51,7 +54,6 @@
                 <div
                         class="vertical-scrollbar horizontal-scrollbar rounded-scrollbar text-base-content/80 max-h-56 overflow-auto max-md:max-w-60">
                     <%
-                        List<CartItemDTO> cart = (List<CartItemDTO>) session.getAttribute("cart");
                         if (cart != null && !cart.isEmpty()) {
                             for (CartItemDTO item : cart) {
                     %>

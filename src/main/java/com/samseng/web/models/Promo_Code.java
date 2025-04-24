@@ -2,11 +2,11 @@ package com.samseng.web.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -14,8 +14,6 @@ import org.hibernate.annotations.GenericGenerator;
 public class Promo_Code {
 
     @Id
-    @GeneratedValue(generator = "prefix_id")
-    @GenericGenerator(name = "prefix_id", strategy = "com.samseng.web.DummyData.PrefixIdGenerator")
     @Column(name = "promo_code", unique = true, nullable = false)
     private String id;
 
@@ -25,7 +23,8 @@ public class Promo_Code {
 
 
     @NotNull
-    @Size(min=0,max=1)
+    @DecimalMin("0.0")
+    @DecimalMax("1.0")
     @Column(name = "discount_rate")
     private double discount;
 

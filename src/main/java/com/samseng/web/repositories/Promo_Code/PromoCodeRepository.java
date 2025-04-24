@@ -13,5 +13,7 @@ public interface PromoCodeRepository {
 
     Promo_Code findById(String id);
 
+    List<Promo_Code> findAll();
 
+    void updateAvailability(String code, boolean available);
 }

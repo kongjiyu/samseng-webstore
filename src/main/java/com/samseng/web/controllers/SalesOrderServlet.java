@@ -43,7 +43,7 @@ public class SalesOrderServlet extends HttpServlet {
         List<CartItemDTO> cartItems = (List<CartItemDTO>) session.getAttribute("cart");
 
         if (user == null || cartItems == null || cartItems.isEmpty()) {
-            response.sendRedirect(request.getContextPath() + "/user/cart.jsp");
+            response.sendRedirect(request.getContextPath() + "/cart.jsp");
             return;
         }
 

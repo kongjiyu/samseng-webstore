@@ -56,32 +56,20 @@ public class CartServlet extends HttpServlet {
             if ("add".equals(action)) {
                 int qty = Integer.parseInt(request.getParameter("qty"));
                 cartProductRepository.addOrUpdate(user.getId(), variantId, qty);
-                Variant variant = variantRepository.findById(variantId);
-                cartItems.add(new CartItemDTO(variant, variant.getProduct().getImageUrls().iterator().next(), qty));
             } else if ("remove".equals(action)) {
                 cartProductRepository.remove(user.getId(), variantId);
-                cartItems.removeIf(item -> item.variant().getVariantId().equals(variantId));
             } else if ("update".equals(action)) {
                 int qty = Integer.parseInt(request.getParameter("qty"));
-                Variant variant = variantRepository.findById(variantId);
                 if (qty <= 0) {
                     cartProductRepository.remove(user.getId(), variantId);
-                    cartItems.removeIf(item -> item.variant().getVariantId().equals(variantId));
                 } else {
                     cartProductRepository.updateQuantity(user.getId(), variantId, qty);
-                    for (CartItemDTO item : cartItems) {
-                        if (item.variant().getVariantId().equals(variantId)) {
-                            cartItems.set(cartItems.indexOf(item), new CartItemDTO(item.variant(), item.imageUrl(), qty));
-                            break;
-                        }
-                    }
                 }
             } else if ("increase".equals(action)) {
                 for (CartItemDTO item : cartItems) {
                     if (item.variant().getVariantId().equals(variantId)) {
                         int newQty = item.quantity() + 1;
                         cartProductRepository.updateQuantity(user.getId(), variantId, newQty);
-                        cartItems.set(cartItems.indexOf(item), new CartItemDTO(item.variant(), item.imageUrl(), newQty));
                         break;
                     }
                 }
@@ -91,16 +79,14 @@ public class CartServlet extends HttpServlet {
                         int newQty = item.quantity() - 1;
                         if (newQty <= 0) {
                             cartProductRepository.remove(user.getId(), variantId);
-                            cartItems.remove(item);
                         } else {
                             cartProductRepository.updateQuantity(user.getId(), variantId, newQty);
-                            cartItems.set(cartItems.indexOf(item), new CartItemDTO(item.variant(), item.imageUrl(), newQty));
                         }
                         break;
                     }
                 }
             }
-
+            cartItems = cartProductRepository.findByAccountId(user.getId());
             session.setAttribute("cart", cartItems);
         } else {
             List<CartItemDTO> cartItems = (List<CartItemDTO>) session.getAttribute("cart");
@@ -157,7 +143,8 @@ public class CartServlet extends HttpServlet {
         session.removeAttribute("promoCode");
         session.removeAttribute("promoError");
 
-        request.getRequestDispatcher("/user/cart.jsp").forward(request, response);        response.sendRedirect(request.getContextPath() + "/user/cart.jsp");
+        request.getRequestDispatcher("/cart.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/cart.jsp");
 
     }
 }

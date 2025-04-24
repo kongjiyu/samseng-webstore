@@ -43,7 +43,12 @@ public class UserSessionFilter implements Filter {
             List<CartItemDTO> cartItems = cartRepository.findByAccountId(account.getId());
             session.setAttribute("cart", cartItems);
         } else {
-            session.setAttribute("cart", new ArrayList<CartItemDTO>());
+            List<CartItemDTO> cartItems = (List<CartItemDTO>)session.getAttribute("cart");
+            if(cartItems == null){
+                session.setAttribute("cart", new ArrayList<CartItemDTO>());
+            }else{
+                session.setAttribute("cart", cartItems);
+            }
         }
 
         chain.doFilter(req, res);

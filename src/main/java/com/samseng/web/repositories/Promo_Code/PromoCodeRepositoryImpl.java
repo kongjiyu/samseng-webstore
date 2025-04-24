@@ -31,4 +31,20 @@ public class PromoCodeRepositoryImpl implements PromoCodeRepository {
         return em.find(Promo_Code.class, id);
     }
 
+    public List<Promo_Code> findAll() {
+        try{
+            return em.createQuery("select p from Promo_Code p", Promo_Code.class)
+                    .getResultList();
+        }catch(Exception e){
+            return null;
+        }
+    }
+
+    public void updateAvailability(String code, boolean available) {
+        Promo_Code promo = findById(code);
+        if (promo != null) {
+            promo.setAvailability(available);
+            em.merge(promo);
+        }
+    }
 }

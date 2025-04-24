@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.*;
 
 @Transactional
-@WebServlet("/user/product")
+@WebServlet("/product")
 @MultipartConfig
 public class UserProductDetail extends HttpServlet {
     @Inject
@@ -92,7 +92,7 @@ public class UserProductDetail extends HttpServlet {
             request.setAttribute("variantList", variantList);
             request.setAttribute("product", product);
             request.setAttribute("commentList", commentList);
-            request.getRequestDispatcher("/user/productDetail.jsp").forward(request, response);
+            request.getRequestDispatcher("/productDetail.jsp").forward(request, response);
         }else{
             response.sendRedirect("/user/products");
         }

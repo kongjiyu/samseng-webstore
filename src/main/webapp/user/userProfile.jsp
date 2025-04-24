@@ -182,13 +182,14 @@
                                            placeholder="State / Province" name="state" required/>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="number" class="input input-bordered w-full"
+                                    <input type="text" class="input input-bordered w-full"
                                            placeholder="Postal Code"
                                            name="postcode"
-                                           required
-                                           pattern="^\d{5}$"
+                                           pattern="\d{5}"
                                            maxlength="5"
-                                           title="Postcode must be a 5-digit number"/>
+                                           inputmode="numeric"
+                                           required
+                                           title="Please enter a 5-digit postcode"/>
                                     <select class="select select-bordered w-full" name="country" disabled required>
                                         <option value="Malaysia" selected>Malaysia</option>
                                     </select>
@@ -256,8 +257,14 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input type="text" class="input input-bordered w-full" placeholder="City / District"
                                name="address_3" value="<%= address.getAddress_3() %>" required/>
-                        <input type="text" class="input input-bordered w-full" placeholder="Postal Code" name="postcode"
-                               value="<%= address.getPostcode() %>" required/>
+                        <input type="text" class="input input-bordered w-full" placeholder="Postal Code"
+                               name="postcode"
+                               value="<%= address.getPostcode() %>"
+                               pattern="\d{5}"
+                               maxlength="5"
+                               inputmode="numeric"
+                               required
+                               title="Please enter a 5-digit postcode"/>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input type="text" class="input input-bordered w-full" placeholder="State / Province"
@@ -346,6 +353,20 @@
         }
     });
 </script>
+
+<script>
+    const phoneInput = document.getElementById('contact-no-input');
+    phoneInput.addEventListener('input', () => {
+        try {
+            const phoneNumber = libphonenumber.parsePhoneNumberFromString(phoneInput.value, 'MY');
+            if (phoneNumber && phoneNumber.isValid()) {
+                phoneInput.value = phoneNumber.formatNational();
+            }
+        } catch (e) {
+            // Keep input unchanged if formatting fails
+        }
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 <%
     String toastMessage = (String) request.getAttribute("toastMessage");
@@ -358,21 +379,6 @@
         var notyf = new Notyf();
 
         notyf.<%=toastType%>("<%=toastMessage%>");
-    });
-</script>
-<script>
-    const phoneInput = document.getElementById('contact-no-input');
-    phoneInput.addEventListener('input', () => {
-        try {
-            const raw = phoneInput.value.replace(/\D/g, '');
-            const formatted = libphonenumber.formatNumber(
-                libphonenumber.parsePhoneNumberFromString(raw, 'MY'),
-                libphonenumber.PhoneNumberFormat.NATIONAL
-            );
-            phoneInput.value = formatted || phoneInput.value;
-        } catch (e) {
-            // Keep input unchanged if formatting fails
-        }
     });
 </script>
 <% } %>

@@ -20,7 +20,7 @@
 
 <!--Banner-->
 <div class="h-[40%] flex">
-    <img class="hero-image" src="../static/img/cart-background.jpg" alt="cartBanner"/>
+    <img class="hero-image" src="static/img/cart-background.jpg" alt="cartBanner"/>
     <!--
     <image class="hero-image" style="background-image: url('<%-- request.getContextPath() --%>/static/img/phone-store-banner.jpg');"></image>
     -->
@@ -209,17 +209,22 @@
             <%
                 boolean isLoggedIn = session.getAttribute("profile") != null;
                 boolean isCartEmpty = cartItems == null || cartItems.isEmpty();
-                boolean disableCheckout = !isLoggedIn || isCartEmpty;
             %>
-            <button type="button"
-                    class="btn btn-primary w-full mt-5 mb-5 <%= disableCheckout ? "btn-disabled" : "" %>"
-                    aria-haspopup="dialog"
-                    aria-expanded="false"
-                    aria-controls="middle-center-modal"
-                    data-overlay="#middle-center-modal"
-                    <%= disableCheckout ? "disabled" : "" %>>
-                Checkout
-            </button>
+            <% if (!isLoggedIn) { %>
+                <a href="<%= request.getContextPath() %>/login-flow" class="btn btn-primary w-full mt-5 mb-5">
+                    Login to Checkout
+                </a>
+            <% } else { %>
+                <button type="button"
+                        class="btn btn-primary w-full mt-5 mb-5 <%= isCartEmpty ? "btn-disabled" : "" %>"
+                        aria-haspopup="dialog"
+                        aria-expanded="false"
+                        aria-controls="middle-center-modal"
+                        data-overlay="#middle-center-modal"
+                        <%= isCartEmpty ? "disabled" : "" %>>
+                    Checkout
+                </button>
+            <% } %>
         </div>
 
     </div>
