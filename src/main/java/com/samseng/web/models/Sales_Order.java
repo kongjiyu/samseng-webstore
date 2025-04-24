@@ -61,20 +61,16 @@ public class Sales_Order {
 
     @NotNull
     private String refNo;
-
-    @NotNull
+    
     @Column(name = "order_date")
     private LocalDate orderedDate;
 
-    @NotNull
     @Column(name = "deliver_date")
     private LocalDate deliverDate;
 
-    @NotNull
     @Column(name = "pack_date")
     private LocalDate packDate;
 
-    @NotNull
     @Column(name = "ship_date")
     private LocalDate shipDate;
 

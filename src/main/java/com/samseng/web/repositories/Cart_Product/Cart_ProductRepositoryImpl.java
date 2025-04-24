@@ -106,4 +106,18 @@ public class Cart_ProductRepositoryImpl implements Cart_ProductRepository {
             em.merge(existing);
         }
     }
+
+    @Override
+    public void removeAll(String accountId) {
+        Cart_Product existing = em.createQuery("SELECT c FROM Cart_Product c WHERE c.account.id = :accountId", Cart_Product.class)
+                .setParameter("accountId", accountId)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+        if (existing != null) {
+            em.remove(existing);
+        }
+
+    }
+
 }

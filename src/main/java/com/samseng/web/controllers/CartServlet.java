@@ -1,8 +1,10 @@
 package com.samseng.web.controllers;
 
 import com.samseng.web.models.Account;
+import com.samseng.web.models.Address;
 import com.samseng.web.models.Cart_Product;
 import com.samseng.web.models.Variant;
+import com.samseng.web.repositories.Address.AddressRepository;
 import com.samseng.web.repositories.Cart_Product.Cart_ProductRepository;
 import com.samseng.web.repositories.Variant.VariantRepository;
 import jakarta.inject.Inject;
@@ -23,10 +25,12 @@ import com.samseng.web.dto.CartItemDTO;
 public class CartServlet extends HttpServlet {
     @Inject
     Cart_ProductRepository cartProductRepository;
-    
+
     @Inject
     VariantRepository variantRepository;
 
+    @Inject
+    private AddressRepository addressRepository;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,6 +50,8 @@ public class CartServlet extends HttpServlet {
 
         if (user != null) {
             List<CartItemDTO> cartItems = cartProductRepository.findByAccountId(user.getId());
+            List<Address> addressList = addressRepository.findByUserId(user.getId());
+            request.setAttribute("addresses", addressList);
 
             if ("add".equals(action)) {
                 int qty = Integer.parseInt(request.getParameter("qty"));
@@ -146,8 +152,12 @@ public class CartServlet extends HttpServlet {
             session.setAttribute("cart", cartItems);
         }
 
+        request.setAttribute("promoCode", session.getAttribute("promoCode"));
+        request.setAttribute("promoError", session.getAttribute("promoError"));
+        session.removeAttribute("promoCode");
+        session.removeAttribute("promoError");
 
-        response.sendRedirect(request.getContextPath() + "/user/cart.jsp");
+        request.getRequestDispatcher("/user/cart.jsp").forward(request, response);        response.sendRedirect(request.getContextPath() + "/user/cart.jsp");
 
     }
 }

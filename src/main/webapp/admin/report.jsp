@@ -14,6 +14,8 @@
 
 </head>
 <body class="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-10">
+<%@ include file="/general/adminHeader.jsp" %>
+
 <h1 class="text-2xl font-bold mb-6">Sales Report</h1>
 <!-- Chart 1: Payment Timing -->
 <div class="accordion-item accordion-item-active:scale-[1.05] accordion-item-active:mb-3 active transition-transform ease-in duration-300 delay-[1ms]" id="payment-popout">

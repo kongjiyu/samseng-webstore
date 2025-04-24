@@ -18,6 +18,7 @@
           rel="stylesheet">
 </head>
 
+<% List<Comment> commentList= (List<Comment>) request.getAttribute("commentList"); %>
 <body class="bg-[#dadada]">
 <%@ include file="/general/userHeader.jsp" %>
 
@@ -175,8 +176,14 @@
 <%--        </form>--%>
 <%--    </div>--%>
 
+
+
     <div id="comment-section" class="mx-10 pb-5">
         <!-- Test comment -->
+
+        <% if (commentList != null) {
+            for (Comment c : commentList) {
+        %>
         <div id="comment" class="flex flex-col items-right gap-2 m-5">
             <div class="flex">
                 <div class="w-14">
@@ -184,22 +191,21 @@
                          alt="avatar 1"/>
                 </div>
                 <div class="gap-3 mt-1 ml-4">
-                    <p class="font-semibold text-[18px]">Guest</p>
+                    <p class="font-semibold text-[18px]"><%=c.getUser().getUsername()%></p>
                     <div class="flex flex-row user-rating size-5"></div>
-                    <p class="w-full text-[18px] mt-3">Fantastic product yes wow look at me i have so much money i can
-                        buy your fucking house</p>
-
+                    <p class="w-full text-[18px] mt-3"><%= c.getMessage()%></p>
+                    <% if(c.getReply() !=null ){ %>
                     <div id="reply" class="mt-5 ml-5">
                         <p class="font-bold text-lg py-2">Reply By Staff Personnel</p>
-                        <p class="text-lg">Man shut yo goofy ass up dawg</p>
+                        <p class="text-lg"><%= c.getReply().getMessage()%></p>
                     </div>
+                    <% } %>
                 </div>
             </div>
 
             <div class="divider"></div>
         </div>
-
-
+        <% } } %>
     </div>
 </div>
 
@@ -249,24 +255,21 @@
         ratingHints.init()
     })
 
-
+    <% if (commentList != null) {
+            for (Comment c : commentList) {
+        %>
     document.addEventListener('DOMContentLoaded', function () {
         const ratingReadOnly = new Raty(document.querySelector('.user-rating'), {
             path: '../static/img',
-            score: 4,
+            score: <%=c.getRating()%>,
             readOnly: true
         })
         ratingReadOnly.init()
     })
+    <% }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const ratingReadOnly = new Raty(document.querySelector('.user-rating2'), {
-            path: '../static/img',
-            score: 3,
-            readOnly: true
-        })
-        ratingReadOnly.init()
-    })
+    }%>
+
 </script>
 
 <!-- Quantity Button -->

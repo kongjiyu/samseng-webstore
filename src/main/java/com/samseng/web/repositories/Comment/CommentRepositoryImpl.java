@@ -1,6 +1,7 @@
 package com.samseng.web.repositories.Comment;
 
 import com.samseng.web.models.Comment;
+import com.samseng.web.models.Product;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -45,13 +46,16 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public  Comment findByProductId(String product){
-
-        return em.createQuery("SELECT c FROM  Comment c WHERE c.product = :product",   Comment.class)
-                .setParameter("product", product)
-                .getSingleResult();
-
+    public List<Comment> findByProductId(String productId) {
+        return em.createQuery(
+                        "SELECT c FROM Comment c LEFT JOIN FETCH c.reply WHERE c.product.id = :productId",
+                        Comment.class
+                )
+                .setParameter("productId", productId)
+                .getResultList();
     }
+
+
 
     @Override
     public  Comment findByUserId(String user){
