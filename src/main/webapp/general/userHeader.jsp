@@ -2,6 +2,7 @@
 <%@page import="com.samseng.web.models.*" %>
 <%@page import="com.samseng.web.dto.CartItemDTO" %>
 <%@page import="java.util.List" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Header</title>
@@ -9,7 +10,7 @@
     <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 </head>
 <body>
-<nav  class="navbar bg-base-100 rounded-box shadow-base-300/20 shadow-sm">
+<nav class="navbar bg-base-100 rounded-box shadow-base-300/20 shadow-sm">
     <div class="navbar-start items-center justify-between max-md:w-full">
         <a class="link text-xl font-bold no-underline" href="<%= request.getContextPath() %>/index.jsp">
             SAMSENG
@@ -18,9 +19,9 @@
     <div class="navbar-center max-md:hidden">
         <ul
                 class="menu menu-horizontal gap-2 p-0 text-base rtl:ml-20 !shadow-none !border-none ">
-            <li><a href="/products" >Products</a></li>
-            <li><a href="#" >Promotion</a></li>
-            <li><a href="#" >Contact Us</a></li>
+            <li><a href="/products">Products</a></li>
+            <li><a href="#">Promotion</a></li>
+            <li><a href="#">Contact Us</a></li>
         </ul>
     </div>
 
@@ -58,12 +59,14 @@
                     <div class="dropdown-item">
                         <div class="avatar">
                             <div class="w-10 rounded-full">
-                                <img src="/uploads/<%= item.imageUrl() %>" alt="product image" />
+                                <img src="/uploads/<%= item.imageUrl() %>" alt="product image"/>
                             </div>
                         </div>
                         <div class="w-60">
-                            <h6 class="truncate text-base"><%= item.variant().getVariantName() %></h6>
-                            <small class="text-base-content/50 truncate">Qty: <%= item.quantity() %></small>
+                            <h6 class="truncate text-base"><%= item.variant().getVariantName() %>
+                            </h6>
+                            <small class="text-base-content/50 truncate">Qty: <%= item.quantity() %>
+                            </small>
                         </div>
                     </div>
                     <%
@@ -87,7 +90,7 @@
         </div>
         <!--User Profile-->
         <%
-            if(request.getUserPrincipal() !=null) {
+            if (request.getUserPrincipal() != null) {
                 Account profile = (Account) session.getAttribute("profile");
         %>
         <div class="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
@@ -114,8 +117,10 @@
                         <span class="text-3xl text-white uppercase"><%= initials.toString() %></span>
                     </div>
                     <div>
-                        <h6 class="text-base-content text-base font-semibold"><%=profile.getUsername()%></h6>
-                        <small class="text-base-content/50"><%=profile.getRole().name()%></small>
+                        <h6 class="text-base-content text-base font-semibold"><%=profile.getUsername()%>
+                        </h6>
+                        <small class="text-base-content/50"><%=profile.getRole().name()%>
+                        </small>
                     </div>
                 </li>
                 <li>
@@ -143,7 +148,8 @@
                     </a>
                 </li>
                 <li class="dropdown-footer gap-2">
-                    <a class="btn btn-error btn-soft btn-block" href="<%= request.getContextPath() %>/logout"><!--logout-->
+                    <a class="btn btn-error btn-soft btn-block" href="<%= request.getContextPath() %>/logout">
+                        <!--logout-->
                         <span class="icon-[tabler--logout]"></span>
                         Sign out
                     </a>
@@ -158,7 +164,8 @@
     </div>
 </nav>
 
-<div id="html-modal-combo-box" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 [--body-scroll:true] hidden"
+<div id="html-modal-combo-box"
+     class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 [--body-scroll:true] hidden"
      role="dialog" tabindex="-1">
     <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
         <div class="modal-content">
@@ -171,9 +178,10 @@
                   }'>
                 <div class="modal-header block">
                     <div class="relative">
-                        <input class="input ps-8 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" type="text" placeholder="Search or type a command"
+                        <input class="input ps-8 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" type="text"
+                               placeholder="Search or type a command"
                                role="combobox" aria-expanded="false" value="" autofocus=""
-                               data-combo-box-input="" />
+                               data-combo-box-input=""/>
                         <span
                                 class="icon-[tabler--search] text-base-content absolute start-3 top-1/2 size-4 shrink-0 -translate-y-1/2"
                                 data-combo-box-toggle=""></span>
@@ -182,101 +190,28 @@
                 <!-- SearchBox Modal Body -->
                 <div class="modal-body overflow-y-auto mt-0 max-h-72 p-1.5" data-combo-box-output="">
                     <div class="space-y-0.5 p-0.5" data-combo-box-output-items-wrapper="">
-                        <!-- Group: Recent Actions -->
-                        <div data-combo-box-output-item='{"group": {"name": "recent", "title": "Recent Actions"}}'
-                             tabindex="0">
-                            <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none" href="#">
-                                        <span
-                                                class="icon-[tabler--writing] text-base-content/80 size-4 shrink-0"></span>
-                                <span class="text-base-content text-sm"
-                                      data-combo-box-search-text="Write a document" data-combo-box-value="">
-                                            Write a document
+                        <!-- Item -->
+                        <c:forEach var="product" items="${products}">
+                            <div data-combo-box-output-item='{"group": {"name": "best" , "title": ""}}'
+                                 tabindex="0">
+                                <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none"
+                                   href="<%= request.getContextPath() %>/admin/product?productId=${product.id()}">
+                                    <div class="avatar">
+                                        <div class="bg-base-content/10 h-10 w-10 rounded-md">
+                                            <img src="/uploads/${product.imageUrls()[0]}" alt="productImage"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-col">
+                                        <div class="text-sm opacity-50">${product.id()}</div>
+                                        <div class="font-medium">${product.name()}</div>
+                                        <span class="text-base-content/50 ms-auto hidden text-xs sm:inline"
+                                              data-combo-box-search-text="${product.name()}" data-combo-box-value="">
                                         </span>
-                                <span class="text-base-content/50 ms-auto hidden text-xs sm:inline"
-                                      data-combo-box-search-text="Google Docs" data-combo-box-value="">
-                                            Google Docs
-                                        </span>
-                            </a>
-                        </div>
-                        <div data-combo-box-output-item='{"group": {"name": "recent", "title": "Recent Actions"}}'
-                             tabindex="1">
-                            <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none" href="#">
-                                        <span
-                                                class="icon-[tabler--calendar] text-base-content/80 size-4 shrink-0"></span>
-                                <span class="text-base-content text-sm"
-                                      data-combo-box-search-text="Schedule a meeting" data-combo-box-value="">
-                                            Schedule a meeting
-                                        </span>
-                                <span class="text-base-content/50 ms-auto hidden text-xs sm:inline"
-                                      data-combo-box-search-text="Google Calendar" data-combo-box-value="">
-                                            Google Calendar
-                                        </span>
-                            </a>
-                        </div>
-                        <div data-combo-box-output-item='{"group": {"name": "recent", "title": "Recent Actions"}}'
-                             tabindex="2">
-                            <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none" href="#">
-                                        <span
-                                                class="icon-[tabler--presentation] text-base-content/80 size-4 shrink-0"></span>
-                                <span class="text-base-content text-sm"
-                                      data-combo-box-search-text="Create a presentation" data-combo-box-value="">
-                                            Create a presentation
-                                        </span>
-                                <span class="text-base-content/50 ms-auto hidden text-xs sm:inline"
-                                      data-combo-box-search-text="Microsoft PowerPoint" data-combo-box-value="">
-                                            PowerPoint
-                                        </span>
-                            </a>
-                        </div>
-                        <!-- Group: People -->
-                        <div data-combo-box-output-item='{"group": {"name": "people", "title": "People"}}'
-                             tabindex="4">
-                            <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none" href="#">
-                                <img class="size-5 shrink-0 rounded-full"
-                                     src="https://cdn.flyonui.com/fy-assets/avatar/avatar-2.png"
-                                     alt="Image Description" />
-                                <span class="text-base-content text-sm"
-                                      data-combo-box-search-text="Alice Johnson" data-combo-box-value="">
-                                            Alice Johnson
-                                        </span>
-                                <span class="ms-auto text-xs text-teal-600" data-combo-box-search-text="Online"
-                                      data-combo-box-value="">
-                                            Online
-                                        </span>
-                            </a>
-                        </div>
-                        <div data-combo-box-output-item='{"group": {"name": "people", "title": "People"}}'
-                             tabindex="5">
-                            <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none" href="#">
-                                <img class="size-5 shrink-0 rounded-full"
-                                     src="https://cdn.flyonui.com/fy-assets/avatar/avatar-11.png"
-                                     alt="Image Description" />
-                                <span class="text-base-content text-sm" data-combo-box-search-text="David Kim"
-                                      data-combo-box-value="">
-                                            David Kim
-                                        </span>
-                                <span class="text-base-content/50 ms-auto text-xs"
-                                      data-combo-box-search-text="Offline" data-combo-box-value="">
-                                            Offline
-                                        </span>
-                            </a>
-                        </div>
-                        <div data-combo-box-output-item='{"group": {"name": "people", "title": "People"}}'
-                             tabindex="6">
-                            <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none" href="#">
-                                <img class="size-5 shrink-0 rounded-full"
-                                     src="https://cdn.flyonui.com/fy-assets/avatar/avatar-12.png"
-                                     alt="Image Description" />
-                                <span class="text-base-content text-sm"
-                                      data-combo-box-search-text="Rosa Martinez" data-combo-box-value="">
-                                            Rosa Martinez
-                                        </span>
-                                <span class="text-base-content/50 ms-auto text-xs"
-                                      data-combo-box-search-text="Offline" data-combo-box-value="">
-                                            Offline
-                                        </span>
-                            </a>
-                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
