@@ -2,10 +2,10 @@ package com.samseng.web.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+
 import java.time.LocalDate;
 
 @Getter
@@ -61,20 +61,16 @@ public class Sales_Order {
 
     @NotNull
     private String refNo;
-
-    @NotNull
+    
     @Column(name = "order_date")
     private LocalDate orderedDate;
 
-    @NotNull
     @Column(name = "deliver_date")
     private LocalDate deliverDate;
 
-    @NotNull
     @Column(name = "pack_date")
     private LocalDate packDate;
 
-    @NotNull
     @Column(name = "ship_date")
     private LocalDate shipDate;
 

@@ -38,6 +38,7 @@
         <th>Action</th>
       </tr>
       </thead>
+
       <tbody>
       <%
         List<Product> products = (List<Product>) request.getAttribute("products");
@@ -45,6 +46,7 @@
           for (Product product : products) {
       %>
       <tr>
+        <!-- Product Image and Name -->
         <td>
           <div class="flex items-center gap-3">
             <div class="avatar">
@@ -62,7 +64,11 @@
             </div>
           </div>
         </td>
+
+        <!-- Product Category-->
         <td><%= product.getCategory() %></td>
+
+        <!-- Actions -->
         <td>
           <a href="<%= request.getContextPath() %>/admin/product?productId=<%= product.getId() %>" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
             <span class="icon-[tabler--pencil] size-5"></span>

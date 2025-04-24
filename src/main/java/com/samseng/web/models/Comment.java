@@ -35,6 +35,7 @@ public class Comment {
     @JoinColumn(name="user_id")
     private Account user;
 
-
+    @OneToOne(mappedBy = "comment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Reply reply;
 
 }

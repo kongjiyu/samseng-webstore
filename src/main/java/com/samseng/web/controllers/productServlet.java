@@ -9,7 +9,6 @@ import com.samseng.web.models.Attribute;
 import com.samseng.web.models.Variant;
 import com.samseng.web.models.Variant_Attribute;
 import com.samseng.web.repositories.Attribute.AttributeRepository;
-import com.samseng.web.repositories.Attribute.AttributeRepositoryImpl;
 import com.samseng.web.repositories.Variant.VariantRepository;
 import com.samseng.web.repositories.Variant_Attribute.Variant_AttributeRepository;
 

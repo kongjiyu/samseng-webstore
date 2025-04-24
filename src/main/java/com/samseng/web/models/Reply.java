@@ -24,8 +24,8 @@ public class Reply {
     @Column(name="reply_message")
     private String message;
 
-    @ManyToOne
-    @JoinColumn(name="comment_id")
+    @OneToOne
+    @JoinColumn(name = "comment_id", unique = true, nullable = false)
     private Comment comment;
 
 }
