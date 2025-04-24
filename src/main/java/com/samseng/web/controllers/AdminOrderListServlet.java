@@ -4,8 +4,6 @@ import com.samseng.web.dto.OrderListingDTO;
 import com.samseng.web.models.*;
 import com.samseng.web.repositories.Sales_Order.Sales_OrderRepository;
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.PersistenceUnit;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,10 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/admin/orders")
-public class OrderListServlet extends HttpServlet {
-    @PersistenceUnit
-    private EntityManagerFactory emf;
-
+public class AdminOrderListServlet extends HttpServlet {
     @Inject
     private Sales_OrderRepository salesOrderRepository;
 

@@ -19,4 +19,6 @@ public interface Sales_OrderRepository {
     List<Sales_Order> findPaged(int page, int pageSize);
 
     long count();
+
+    List<Sales_Order> findByUserIdPaged(String user, int page, int pageSize);
 }

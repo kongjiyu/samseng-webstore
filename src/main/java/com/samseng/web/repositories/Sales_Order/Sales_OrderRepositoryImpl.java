@@ -43,6 +43,7 @@ public class Sales_OrderRepositoryImpl implements Sales_OrderRepository {
 
     }
 
+
     @Override
     public Sales_Order findByRefNo(String refNo){
         return em.createQuery("SELECT s FROM  Sales_Order s WHERE s.refNo = :refNo",  Sales_Order.class)
@@ -57,6 +58,16 @@ public class Sales_OrderRepositoryImpl implements Sales_OrderRepository {
                 .setFirstResult((page - 1) * pageSize)
                 .setMaxResults(pageSize)
                 .getResultList();
+    }
+
+    @Override
+    public List<Sales_Order> findByUserIdPaged(String userId, int page, int pageSize) {
+        return em.createQuery("SELECT s FROM  Sales_Order s WHERE s.user.id = :userId",  Sales_Order.class)
+                .setParameter("userId", userId)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+
     }
 
     @Override
