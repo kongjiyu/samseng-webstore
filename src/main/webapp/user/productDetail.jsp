@@ -86,15 +86,26 @@
         <!--Right Panel-->
 
         <div class="w-full lg:w-3/5 p-10">
+            <%
+                int totalRating = 0;
+                int commentCount = 0;
+                if (commentList != null) {
+                    for (Comment c : commentList) {
+                        totalRating += c.getRating();
+                        commentCount++;
+                    }
+                }
+                double averageRating = commentCount > 0 ? (double) totalRating / commentCount : 0.0;
+            %>
             <h1 class="text-3xl font-bold mt-3 mb-3"><%=productObj.getName()%>
             </h1>
-            <span id="rating" class="font-bold text-[#4b4c5d]">4.9</span>
+            <span id="rating" class="font-bold text-[#4b4c5d]"><%= String.format("%.1f", averageRating) %></span>
             <span>rating</span>
             <span> | </span>
-            <span id="amount-sold" class="font-bold text-[#4b4c5d]">4593</span>
+            <span id="amount-sold" class="font-bold text-[#4b4c5d]"><%= commentCount%></span>
             <span>reviews</span>
 
-            <%
+        <%
                 List<Variant> variantList = (List<Variant>) request.getAttribute("variantList");
                 Variant firstVariant = (variantList != null && !variantList.isEmpty()) ? variantList.get(0) : null;
             %>
@@ -192,7 +203,7 @@
                 </div>
                 <div class="gap-3 mt-1 ml-4">
                     <p class="font-semibold text-[18px]"><%=c.getUser().getUsername()%></p>
-                    <div class="flex flex-row user-rating size-5"></div>
+                    <div class="user-rating flex" data-score="<%= c.getRating() %>"></div>
                     <p class="w-full text-[18px] mt-3"><%= c.getMessage()%></p>
                     <% if(c.getReply() !=null ){ %>
                     <div id="reply" class="mt-5 ml-5">
@@ -246,31 +257,31 @@
 <!-- Comment Raty -->
 <script id="rating-control">
     document.addEventListener('DOMContentLoaded', function () {
-        const ratingHints = new Raty(document.querySelector('#raty-with-hints'), {
-            path: '../static/img',
-            hints: ['Terrible 😔', 'Unsatisfactory 😑', 'Average 😊', 'Nice 😁', 'Splendid 😍'],
-            target: '[data-hint]',
-            targetFormat: 'Your experience was: {score}'
-        })
-        ratingHints.init()
-    })
+        // 1. 初始化用户评分输入（可选）
+        const hintTarget = document.querySelector('#raty-with-hints');
+        if (hintTarget) {
+            new Raty(hintTarget, {
+                path: '../static/img',
+                hints: ['Terrible 😔', 'Unsatisfactory 😑', 'Average 😊', 'Nice 😁', 'Splendid 😍'],
+                target: '[data-hint]',
+                targetFormat: 'Your experience was: {score}'
+            }).init();
+        }
 
-    <% if (commentList != null) {
-            for (Comment c : commentList) {
-        %>
-    document.addEventListener('DOMContentLoaded', function () {
-        const ratingReadOnly = new Raty(document.querySelector('.user-rating'), {
-            path: '../static/img',
-            score: <%=c.getRating()%>,
-            readOnly: true
-        })
-        ratingReadOnly.init()
-    })
-    <% }
-
-    }%>
-
+        // 2. 初始化每条评论的评分展示（重要 ✅）
+        document.querySelectorAll('.user-rating').forEach(function (el) {
+            const score = parseInt(el.dataset.score);
+            if (!isNaN(score)) {
+                new Raty(el, {
+                    path: '../static/img',
+                    score: score,
+                    readOnly: true
+                }).init();
+            }
+        });
+    });
 </script>
+
 
 <!-- Quantity Button -->
 <script>
@@ -353,7 +364,6 @@
 
 </html>
 
-</script>
 
 <script>
     function updateSelectedVariantId() {
