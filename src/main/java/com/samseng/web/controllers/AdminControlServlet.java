@@ -26,7 +26,15 @@ public class AdminControlServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+
+        List<Account> accounts = (List<Account>) request.getAttribute("users");
+
+        if (accounts == null) {
+            accounts = accountRepo.findAll();
+        }
+
+        request.setAttribute("accountList", accounts);
+        request.getRequestDispatcher("/admin/userList.jsp").forward(request, response);
     }
 
     @Override
@@ -41,53 +49,71 @@ public class AdminControlServlet extends HttpServlet {
             update(request,response);
             return;
         }
-        else if ("delete".equals(action)) {
-            delete(request,response);
+        else if ("saveUpdate".equals(action)) {
+            saveUpdatedAccount(request, response);
             return;
         }
-        else if("list".equals(action)){
-            list(request,response);
+        else if ("delete".equals(action)) {
+            delete(request,response);
             return;
         }
         else if("search".equals(action)){
             search(request,response);
             return;
         }
+        else if("view".equals(action)){
+            view(request,response);
+            return;
+        }
         else if("create".equals(action)){
             create(request,response);
             return;
         }
-        Account accountProfile = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
-        request.setAttribute("profile", accountProfile);
-        request.getRequestDispatcher("/admin/customerList.jsp").forward(request, response);
+        List<Account> accounts = accountRepo.findAll();
+        request.getSession().setAttribute("accountList", accounts);
+        request.getRequestDispatcher("/admin/userList.jsp").forward(request, response);
     }
 
 
-    private void update(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+    private void update(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String id = request.getParameter("id");
-        Account user = accountRepo.findAccountById(id);
+        Account account = accountRepo.findAccountById(id);
 
-        if (user != null) {
-            user.setUsername(request.getParameter("username"));
-            user.setEmail(request.getParameter("email"));
-
-            String roleParam = request.getParameter("role");
-            if (roleParam != null) {
-                user.setRole(Account.Role.valueOf(roleParam.toUpperCase()));
-            }
-
-            String dobParam = request.getParameter("dob");
-            if (dobParam != null && !dobParam.isEmpty()) {
-                user.setDob(LocalDate.parse(dobParam));
-            }
-
-            accountRepo.update(user);
-            response.sendRedirect("/customerList.jsp");
+        if (account != null) {
+            request.setAttribute("account", account);
+            request.getRequestDispatcher("/admin/customerDetail.jsp").forward(request, response);
         } else {
-            request.setAttribute("errorMessage", "Failed to update user.");
-            response.sendRedirect("/general/errorPage.jsp");
+            request.setAttribute("errorMessage", "User not found.");
+            request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
         }
     }
+
+    private void saveUpdatedAccount(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String id = request.getParameter("id");
+        Account account = accountRepo.findAccountById(id);
+
+        if (account != null) {
+            account.setUsername(request.getParameter("username"));
+            account.setEmail(request.getParameter("email"));
+
+            String dob = request.getParameter("dob");
+            if (dob != null && !dob.isEmpty()) {
+                account.setDob(LocalDate.parse(dob));
+            }
+
+            String role = request.getParameter("role");
+            if (role != null) {
+                account.setRole(Account.Role.valueOf(role));
+            }
+
+            accountRepo.update(account);
+            response.sendRedirect("/admin/control"); // redirect back to list
+        } else {
+            request.setAttribute("errorMessage", "User not found.");
+            request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
+        }
+    }
+
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -101,7 +127,7 @@ public class AdminControlServlet extends HttpServlet {
                 Account userToDelete = accountRepo.findAccountById(userId); // Find the user
                 if (userToDelete != null) {
                     accountRepo.delete(userToDelete);
-                    response.sendRedirect("/admin/customerList.jsp");
+                    response.sendRedirect("/admin/control");
                 } else {
                     request.setAttribute("errorMessage", "User not found.");
                     request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
@@ -116,16 +142,16 @@ public class AdminControlServlet extends HttpServlet {
         }
     }
 
-    private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Account loggedInUser = (Account) session.getAttribute("account");
+    private void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("id");
+        Account account = accountRepo.findAccountById(id);
 
-        if (loggedInUser != null && loggedInUser.getRole() == Account.Role.ADMIN) {
-            // Fetch all users
-            request.setAttribute("users", accountRepo.findAll());
-            request.getRequestDispatcher("/admin/customerList.jsp").forward(request, response);
+        if (account != null) {
+            request.setAttribute("account", account);
+            request.getRequestDispatcher("/admin/customerDetail.jsp").forward(request, response);
         } else {
-            response.sendRedirect("/login-flow");
+            request.setAttribute("errorMessage", "User not found.");
+            request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
         }
     }
 
@@ -135,17 +161,17 @@ public class AdminControlServlet extends HttpServlet {
 
         if (loggedInUser != null && loggedInUser.getRole() == Account.Role.ADMIN) {
             String keyword = request.getParameter("search");
-            List<Account> users;
+            List<Account> accounts;
 
             if (keyword != null && !keyword.trim().isEmpty()) {
-                users = accountRepo.searchAllFields(keyword.trim());
-            } else {
-                users = accountRepo.findAll();
-            }
+                accounts = accountRepo.searchAllFields(keyword.trim());
 
-            request.setAttribute("users", users);
-            request.setAttribute("searchQuery", keyword);
-            request.getRequestDispatcher("/admin/customerList.jsp").forward(request, response);
+            }else {
+                accounts = accountRepo.findAll(); // fallback to show all
+            }
+            request.setAttribute("accountList", accounts);
+
+            request.getRequestDispatcher("/admin/userList.jsp").forward(request, response);
         } else {
             response.sendRedirect("/login-flow");
         }

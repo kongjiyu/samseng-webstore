@@ -45,6 +45,7 @@ public class AccountProfileServlet extends HttpServlet {
 
          if ("update".equals(action)) {
              update(request,response);
+
              return;
          }
          else if ("delete".equals(action)) {
@@ -95,11 +96,12 @@ public class AccountProfileServlet extends HttpServlet {
                 account.setPassword(password);
             try {
                 accountRepo.update(account);
-                response.sendRedirect(request.getContextPath()+"/login-flow");
+                request.getSession().setAttribute("profile", account);
+                response.sendRedirect(request.getContextPath()+"/user/profile");
             } catch (Exception e) {
                 e.printStackTrace();
-                request.setAttribute("error", "Failed to update profile.");
-                request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
+                request.setAttribute("errorMessage", "Failed to update profile.");
+                request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
             }
         } else {
             response.sendRedirect(request.getContextPath() +"/login-flow");
