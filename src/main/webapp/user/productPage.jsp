@@ -255,7 +255,7 @@
         <div class="product-card card w-[280px] h-[480px]">
             <figure><img src="/uploads/${product.imageUrls()[0]}" alt="product-image" class="object-contain h-full"/></figure>
             <div class="card-body">
-                <h5 class="card-title mb-2.5"><a href="<%=request.getContextPath()%>/user/product?productId=${product.id()}">${product.name()}</a>></h5>
+                <h5 class="card-title mb-2.5"><a href="<%=request.getContextPath()%>/user/product?productId=${product.id()}">${product.name()}</a></h5>
                 <p class="mb-4">${product.desc().substring(0, 45)}...</p>
                 <p class="text-xl">Starting at <span class="font-bold">
                     <fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " />
