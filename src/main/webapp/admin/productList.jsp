@@ -49,7 +49,7 @@
           <div class="flex items-center gap-3">
             <div class="avatar">
               <div class="bg-base-content/10 h-10 w-10 rounded-md">
-                <img src="<%= product.getImageUrls().isEmpty() ? '#' : product.getImageUrls().iterator().next() %>" alt="product image" />
+                <img src="/uploads/<%= product.getImageUrls().isEmpty() ? '#' : product.getImageUrls().iterator().next() %>" alt="product image" />
               </div>
             </div>
             <div>

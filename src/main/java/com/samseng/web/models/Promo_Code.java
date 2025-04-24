@@ -21,7 +21,7 @@ public class Promo_Code {
 
 
     @NotNull
-    private String availability;
+    private boolean availability;
 
 
     @NotNull

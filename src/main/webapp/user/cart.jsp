@@ -56,58 +56,64 @@
                         int index = 1;
                         for (CartItemDTO item : cartItems) {
                 %>
-                            <tr>
-                                <td class="text-center"><%= index %></td>
-                                <td>
-                                    <div class="flex items-center gap-3">
-                                        <div class="avatar">
-                                            <div class="bg-base-content/10 h-10 w-10 rounded-md">
-                                                <img src="/uploads/<%= item.imageUrl() %>" alt="product image"/>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="text-sm opacity-50"><%= item.variant().getProduct().getId() %></div>
-                                            <div class="font-medium"><%= item.variant().getVariantName() %></div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-center"><%= item.variant().getProduct().getCategory() %></td>
-                                <td class="text-center"><%= item.quantity() %></td>
-                                <td class="text-center">RM<%= item.variant().getPrice() %></td>
-                                <td>
-                                    <form action="<%= request.getContextPath() %>/cart" method="post" style="display:inline;">
-                                        <input type="hidden" name="variantId" value="<%= item.variant().getVariantId() %>" />
-                                        <input type="hidden" name="action" value="increase" />
-                                        <button type="submit" class="btn btn-circle btn-text btn-sm">
-                                            <span class="icon-[tabler--plus] size-5"></span>
-                                        </button>
-                                    </form>
+                <tr>
+                    <td class="text-center"><%= index %>
+                    </td>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div class="avatar">
+                                <div class="bg-base-content/10 h-10 w-10 rounded-md">
+                                    <img src="/uploads/<%= item.imageUrl() %>" alt="product image"/>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="text-sm opacity-50"><%= item.variant().getProduct().getId() %>
+                                </div>
+                                <div class="font-medium"><%= item.variant().getVariantName() %>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center"><%= item.variant().getProduct().getCategory() %>
+                    </td>
+                    <td class="text-center"><%= item.quantity() %>
+                    </td>
+                    <td class="text-center">RM<%= item.variant().getPrice() %>
+                    </td>
+                    <td>
+                        <form action="<%= request.getContextPath() %>/cart" method="post" style="display:inline;">
+                            <input type="hidden" name="variantId" value="<%= item.variant().getVariantId() %>"/>
+                            <input type="hidden" name="action" value="increase"/>
+                            <button type="submit" class="btn btn-circle btn-text btn-sm">
+                                <span class="icon-[tabler--plus] size-5"></span>
+                            </button>
+                        </form>
 
-                                    <form action="<%= request.getContextPath() %>/cart" method="post" style="display:inline;">
-                                        <input type="hidden" name="variantId" value="<%= item.variant().getVariantId() %>" />
-                                        <input type="hidden" name="action" value="decrease" />
-                                        <button type="submit" class="btn btn-circle btn-text btn-sm">
-                                            <span class="icon-[tabler--minus] size-5"></span>
-                                        </button>
-                                    </form>
+                        <form action="<%= request.getContextPath() %>/cart" method="post" style="display:inline;">
+                            <input type="hidden" name="variantId" value="<%= item.variant().getVariantId() %>"/>
+                            <input type="hidden" name="action" value="decrease"/>
+                            <button type="submit" class="btn btn-circle btn-text btn-sm">
+                                <span class="icon-[tabler--minus] size-5"></span>
+                            </button>
+                        </form>
 
-                                    <form action="<%= request.getContextPath() %>/cart" method="post" style="display:inline;">
-                                        <input type="hidden" name="variantId" value="<%= item.variant().getVariantId() %>" />
-                                        <input type="hidden" name="action" value="remove" />
-                                        <button type="submit" class="btn btn-circle btn-text btn-sm">
-                                            <span class="icon-[tabler--trash] size-5"></span>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                        <form action="<%= request.getContextPath() %>/cart" method="post" style="display:inline;">
+                            <input type="hidden" name="variantId" value="<%= item.variant().getVariantId() %>"/>
+                            <input type="hidden" name="action" value="remove"/>
+                            <button type="submit" class="btn btn-circle btn-text btn-sm">
+                                <span class="icon-[tabler--trash] size-5"></span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
                 <%
-                            index++;
-                        }
-                    } else {
+                        index++;
+                    }
+                } else {
                 %>
-                        <tr>
-                            <td colspan="7" class="text-center text-base-content/60 py-4">No product in cart.</td>
-                        </tr>
+                <tr>
+                    <td colspan="7" class="text-center text-base-content/60 py-4">No product in cart.</td>
+                </tr>
                 <%
                     }
                 %>
@@ -118,7 +124,7 @@
         <div class="flex flex-wrap items-center justify-between gap-2 pl-2 py-4 pt-4">
             <div class="me-2 block max-w-sm text-sm text-base-content/80 sm:mb-0">
                 Showing
-                <span class="font-semibold text-base-content/80"> <%=cartItems.isEmpty()? "0" : cartItems.size() %> </span>
+                <span class="font-semibold text-base-content/80"> <%=cartItems.isEmpty() ? "0" : cartItems.size() %> </span>
                 products
             </div>
         </div>
@@ -131,11 +137,17 @@
         </div>
 
         <div>
-            <h2 class="ml-2 text-xl">Enter Voucher Code</h2>
-            <div class="join form-control max-w-sm m-3 w-[90%]">
-                <input id="voucher-code" type="text" style="text-transform:uppercase" class="input join-item" placeholder="Voucher Code"/>
-                <button type="button" onclick="applyVoucher()" class="btn btn-primary join-item">Submit</button>
-            </div>
+            <h2 class="ml-2 text-xl">Enter Promo Code</h2>
+            <form action="<%= request.getContextPath() %>/promo-code" method="post"
+                  class="join form-control max-w-sm m-3 w-[90%]">
+                <input id="promo-code" name="promo-code" type="text" style="text-transform:uppercase"
+                       class="input join-item" placeholder="Promo Code"/>
+                <button type="submit" class="btn btn-primary join-item">Submit</button>
+            </form>
+            <% Boolean promoError = (Boolean) request.getAttribute("promoError");
+                if (promoError != null && promoError) { %>
+            <p class="text-red-500 text-sm ml-4">Invalid promo code.</p>
+            <% } %>
         </div>
 
         <%
@@ -147,8 +159,17 @@
             double taxRate = 0.06;
             double taxCharge = grossPrice * taxRate;
 
-            double deliveryCharge = 35.0; // fixed delivery cost
-            double discountAmount = 0.0;  // update if you apply discount logic
+            double deliveryCharge = 0.0;
+            if (grossPrice < 1000) {
+                deliveryCharge = 35.0;
+            }
+
+            Promo_Code promoCode = (Promo_Code) request.getAttribute("promoCode");
+            double discountRate = 0.0;
+            if (promoCode != null) {
+                discountRate = promoCode.getDiscount();
+            }
+            double discountAmount = grossPrice * discountRate;
             double netPrice = grossPrice + taxCharge + deliveryCharge - discountAmount;
         %>
 
@@ -157,33 +178,48 @@
                 <tbody>
                 <tr class="border-0">
                     <td>Gross Price</td>
-                    <td>RM<%= String.format("%.2f", grossPrice) %></td>
+                    <td>RM<%= String.format("%.2f", grossPrice) %>
+                    </td>
                 </tr>
                 <tr class="border-0">
                     <td>Tax (6%)</td>
-                    <td>RM<%= String.format("%.2f", taxCharge) %></td>
+                    <td>RM<%= String.format("%.2f", taxCharge) %>
+                    </td>
                 </tr>
                 <tr class="border-0">
                     <td>Delivery Charge</td>
-                    <td>RM<%= String.format("%.2f", deliveryCharge) %></td>
+                    <td>RM<%= String.format("%.2f", deliveryCharge) %>
+                    </td>
                 </tr>
-                <tr class="border-0">
-                    <td>Discount</td>
-                    <td>RM<%= String.format("%.2f", discountAmount) %></td>
+                <tr class="border-0 text-green">
+                    <td>Discount(<%=(int) (discountRate * 100)%>%)</td>
+                    <td>RM<%= String.format("%.2f", discountAmount) %>
+                    </td>
                 </tr>
                 <tr class="border-0 bg-base-300/20">
                     <td class="text-xl font-bold">Net Price</td>
-                    <td class="text-xl font-bold">RM<%= String.format("%.2f", netPrice) %></td>
+                    <td class="text-xl font-bold">RM<%= String.format("%.2f", netPrice) %>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="mt-5">
-            <button type="button" class="btn btn-primary w-full mt-5 mb-5" aria-haspopup="dialog" aria-expanded="false"
-                    aria-controls="middle-center-modal" data-overlay="#middle-center-modal">Checkout
+            <%
+                boolean isLoggedIn = session.getAttribute("profile") != null;
+                boolean isCartEmpty = cartItems == null || cartItems.isEmpty();
+                boolean disableCheckout = !isLoggedIn || isCartEmpty;
+            %>
+            <button type="button"
+                    class="btn btn-primary w-full mt-5 mb-5 <%= disableCheckout ? "btn-disabled" : "" %>"
+                    aria-haspopup="dialog"
+                    aria-expanded="false"
+                    aria-controls="middle-center-modal"
+                    data-overlay="#middle-center-modal"
+                    <%= disableCheckout ? "disabled" : "" %>>
+                Checkout
             </button>
-
         </div>
 
     </div>
@@ -197,7 +233,7 @@
         <div class="modal-dialog modal-dialog-lg overlay-open:opacity-100 overlay-open:duration-300">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title text-3xl font-bold">Great! That'll be $3999.00.</h3>
+                    <h3 class="modal-title text-3xl font-bold">Great! That'll be RM<%=String.format("%.2f", netPrice)%></h3>
                     <button type="button" class="btn btn-text btn-circle btn-lg absolute end-3 top-3" aria-label="Close"
                             data-overlay="#middle-center-modal"
                             data-overlay-options='{ "backdropClasses": "transition duration-300 fixed inset-0 bg-black/40 overlay-backdrop" }'>
@@ -270,61 +306,47 @@
 
 
                         <!-- Stepper Content -->
-                        <form id="wizard-validation-form-horizontal" class="needs-validation mt-5 sm:mt-8">
+                        <form id="wizard-validation-form-horizontal" class="needs-validation mt-5 sm:mt-8" method="post" action="<%= request.getContextPath() %>/user/sales-order">                            <input type="hidden" name="grossPrice" value="<%= String.format("%.2f", grossPrice) %>"/>
+                            <input type="hidden" name="promo-code" value="<%= promoCode != null ? promoCode.getId() : null  %>"/>
+                            <input type="hidden" name="taxCharge" value="<%= String.format("%.2f", taxCharge) %>"/>
+                            <input type="hidden" name="deliveryCharge" value="<%= String.format("%.2f", deliveryCharge) %>"/>
+                            <input type="hidden" name="discountAmount" value="<%= String.format("%.2f", discountAmount) %>"/>
+                            <input type="hidden" name="netPrice" value="<%= String.format("%.2f", netPrice) %>"/>
 
                             <!-- Addressing Details -->
                             <div id="address-validation" data-stepper-content-item='{ "index": 1 }'
                                  style="display: none">
                                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                                    <label class="custom-option gap-3">
-                                        <input type="radio" name="radio-17" class="radio hidden" checked/>
-                                        <span class="label-text w-full text-start">
-                        <span class="flex justify-between mb-1">
-                          <span class="text-base">Home Address</span>
-                          <span class="text-base-content/50 text-base">DEFAULT</span>
-                        </span>
-                        <span>
-                          <p>123 Main Street, Springfield</p>
-                          <p>+1 234 567 890</p>
-                          <p>USA</p>
-                        </span>
-                      </span>
-                                    </label>
-
-
-                                    <label class="custom-option gap-3">
-                                        <input type="radio" name="radio-17" class="radio hidden"/>
-                                        <span class="label-text w-full text-start">
-                        <span class="flex justify-between mb-1">
-                          <span class="text-base">Workplace</span>
-                        </span>
-                        <span>
-                          <p>456 Side Road, Shelbyville</p>
-                          <p>+1 987 654 321</p>
-                          <p>USA</p>
-                        </span>
-                      </span>
-                                    </label>
-
-
-                                    <label class="custom-option gap-3">
-                                        <input type="radio" name="radio-17" class="radio hidden"/>
-                                        <span class="label-text w-full text-start">
-                        <span class="flex justify-between mb-1">
-                          <span class="text-base">Workplace</span>
-                        </span>
-                        <span>
-                          <p>456 Side Road, Shelbyville</p>
-                          <p>+1 987 654 321</p>
-                          <p>USA</p>
-                        </span>
-                      </span>
-                                    </label>
+<%
+    List<Address> addresses = (List<Address>) request.getAttribute("addresses");
+    for (Address address : addresses) {
+%>
+    <label class="custom-option gap-3">
+        <input type="radio" name="radio-17" class="radio hidden" value="<%=address.getId()%>" <%= address.getIsdefault() ? "checked" : "" %>/>
+        <span class="label-text w-full text-start">
+            <span class="flex justify-between mb-1">
+                <span class="text-base"><%= address.getName() %></span>
+                <% if (address.getIsdefault()) { %>
+                    <span class="text-base-content/50 text-base">DEFAULT</span>
+                <% } %>
+            </span>
+            <span>
+                <p class="text-sm"><%= address.getAddress_1() %></p>
+                <p class="text-sm"><%= address.getAddress_2() %></p>
+                <% if (address.getAddress_3() != null && !address.getAddress_3().isEmpty()) { %>
+                    <p class="text-sm"><%= address.getAddress_3() %></p>
+                <% } %>
+                <p class="text-sm"><%= address.getPostcode() %></p>
+                <p class="text-sm"><%= address.getCountry() %></p>
+                <p class="text-sm"><%= address.getContact_no() %></p>
+            </span>
+        </span>
+    </label>
+<% } %>
                                 </div>
-
                                 <div class="mt-3">
                                     <p>Your address isn't listed? <a
-                                            href="<%= request.getContextPath() %>userProfile.jsp" id="link-to-profile">Register
+                                            href="<%= request.getContextPath() %>/user/profile" id="link-to-profile">Register
                                         it here!</a></p>
                                 </div>
                             </div>
@@ -344,7 +366,7 @@
                         <p class="text-base">Credit/Debit</p>
                       </span>
                                         <input id="card-radio" onclick="showCardForm()" type="radio" name="radio-19"
-                                               class="radio radio-primary"/>
+                                               class="radio radio-primary" value="Card"/>
                                     </label>
 
 
@@ -355,7 +377,7 @@
                         <p class="text-base">E-Wallet</p>
                       </span>
                                         <input id="wallet-radio" onclick="showWalletForm()" type="radio" name="radio-19"
-                                               class="radio radio-primary"/>
+                                               class="radio radio-primary" value="TNG"/>
                                     </label>
 
                                     <!--Cash-->
@@ -365,7 +387,7 @@
                         <p class="text-base">Cash on Delivery</p>
                       </span>
                                         <input id="cash-radio" onclick="showCashForm()" type="radio" name="radio-19"
-                                               class="radio radio-primary"/>
+                                               class="radio radio-primary" value="Cash"/>
                                     </label>
                                 </div>
 
@@ -373,19 +395,20 @@
                                     <div id="card-form" hidden="true">
                                         <div>
                                             <label class="label-text">Card Number</label>
-                                            <input type="text" id="card-number"
-                                                   pattern="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}" class="input"
-                                                   placeholder="1234 5678 9012 3456"/>
+                                            <input type="text" id="card-number" maxlength="19"
+                                                   oninput="formatCardNumber(this)" pattern="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}"
+                                                   class="input" placeholder="1234 5678 9012 3456" required/>
                                         </div>
 
                                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                                             <div>
                                                 <label class="label-text">Expiry Date</label>
-                                                <input type="text" id="expiry-date" class="input" placeholder="MM/YY"/>
+                                                <input type="text" id="expiry-date" maxlength="5"
+                                                       oninput="formatExpiryDate(this)" class="input" placeholder="MM/YY" required/>
                                             </div>
                                             <div>
-                                                <label class="label-text">CVC</label>
-                                                <input type="password" id="cvc" class="input" placeholder="123"/>
+                                                <label class="label-text">CCV</label>
+                                                <input type="password" id="ccv" maxlength="3" pattern="[0-9]{3}" class="input" placeholder="123" required/>
                                             </div>
                                         </div>
                                     </div>
@@ -395,23 +418,23 @@
                                             <div>
                                                 <label class="label-text">Phone Number</label>
                                                 <input type="tel" id="wallet-phone-number" class="input"
-                                                       placeholder="+60122339810"/>
+                                                       placeholder="+60122339810" required/>
                                             </div>
                                             <div>
                                                 <label class="label-text">PIN</label>
                                                 <div class="flex space-x-2 ml-2" id="grouped-pin-input" data-pin-input>
                                                     <input type="password" class="pin-input" placeholder="○"
-                                                           data-pin-input-item/>
+                                                           data-pin-input-item required/>
                                                     <input type="password" class="pin-input" placeholder="○"
-                                                           data-pin-input-item/>
+                                                           data-pin-input-item required/>
                                                     <input type="password" class="pin-input" placeholder="○"
-                                                           data-pin-input-item/>
+                                                           data-pin-input-item required/>
                                                     <input type="password" class="pin-input" placeholder="○"
-                                                           data-pin-input-item/>
+                                                           data-pin-input-item required/>
                                                     <input type="password" class="pin-input" placeholder="○"
-                                                           data-pin-input-item/>
+                                                           data-pin-input-item required/>
                                                     <input type="password" class="pin-input" placeholder="○"
-                                                           data-pin-input-item/>
+                                                           data-pin-input-item required/>
                                                 </div>
                                             </div>
                                         </div>
@@ -421,7 +444,7 @@
                                     <div id="cash-form" hidden="true">
                                         <label class="label-text">Phone Number</label>
                                         <input type="tel" id="cash-phone-number" class="input"
-                                               placeholder="+60122339810"/>
+                                               placeholder="+60122339810" required/>
                                     </div>
 
                                 </div>
@@ -439,9 +462,7 @@
                                             <h5 class="card-title">Shipping Address</h5>
                                         </div>
                                         <div class="card-body">
-                                            <p>Hihi testing testing</p>
-                                            <p>Get these three lines</p>
-                                            <p>From the selected address</p>
+                                            <p id="confirmation-address"></p>
                                         </div>
                                     </div>
 
@@ -450,7 +471,7 @@
                                             <h5 class="card-title">Payment Method</h5>
                                         </div>
                                         <div class="card-body">
-                                            <p>Hihi testing testing, yes get this from the selected method too</p>
+                                            <p id="confirmation-payment"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -483,8 +504,9 @@
                                     <span class="icon-[tabler--chevron-right] text-primary-content size-5 rtl:rotate-180"></span>
                                 </button>
 
-                                <button type="submit" input="submit" onsubmit="" class="btn btn-primary"
+                                <button type="button" class="btn btn-primary"
                                         data-stepper-finish-btn=""
+                                        onclick="document.getElementById('wizard-validation-form-horizontal').submit();"
                                         style="display: none">Finish
                                 </button>
                             </div>
@@ -523,30 +545,145 @@
     }
 </script>
 
-<!-- Form Validation (Disables/Enables button) -->
+<!-- Form Validation (Disables/Enables button) and Confirmation Population -->
 <script>
     var nextButton = document.getElementById("next-button");
     const cardPattern = /^[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}$/;
     const expiryPattern = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/;
     const cvcPattern = /^[0-9]{3}$/;
     const phonePattern = /^\+?[0-9]{10,15}$/;
+    let currentStepIndex = 1; // starting from address
 
     function emptyFieldCatcher() {
-        if (cardPattern.test(getElementById("card-number").value) === true ||
-            expiryPattern.test(getElementById("expiry-date").value) === true ||
-            cvcPattern.test(getElementById("cvc").value) === true) {
-            nextButton.classList.remove("btn-disabled");
-        } else if (phonePattern.test(getElementById("wallet-phone-number").value) ||
-            getElementById("grouped-pin-input").value.length === 6) {
-            nextButton.classList.remove("btn-disabled");
-        } else if (phonePattern.test(getElementById("cash-phone-number").value) === true) {
+        // Determine which payment method is selected
+        const cardRadio = document.getElementById("card-radio");
+        const walletRadio = document.getElementById("wallet-radio");
+        const cashRadio = document.getElementById("cash-radio");
+        let valid = false;
+        if (cardRadio && cardRadio.checked) {
+            const cardNumber = document.getElementById("card-number");
+            const expiryDate = document.getElementById("expiry-date");
+            const ccv = document.getElementById("ccv");
+            valid = cardNumber && expiryDate && ccv &&
+                cardNumber.value.trim().length > 0 &&
+                expiryDate.value.trim().length > 0 &&
+                ccv.value.trim().length > 0 &&
+                cardPattern.test(cardNumber.value) &&
+                expiryPattern.test(expiryDate.value) &&
+                cvcPattern.test(ccv.value);
+        } else if (walletRadio && walletRadio.checked) {
+            const walletPhone = document.getElementById("wallet-phone-number");
+            const pinInputs = Array.from(document.querySelectorAll('#grouped-pin-input input.pin-input'));
+            valid = walletPhone && walletPhone.value.trim().length > 0 &&
+                phonePattern.test(walletPhone.value) &&
+                pinInputs.length === 6 &&
+                pinInputs.every(input => input.value.trim().length === 1);
+        } else if (cashRadio && cashRadio.checked) {
+            const cashPhone = document.getElementById("cash-phone-number");
+            valid = cashPhone && cashPhone.value.trim().length > 0 &&
+                phonePattern.test(cashPhone.value);
+        }
+        if (valid) {
             nextButton.classList.remove("btn-disabled");
         } else {
             nextButton.classList.add("btn-disabled");
         }
     }
 
-    document.getElementById("next-button").addEventListener("onchange", emptyFieldCatcher);
+    const paymentInputs = document.querySelectorAll('#payment-validation input');
+    function addPaymentListeners() {
+        paymentInputs.forEach(input => {
+            input.addEventListener("input", emptyFieldCatcher);
+        });
+    }
+    function removePaymentListeners() {
+        paymentInputs.forEach(input => {
+            input.removeEventListener("input", emptyFieldCatcher);
+        });
+    }
+    addPaymentListeners(); // call this once on load
+
+    function clearPaymentInputs() {
+        document.querySelectorAll('input[name="radio-19"]').forEach(input => input.checked = false);
+        document.getElementById("card-number").value = "";
+        document.getElementById("expiry-date").value = "";
+        document.getElementById("ccv").value = "";
+        document.getElementById("wallet-phone-number").value = "";
+        document.getElementById("cash-phone-number").value = "";
+        document.querySelectorAll('.pin-input').forEach(pin => pin.value = "");
+    }
+
+    document.querySelector('[data-stepper-back-btn]').addEventListener("click", function () {
+        if (currentStepIndex === 2) {
+            removePaymentListeners();
+            clearPaymentInputs();
+            nextButton.classList.remove("btn-disabled");
+
+        }
+        currentStepIndex -= 1;
+    });
+    // Stepper navigation: Populate confirmation step with selected values
+    // This assumes a stepper library that triggers data-stepper-next-btn and data-stepper-content-item
+    // We'll hook into the "Next" button click to populate confirmation
+    document.getElementById("next-button").addEventListener("click", function () {
+        // Find which step is currently visible
+        const stepperForm = document.getElementById("wizard-validation-form-horizontal");
+        if (!stepperForm) return;
+        // Find all step content items
+        const stepItems = stepperForm.querySelectorAll('[data-stepper-content-item]');
+        let currentStep = -1;
+        stepItems.forEach((item, idx) => {
+            if (item.style.display !== "none") {
+                currentStep = idx + 1;
+            }
+        });
+        // If going to step 3 (confirmation), populate the confirmation fields
+        if (currentStep === 2) {
+            // Address summary
+            let selectedAddressSummary = "";
+            const addressRadio = stepperForm.querySelector('input[name="radio-17"]:checked');
+            if (addressRadio) {
+                // Get the label text for the selected address
+                const label = addressRadio.closest("label");
+                if (label) {
+                    // Get the text content of the address details (excluding the radio)
+                    const summary = label.querySelector(".label-text");
+                    if (summary) {
+                        // Remove "DEFAULT" and flatten to a string
+                        let temp = summary.cloneNode(true);
+                        // Remove DEFAULT span if present
+                        const def = temp.querySelector('span.text-base-content\\/50');
+                        if (def) def.remove();
+                        selectedAddressSummary = temp.innerText.trim().replace(/\s*\n\s*/g, "\n");
+                    }
+                }
+            }
+            // Payment summary
+            let selectedPaymentSummary = "";
+            if (document.getElementById("card-radio").checked) {
+                const cardNum = document.getElementById("card-number").value;
+                const expiry = document.getElementById("expiry-date").value;
+                selectedPaymentSummary = "Credit/Debit Card\nCard Number: **** **** **** " + (cardNum ? cardNum.slice(-4) : "") + "\nExpiry: " + expiry;
+            } else if (document.getElementById("wallet-radio").checked) {
+                const walletPhone = document.getElementById("wallet-phone-number").value;
+                selectedPaymentSummary = "E-Wallet\nPhone: " + walletPhone + "\nPIN: ******";
+            } else if (document.getElementById("cash-radio").checked) {
+                const cashPhone = document.getElementById("cash-phone-number").value;
+                selectedPaymentSummary = "Cash on Delivery\nPhone: " + cashPhone;
+            }
+            // Populate the confirmation fields
+            const addrElem = document.getElementById("confirmation-address");
+            if (addrElem) addrElem.innerText = selectedAddressSummary;
+            const payElem = document.getElementById("confirmation-payment");
+            if (payElem) payElem.innerText = selectedPaymentSummary;
+        }
+        if (currentStep === 2) {
+            currentStepIndex = 3; // confirmation step
+        } else if (currentStep === 1) {
+            nextButton.classList.add("btn-disabled");
+            currentStepIndex = 2; // payment step
+        }
+    });
 </script>
 
 
@@ -561,29 +698,22 @@
     })
 </script>
 
-<%@ include file="/general/userFooter.jsp" %>
-
 <script>
-  function applyVoucher() {
-    const voucherCode = document.getElementById("voucher-code").value.trim();
-    if (!voucherCode) return;
+    function formatCardNumber(input) {
+        input.value = input.value.replace(/\D/g, '').substring(0,16)
+            .replace(/(.{4})/g, '$1 ').trim();
+    }
 
-    fetch(`/api/voucher/validate?code=${voucherCode}`)
-      .then(res => {
-        if (!res.ok) throw new Error("Invalid voucher");
-        return res.json();
-      })
-      .then(data => {
-        const discount = parseFloat(data.discountAmount).toFixed(2);
-        document.cookie = `voucherDiscount=${discount}; path=/`;
-        location.reload();
-      })
-      .catch(err => {
-        alert("Invalid voucher code!");
-      });
-  }
+    function formatExpiryDate(input) {
+        let value = input.value.replace(/\D/g, '').substring(0,4);
+        if (value.length >= 3) {
+            value = value.substring(0,2) + '/' + value.substring(2);
+        }
+        input.value = value;
+    }
 </script>
 
+<%@ include file="/general/userFooter.jsp" %>
 </body>
 
 </html>

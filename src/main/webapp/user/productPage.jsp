@@ -252,8 +252,8 @@
     <div class="product-section">
 <%--        for (var product : products )--%>
         <c:forEach var="product" items="${products}">
-        <div class="product-card card sm:max-w-xs">
-            <figure><img src="/uploads/${product.imageUrls()[0]}" alt="product-image" /></figure>
+        <div class="product-card card w-[280px] h-[480px]">
+            <figure><img src="/uploads/${product.imageUrls()[0]}" alt="product-image" class="object-contain h-full"/></figure>
             <div class="card-body">
                 <h5 class="card-title mb-2.5"><a href="<%=request.getContextPath()%>/user/product?productId=${product.id()}">${product.name()}</a>></h5>
                 <p class="mb-4">${product.desc().substring(0, 45)}...</p>

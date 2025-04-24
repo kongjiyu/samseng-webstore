@@ -11,11 +11,13 @@
     <title>Document</title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
+    <script src="https://unpkg.com/libphonenumber-js@1.10.21/bundle/libphonenumber-js.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 </head>
 
 <body>
 <video autoplay muted loop class="fixed top-0 left-0 w-full h-full object-cover -z-10">
-    <source src="<%= request.getContextPath() %>/static/video/background3.mp4" type="video/mp4" />
+    <source src="<%= request.getContextPath() %>/static/video/background3.mp4" type="video/mp4"/>
     Your browser does not support the video tag.
 </video>
 <%@ include file="/general/userHeader.jsp" %>
@@ -23,7 +25,7 @@
 <div class="flex flex-col gap-6 p-10 pt-[5.5rem] backdrop-blur-lg min-h-screen">
     <!-- Profile Section -->
     <%
-        Account profile=(Account)session.getAttribute("profile");
+        Account profile = (Account) session.getAttribute("profile");
     %>
     <div class="bg-base-100 p-8 rounded-lg shadow-lg">
         <h1 class="text-2xl font-bold mb-6">Profile</h1>
@@ -48,38 +50,40 @@
 
             <!-- Profile Information Form -->
             <div class="col-span-2">
-                <form class="space-y-4" >
+                <form class="space-y-4">
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="label">User ID</label>
                             <input type="text" class="input input-bordered w-full" value="<%=profile.getId()%>"
-                                   disabled />
+                                   disabled/>
                         </div>
                         <div>
                             <label class="label">Username</label>
-                            <input type="text" class="input input-bordered w-full"  name="username"  value="<%=profile.getUsername()%>"/>
+                            <input type="text" class="input input-bordered w-full" name="username"
+                                   value="<%=profile.getUsername()%>"/>
                         </div>
                         <div>
                             <label class="label">Date of Birth</label>
-                            <input type="date" class="input input-bordered w-full" value="<%=profile.getDob()%>" disabled />
+                            <input type="date" class="input input-bordered w-full" value="<%=profile.getDob()%>"
+                                   disabled/>
                         </div>
                         <div>
                             <label class="label">Email</label>
                             <input type="email" class="input input-bordered w-full" name="email"
-                                   value="<%=profile.getEmail()%>"  />
+                                   value="<%=profile.getEmail()%>"/>
                         </div>
                         <div>
                             <label class="label">Role</label>
-                            <input type="text" class="input input-bordered w-full" placeholder="User" disabled />
+                            <input type="text" class="input input-bordered w-full" placeholder="User" disabled/>
                         </div>
 
                     </div>
                     <form method="post" action="<%= request.getContextPath() %>/user/profile">
-                        <input type="hidden" name="action" value="update" />
+                        <input type="hidden" name="action" value="update"/>
                         <div class="text-right">
-                        <button class="btn btn-info" type="submit">Save</button>
-                    </div>
+                            <button class="btn btn-info" type="submit">Save</button>
+                        </div>
                     </form>
                 </form>
             </div>
@@ -97,24 +101,33 @@
         <div class="space-y-4">
             <!-- First address with default badge -->
             <%
-                    for (Address address : addressList) {
+                for (Address address : addressList) {
             %>
             <div class="border border-base-300 p-4 rounded-lg flex justify-between items-start">
                 <div>
-                    <p class="font-semibold"><%=address.getName()%></p>
-                    <p class="text-sm"><%=address.getAddress_1()%></p>
-                    <p class="text-sm"><%=address.getAddress_2()%></p>
-                    <% if (address.getAddress_3()!=null) {%>
-                    <p class="text-sm"><%=address.getAddress_3()%></p>
+                    <p class="font-semibold"><%=address.getName()%>
+                    </p>
+                    <p class="text-sm"><%=address.getAddress_1()%>
+                    </p>
+                    <p class="text-sm"><%=address.getAddress_2()%>
+                    </p>
+                    <% if (address.getAddress_3() != null) {%>
+                    <p class="text-sm"><%=address.getAddress_3()%>
+                    </p>
                     <% } %>
-                    <p class="text-sm"><%=address.getPostcode()%></p>
-                    <p class="text-sm"><%=address.getCountry()%></p>
-                    <p class="text-sm"><%=address.getContact_no()%></p>
-                    <% if(address.getIsdefault()){ %>
+                    <p class="text-sm"><%=address.getPostcode()%>
+                    </p>
+                    <p class="text-sm"><%=address.getCountry()%>
+                    </p>
+                    <p class="text-sm"><%=address.getContact_no()%>
+                    </p>
+                    <% if (address.getIsdefault()) { %>
                     <span class="badge badge-info mt-2">Default</span>
                     <% } %>
                 </div>
-                <button type="button" class="btn btn-outline btn-sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="edit-address-modal-<%=address.getId()%>" data-overlay="#edit-address-modal-<%=address.getId()%>">
+                <button type="button" class="btn btn-outline btn-sm" aria-haspopup="dialog" aria-expanded="false"
+                        aria-controls="edit-address-modal-<%=address.getId()%>"
+                        data-overlay="#edit-address-modal-<%=address.getId()%>">
                     Edit
                 </button>
             </div>
@@ -129,7 +142,8 @@
 
         <div class="text-right mt-4">
             <!-- Add Address Button -->
-            <button type="button" class="btn btn-info btn-sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="add-address-modal" data-overlay="#add-address-modal">
+            <button type="button" class="btn btn-info btn-sm" aria-haspopup="dialog" aria-expanded="false"
+                    aria-controls="add-address-modal" data-overlay="#add-address-modal">
                 Add New Address
             </button>
 
@@ -141,41 +155,61 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3 class="modal-title">Add New Address</h3>
-                            <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close"
+                            <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
+                                    aria-label="Close"
                                     data-overlay="#add-address-modal">
                                 <span class="icon-[tabler--x] size-4"></span>
                             </button>
                         </div>
-                        <form id="new-address-form"  action="<%= request.getContextPath() %>/user/profile"  method="post">
-                        <div class="modal-body space-y-4">
+                        <form id="new-address-form" action="<%= request.getContextPath() %>/user/profile" method="post">
+                            <div class="modal-body space-y-4">
 
                                 <div class="grid grid-cols-1 gap-4">
-                                <input type="text" class="input input-bordered w-full" placeholder="Address Title (e.g. Rose Avenue)" name="address_title" required />
-                                <input type="text" class="input input-bordered w-full" placeholder="Address Line 1"  name="address_1" required />
-                                <input type="text" class="input input-bordered w-full" placeholder="Address Line 2" name="address_2" />
+                                    <input type="text" class="input input-bordered w-full"
+                                           placeholder="Address Title (e.g. Home)" name="address_title" required/>
+                                    <input type="text" class="input input-bordered w-full" placeholder="Address Line 1"
+                                           name="address_1" required/>
+                                    <input type="text" class="input input-bordered w-full" placeholder="Address Line 2"
+                                           name="address_2"/>
+                                    <input type="text" class="input input-bordered w-full" placeholder="Address Line 3"
+                                           name="address_3"/>
+
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="text" class="input input-bordered w-full" placeholder="City / District" name="address_3" required />
-                                    <input type="text" class="input input-bordered w-full" placeholder="State / Province" name="state" required />
+                                    <input type="text" class="input input-bordered w-full" placeholder="City / District"
+                                           name="address_3" required/>
+                                    <input type="text" class="input input-bordered w-full"
+                                           placeholder="State / Province" name="state" required/>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="text" class="input input-bordered w-full" placeholder="Postal Code"  name="postcode" required />
-                                    <select class="select select-bordered w-full" name="country" required></select>
+                                    <input type="number" class="input input-bordered w-full"
+                                           placeholder="Postal Code"
+                                           name="postcode"
+                                           required
+                                           pattern="^\d{5}$"
+                                           maxlength="5"
+                                           title="Postcode must be a 5-digit number"/>
+                                    <select class="select select-bordered w-full" name="country" disabled required>
+                                        <option value="Malaysia" selected>Malaysia</option>
+                                    </select>
+                                    <input type="hidden" name="country" value="Malaysia" />
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="text" class="input input-bordered w-full" placeholder="Contact_No" name="contact_no" required />
+                                    <input type="tel" class="input input-bordered w-full" placeholder="Phone Number" name="contact_no" id="contact-no-input" required/>
                                 </div>
                                 <label class="flex items-center gap-2">
-                                    <input type="checkbox" class="checkbox" name="isdefault"/>
+                                    <input type="checkbox" class="checkbox" name="isdefault" <%= (addressList != null && addressList.isEmpty()) ? "checked disabled" : "" %>/>
                                     <span>Set as default</span>
                                 </label>
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-soft btn-secondary" data-overlay="#add-address-modal">Cancel</button>
-                            <input type="hidden" name="action" value="addressAdd" />
-                            <button type="submit" class="btn btn-info" form="new-address-form">Save Address </button>
-                        </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-soft btn-secondary"
+                                        data-overlay="#add-address-modal">Cancel
+                                </button>
+                                <input type="hidden" name="action" value="addressAdd"/>
+                                <button type="submit" class="btn btn-info" form="new-address-form">Save Address</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -188,7 +222,7 @@
 <!-- Edit Address Modal for Home Address -->
 <%
     for (Address address : addressList) {
-        if (address !=null){
+        if (address != null) {
 %>
 <div id="edit-address-modal-<%=address.getId()%>"
      class="overlay modal modal-middle overlay-open:opacity-100 overlay-open:duration-300 hidden overflow-y-auto backdrop-blur-sm [--body-scroll:true] z-0"
@@ -202,38 +236,55 @@
                     <span class="icon-[tabler--x] size-4"></span>
                 </button>
             </div>
-            <form id="edit-address-form-<%=address.getId()%>"  action="<%= request.getContextPath() %>/user/profile"  method="post">
+            <form id="edit-address-form-<%=address.getId()%>" action="<%= request.getContextPath() %>/user/profile"
+                  method="post">
 
-                <input type="hidden" name="address_id" value="<%= address.getId() %>" />
+                <input type="hidden" name="address_id" value="<%= address.getId() %>"/>
                 <div class="modal-body space-y-4">
 
                     <div class="grid grid-cols-1 gap-4">
-                        <input type="text" class="input input-bordered w-full" placeholder="Address Title (e.g. Rose Avenue)" value="<%= address.getName() %>" name="address_title" required />
-                        <input type="text" class="input input-bordered w-full" placeholder="Address Line 1"  name="address_1"  value="<%= address.getAddress_1() %>" required />
-                        <input type="text" class="input input-bordered w-full" placeholder="Address Line 2" name="address_2"  value="<%= address.getAddress_2() %>" />
+                        <input type="text" class="input input-bordered w-full"
+                               placeholder="Address Title (e.g. Rose Avenue)" value="<%= address.getName() %>"
+                               name="address_title" required/>
+                        <input type="text" class="input input-bordered w-full" placeholder="Address Line 1"
+                               name="address_1" value="<%= address.getAddress_1() %>" required/>
+                        <input type="text" class="input input-bordered w-full" placeholder="Address Line 2"
+                               name="address_2" value="<%= address.getAddress_2() %>"/>
+                        <input type="text" class="input input-bordered w-full" placeholder="Address Line 3"
+                               name="address_3" value="<%= address.getAddress_3() %>"/>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" class="input input-bordered w-full" placeholder="City / District" name="address_3" value="<%= address.getAddress_3() %>" required />
-                        <input type="text" class="input input-bordered w-full" placeholder="Postal Code"  name="postcode" value="<%= address.getPostcode() %>" required />
+                        <input type="text" class="input input-bordered w-full" placeholder="City / District"
+                               name="address_3" value="<%= address.getAddress_3() %>" required/>
+                        <input type="text" class="input input-bordered w-full" placeholder="Postal Code" name="postcode"
+                               value="<%= address.getPostcode() %>" required/>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" class="input input-bordered w-full" placeholder="State / Province" name="state"  value="<%= address.getState()%>" required />
-                        <select class="select select-bordered w-full" name="country" data-selected-country="<%= address.getCountry() %>" required></select>
+                        <input type="text" class="input input-bordered w-full" placeholder="State / Province"
+                               name="state" value="<%= address.getState()%>" required/>
+                        <select class="select select-bordered w-full" name="country"
+                                data-selected-country="<%= address.getCountry() %>" required></select>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" class="input input-bordered w-full" placeholder="Contact_No" name="contact_no" required />
+                        <input type="text" class="input input-bordered w-full" placeholder="Contact_No"
+                               name="contact_no" value="<%= address.getContact_no() %>" required/>
                     </div>
                     <label class="flex items-center gap-2">
-                        <input type="checkbox" class="checkbox" name="isdefault" <%= address.getIsdefault() ? "checked" : "" %> />
+                        <input type="checkbox" class="checkbox"
+                               name="isdefault" <%= address.getIsdefault() ? "checked" : "" %> />
                         <span>Set as default</span>
                     </label>
 
                 </div>
-               <div class="modal-footer">
-                <button type="button" class="btn btn-soft btn-secondary" data-overlay="#edit-address-modal-<%=address.getId()%>">Cancel</button>
-                   <input type="hidden" name="action" value="addressEdit" />
-                <button type="submit" class="btn btn-info" form="edit-address-form-<%=address.getId()%>">Save Changes</button>
-               </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-soft btn-secondary"
+                            data-overlay="#edit-address-modal-<%=address.getId()%>">Cancel
+                    </button>
+                    <input type="hidden" name="action" value="addressEdit"/>
+                    <button type="submit" class="btn btn-info" form="edit-address-form-<%=address.getId()%>">Save
+                        Changes
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -275,43 +326,56 @@
     </div>
 </footer>
 <script>
-    window.addEventListener('DOMContentLoaded', () => {
-        fetch('https://restcountries.com/v3.1/all')
-            .then(res => res.json())
-            .then(data => {
-               
-                const addCountrySelect = document.querySelector('#add-address-modal select[name="country"]');
-                if (addCountrySelect) {
-                    data.sort((a, b) => a.name.common.localeCompare(b.name.common))
-                        .forEach(country => {
-                            const option = document.createElement('option');
-                            option.value = country.name.common;
-                            option.textContent = country.name.common;
-                            addCountrySelect.appendChild(option);
-                        });
-                }
+    function isValidPhoneNumber(phone) {
+        try {
+            const formatted = phone.startsWith('+') ? phone : '+' + phone;
+            const phoneNumber = libphonenumber.parsePhoneNumber(formatted);
+            return phoneNumber.isValid();
+        } catch {
+            return false;
+        }
+    }
 
-
-                document.querySelectorAll('div[id^="edit-address-modal-"] select[name="country"]').forEach(select => {
-                    const currentCountry = select.getAttribute('data-selected-country');
-                    data.sort((a, b) => a.name.common.localeCompare(b.name.common))
-                        .forEach(country => {
-                            const option = document.createElement('option');
-                            option.value = country.name.common;
-                            option.textContent = country.name.common;
-                            if (country.name.common === currentCountry) {
-                                option.selected = true;
-                            }
-                            select.appendChild(option);
-                        });
-                });
-            })
-            .catch(err => console.error('Failed to load countries:', err));
+    const addressForm = document.getElementById('new-address-form');
+    addressForm.addEventListener('submit', function (e) {
+        const phoneInput = document.getElementById('contact-no-input');
+        const phoneValue = phoneInput.value;
+        if (!isValidPhoneNumber(phoneValue)) {
+            e.preventDefault();
+            alert("Invalid phone number.");
+        }
     });
-
 </script>
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<%
+    String toastMessage = (String) request.getAttribute("toastMessage");
+    String toastType = (String) request.getAttribute("toastType");
+    if (toastMessage != null) {
+%>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        // Create an instance of Notyf
+        var notyf = new Notyf();
 
-
+        notyf.<%=toastType%>("<%=toastMessage%>");
+    });
+</script>
+<script>
+    const phoneInput = document.getElementById('contact-no-input');
+    phoneInput.addEventListener('input', () => {
+        try {
+            const raw = phoneInput.value.replace(/\D/g, '');
+            const formatted = libphonenumber.formatNumber(
+                libphonenumber.parsePhoneNumberFromString(raw, 'MY'),
+                libphonenumber.PhoneNumberFormat.NATIONAL
+            );
+            phoneInput.value = formatted || phoneInput.value;
+        } catch (e) {
+            // Keep input unchanged if formatting fails
+        }
+    });
+</script>
+<% } %>
 </body>
 
 </html>

@@ -16,5 +16,8 @@ docker cp "$CONTAINER_ID":/usr/app/target/ROOT.war deploy/artifacts/
 # 4) Remove the temp container
 docker rm "$CONTAINER_ID"
 
+# 5) Optional: Remove the intermediate build image to save space
+docker rmi local-build:latest
+
 echo "WAR copied to deploy/artifacts/"
 echo "Done building WAR in Docker."
