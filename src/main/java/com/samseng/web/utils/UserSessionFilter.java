@@ -1,12 +1,15 @@
 package com.samseng.web.utils;
 
 import com.samseng.web.models.Account;
+import com.samseng.web.models.Product;
 import com.samseng.web.repositories.Account.AccountRepository;
 import com.samseng.web.dto.CartItemDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.samseng.web.repositories.Cart_Product.Cart_ProductRepository;
+import com.samseng.web.repositories.Product.ProductRepository;
 import jakarta.inject.Inject;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
@@ -21,6 +24,8 @@ public class UserSessionFilter implements Filter {
     AccountRepository accountRepository;
     @Inject
     Cart_ProductRepository cartRepository;
+    @Inject
+    private ProductRepository productRepository;
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
@@ -50,6 +55,11 @@ public class UserSessionFilter implements Filter {
                 session.setAttribute("cart", cartItems);
             }
         }
+
+        // Step 3: Create a list of all products for header searching purposes, if not already existing
+        List<Product> searchableProducts = productRepository.findAll();
+        session.setAttribute("searchableProducts", searchableProducts);
+
 
         chain.doFilter(req, res);
     }
