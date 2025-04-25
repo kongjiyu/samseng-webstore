@@ -62,7 +62,7 @@ public class UserOrderListServlet extends HttpServlet {
             page = Integer.parseInt(pageParam);
         }
 
-        long totalCount = salesOrderRepository.count();
+        long totalCount = salesOrderRepository.countByUserId(userId);
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
         int startOrder = (page - 1) * pageSize + 1;
         int endOrder = Math.min(page * pageSize, (int) totalCount);
