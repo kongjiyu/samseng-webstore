@@ -24,15 +24,13 @@ public class Account {
     @Column(name = "user_id", unique = true, nullable = false)
     private String id;
 
-    @NotBlank
-    @Column(unique = true)
+
     private String username;
     
     @Email
     @Column(unique = true)
     private String email;
 
-    @NotNull
     @Size(max = 60)
     private String password;
 

@@ -3923,7 +3923,7 @@ Connectivity:
 -Bluetooth 5.2: Ensures a stable and efficient connection with compatible devices.
 
 Compatibility:
--Designed to work seamlessly with smartphones running Android 7.0 or higher with at least 1.5GB of RAM.', 'earbuds');
+-Designed to work seamlessly with smartphones running Android 7.0 or higher with at least 1.5GB of RAM.', 'Earbuds');
 INSERT INTO product (product_id, product_name, product_desc, product_category) VALUES ('B-AB3', 'Sirius Buds3', '360 Audio: These earbuds incorporate 360 Audio technology, which detects the direction of sound as you move your head, providing a surround sound experience for more vivid listening and viewing.
 
 Battery Life: Each earbud is equipped with a 48mAh battery, offering up to 5 hours of continuous listening with Active Noise Cancellation (ANC) enabled, and up to 24 hours total when combined with the charging case. With ANC turned off, the earbuds can last up to 6 hours, extending to 30 hours with the case. 
