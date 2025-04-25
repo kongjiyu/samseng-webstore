@@ -1,8 +1,10 @@
 package com.samseng.web.controllers;
 
 import com.samseng.web.models.Account;
+import com.samseng.web.models.Address;
 import com.samseng.web.models.Product;
 import com.samseng.web.repositories.Account.AccountRepository;
+import com.samseng.web.repositories.Address.AddressRepository;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -25,6 +27,9 @@ public class AdminControlServlet extends HttpServlet {
 
     @Inject
     private AccountRepository accountRepo;
+
+    @Inject
+    private AddressRepository addressRepo;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -142,15 +147,19 @@ public class AdminControlServlet extends HttpServlet {
     private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String userId = request.getParameter("id"); // ID of the user to delete
-        HttpSession session = request.getSession();
-        Account currentAccount = (Account) session.getAttribute("account");
-
+        Account currentAccount = accountRepo.findAccountById(userId);
         // Check if admin is logged in
-        if (currentAccount != null && currentAccount.getRole() == Account.Role.ADMIN) {
+
             try {
                 Account userToDelete = accountRepo.findAccountById(userId); // Find the user
                 if (userToDelete != null) {
-                    accountRepo.delete(userToDelete);
+
+                    userToDelete.setPassword(null);
+                    userToDelete.setEmail(null);
+                    userToDelete.setUsername("user_deleted");
+                    userToDelete.setId(userToDelete.getId());
+
+                    accountRepo.update(userToDelete);
                     response.sendRedirect("/admin/control");
                 } else {
                     request.setAttribute("errorMessage", "User not found.");
@@ -161,17 +170,17 @@ public class AdminControlServlet extends HttpServlet {
                 request.setAttribute("errorMessage", "Failed to delete user.");
                 request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
             }
-        } else {
-            response.sendRedirect("/login-flow");
-        }
+
     }
 
     private void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         Account account = accountRepo.findAccountById(id);
-
+        List<Address> addressList = addressRepo.findByUserId(account.getId());
+        request.setAttribute("addresses", addressList);
         if (account != null) {
             request.setAttribute("account", account);
+            request.setAttribute("addresses", addressList);
             request.getRequestDispatcher("/admin/customerDetail.jsp").forward(request, response);
         } else {
             request.setAttribute("errorMessage", "User not found.");
