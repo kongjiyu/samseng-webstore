@@ -29,7 +29,7 @@
             <thead>
             <tr>
                 <th>Promo Code</th>
-<%--                <th>Description</th>--%>
+                <th>Description</th>
                 <th>Discount</th>
                 <th>Status</th>
                 <th>Availability</th>
@@ -44,8 +44,8 @@
             <tr>
                 <td><%= promo.getId() %>
                 </td>
-<%--                <td><%= promo.getDescription() %>--%>
-<%--                </td>--%>
+                <td><%= promo.getDesc() %>
+                </td>
                 <td><%= promo.getDiscount() * 100 %>%</td>
                 <td>
     <span class="badge <%= promo.isAvailability() ? "badge-success" : "badge-neutral" %> badge-soft">

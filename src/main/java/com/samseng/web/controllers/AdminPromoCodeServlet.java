@@ -38,7 +38,7 @@ public class AdminPromoCodeServlet extends HttpServlet {
 
             try {
                 double discount = Double.parseDouble(discountStr) / 100;
-                Promo_Code promo = new Promo_Code(code, available, discount);
+                Promo_Code promo = new Promo_Code(code, available, discount, description);
                 promoRepo.create(promo);
             } catch (NumberFormatException e) {
                 request.setAttribute("toastType", "error");
