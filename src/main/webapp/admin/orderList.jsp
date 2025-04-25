@@ -180,7 +180,7 @@
             <span class="font-semibold text-base-content/80"><%= request.getAttribute("startItem") %> - <%= request.getAttribute("endItem") %></span>
             of
             <span class="font-semibold"><%= request.getAttribute("totalItems") %></span>
-            products
+            orders
         </div>
         <%
             Integer currentPageAttr = (Integer) request.getAttribute("currentPage");
