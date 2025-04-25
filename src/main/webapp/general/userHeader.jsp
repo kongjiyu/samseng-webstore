@@ -20,7 +20,7 @@
         <ul
                 class="menu menu-horizontal gap-2 p-0 text-base rtl:ml-20 !shadow-none !border-none ">
             <li><a href="/products" >Products</a></li>
-            <li><a href="#" >Promotion</a></li>
+            <li><a href="/promotions.jsp" >Promotion</a></li>
             <li><a href="/contactUs.jsp" >Contact Us</a></li>
         </ul>
     </div>
