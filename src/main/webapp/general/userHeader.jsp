@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 </head>
 <body>
-<nav class="navbar bg-base-100 shadow-base-300/20 shadow-sm">
+<nav class="navbar bg-base-100 shadow-base-300/20 shadow-sm rounded-none">
     <div class="navbar-start items-center justify-between max-md:w-full">
         <a class="link text-xl font-bold no-underline" href="<%= request.getContextPath() %>/index.jsp">
             SAMSENG
@@ -161,7 +161,7 @@
         </div>
         <% } else {%>
         <a href="<%= request.getContextPath() %>/login-flow">
-            <button class="btn btn-gradient btn-secondary rounded-full">Log In -></button>
+            <button class="btn btn-gradient btn-secondary rounded-full">Log In</button>
         </a>
         <%}%>
     </div>
@@ -230,9 +230,10 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 <%
-    String toastMessage = (String) request.getAttribute("toastMessage");
-    String toastType = (String) request.getAttribute("toastType");
-    if (toastMessage != null) {
+    String toastMessage = (String) session.getAttribute("toastMessage");
+    String toastType = (String) session.getAttribute("toastType");
+    session.removeAttribute("toastMessage");
+    session.removeAttribute("toastType");    if (toastMessage != null) {
 %>
 <script>
     window.addEventListener('DOMContentLoaded', () => {

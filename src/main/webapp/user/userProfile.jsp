@@ -435,7 +435,6 @@
         }
     });
 </script>
-</script>
 <script>
     document.querySelectorAll('form[id^="edit-address-form-"]').forEach((form) => {
         const phoneInput = form.querySelector('input[name="contact_no"]');

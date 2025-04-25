@@ -162,7 +162,7 @@
         </div>
         <% } else {%>
         <a href="<%= request.getContextPath() %>/login-flow">
-            <button class="btn btn-gradient btn-secondary rounded-full">Log In -></button>
+            <button class="btn btn-gradient btn-secondary rounded-full">Log In</button>
         </a>
         <%}%>
     </div>
@@ -230,8 +230,10 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 <%
-    String toastMessage = (String) request.getAttribute("toastMessage");
-    String toastType = (String) request.getAttribute("toastType");
+    String toastMessage = (String) session.getAttribute("toastMessage");
+    String toastType = (String) session.getAttribute("toastType");
+    session.removeAttribute("toastMessage");
+    session.removeAttribute("toastType");
     if (toastMessage != null) {
 %>
 <script>

@@ -105,6 +105,7 @@ public class AdminControlServlet extends HttpServlet {
 
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = request.getSession();
         String id = request.getParameter("id");
         Account account = accountRepo.findAccountById(id);
 
@@ -112,7 +113,8 @@ public class AdminControlServlet extends HttpServlet {
             request.setAttribute("account", account);
             request.getRequestDispatcher("/admin/customerDetail.jsp").forward(request, response);
         } else {
-            request.setAttribute("errorMessage", "User not found.");
+            session.setAttribute("toastMessage", "User not found.");
+            session.setAttribute("toastType", "error");
             request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
         }
     }
@@ -120,6 +122,7 @@ public class AdminControlServlet extends HttpServlet {
     private void saveUpdatedAccount(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String id = request.getParameter("id");
         Account account = accountRepo.findAccountById(id);
+        HttpSession session = request.getSession();
 
         if (account != null) {
             account.setUsername(request.getParameter("username"));
@@ -136,19 +139,20 @@ public class AdminControlServlet extends HttpServlet {
             }
 
             accountRepo.update(account);
+            session.setAttribute("toastMessage", "User updated successfully.");
+            session.setAttribute("toastType", "success");
             response.sendRedirect("/admin/control"); // redirect back to list
         } else {
-            request.setAttribute("errorMessage", "User not found.");
+            session.setAttribute("toastMessage", "Failed to update. User not found.");
+            session.setAttribute("toastType", "error");
             request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
         }
     }
 
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        HttpSession session = request.getSession();
         String userId = request.getParameter("id"); // ID of the user to delete
-        Account currentAccount = accountRepo.findAccountById(userId);
-        // Check if admin is logged in
 
             try {
                 Account userToDelete = accountRepo.findAccountById(userId); // Find the user
@@ -162,34 +166,38 @@ public class AdminControlServlet extends HttpServlet {
                     accountRepo.update(userToDelete);
                     response.sendRedirect("/admin/control");
                 } else {
-                    request.setAttribute("errorMessage", "User not found.");
+                    session.setAttribute("toastMessage", "User not found.");
+                    session.setAttribute("toastType", "error");
                     request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                request.setAttribute("errorMessage", "Failed to delete user.");
+                session.setAttribute("toastMessage", "Failed to delete user.");
+                session.setAttribute("toastType", "error");
                 request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
             }
 
     }
 
     private void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String id = request.getParameter("id");
         Account account = accountRepo.findAccountById(id);
         List<Address> addressList = addressRepo.findByUserId(account.getId());
         request.setAttribute("addresses", addressList);
         if (account != null) {
-            request.setAttribute("account", account);
-            request.setAttribute("addresses", addressList);
+            session.setAttribute("account", account);
+            session.setAttribute("addresses", addressList);
             request.getRequestDispatcher("/admin/customerDetail.jsp").forward(request, response);
         } else {
-            request.setAttribute("errorMessage", "User not found.");
+            session.setAttribute("toastMessage", "User not found.");
+            session.setAttribute("toastType", "error");
             request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
         }
     }
 
     private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+            HttpSession session = request.getSession();
             String keyword = request.getParameter("search");
             List<Account> accounts;
 
@@ -197,7 +205,15 @@ public class AdminControlServlet extends HttpServlet {
                 accounts = accountRepo.searchAllFields(keyword.trim());
 
             }else {
+                session.setAttribute("toastMessage", "User not found.");
+                session.setAttribute("toastType", "error");
                 accounts = accountRepo.findAll(); // fallback to show all
+            }
+            if(accounts == null || accounts.isEmpty()) {
+                session.setAttribute("toastMessage", "User not found.");
+                session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/admin/control");
+                return;
             }
             request.setAttribute("accountList", accounts);
 
@@ -207,10 +223,10 @@ public class AdminControlServlet extends HttpServlet {
 
     private void create(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        HttpSession session = request.getSession();
         String username = request.getParameter("username");
         String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        String password = "changeit";
         LocalDate dob = LocalDate.parse(request.getParameter("dob"));
         Account.Role role = Account.Role.valueOf(request.getParameter("role").toUpperCase());
 
@@ -223,8 +239,9 @@ public class AdminControlServlet extends HttpServlet {
 
         accountRepo.create(account);
 
-        request.setAttribute("message", "New user created successfully!");
-        request.getRequestDispatcher("/admin/profile").forward(request, response);
+        session.setAttribute("toastMessage", "User created successfully. Default password is 'changeit'");
+        session.setAttribute("toastType", "success");
+        response.sendRedirect(request.getContextPath() + "/admin/control");
     }
 
 }
