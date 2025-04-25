@@ -27,7 +27,7 @@
     <image class="hero-image" style="background-image: url('<%-- request.getContextPath() --%>/static/img/phone-store-banner.jpg');"></image>
     -->
     <div class="hero-text">
-        <h1>Product Listing</h1>
+        <h1>Products</h1>
     </div>
 </div>
 
@@ -100,9 +100,9 @@
                         <option>Tab</option>
                         <option>Monitor</option>
                         <option>Powerbank</option>
-                        <option value="smart watch">Smart Watch</option>
-                        <option value="smart pen">Smart Pen</option>
-                        <option value="earbuds">Earbuds</option>
+                        <option>Smart Watch</option>
+                        <option>Smart Pen</option>
+                        <option>Earbuds</option>
                     </select>
                 </div>
 
@@ -252,7 +252,7 @@
     <div class="product-section">
 <%--        for (var product : products )--%>
         <c:forEach var="product" items="${products}">
-        <div class="product-card card w-[280px] h-[480px]">
+        <div class="product-card card">
             <figure><img src="/uploads/${product.imageUrls()[0]}" alt="product-image" class="object-contain h-full"/></figure>
             <div class="card-body">
                 <a href="<%=request.getContextPath()%>/product?productId=${product.id()}">
@@ -269,7 +269,7 @@
                     <span class="text-xl font-bold"><fmt:formatNumber value="${product.ratingSummary().avgRating()}" /></span>
                 </div>
                 <div class="card-actions">
-                    <button class="btn btn-block btn-primary"><a href="<%=request.getContextPath()%>/product?productId=${product.id()}">Learn More</a></button>
+                    <a class="btn btn-block btn-primary" href="<%=request.getContextPath()%>/product?productId=${product.id()}">Learn More</a>
                 </div>
             </div>
         </div>
