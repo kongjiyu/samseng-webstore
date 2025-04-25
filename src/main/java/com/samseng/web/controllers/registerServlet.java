@@ -31,8 +31,9 @@ public class registerServlet extends HttpServlet {
 
             Account existing = accountRepo.findAccountByEmail(email);
             if (existing != null) {
-                response.getWriter().println("Email already registered!");
-                response.sendRedirect("/");
+                request.setAttribute("toastMessage", "Email already registered!");
+                request.setAttribute("toastType", "error");
+                request.getRequestDispatcher("/").forward(request, response);
                 return;
             }
 
@@ -43,10 +44,15 @@ public class registerServlet extends HttpServlet {
             acc.setRole(Account.Role.USER);
             acc.setDob(dob);
             accountRepo.create(acc);
-            response.sendRedirect("/");
+            request.setAttribute("toastMessage", "Registration successful!");
+            request.setAttribute("toastType", "success");
+            request.getRequestDispatcher("/").forward(request, response);
         }
         catch (Exception e) {
             e.printStackTrace();
+            request.setAttribute("toastMessage", "Registration failed: " + e.getMessage());
+            request.setAttribute("toastType", "error");
+            request.getRequestDispatcher("/").forward(request, response);
         }
 
     }

@@ -70,6 +70,9 @@
                                 <div class="text-sm opacity-50"><%= item.variant().getProduct().getId() %>
                                 </div>
                                 <div class="font-medium"><%= item.variant().getVariantName() %>
+                                <% if (!item.variant().isAvailability()) { %>
+                                    <span class="text-red-500 text-sm font-medium ml-2">Not Available</span>
+                                <% } %>
                                 </div>
                             </div>
                         </div>
@@ -209,6 +212,13 @@
             <%
                 boolean isLoggedIn = session.getAttribute("profile") != null;
                 boolean isCartEmpty = cartItems == null || cartItems.isEmpty();
+                boolean hasUnavailable = false;
+                for (CartItemDTO item : cartItems) {
+                    if (!item.variant().isAvailability()) {
+                        hasUnavailable = true;
+                        break;
+                    }
+                }
             %>
             <% if (!isLoggedIn) { %>
                 <a href="<%= request.getContextPath() %>/login-flow" class="btn btn-primary w-full mt-5 mb-5">
@@ -216,14 +226,17 @@
                 </a>
             <% } else { %>
                 <button type="button"
-                        class="btn btn-primary w-full mt-5 mb-5 <%= isCartEmpty ? "btn-disabled" : "" %>"
+                        class="btn btn-primary w-full mt-5 mb-1 <%= (isCartEmpty || hasUnavailable) ? "btn-disabled" : "" %>"
                         aria-haspopup="dialog"
                         aria-expanded="false"
                         aria-controls="middle-center-modal"
                         data-overlay="#middle-center-modal"
-                        <%= isCartEmpty ? "disabled" : "" %>>
+                        <%= (isCartEmpty || hasUnavailable) ? "disabled" : "" %>>
                     Checkout
                 </button>
+                <% if (hasUnavailable) { %>
+                    <p class="text-red-500 text-sm text-center mb-4">Some items in your cart are not available and must be removed before checkout.</p>
+                <% } %>
             <% } %>
         </div>
 

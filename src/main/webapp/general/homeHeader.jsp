@@ -8,6 +8,8 @@
     <title>Header</title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+
 </head>
 <body>
 <nav class="navbar backdrop-blur-lg bg-white/10 text-white shadow-lg gap-4 fixed top-0 left-0 w-full z-50">
@@ -31,17 +33,20 @@
             <button class="btn btn-sm btn-text btn-circle size-8.5" aria-label="Search Button" type="button"
                     aria-haspopup="dialog" aria-expanded="false" aria-controls="html-modal-combo-box"
                     data-overlay="#html-modal-combo-box">
-                <span class="icon-[tabler--search] text-white size-[1.375rem] text-base"></span>
+                <span class="icon-[tabler--search] size-[1.375rem] text-base text-white"></span>
             </button>
         </div>
         <!--Cart Button-->
+        <%
+            List<CartItemDTO> cart = (List<CartItemDTO>) session.getAttribute("cart");
+        %>
         <div class="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
             <button id="dropdown-scrollable" type="button"
                     class="dropdown-toggle btn btn-text btn-circle dropdown-open:bg-base-content/10 size-10"
                     aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
                 <div class="indicator">
-                    <span class="indicator-item bg-error size-2 rounded-full"></span>
-                    <span class="icon-[tabler--shopping-bag] text-white size-[1.375rem] text-base"></span>
+                    <span class="indicator-item badge badge-secondary badge-sm rounded-full"><%=cart != null && !cart.isEmpty() ? cart.size() : "0"%></span>
+                    <span class="icon-[tabler--shopping-bag] size-[1.375rem] text-base text-white"></span>
                 </div>
             </button>
             <div class="dropdown-menu dropdown-open:opacity-100 hidden" role="menu" aria-orientation="vertical"
@@ -52,7 +57,6 @@
                 <div
                         class="vertical-scrollbar horizontal-scrollbar rounded-scrollbar text-base-content/80 max-h-56 overflow-auto max-md:max-w-60">
                     <%
-                        List<CartItemDTO> cart = (List<CartItemDTO>) session.getAttribute("cart");
                         if (cart != null && !cart.isEmpty()) {
                             for (CartItemDTO item : cart) {
                     %>
@@ -96,7 +100,7 @@
         <div class="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
             <button id="dropdown-scrollable" type="button" class="dropdown-toggle flex items-center"
                     aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-secondary rounded-full">
                     <%
                         String[] nameParts = profile.getUsername().trim().split("\\s+");
                         StringBuilder initials = new StringBuilder();
@@ -107,14 +111,14 @@
                             }
                         }
                     %>
-                    <span class="text-3xl text-base-content uppercase"><%= initials.toString() %></span>
+                    <span class="text-3xl text-white uppercase"><%= initials.toString() %></span>
                 </div>
             </button>
             <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu"
                 aria-orientation="vertical" aria-labelledby="dropdown-avatar">
                 <li class="dropdown-header gap-2">
-                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                        <span class="text-3xl uppercase"><%= initials.toString() %></span>
+                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-secondary rounded-full">
+                        <span class="text-3xl text-white uppercase"><%= initials.toString() %></span>
                     </div>
                     <div>
                         <h6 class="text-base-content text-base font-semibold"><%=profile.getUsername()%>
@@ -224,6 +228,20 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<%
+    String toastMessage = (String) request.getAttribute("toastMessage");
+    String toastType = (String) request.getAttribute("toastType");
+    if (toastMessage != null) {
+%>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        // Create an instance of Notyf
+        var notyf = new Notyf();
 
+        notyf.<%=toastType%>("<%=toastMessage%>");
+    });
+</script>
+<% } %>
 </body>
 </html>

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 </head>
 <body>
-<nav class="navbar bg-base-100 rounded-box shadow-base-300/20 shadow-sm">
+<nav class="navbar bg-base-100 shadow-base-300/20 shadow-sm">
     <div class="navbar-start items-center justify-between max-md:w-full">
         <a class="link text-xl font-bold no-underline" href="<%= request.getContextPath() %>/index.jsp">
             SAMSENG

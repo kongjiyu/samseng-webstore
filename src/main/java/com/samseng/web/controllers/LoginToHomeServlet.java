@@ -17,6 +17,8 @@ import java.io.IOException;
 public class LoginToHomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("/");
+        req.getSession().setAttribute("toastMessage", "Login successful!");
+        req.getSession().setAttribute("toastType", "success");
+        resp.sendRedirect(req.getContextPath() + "/");
     }
 }

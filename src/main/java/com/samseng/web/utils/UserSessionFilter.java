@@ -39,6 +39,19 @@ public class UserSessionFilter implements Filter {
             Account account = accountRepository.findAccountByEmail(email);
             if (account != null) {
                 session.setAttribute("profile", account);
+
+                Boolean cartMerged = (Boolean) session.getAttribute("cartMerged");
+                if (cartMerged == null || !cartMerged) {
+                    List<CartItemDTO> sessionCart = (List<CartItemDTO>) session.getAttribute("cart");
+                    if (sessionCart != null && !sessionCart.isEmpty()) {
+                        for (CartItemDTO item : sessionCart) {
+                            cartRepository.addOrUpdate(account.getId(), item.variant().getVariantId(), item.quantity());
+
+                        }
+                        session.removeAttribute("cart");
+                        session.setAttribute("cartMerged", true);
+                    }
+                }
             }
         }
 

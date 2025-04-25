@@ -289,6 +289,7 @@
         minus = document.querySelector("#decrement-button"),
         quantity = document.querySelector("#quantity-number");
 
+
     let count = 1;
     plus.addEventListener("click", () => {
         count++;
@@ -323,7 +324,8 @@
                 <%
                     }
                 %>
-            }
+            },
+            availability: <%= v.isAvailability() %>
         },
         <% } %>
     ];
@@ -332,6 +334,7 @@
 <script>
     function updatePriceDisplay(matchingVariant) {
         document.getElementById('price').innerText = "RM" + matchingVariant.price.toFixed(2);
+
     }
 
     function getSelectedAttributes() {
@@ -359,23 +362,43 @@
     });
 </script>
 
-</body>
-
-
-</html>
-
-
 <script>
     function updateSelectedVariantId() {
         const selectedAttrs = getSelectedAttributes();
         const matched = findMatchingVariant(selectedAttrs);
+        const addToCartBtn = document.querySelector('button[type="submit"]');
+        let warning = document.getElementById('variant-warning');
+
+        if (!warning) {
+            warning = document.createElement('p');
+            warning.id = 'variant-warning';
+            warning.className = 'text-red-500 text-sm mt-2';
+            addToCartBtn.parentNode.appendChild(warning);
+        }
+
         if (matched) {
             document.getElementById('selected-variant-id').value = matched.id;
+
+            if (!matched.availability) {
+                addToCartBtn.disabled = true;
+                warning.textContent = "This variant is not available.";
+            } else {
+                addToCartBtn.disabled = false;
+                warning.textContent = "";
+            }
+        } else {
+            addToCartBtn.disabled = true;
+            warning.textContent = "This variant does not exist.";
         }
     }
 
     document.querySelectorAll('input[type="radio"]').forEach(radio => {
-        radio.addEventListener('change', updateSelectedVariantId);
+        radio.addEventListener('change', () => {
+            updateSelectedVariantId();
+            const selectedAttrs = getSelectedAttributes();
+            const matched = findMatchingVariant(selectedAttrs);
+            if (matched) updatePriceDisplay(matched);
+        });
     });
 
     // Update quantity field on quantity button click
@@ -388,6 +411,11 @@
         document.getElementById('quantity-input').value = q;
     });
 
-    // Initial trigger
+    // Initial check on page load
     updateSelectedVariantId();
 </script>
+</body>
+
+
+</html>
+

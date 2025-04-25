@@ -16,7 +16,8 @@ public class loginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String error = req.getParameter("error");
         if (error != null) {
-            req.setAttribute("error", true);
+            req.setAttribute("toastMessage", "Login failed. Please check your credentials.");
+            req.setAttribute("toastType", "error");
         }
         var view = req.getRequestDispatcher("/loginRegisterForm.jsp");
         view.forward(req, resp);
