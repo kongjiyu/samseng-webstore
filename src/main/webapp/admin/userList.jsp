@@ -123,15 +123,15 @@
         if (accountList != null) {
           for (Account account : accountList) {
       %>
-      <% if (account.getRole()!=null && account.getRole()!= Account.Role.ADMIN ){%>
+      <% if (account.getRole()!=null &&  account.getEmail()!=null){%>
       <tr>
         <td>#<%= account.getId() %></td>
         <td>
           <div class="flex items-center gap-3">
             <div class="avatar avatar-placeholder">
               <div class="bg-base-content/10 h-10 w-10 rounded-full">
-                <img src="../img/avatar-placeholder.jpg" %>"
-                alt="Customer avatar" />
+                <img src="../img/avatar-placeholder.jpg" alt="Customer avatar" />
+
               </div>
             </div>
             <div>
@@ -144,7 +144,26 @@
         <td>
           <div class="font-medium"><%= account.getRole() %></div>
         </td>
+        <%Account profileCheck = (Account) session.getAttribute("profile");%>
         <td>
+          <%if (profileCheck.getRole()==Account.Role.STAFF){ %>
+          <% if(account.getRole()==Account.Role.ADMIN ){ %>
+          <div class="dropdown relative inline-flex">
+            <button type="button"
+                    class="dropdown-toggle btn btn-circle btn-text btn-sm" aria-haspopup="menu"
+                    aria-expanded="false" aria-label="Dropdown">
+              <span class="icon-[tabler--dots] size-5"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu">
+              <li>
+                <a class="dropdown-item text-gray-400 cursor-not-allowed" href="#" onclick="return false;">View</a>
+              </li>
+              <li>
+                <a class="dropdown-item text-gray-400 cursor-not-allowed" href="#" onclick="return false;">Delete</a>
+              </li>
+            </ul>
+          </div>
+          <% } else if (account.getRole()==Account.Role.STAFF) { %>
           <div class="dropdown relative inline-flex">
             <button type="button"
                     class="dropdown-toggle btn btn-circle btn-text btn-sm" aria-haspopup="menu"
@@ -156,7 +175,21 @@
                 <a class="dropdown-item" href="<%= request.getContextPath() %>/admin/control?action=view&id=<%= account.getId() %>">View</a>
               </li>
               <li>
-                <a class="dropdown-item" href="<%= request.getContextPath() %>/admin/control?action=update&id=<%= account.getId() %>">Update</a>
+                <a class="dropdown-item text-gray-400 cursor-not-allowed" href="#" onclick="return false;">Delete</a>
+              </li>
+            </ul>
+          </div>
+
+          <% }else { %>
+          <div class="dropdown relative inline-flex">
+            <button type="button"
+                    class="dropdown-toggle btn btn-circle btn-text btn-sm" aria-haspopup="menu"
+                    aria-expanded="false" aria-label="Dropdown">
+              <span class="icon-[tabler--dots] size-5"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu">
+              <li>
+                <a class="dropdown-item" href="<%= request.getContextPath() %>/admin/control?action=view&id=<%= account.getId() %>">View</a>
               </li>
               <li>
                 <a class="dropdown-item" href="<%= request.getContextPath() %>/admin/control?action=delete&id=<%= account.getId() %>"
@@ -164,9 +197,29 @@
                   Delete
                 </a>
               </li>
-
             </ul>
           </div>
+          <% }
+          } else { %>
+          <div class="dropdown relative inline-flex">
+            <button type="button"
+                    class="dropdown-toggle btn btn-circle btn-text btn-sm" aria-haspopup="menu"
+                    aria-expanded="false" aria-label="Dropdown">
+              <span class="icon-[tabler--dots] size-5"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu">
+              <li>
+                <a class="dropdown-item" href="<%= request.getContextPath() %>/admin/control?action=view&id=<%= account.getId() %>">View</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="<%= request.getContextPath() %>/admin/control?action=delete&id=<%= account.getId() %>"
+                   onclick="return confirm('Are you sure you want to delete this account?');">
+                  Delete
+                </a>
+              </li>
+            </ul>
+          </div>
+          <%}%>
         </td>
       </tr>
       <% }  %>

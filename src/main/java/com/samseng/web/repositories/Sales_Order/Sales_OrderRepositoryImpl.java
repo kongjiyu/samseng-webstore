@@ -61,9 +61,9 @@ public class Sales_OrderRepositoryImpl implements Sales_OrderRepository {
     }
 
     @Override
-    public List<Sales_Order> findByUserIdPaged(String userId, int page, int pageSize) {
-        return em.createQuery("SELECT s FROM  Sales_Order s WHERE s.user.id = :userId",  Sales_Order.class)
-                .setParameter("userId", userId)
+    public List<Sales_Order> findByUserIdPaged(String user, int page, int pageSize) {
+        return em.createQuery("SELECT s FROM  Sales_Order s WHERE s.user.id = :user",  Sales_Order.class)
+                .setParameter("user", user)
                 .setFirstResult((page - 1) * pageSize)
                 .setMaxResults(pageSize)
                 .getResultList();
@@ -71,8 +71,43 @@ public class Sales_OrderRepositoryImpl implements Sales_OrderRepository {
     }
 
     @Override
+    public List<Sales_Order> findByOrderIdPaged(String id, int page, int pageSize) {
+        return em.createQuery("SELECT s FROM  Sales_Order s WHERE s.id = :id",  Sales_Order.class)
+                .setParameter("id", id)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+
+    }
+
+    @Override
+    public List<Sales_Order> findPagedByQuery(String query, int page, int pageSize) {
+        return em.createQuery("SELECT s FROM  Sales_Order s WHERE s.id ILIKE :query",  Sales_Order.class)
+                .setParameter("query", query)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+
+    }
+
+
+    @Override
     public long count() {
         return em.createQuery("SELECT COUNT(o) FROM Sales_Order o", Long.class)
+                .getSingleResult();
+    }
+
+    @Override
+    public long countByUserId(String user) {
+        return em.createQuery("SELECT COUNT(o) FROM Sales_Order o WHERE o.user.id= :user", Long.class)
+                .setParameter("user", user)
+                .getSingleResult();
+    }
+
+    @Override
+    public long countByQuery(String query) {
+        return em.createQuery("SELECT COUNT(o) FROM Sales_Order o WHERE o.id ILIKE :query", Long.class)
+                .setParameter("query", query)
                 .getSingleResult();
     }
 
