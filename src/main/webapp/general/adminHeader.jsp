@@ -20,7 +20,7 @@
       <li><a href="<%= request.getContextPath() %>/admin/customerDetail.jsp">Profile</a></li>
       <li><a href="<%= request.getContextPath() %>/admin/orderList.jsp">Order</a></li>
       <li><a href="<%= request.getContextPath() %>/admin/product?action=list">Product</a></li>
-      <li><a href="<%= request.getContextPath() %>/admin/customerList.jsp">Customers</a></li>
+      <li><a href="<%= request.getContextPath() %>/admin/userList.jsp">Customers</a></li>
     </ul>
   </div>
 

@@ -28,4 +28,8 @@ public class Promo_Code {
     @Column(name = "discount_rate")
     private double discount;
 
+    @NotNull
+    @Column(name = "promo_code_description")
+    private String desc;
+
 }
