@@ -8,6 +8,7 @@
     <title>Header</title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 </head>
 <body>
 <nav class="navbar bg-base-100 rounded-box shadow-base-300/20 shadow-sm">
@@ -227,5 +228,20 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<%
+    String toastMessage = (String) request.getAttribute("toastMessage");
+    String toastType = (String) request.getAttribute("toastType");
+    if (toastMessage != null) {
+%>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        // Create an instance of Notyf
+        var notyf = new Notyf();
+
+        notyf.<%=toastType%>("<%=toastMessage%>");
+    });
+</script>
+<% } %>
 </body>
 </html>

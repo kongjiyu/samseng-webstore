@@ -12,7 +12,6 @@
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
     <script src="https://unpkg.com/libphonenumber-js@1.10.21/bundle/libphonenumber-js.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 </head>
 
 <body>
@@ -45,7 +44,7 @@
                     %>
                     <span class="text-3xl uppercase"><%= initials.toString() %></span>
                 </div>
-                <button class="btn btn-outline btn-error mt-6">Delete</button>
+                <button class="btn btn-outline btn-error mt-6" data-overlay="#delete-confirm-modal">Delete</button>
             </div>
 
             <!-- Profile Information Form -->
@@ -83,6 +82,12 @@
                         <input type="hidden" name="action" value="update"/>
                         <div class="text-right">
                             <button class="btn btn-info" type="submit">Save</button>
+                            <button type="button" class="btn btn-warning ml-2"
+                                    aria-haspopup="dialog" aria-expanded="false"
+                                    aria-controls="change-password-modal"
+                                    data-overlay="#change-password-modal">
+                                Change Password
+                            </button>
                         </div>
                     </form>
                 </form>
@@ -269,19 +274,24 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input type="text" class="input input-bordered w-full" placeholder="State / Province"
                                name="state" value="<%= address.getState()%>" required/>
-                        <select class="select select-bordered w-full" name="country"
-                                data-selected-country="<%= address.getCountry() %>" required></select>
+                        <select class="select select-bordered w-full" name="country" disabled required>
+                            <option value="Malaysia" selected>Malaysia</option>
+                        </select>
+                        <input type="hidden" name="country" value="Malaysia" />
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" class="input input-bordered w-full" placeholder="Contact_No"
-                               name="contact_no" value="<%= address.getContact_no() %>" required/>
+                        <input type="tel" class="input input-bordered w-full" placeholder="Phone Number"
+                               name="contact_no" value="<%= address.getContact_no() %>" required
+                               id="contact-no-input-<%= address.getId() %>"/>
                     </div>
                     <label class="flex items-center gap-2">
                         <input type="checkbox" class="checkbox"
-                               name="isdefault" <%= address.getIsdefault() ? "checked" : "" %> />
+                               name="isdefault" <%= address.getIsdefault() ? "checked disabled" : "" %> />
                         <span>Set as default</span>
                     </label>
-
+                    <% if (address.getIsdefault()) { %>
+                    <input type="hidden" name="isdefault" value="on" />
+                    <% } %>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-soft btn-secondary"
@@ -303,6 +313,64 @@
     }
 %>
 
+<div id="change-password-modal" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog" tabindex="-1">
+    <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300 max-w-md w-full">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Change Password</h3>
+                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#change-password-modal">
+                    <span class="icon-[tabler--x] size-4"></span>
+                </button>
+            </div>
+            <form action="<%= request.getContextPath() %>/user/profile" method="post">
+                <div class="modal-body space-y-4">
+                    <div class="grid grid-cols-1 gap-4">
+                        <div>
+                            <label class="label">Current Password</label>
+                            <input type="password" name="current_password" class="input input-bordered w-full" placeholder="Enter current password" required />
+                        </div>
+                        <div>
+                            <label class="label">New Password</label>
+                            <input type="password" name="new_password" class="input input-bordered w-full" placeholder="Enter new password" required />
+                        </div>
+                        <div>
+                            <label class="label">Confirm Password</label>
+                            <input type="password" name="confirm_password" class="input input-bordered w-full" placeholder="Confirm password" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-soft btn-secondary" data-overlay="#change-password-modal">Cancel</button>
+                    <input type="hidden" name="action" value="changePassword"/>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="delete-confirm-modal" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog" tabindex="-1">
+    <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300 max-w-md w-full">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Account Deletion</h3>
+                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#change-password-modal">
+                    <span class="icon-[tabler--x] size-4"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete your account? This action is permanent.
+            </div>
+            <div class="modal-footer">
+                <form method="post" action="${pageContext.request.contextPath}/user/profile">
+                    <input type="hidden" name="action" value="deleteConfirmed" />
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                    <button type="button" class="btn btn-secondary" data-overlay="#delete-confirm-modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <footer data-theme="dark" class="footer bg-base-200 flex flex-col items-center gap-4 p-6">
     <div class="flex items-center gap-2 text-xl font-bold">
@@ -367,21 +435,39 @@
         }
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-<%
-    String toastMessage = (String) request.getAttribute("toastMessage");
-    String toastType = (String) request.getAttribute("toastType");
-    if (toastMessage != null) {
-%>
+</script>
 <script>
-    window.addEventListener('DOMContentLoaded', () => {
-        // Create an instance of Notyf
-        var notyf = new Notyf();
+    document.querySelectorAll('form[id^="edit-address-form-"]').forEach((form) => {
+        const phoneInput = form.querySelector('input[name="contact_no"]');
+        const id = form.id.split('-').pop();
 
-        notyf.<%=toastType%>("<%=toastMessage%>");
+        phoneInput.addEventListener('input', () => {
+            try {
+                const phoneNumber = libphonenumber.parsePhoneNumberFromString(phoneInput.value, 'MY');
+                if (phoneNumber && phoneNumber.isValid()) {
+                    phoneInput.value = phoneNumber.formatNational();
+                }
+            } catch (e) {
+                // Formatting fails silently
+            }
+        });
+
+        form.addEventListener('submit', function (e) {
+            try {
+                const formatted = phoneInput.value.startsWith('+') ? phoneInput.value : '+' + phoneInput.value;
+                const phoneNumber = libphonenumber.parsePhoneNumber(formatted);
+                if (!phoneNumber.isValid()) {
+                    e.preventDefault();
+                    alert("Invalid phone number.");
+                }
+            } catch {
+                e.preventDefault();
+                alert("Invalid phone number.");
+            }
+        });
     });
 </script>
-<% } %>
+
 </body>
 
 </html>
