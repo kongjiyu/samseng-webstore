@@ -20,8 +20,8 @@
         <ul
                 class="menu menu-horizontal gap-2 p-0 text-base rtl:ml-20 !bg-transparent !text-white !shadow-none !border-none ">
             <li><a href="/products" class="!bg-transparent !text-white">Products</a></li>
-            <li><a href="#" class="!bg-transparent !text-white">Promotion</a></li>
-            <li><a href="#" class="!bg-transparent !text-white">Contact Us</a></li>
+            <li><a href="/promotions.jsp" class="!bg-transparent !text-white">Promotion</a></li>
+            <li><a href="/contactUs.jsp" class="!bg-transparent !text-white">Contact Us</a></li>
         </ul>
     </div>
 
