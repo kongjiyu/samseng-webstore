@@ -11,98 +11,23 @@
   <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 </head>
 
-<body>
-<nav class="navbar rounded-box flex w-full items-center justify-between gap-2 shadow-base-300/20 shadow-sm">
-  <div class="navbar-start max-md:w-1/4">
-    <a class="link text-base-content link-neutral text-xl font-bold no-underline" href="#">
-      FlyonUI
-    </a>
-  </div>
-  <div class="navbar-center max-md:hidden">
-    <ul class="menu menu-horizontal p-0 font-medium [--menu-active-bg:transparent]">
-      <li><a href="#">Profile</a></li>
-      <li><a href="#">Order</a></li>
-      <li><a href="#">Product</a></li>
-      <li><a href="#">Customers</a></li>
-    </ul>
-  </div>
-  <%Account profile = (Account) session.getAttribute("profile");%>
-  <div class="navbar-end items-center gap-4">
-    <div class="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
-      <button id="dropdown-scrollable" type="button" class="dropdown-toggle flex items-center"
-              aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-        <div class="avatar">
-          <div class="size-9.5 rounded-full">
-            <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" alt="avatar 1" />
-          </div>
-        </div>
-      </button>
-      <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu"
-          aria-orientation="vertical" aria-labelledby="dropdown-avatar">
-        <li class="dropdown-header gap-2">
-          <div class="avatar">
-            <div class="w-10 rounded-full">
-              <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" alt="avatar" />
-            </div>
-          </div>
-          <div>
-            <h6 class="text-base-content text-base font-semibold"><%=profile.getUsername()%></h6>
-            <small class="text-base-content/50"><%=profile.getRole()%></small>
-          </div>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#">
-            <span class="icon-[tabler--user]"></span>
-            My Profile
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#">
-            <span class="icon-[tabler--settings]"></span>
-            Settings
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#">
-            <span class="icon-[tabler--receipt-rupee]"></span>
-            Billing
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#">
-            <span class="icon-[tabler--help-triangle]"></span>
-            FAQs
-          </a>
-        </li>
-        <li class="dropdown-footer gap-2">
-          <a class="btn btn-error btn-soft btn-block" href="#">
-            <span class="icon-[tabler--logout]"></span>
-            Sign out
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-</nav>
+<body data-theme="light">
+<%@include file="/general/adminHeader.jsp"%>
 
 <div class="container mx-auto my-5 py-5 px-4 bg-base-100 rounded-lg border border-base-200 shadow-sm">
   <div class="flex flex-col flex-wrap gap-3 sm:flex-row sm:items-center sm:justify-between">
-    <div class=""></div>
-    <div class="form-control w-full sm:w-user80">
-      <div
-              class="input input-bordered flex items-center gap-2 focus-within:ring-2 focus-within:ring-cyan-400">
-        <span class="icon-[tabler--search] text-base-content/80 size-5"></span>
-        <form action="/admin/control" method="post" class="flex items-center gap-2">
-          <input type="text" name="search" placeholder="Search" class="grow bg-transparent border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring focus:ring-blue-300"/>
-          <input type="hidden" name="action" value="search" />
-          <input type="hidden" name="page" value="1" />
-          <button type="submit" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">
-            Search
-          </button>
-        </form>
+    <!-- + New User Button -->
+    <button type="button" class="btn btn-soft btn-info rounded-full" aria-haspopup="dialog" aria-expanded="false" aria-controls="create-user-modal" data-overlay="#create-user-modal">
+      + New User
+    </button>
+    <form action="/admin/control" method="post" class="form-control w-full sm:w-80">
+      <input type="hidden" name="action" value="search" />
+      <input type="hidden" name="page" value="1" />
+      <div class="flex items-center gap-2 mb-4">
+          <input type="text" name="search" placeholder="Search" class="px-3 py-1 rounded border border-gray-300" />
+          <button type="submit" class="btn btn-primary">Search</button>
       </div>
-    </div>
+    </form>
   </div>
 
   <div class="mt-8 overflow-x-auto">
@@ -125,14 +50,21 @@
       %>
       <% if (account.getRole()!=null &&  account.getEmail()!=null){%>
       <tr>
-        <td>#<%= account.getId() %></td>
+        <td><%= account.getId() %></td>
         <td>
           <div class="flex items-center gap-3">
-            <div class="avatar avatar-placeholder">
-              <div class="bg-base-content/10 h-10 w-10 rounded-full">
-                <img src="../img/avatar-placeholder.jpg" alt="Customer avatar" />
-
-              </div>
+            <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-secondary rounded-full">
+              <%
+                String[] nameParts = account.getUsername().trim().split("\\s+");
+                StringBuilder initials = new StringBuilder();
+                for (String part : nameParts) {
+                  if (!part.isEmpty()) {
+                    initials.append(part.charAt(0));
+                    if (initials.length() == 2) break;
+                  }
+                }
+              %>
+              <span class="text-3xl text-white uppercase"><%= initials.toString() %></span>
             </div>
             <div>
               <div class="font-medium"><%= account.getUsername() %></div>
@@ -265,7 +197,48 @@
   </div>
 </div>
 
-
 </body>
+
+<!-- Create User Modal -->
+<div id="create-user-modal" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog" tabindex="-1">
+  <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
+    <form action="/admin/control" method="post" class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Create New User</h3>
+        <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#create-user-modal">
+          <span class="icon-[tabler--x] size-4"></span>
+        </button>
+      </div>
+      <div class="modal-body space-y-4">
+        <input type="hidden" name="action" value="create" />
+        <div>
+          <label class="label">Username</label>
+          <input type="text" class="input input-bordered w-full" name="username" required />
+        </div>
+        <div>
+          <label class="label">Date of Birth</label>
+          <input type="date" class="input input-bordered w-full" name="dob" required />
+        </div>
+        <div>
+          <label class="label">Email</label>
+          <input type="email" class="input input-bordered w-full" name="email" required />
+        </div>
+        <div>
+          <label class="label">Role</label>
+          <select class="select w-full appearance-none" name="role" required>
+            <option value="USER">User</option>
+            <option value="STAFF">Staff</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+        </div>
+        <p class="text-sm text-warning">Default password for new users will be <code>"changeit"</code></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-soft btn-secondary" data-overlay="#create-user-modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 </html>

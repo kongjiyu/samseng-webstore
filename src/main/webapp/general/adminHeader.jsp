@@ -6,6 +6,7 @@
     <title>Header</title>
   <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
   <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
 </head>
 <body>
@@ -20,18 +21,21 @@
       <li><a href="<%= request.getContextPath() %>/admin/customerDetail.jsp">Profile</a></li>
       <li><a href="<%= request.getContextPath() %>/admin/orderList.jsp">Order</a></li>
       <li><a href="<%= request.getContextPath() %>/admin/product?action=list">Product</a></li>
-      <li><a href="<%= request.getContextPath() %>/admin/userList.jsp">Customers</a></li>
+      <li><a href="<%= request.getContextPath() %>/admin/control">Customers</a></li>
     </ul>
   </div>
 
   <div class="navbar-end items-center gap-4">
     <!--Cart Button-->
+    <%
+      List<CartItemDTO> cart = (List<CartItemDTO>) session.getAttribute("cart");
+    %>
     <div class="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
       <button id="dropdown-scrollable" type="button"
               class="dropdown-toggle btn btn-text btn-circle dropdown-open:bg-base-content/10 size-10"
               aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
         <div class="indicator">
-          <span class="indicator-item bg-error size-2 rounded-full"></span>
+          <span class="indicator-item badge badge-secondary badge-sm rounded-full"><%=cart != null && !cart.isEmpty() ? cart.size() : "0"%></span>
           <span class="icon-[tabler--shopping-bag] size-[1.375rem] text-base"></span>
         </div>
       </button>
@@ -43,19 +47,20 @@
         <div
                 class="vertical-scrollbar horizontal-scrollbar rounded-scrollbar text-base-content/80 max-h-56 overflow-auto max-md:max-w-60">
           <%
-            List<CartItemDTO> cart = (List<CartItemDTO>) session.getAttribute("cart");
             if (cart != null && !cart.isEmpty()) {
               for (CartItemDTO item : cart) {
           %>
           <div class="dropdown-item">
             <div class="avatar">
               <div class="w-10 rounded-full">
-                <img src="/uploads/<%= item.imageUrl() %>" alt="product image" />
+                <img src="/uploads/<%= item.imageUrl() %>" alt="product image"/>
               </div>
             </div>
             <div class="w-60">
-              <h6 class="truncate text-base"><%= item.variant().getVariantName() %></h6>
-              <small class="text-base-content/50 truncate">Qty: <%= item.quantity() %></small>
+              <h6 class="truncate text-base"><%= item.variant().getVariantName() %>
+              </h6>
+              <small class="text-base-content/50 truncate">Qty: <%= item.quantity() %>
+              </small>
             </div>
           </div>
           <%
@@ -144,12 +149,29 @@
     </div>
     <% } else {%>
     <a href="<%= request.getContextPath() %>/login-flow">
-      <button class="btn btn-gradient btn-secondary rounded-full">Log In -></button>
+      <button class="btn btn-gradient btn-secondary rounded-full">Log In</button>
     </a>
     <%}%>
   </div>
 
 </nav>
 
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<%
+  String toastMessage = (String) session.getAttribute("toastMessage");
+  String toastType = (String) session.getAttribute("toastType");
+  session.removeAttribute("toastMessage");
+  session.removeAttribute("toastType");
+  if (toastMessage != null) {
+%>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    // Create an instance of Notyf
+    var notyf = new Notyf();
+
+    notyf.<%=toastType%>("<%=toastMessage%>");
+  });
+</script>
+<% } %>
 </body>
 </html>
