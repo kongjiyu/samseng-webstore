@@ -7,6 +7,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @ApplicationScoped // can go ahead call no need to import the method
@@ -62,14 +63,48 @@ public class Order_ProductRepositoryImpl implements Order_ProductRepository {
                 .getResultList();
     }
 
-    @Override
-    public List<Object[]> getMonthlySales() {
-        return em.createQuery(
-                "SELECT FUNCTION('TO_CHAR', o.createdAt, 'Mon'), SUM(op.unitPrice * op.quantity) " +
-                "FROM Order_Product op JOIN op.salesOrder o " +
-                "GROUP BY FUNCTION('TO_CHAR', o.createdAt, 'Mon') " +
-                "ORDER BY MIN(o.createdAt)", Object[].class)
-            .getResultList();
+    public List<String> findTop5ProductIdsInLast6Months() {
+        String jpql = "SELECT op.product.id " +
+                "FROM Order_Product op " +
+                "WHERE op.salesOrder.orderedDate >= :startDate " +
+                "GROUP BY op.product.id " +
+                "ORDER BY SUM(op.quantity) DESC";
+
+        return em.createQuery(jpql, String.class)
+                .setParameter("startDate", LocalDate.now().minusMonths(6))
+                .setMaxResults(5)
+                .getResultList();
+    }
+
+    public List<Object[]> findMonthlySalesForTopProducts(List<String> productIds) {
+        String jpql = "SELECT op.product.id, " +
+                "       FUNCTION('TO_CHAR', op.salesOrder.orderedDate, 'YYYY-MM') AS month, " +
+                "       SUM(op.quantity) " +
+                "FROM Order_Product op " +
+                "WHERE op.salesOrder.orderedDate >= :startDate " +
+                "AND op.product.id IN :productIds " +
+                "GROUP BY op.product.id, month " +
+                "ORDER BY FUNCTION('TO_CHAR', op.salesOrder.orderedDate, 'YYYY-MM') ASC";
+
+        return em.createQuery(jpql, Object[].class)
+                .setParameter("startDate", LocalDate.now().minusMonths(6))
+                .setParameter("productIds", productIds)
+                .getResultList();
+    }
+
+    // Find revenue by product category in the last 6 months
+    public List<Object[]> findRevenueByProductCategory() {
+        String jpql = "SELECT p.category, SUM(op.quantity * v.price) " +
+                      "FROM Order_Product op " +
+                      "JOIN op.product p " +
+                      "JOIN Variant v ON v.product = p " +
+                      "WHERE op.salesOrder.orderedDate >= :startDate " +
+                      "GROUP BY p.category " +
+                      "ORDER BY SUM(op.quantity * v.price) DESC";
+
+        return em.createQuery(jpql, Object[].class)
+                 .setParameter("startDate", LocalDate.now().minusMonths(6))
+                 .getResultList();
     }
 }
 
