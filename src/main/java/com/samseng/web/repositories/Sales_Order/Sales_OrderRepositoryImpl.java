@@ -76,5 +76,13 @@ public class Sales_OrderRepositoryImpl implements Sales_OrderRepository {
                 .getSingleResult();
     }
 
+    public void updateStatus(String orderId, String newStatus) {
+        Sales_Order o = em.find(Sales_Order.class, orderId);
+        if (o != null) {
+            o.setStatus(newStatus);
+            em.merge(o);
+        }
+    }
+
 
 }
