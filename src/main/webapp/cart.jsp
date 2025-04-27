@@ -69,9 +69,9 @@
                                 <div class="text-sm opacity-50"><%= item.variant().getProduct().getId() %>
                                 </div>
                                 <div class="font-medium"><%= item.variant().getVariantName() %>
-                                <% if (!item.variant().isAvailability()) { %>
+                                    <% if (!item.variant().isAvailability()) { %>
                                     <span class="text-red-500 text-sm font-medium ml-2">Not Available</span>
-                                <% } %>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
@@ -220,22 +220,23 @@
                 }
             %>
             <% if (!isLoggedIn) { %>
-                <a href="<%= request.getContextPath() %>/login-flow" class="btn btn-primary w-full mt-5 mb-5">
-                    Login to Checkout
-                </a>
+            <a href="<%= request.getContextPath() %>/login-flow" class="btn btn-primary w-full mt-5 mb-5">
+                Login to Checkout
+            </a>
             <% } else { %>
-                <button type="button"
-                        class="btn btn-primary w-full mt-5 mb-1 <%= (isCartEmpty || hasUnavailable) ? "btn-disabled" : "" %>"
-                        aria-haspopup="dialog"
-                        aria-expanded="false"
-                        aria-controls="middle-center-modal"
-                        data-overlay="#middle-center-modal"
-                        <%= (isCartEmpty || hasUnavailable) ? "disabled" : "" %>>
-                    Checkout
-                </button>
-                <% if (hasUnavailable) { %>
-                    <p class="text-red-500 text-sm text-center mb-4">Some items in your cart are not available and must be removed before checkout.</p>
-                <% } %>
+            <button type="button"
+                    class="btn btn-primary w-full mt-5 mb-1 <%= (isCartEmpty || hasUnavailable) ? "btn-disabled" : "" %>"
+                    aria-haspopup="dialog"
+                    aria-expanded="false"
+                    aria-controls="middle-center-modal"
+                    data-overlay="#middle-center-modal"
+                    <%= (isCartEmpty || hasUnavailable) ? "disabled" : "" %>>
+                Checkout
+            </button>
+            <% if (hasUnavailable) { %>
+            <p class="text-red-500 text-sm text-center mb-4">Some items in your cart are not available and must be
+                removed before checkout.</p>
+            <% } %>
             <% } %>
         </div>
 
@@ -250,7 +251,8 @@
         <div class="modal-dialog modal-dialog-lg overlay-open:opacity-100 overlay-open:duration-300">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title text-3xl font-bold">Great! That'll be RM<%=String.format("%.2f", netPrice)%></h3>
+                    <h3 class="modal-title text-3xl font-bold">Great! That'll be RM<%=String.format("%.2f", netPrice)%>
+                    </h3>
                     <button type="button" class="btn btn-text btn-circle btn-lg absolute end-3 top-3" aria-label="Close"
                             data-overlay="#middle-center-modal"
                             data-overlay-options='{ "backdropClasses": "transition duration-300 fixed inset-0 bg-black/40 overlay-backdrop" }'>
@@ -323,11 +325,17 @@
 
 
                         <!-- Stepper Content -->
-                        <form id="wizard-validation-form-horizontal" class="needs-validation mt-5 sm:mt-8" method="post" action="<%= request.getContextPath() %>/user/sales-order">                            <input type="hidden" name="grossPrice" value="<%= String.format("%.2f", grossPrice) %>"/>
-                            <input type="hidden" name="promo-code" value="<%= promoCode != null ? promoCode.getId() : null  %>"/>
+                        <form id="wizard-validation-form-horizontal" class="needs-validation mt-5 sm:mt-8" method="post"
+                              action="<%= request.getContextPath() %>/user/sales-order"><input type="hidden"
+                                                                                               name="grossPrice"
+                                                                                               value="<%= String.format("%.2f", grossPrice) %>"/>
+                            <input type="hidden" name="promo-code"
+                                   value="<%= promoCode != null ? promoCode.getId() : null  %>"/>
                             <input type="hidden" name="taxCharge" value="<%= String.format("%.2f", taxCharge) %>"/>
-                            <input type="hidden" name="deliveryCharge" value="<%= String.format("%.2f", deliveryCharge) %>"/>
-                            <input type="hidden" name="discountAmount" value="<%= String.format("%.2f", discountAmount) %>"/>
+                            <input type="hidden" name="deliveryCharge"
+                                   value="<%= String.format("%.2f", deliveryCharge) %>"/>
+                            <input type="hidden" name="discountAmount"
+                                   value="<%= String.format("%.2f", discountAmount) %>"/>
                             <input type="hidden" name="netPrice" value="<%= String.format("%.2f", netPrice) %>"/>
 
                             <!-- Addressing Details -->
@@ -412,7 +420,12 @@
 
                                 <div id="hidden-forms">
                                     <div id="card-form" hidden="true">
-                                        <span class="label-text">Card</span>
+                                        <div>
+                                            <label class="label-text">Cardholder Name</label>
+                                            <input type="text" id="cardholder-name" maxlength="30"
+                                                   class="input" placeholder="Kong Ji Yu" required/>
+                                        </div>
+                                        <span class="label-text">Card Number</span>
                                         <div class="flex items-center gap-2">
                                             <input type="text" id="card-number" maxlength="19"
                                                    oninput="formatCardNumber(this); updateCardLabel(this)" pattern="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}"
@@ -424,11 +437,13 @@
                                             <div>
                                                 <label class="label-text">Expiry Date</label>
                                                 <input type="text" id="expiry-date" maxlength="5"
-                                                       oninput="formatExpiryDate(this)" class="input" placeholder="MM/YY" required/>
+                                                       oninput="formatExpiryDate(this)" class="input"
+                                                       placeholder="MM/YY" required/>
                                             </div>
                                             <div>
                                                 <label class="label-text">CCV</label>
-                                                <input type="password" id="ccv" maxlength="3" pattern="[0-9]{3}" class="input" placeholder="123" required/>
+                                                <input type="password" id="ccv" maxlength="3" pattern="[0-9]{3}"
+                                                       class="input" placeholder="123" required/>
                                             </div>
                                         </div>
                                     </div>
@@ -492,6 +507,20 @@
                                         </div>
                                         <div class="card-body">
                                             <p id="confirmation-payment"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card w-full">
+                                    <div class="card-header"><h5 class="card-title">Cart Review</h5></div>
+                                    <div class="card-body gap-2">
+                                        <div class="font-semibold">
+                                            <% for (CartItemDTO item : cartItems) { %>
+                                            <p><%= item.variant().getVariantName() %>: <%= item.quantity() %> items</p>
+                                            <% } %>
+                                        </div>
+                                        <div>
+                                            <p>Discount: (<%=(int) (discountRate * 100)%>%) RM<%= String.format("%.2f", discountAmount) %></p>
+                                            <p>Taxes: RM<%= String.format("%.2f", taxCharge) %></p>
                                         </div>
                                     </div>
                                 </div>
@@ -611,16 +640,19 @@
     }
 
     const paymentInputs = document.querySelectorAll('#payment-validation input');
+
     function addPaymentListeners() {
         paymentInputs.forEach(input => {
             input.addEventListener("input", emptyFieldCatcher);
         });
     }
+
     function removePaymentListeners() {
         paymentInputs.forEach(input => {
             input.removeEventListener("input", emptyFieldCatcher);
         });
     }
+
     addPaymentListeners(); // call this once on load
 
     function clearPaymentInputs() {
@@ -681,9 +713,10 @@
             // Payment summary
             let selectedPaymentSummary = "";
             if (document.getElementById("card-radio").checked) {
+                const cardName = document.getElementById("cardholder-name").value;
                 const cardNum = document.getElementById("card-number").value;
                 const expiry = document.getElementById("expiry-date").value;
-                selectedPaymentSummary = "Credit/Debit Card\nCard Number: **** **** **** " + (cardNum ? cardNum.slice(-4) : "") + "\nExpiry: " + expiry;
+                selectedPaymentSummary = "Credit/Debit Card\nCardholder Name: " + cardName + "\nCard Number: **** **** **** " + (cardNum ? cardNum.slice(-4) : "") + "\nExpiry: " + expiry;
             } else if (document.getElementById("wallet-radio").checked) {
                 const walletPhone = document.getElementById("wallet-phone-number").value;
                 selectedPaymentSummary = "E-Wallet\nPhone: " + walletPhone + "\nPIN: ******";
@@ -691,6 +724,7 @@
                 const cashPhone = document.getElementById("cash-phone-number").value;
                 selectedPaymentSummary = "Cash on Delivery\nPhone: " + cashPhone;
             }
+
             // Populate the confirmation fields
             const addrElem = document.getElementById("confirmation-address");
             if (addrElem) addrElem.innerText = selectedAddressSummary;
@@ -720,14 +754,14 @@
 
 <script>
     function formatCardNumber(input) {
-        input.value = input.value.replace(/\D/g, '').substring(0,16)
+        input.value = input.value.replace(/\D/g, '').substring(0, 16)
             .replace(/(.{4})/g, '$1 ').trim();
     }
 
     function formatExpiryDate(input) {
-        let value = input.value.replace(/\D/g, '').substring(0,4);
+        let value = input.value.replace(/\D/g, '').substring(0, 4);
         if (value.length >= 3) {
-            value = value.substring(0,2) + '/' + value.substring(2);
+            value = value.substring(0, 2) + '/' + value.substring(2);
         }
         input.value = value;
     }
