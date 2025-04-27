@@ -80,17 +80,9 @@
                     </td>
                     <td><fmt:formatNumber value="${order.netPrice()}" type="currency" currencySymbol="RM " /></td>
                     <td>
-                        <div class="dropdown relative inline-flex">
-                            <button id="dropdown-menu-icon" type="button"
-                                    class="dropdown-toggle btn btn-circle btn-text btn-sm" aria-haspopup="menu"
-                                    aria-expanded="false" aria-label="Dropdown">
-                                <span class="icon-[tabler--dots] size-5"></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu"
-                                aria-orientation="vertical" aria-labelledby="dropdown-menu-icon">
-                                <li><a class="dropdown-item" href="#">View</a></li>
-                            </ul>
-                        </div>
+                        <a href=" ${pageContext.request.contextPath}/admin/detail?action=view&id=${order.id()}" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
+                            <span class="icon-[tabler--pencil] size-5"></span>
+                        </a>
                     </td>
                 </tr>
             </c:forEach>
