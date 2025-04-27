@@ -1,5 +1,6 @@
 package com.samseng.web.repositories.Sales_Order;
 
+import com.samseng.web.models.Promo_Code;
 import com.samseng.web.models.Sales_Order;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
@@ -28,6 +29,16 @@ public class Sales_OrderRepositoryImpl implements Sales_OrderRepository {
     @Override
     public void update(Sales_Order salesOrder) {
         em.merge(salesOrder);
+    }
+
+    @Override
+    public List<Sales_Order> findAll() {
+        try{
+            return em.createQuery("select o from Sales_Order o", Sales_Order.class)
+                    .getResultList();
+        }catch(Exception e){
+            return null;
+        }
     }
 
     @Override

@@ -9,6 +9,8 @@
   <title>Order</title>
   <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
   <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
+  <link href="<%= request.getContextPath() %>/static/css/datatables.min.css" rel="stylesheet">
+  <script defer src="<%= request.getContextPath() %>/static/js/datatables.min.js"></script>
 </head>
 
 <body data-theme="light">
@@ -20,18 +22,10 @@
     <button type="button" class="btn btn-soft btn-info rounded-full" aria-haspopup="dialog" aria-expanded="false" aria-controls="create-user-modal" data-overlay="#create-user-modal">
       + New User
     </button>
-    <form action="/admin/control" method="post" class="form-control w-full sm:w-80">
-      <input type="hidden" name="action" value="search" />
-      <input type="hidden" name="page" value="1" />
-      <div class="flex items-center gap-2 mb-4">
-          <input type="text" name="search" placeholder="Search" class="px-3 py-1 rounded border border-gray-300" />
-          <button type="submit" class="btn btn-primary">Search</button>
-      </div>
-    </form>
   </div>
 
   <div class="mt-8 overflow-x-auto">
-    <table class="table">
+    <table id="accountTable" class="table display" style="width:100%">
       <!-- head -->
       <thead>
       <tr>
@@ -168,36 +162,7 @@
       </tbody>
     </table>
   </div>
-
-  <div class="flex flex-wrap items-center justify-between gap-2 py-4 pt-6">
-    <div class="me-2 block max-w-sm text-sm text-base-content/80 sm:mb-0">
-      Showing
-      <span class="font-semibold text-base-content/80"><%= request.getAttribute("startItem") %> - <%= request.getAttribute("endItem") %></span>
-      of
-      <span class="font-semibold"><%= request.getAttribute("totalItems") %></span>
-      account
-    </div>
-    <%
-      Integer currentPageAttr = (Integer) request.getAttribute("currentPage");
-      Integer totalPagesAttr = (Integer) request.getAttribute("totalPages");
-
-      int currentPage = currentPageAttr != null ? currentPageAttr : 1;
-      int totalPages = totalPagesAttr != null ? totalPagesAttr : 1;
-    %>
-    <form method="get" action="<%= request.getContextPath() %>/admin/control" class="flex items-center gap-x-1">
-      <input name="action" value="list" type="hidden" />
-      <button type="submit" name="page" value="<%= currentPage - 1 %>" class="btn btn-text btn-square" <%= currentPage <= 1 ? "disabled" : "" %> aria-label="Previous Button">
-        <span class="icon-[tabler--chevron-left] size-5 rtl:rotate-180"></span>
-      </button>
-      <span class="text-base-content/80 mx-3"><%= currentPage %> of <%= totalPages %></span>
-      <button type="submit" name="page" value="<%= currentPage + 1 %>" class="btn btn-text btn-square" <%= currentPage >= totalPages ? "disabled" : "" %> aria-label="Next Button">
-        <span class="icon-[tabler--chevron-right] size-5 rtl:rotate-180"></span>
-      </button>
-    </form>
-  </div>
 </div>
-
-</body>
 
 <!-- Create User Modal -->
 <div id="create-user-modal" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog" tabindex="-1">
@@ -240,5 +205,18 @@
     </form>
   </div>
 </div>
-
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    new DataTable('#accountTable', {
+      columnDefs: [
+        { targets: 0, orderData: [0, 1] },
+        { targets: 1, orderData: [1, 0] },
+        { targets: 2, orderData: [2, 0] },
+        { targets: 3, orderData: [3, 0] },
+        { targets: 4, orderable: false }
+      ]
+    });
+  });
+</script>
+</body>
 </html>

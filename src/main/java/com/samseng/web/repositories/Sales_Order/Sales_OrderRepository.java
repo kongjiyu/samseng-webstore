@@ -10,6 +10,8 @@ public interface Sales_OrderRepository {
 
     void delete(Sales_Order salesOrderId);
 
+    List<Sales_Order> findAll();
+
     Sales_Order findById(String id);
 
     List<Sales_Order> findByUserId(String userId);

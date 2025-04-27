@@ -10,6 +10,8 @@
   <title>Product List</title>
   <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
   <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
+  <link href="<%= request.getContextPath() %>/static/css/datatables.min.css" rel="stylesheet">
+  <script defer src="<%= request.getContextPath() %>/static/js/datatables.min.js"></script>
 </head>
 
 <body data-theme="light">
@@ -19,17 +21,10 @@
 <div class="container mx-auto my-5 py-5 px-4 bg-base-100 rounded-lg border border-base-200 shadow-sm">
   <div class="flex flex-col flex-wrap gap-3 sm:flex-row sm:items-center sm:justify-between">
     <a href="<%= request.getContextPath() %>/admin/product?action=create" class="btn btn-soft btn-info rounded-full">+ New Product</a>
-    <div class="form-control w-full sm:w-80">
-      <div
-              class="input input-bordered flex items-center gap-2 focus-within:ring-2 focus-within:ring-cyan-400">
-        <span class="icon-[tabler--search] text-base-content/80 size-5"></span>
-        <input type="text" placeholder="Search" class="grow bg-transparent focus:outline-none" />
-      </div>
-    </div>
   </div>
 
   <div class="mt-8 overflow-x-auto">
-    <table class="table">
+    <table id="productTable" class="table display" style="width:100%">
       <!-- head -->
       <thead>
       <tr>
@@ -108,35 +103,21 @@
     </table>
   </div>
 
-  <div class="flex flex-wrap items-center justify-between gap-2 py-4 pt-6">
-    <div class="me-2 block max-w-sm text-sm text-base-content/80 sm:mb-0">
-      Showing
-      <span class="font-semibold text-base-content/80"><%= request.getAttribute("startItem") %> - <%= request.getAttribute("endItem") %></span>
-      of
-      <span class="font-semibold"><%= request.getAttribute("totalItems") %></span>
-      products
-    </div>
-    <%
-      Integer currentPageAttr = (Integer) request.getAttribute("currentPage");
-      Integer totalPagesAttr = (Integer) request.getAttribute("totalPages");
-
-      int currentPage = currentPageAttr != null ? currentPageAttr : 1;
-      int totalPages = totalPagesAttr != null ? totalPagesAttr : 1;
-    %>
-    <form method="get" action="<%= request.getContextPath() %>/admin/product" class="flex items-center gap-x-1">
-      <input name="action" value="list" type="hidden" />
-      <button type="submit" name="page" value="<%= currentPage - 1 %>" class="btn btn-text btn-square" <%= currentPage <= 1 ? "disabled" : "" %> aria-label="Previous Button">
-        <span class="icon-[tabler--chevron-left] size-5 rtl:rotate-180"></span>
-      </button>
-      <span class="text-base-content/80 mx-3"><%= currentPage %> of <%= totalPages %></span>
-      <button type="submit" name="page" value="<%= currentPage + 1 %>" class="btn btn-text btn-square" <%= currentPage >= totalPages ? "disabled" : "" %> aria-label="Next Button">
-        <span class="icon-[tabler--chevron-right] size-5 rtl:rotate-180"></span>
-      </button>
-    </form>
-  </div>
 </div>
 
-
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    new DataTable('#productTable', {
+      pageLength: 5,
+      lengthMenu: [ [5, 10, 25, 50, -1], [5, 10, 25, 50, "All"] ],
+      columnDefs: [
+        { targets: 0, orderData: [0, 1] },
+        { targets: 1, orderData: [1, 0] },
+        { targets: 2, orderable: false }
+      ]
+    });
+  });
+</script>
 </body>
 
 </html>
