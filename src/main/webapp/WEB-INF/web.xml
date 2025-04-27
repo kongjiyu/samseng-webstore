@@ -14,6 +14,21 @@
         </form-login-config>
     </login-config>
 
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/general/error.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/general/error.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/general/error.jsp</location>
+    </error-page>
+
     <security-role>
         <role-name>USER</role-name>
     </security-role>

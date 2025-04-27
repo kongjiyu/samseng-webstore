@@ -252,7 +252,7 @@
     <div class="product-section">
 <%--        for (var product : products )--%>
         <c:forEach var="product" items="${products}">
-        <div class="product-card card">
+        <div class="product-card card w-[300px] h-[600px]">
             <figure><img src="/uploads/${product.imageUrls()[0]}" alt="product-image" class="object-contain h-full"/></figure>
             <div class="card-body">
                 <a href="<%=request.getContextPath()%>/product?productId=${product.id()}">
