@@ -45,8 +45,8 @@
 
             <div class="col-span-2">
               <form method="post" action="<%= request.getContextPath() %>/admin/control" class="space-y-4">
-                <input type="hidden" name="action" value="update" />
-
+                <input type="hidden" name="action" value="saveUpdatedAccount" />
+                <input type="hidden" name="id" value="<%= account.getId() %>" />
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label class="label">User ID</label>
