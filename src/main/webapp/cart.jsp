@@ -10,7 +10,6 @@
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <link href="<%= request.getContextPath() %>/static/css/cart.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
-
     <title>Cart</title>
 </head>
 
@@ -337,6 +336,7 @@
                                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 <%
     List<Address> addresses = (List<Address>) request.getAttribute("addresses");
+    if(addresses != null){
     for (Address address : addresses) {
 %>
     <label class="custom-option gap-3">
@@ -361,6 +361,7 @@
         </span>
     </label>
 <% } %>
+                                    <% } %>
                                 </div>
                                 <div class="mt-3">
                                     <p>Your address isn't listed? <a
@@ -411,11 +412,12 @@
 
                                 <div id="hidden-forms">
                                     <div id="card-form" hidden="true">
-                                        <div>
-                                            <label class="label-text">Card Number</label>
+                                        <span class="label-text">Card</span>
+                                        <div class="flex items-center gap-2">
                                             <input type="text" id="card-number" maxlength="19"
-                                                   oninput="formatCardNumber(this)" pattern="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}"
-                                                   class="input" placeholder="1234 5678 9012 3456" required/>
+                                                   oninput="formatCardNumber(this); updateCardLabel(this)" pattern="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}"
+                                                   class="input grow" placeholder="1234 5678 9012 3456" required/>
+                                            <span class="label-text" id="card-label">N/A</span>
                                         </div>
 
                                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -728,6 +730,33 @@
             value = value.substring(0,2) + '/' + value.substring(2);
         }
         input.value = value;
+    }
+</script>
+
+<script>
+    function getCardType(number) {
+        number = number.replace(/\D/g, '');
+        const patterns = {
+            visa: /^4\d{12}(\d{3})?$/,
+            mastercard: /^(5[1-5]\d{14}|2(2[2-9][1-9]|2[3-9]\d{2}|[3-6]\d{3}|7([01]\d{2}|20\d{2}))\d{12})$/,
+            amex: /^3[47]\d{13}$/,
+            discover: /^6(?:011|5\d{2}|4[4-9]\d)\d{12}$/,
+            jcb: /^(?:2131|1800|35\d{3})\d{11}$/,
+            diners: /^3(?:0[0-5]|[68]\d)\d{11}$/
+        };
+
+        for (const [card, pattern] of Object.entries(patterns)) {
+            if (pattern.test(number)) return card;
+        }
+        return 'unknown';
+    }
+
+    function updateCardLabel(input) {
+        const cardLabel = document.getElementById("card-label");
+        if (!cardLabel) return;
+        const type = getCardType(input.value);
+        const displayType = type.toUpperCase();
+        cardLabel.textContent = displayType === 'UNKNOWN' ? 'N/A' : displayType;
     }
 </script>
 

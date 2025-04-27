@@ -49,47 +49,41 @@
 
             <!-- Profile Information Form -->
             <div class="col-span-2">
-                <form class="space-y-4">
+                <form class="space-y-4" method="post" action="<%= request.getContextPath() %>/user/profile">
+                    <input type="hidden" name="action" value="update"/>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="label">User ID</label>
-                            <input type="text" class="input input-bordered w-full" value="<%=profile.getId()%>"
-                                   disabled/>
+                            <input type="text" class="input input-bordered w-full" value="<%=profile.getId()%>" disabled/>
                         </div>
                         <div>
                             <label class="label">Username</label>
-                            <input type="text" class="input input-bordered w-full" name="username"
-                                   value="<%=profile.getUsername()%>"/>
+                            <input type="text" class="input input-bordered w-full" name="username" value="<%=profile.getUsername()%>"/>
                         </div>
                         <div>
                             <label class="label">Date of Birth</label>
-                            <input type="date" class="input input-bordered w-full" value="<%=profile.getDob()%>"
-                                   disabled/>
+                            <input type="date" class="input input-bordered w-full" value="<%=profile.getDob()%>" disabled/>
                         </div>
                         <div>
                             <label class="label">Email</label>
-                            <input type="email" class="input input-bordered w-full" name="email"
-                                   value="<%=profile.getEmail()%>"/>
+                            <input type="email" class="input input-bordered w-full" name="email" value="<%=profile.getEmail()%>"/>
                         </div>
                         <div>
                             <label class="label">Role</label>
                             <input type="text" class="input input-bordered w-full" placeholder="User" disabled/>
                         </div>
-
                     </div>
-                    <form method="post" action="<%= request.getContextPath() %>/user/profile">
-                        <input type="hidden" name="action" value="update"/>
-                        <div class="text-right">
-                            <button class="btn btn-info" type="submit">Save</button>
-                            <button type="button" class="btn btn-warning ml-2"
-                                    aria-haspopup="dialog" aria-expanded="false"
-                                    aria-controls="change-password-modal"
-                                    data-overlay="#change-password-modal">
-                                Change Password
-                            </button>
-                        </div>
-                    </form>
+
+                    <div class="text-right mt-4">
+                        <button class="btn btn-info" type="submit">Save</button>
+                        <button type="button" class="btn btn-warning ml-2"
+                                aria-haspopup="dialog" aria-expanded="false"
+                                aria-controls="change-password-modal"
+                                data-overlay="#change-password-modal">
+                            Change Password
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
