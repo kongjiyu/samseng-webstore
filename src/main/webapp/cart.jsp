@@ -412,6 +412,12 @@
                                 <div id="hidden-forms">
                                     <div id="card-form" hidden="true">
                                         <div>
+                                            <label class="label-text">Cardholder Name</label>
+                                            <input type="text" id="cardholder-name" maxlength="30"
+                                                   class="input" placeholder="Kong Ji Yu" required/>
+                                        </div>
+
+                                        <div>
                                             <label class="label-text">Card Number</label>
                                             <input type="text" id="card-number" maxlength="19"
                                                    oninput="formatCardNumber(this)" pattern="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}"
@@ -679,9 +685,10 @@
             // Payment summary
             let selectedPaymentSummary = "";
             if (document.getElementById("card-radio").checked) {
+                const cardName = document.getElementById("cardholder-name").value;
                 const cardNum = document.getElementById("card-number").value;
                 const expiry = document.getElementById("expiry-date").value;
-                selectedPaymentSummary = "Credit/Debit Card\nCard Number: **** **** **** " + (cardNum ? cardNum.slice(-4) : "") + "\nExpiry: " + expiry;
+                selectedPaymentSummary = "Credit/Debit Card\nCardholder Name: " + cardName + "\nCard Number: **** **** **** " + (cardNum ? cardNum.slice(-4) : "") + "\nExpiry: " + expiry;
             } else if (document.getElementById("wallet-radio").checked) {
                 const walletPhone = document.getElementById("wallet-phone-number").value;
                 selectedPaymentSummary = "E-Wallet\nPhone: " + walletPhone + "\nPIN: ******";
