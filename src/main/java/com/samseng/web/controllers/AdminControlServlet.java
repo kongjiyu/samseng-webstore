@@ -50,16 +50,12 @@ public class AdminControlServlet extends HttpServlet {
             update(request,response);
             return;
         }
-        else if ("saveUpdate".equals(action)) {
+        else if ("saveUpdatedAccount".equals(action)) {
             saveUpdatedAccount(request, response);
             return;
         }
         else if ("delete".equals(action)) {
             delete(request,response);
-            return;
-        }
-        else if("search".equals(action)){
-            search(request,response);
             return;
         }
         else if("view".equals(action)){
@@ -77,27 +73,9 @@ public class AdminControlServlet extends HttpServlet {
     }
 
     private void list(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        int page = 1;
-        int pageSize = 20;
-
-        String pageParam = request.getParameter("page");
-        if (pageParam != null && pageParam.matches("\\d+")) {
-            page = Integer.parseInt(pageParam);
-        }
-
-        long totalCount = accountRepo.count();
-        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
-        int startItem = (page - 1) * pageSize + 1;
-        int endItem = Math.min(page * pageSize, (int) totalCount);
-
-        List<Account> accountPage = accountRepo.findPaged(page, pageSize);
+        List<Account> accountPage = accountRepo.findAll();
 
         request.setAttribute("accountList", accountPage);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("totalPages", totalPages);
-        request.setAttribute("totalItems", totalCount);
-        request.setAttribute("startItem", startItem);
-        request.setAttribute("endItem", endItem);
 
         request.getRequestDispatcher("/admin/userList.jsp").forward(request, response);
     }
@@ -122,11 +100,12 @@ public class AdminControlServlet extends HttpServlet {
     private void saveUpdatedAccount(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String id = request.getParameter("id");
         Account account = accountRepo.findAccountById(id);
-        HttpSession session = request.getSession();
+        String newUsername = request.getParameter("username");
+        String email = request.getParameter("email");
 
         if (account != null) {
-            account.setUsername(request.getParameter("username"));
-            account.setEmail(request.getParameter("email"));
+            account.setUsername(newUsername);
+            account.setEmail(email);
 
             String dob = request.getParameter("dob");
             if (dob != null && !dob.isEmpty()) {
@@ -139,12 +118,9 @@ public class AdminControlServlet extends HttpServlet {
             }
 
             accountRepo.update(account);
-            session.setAttribute("toastMessage", "User updated successfully.");
-            session.setAttribute("toastType", "success");
             response.sendRedirect("/admin/control"); // redirect back to list
         } else {
-            session.setAttribute("toastMessage", "Failed to update. User not found.");
-            session.setAttribute("toastType", "error");
+            request.setAttribute("errorMessage", "User not found.");
             request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
         }
     }
@@ -180,18 +156,16 @@ public class AdminControlServlet extends HttpServlet {
     }
 
     private void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
         String id = request.getParameter("id");
         Account account = accountRepo.findAccountById(id);
         List<Address> addressList = addressRepo.findByUserId(account.getId());
         request.setAttribute("addresses", addressList);
         if (account != null) {
-            session.setAttribute("account", account);
-            session.setAttribute("addresses", addressList);
+            request.setAttribute("account", account);
+            request.setAttribute("addresses", addressList);
             request.getRequestDispatcher("/admin/customerDetail.jsp").forward(request, response);
         } else {
-            session.setAttribute("toastMessage", "User not found.");
-            session.setAttribute("toastType", "error");
+            request.setAttribute("errorMessage", "User not found.");
             request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
         }
     }
