@@ -58,10 +58,6 @@ public class AdminControlServlet extends HttpServlet {
             delete(request,response);
             return;
         }
-        else if("search".equals(action)){
-            search(request,response);
-            return;
-        }
         else if("view".equals(action)){
             view(request,response);
             return;
@@ -77,27 +73,9 @@ public class AdminControlServlet extends HttpServlet {
     }
 
     private void list(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        int page = 1;
-        int pageSize = 20;
-
-        String pageParam = request.getParameter("page");
-        if (pageParam != null && pageParam.matches("\\d+")) {
-            page = Integer.parseInt(pageParam);
-        }
-
-        long totalCount = accountRepo.count();
-        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
-        int startItem = (page - 1) * pageSize + 1;
-        int endItem = Math.min(page * pageSize, (int) totalCount);
-
-        List<Account> accountPage = accountRepo.findPaged(page, pageSize);
+        List<Account> accountPage = accountRepo.findAll();
 
         request.setAttribute("accountList", accountPage);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("totalPages", totalPages);
-        request.setAttribute("totalItems", totalCount);
-        request.setAttribute("startItem", startItem);
-        request.setAttribute("endItem", endItem);
 
         request.getRequestDispatcher("/admin/userList.jsp").forward(request, response);
     }
