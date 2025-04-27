@@ -46,6 +46,15 @@ public class Order_ProductRepositoryImpl implements Order_ProductRepository {
     }
 
     @Override
+    public List<Order_Product> findByStringOrderId(String salesOrderId) {
+        return em.createQuery("SELECT o FROM Order_Product o WHERE o.salesOrder.id = :salesOrderId", Order_Product.class)
+                .setParameter("salesOrderId", salesOrderId)
+                .getResultList();
+    }
+
+
+
+    @Override
     public List<Order_Product> findByOrderIdAndProductId(String salesOrder, String product) {
         return em.createQuery("SELECT o FROM Order_Product o WHERE o.salesOrder =:salesOrder AND o.variant.product=:product", Order_Product.class)
                 .setParameter("salesOrder", salesOrder)

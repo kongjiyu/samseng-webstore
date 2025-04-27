@@ -82,4 +82,16 @@ public class AddressRepositoryImpl implements  AddressRepository {
         return em.find(Address.class, id);
     }
 
+    public Address findDefaultByUserIdDiffrent(String userId){
+        try {
+            return em.createQuery(
+                            "SELECT a FROM Address a WHERE a.user.id = :userId AND a.isdefault = true", Address.class)
+                    .setParameter("userId", userId)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+
 }
