@@ -65,7 +65,12 @@
                                 </button>
                                 <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu"
                                     aria-orientation="vertical" aria-labelledby="dropdown-menu-icon">
-                                    <li><a class="dropdown-item" href="#">View</a></li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                           href="${pageContext.request.contextPath}/user/detail?action=view&id=${order.id()}">
+                                            View
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </td>

@@ -23,6 +23,8 @@ public interface AddressRepository {
 
     Address findById(String id);
 
+    Address findDefaultByUserIdDiffrent(String userId);
+
 
 
 }
