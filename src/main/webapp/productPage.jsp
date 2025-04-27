@@ -266,7 +266,7 @@
                 </span></p>
                 <div class="my-2 align-middle">
                     <span class="icon-[tabler--star-filled] size-5"></span>
-                    <span class="text-xl font-bold"><fmt:formatNumber value="${product.ratingSummary().avgRating()}" /></span>
+                    <span class="text-xl font-bold"><fmt:formatNumber value="${product.ratingSummary().avgRating()}" maxFractionDigits="2" minFractionDigits="2"/></span>
                 </div>
                 <div class="card-actions">
                     <a class="btn btn-block btn-primary" href="<%=request.getContextPath()%>/product?productId=${product.id()}">Learn More</a>
