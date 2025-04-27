@@ -81,7 +81,7 @@ public class ProductListServlet extends HttpServlet {
         req.setAttribute("products", dtos);
 
         // pass the next step to jsp
-        RequestDispatcher view = req.getRequestDispatcher("/user/productPage.jsp");
+        RequestDispatcher view = req.getRequestDispatcher("/productPage.jsp");
         view.forward(req, resp);
     }
 

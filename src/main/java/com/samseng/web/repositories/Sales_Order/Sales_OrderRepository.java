@@ -18,9 +18,15 @@ public interface Sales_OrderRepository {
 
     List<Sales_Order> findPaged(int page, int pageSize);
 
+    List<Sales_Order> findByOrderIdPaged(String id, int page, int pageSize);
+
+    List<Sales_Order> findPagedByQuery(String query, int page, int pageSize);
+
     long count();
+
+    long countByUserId(String user);
 
     List<Sales_Order> findByUserIdPaged(String user, int page, int pageSize);
 
-    void updateStatus(String orderId, String newStatus);
+    long countByQuery(String query);
 }

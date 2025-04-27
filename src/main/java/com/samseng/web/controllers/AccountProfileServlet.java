@@ -42,45 +42,49 @@ public class AccountProfileServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
-
-         if ("update".equals(action)) {
-             update(request,response);
-             return;
-         }
-         else if ("delete".equals(action)) {
-             delete(request,response);
-             return;
-         }
-         else if ("list".equals(action)) {
-             list(request,response);
-             return;
-         }
-        if ("addressEdit".equals(action)) {
-            addressEdit(request,response);
-            return;
-        } else if ("addressAdd".equals(action)) {
-            addressAdd(request,response);
-            return;
-        } else if ("addressDelete".equals(action)) {
-            addressDelete(request,response);
+        if ("changePassword".equals(action)) {
+            updatePassword(request, response);
             return;
         }
 
-        try{
+        if ("update".equals(action)) {
+            update(request, response);
+            return;
+        } else if ("delete".equals(action)) {
+            delete(request, response);
+            return;
+        } else if ("list".equals(action)) {
+            list(request, response);
+            return;
+        }
+        if ("addressEdit".equals(action)) {
+            addressEdit(request, response);
+            return;
+        } else if ("addressAdd".equals(action)) {
+            addressAdd(request, response);
+            return;
+        } else if ("addressDelete".equals(action)) {
+            addressDelete(request, response);
+            return;
+        } else if ("deleteConfirmed".equals(action)) {
+            deleteConfirmed(request, response);
+            return;
+        }
+
+        try {
             Account accountProfile = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
             List<Address> addressList = addressRepo.findByUserId(accountProfile.getId());
             request.setAttribute("addresses", addressList);
             request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
         }
-
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-       Account account = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
+        Account account = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
         Account.Role newRole = account.getRole();
         LocalDate newDob = account.getDob();
         String password = account.getPassword();
@@ -88,21 +92,21 @@ public class AccountProfileServlet extends HttpServlet {
         String email = request.getParameter("email");
 
         if (account != null) {
-                account.setUsername(newUsername);
-                account.setEmail(email);
-                account.setRole(newRole);
-                account.setDob(newDob);
-                account.setPassword(password);
+            account.setUsername(newUsername);
+            account.setEmail(email);
+            account.setRole(newRole);
+            account.setDob(newDob);
+            account.setPassword(password);
             try {
                 accountRepo.update(account);
-                response.sendRedirect(request.getContextPath()+"/login-flow");
+                response.sendRedirect(request.getContextPath() + "/login-flow");
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("error", "Failed to update profile.");
                 request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
             }
         } else {
-            response.sendRedirect(request.getContextPath() +"/login-flow");
+            response.sendRedirect(request.getContextPath() + "/login-flow");
         }
     }
 
@@ -123,33 +127,85 @@ public class AccountProfileServlet extends HttpServlet {
     }
 
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Account> users =  accountRepo.findAll();
+        List<Account> users = accountRepo.findAll();
         request.setAttribute("users", users);
 
         request.getRequestDispatcher("/userList.jsp").forward(request, response);
     }
+
     private void addressEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("address_id");
         Address address = addressRepo.findById(id);
+
         if (address != null) {
-            address.setName(request.getParameter("address_title"));
-            address.setContact_no(request.getParameter("contact_no"));
-            address.setAddress_1(request.getParameter("address_1"));
+            String name = request.getParameter("address_title");
+            String contactNo = request.getParameter("contact_no");
+            String address1 = request.getParameter("address_1");
+            String postcodeStr = request.getParameter("postcode");
+            String state = request.getParameter("state");
+            String country = request.getParameter("country");
+
+            Account accountProfile = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
+            List<Address> addressList = addressRepo.findByUserId(accountProfile.getId());
+            request.setAttribute("addresses", addressList);
+
+            if (name == null || name.isBlank() || contactNo == null || contactNo.isBlank() ||
+                    address1 == null || address1.isBlank() || postcodeStr == null || postcodeStr.isBlank() ||
+                    state == null || state.isBlank() || country == null || country.isBlank()) {
+                request.setAttribute("toastType", "error");
+                request.setAttribute("toastMessage", "All required fields must be filled.");
+                request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+                return;
+            }
+
+            if (!contactNo.matches("^(\\+?60)?1[0-9]{8,9}$")) {
+                request.setAttribute("toastType", "error");
+                request.setAttribute("toastMessage", "Invalid Malaysian phone number.");
+                request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+                return;
+            }
+
+            if (!postcodeStr.matches("^[0-9]{5}$")) {
+                request.setAttribute("toastType", "error");
+                request.setAttribute("toastMessage", "Postcode must be a valid 5-digit Malaysia postcode.");
+                request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+                return;
+            }
+
+            int postcode;
+            try {
+                postcode = Integer.parseInt(postcodeStr);
+            } catch (NumberFormatException e) {
+                request.setAttribute("toastType", "error");
+                request.setAttribute("toastMessage", "Postcode must be a number.");
+                request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+                return;
+            }
+
+            address.setName(name);
+            address.setContact_no(contactNo);
+            address.setAddress_1(address1);
             address.setAddress_2(request.getParameter("address_2"));
             address.setAddress_3(request.getParameter("address_3"));
-            address.setPostcode(Integer.parseInt(request.getParameter("postcode")));
-            address.setState(request.getParameter("state"));
-            address.setCountry(request.getParameter("country"));
+            address.setPostcode(postcode);
+            address.setState(state);
+            address.setCountry(country);
             address.setIsdefault(request.getParameter("isdefault") != null);
+
+            addressRepo.update(address);
+
+            if (address.getIsdefault()) {
+                addressRepo.unsetOtherDefaults(address.getUser().getId(), address.getId());
+            }
+
+            request.setAttribute("toastType", "success");
+            request.setAttribute("toastMessage", "Successfully updated address.");
+            request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+        } else {
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Address not found.");
+            request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
         }
-
-        addressRepo.update(address);
-
-        if (address.getIsdefault()) {
-            addressRepo.unsetOtherDefaults(address.getUser().getId(), address.getId());
-        }
-
-        response.sendRedirect(request.getContextPath() + "/user/profile");
     }
 
     private void addressAdd(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -163,20 +219,92 @@ public class AccountProfileServlet extends HttpServlet {
         Account user = accountRepo.findAccountByEmail(principal.getName());
 
         if (user == null) {
-            resp.sendRedirect("loginRegisterForm.jsp");
+            resp.sendRedirect("/login-flow");
             return;
         }
+
+        // Validation logic
+        String name = req.getParameter("address_title");
+        String contactNo = req.getParameter("contact_no");
+        String address1 = req.getParameter("address_1");
+        String postcodeStr = req.getParameter("postcode");
+        String state = req.getParameter("state");
+        String country = req.getParameter("country");
+
+        // Retrieve addresses for request attribute (needed for all forwards)
+        Account accountProfile = accountRepo.findAccountByEmail(req.getUserPrincipal().getName());
+        List<Address> addressList = addressRepo.findByUserId(accountProfile.getId());
+        req.setAttribute("addresses", addressList);
+
+        if (name == null || name.isBlank() || contactNo == null || contactNo.isBlank() ||
+                address1 == null || address1.isBlank() || postcodeStr == null || postcodeStr.isBlank() ||
+                state == null || state.isBlank() || country == null || country.isBlank()) {
+            try {
+                req.setAttribute("toastType", "error");
+                req.setAttribute("toastMessage", "All required fields must be filled.");
+                req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
+            } catch (ServletException e) {
+                throw new IOException(e);
+            }
+            return;
+        }
+
+        // Malaysian phone number validation
+        if (!contactNo.matches("^(\\+?60)?1[0-9]{8,9}$")) {
+            req.setAttribute("toastType", "error");
+            req.setAttribute("toastMessage", "Invalid Malaysian phone number.");
+            try {
+                req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
+            } catch (ServletException e) {
+                throw new IOException(e);
+            }
+            return;
+        }
+
+        if (!postcodeStr.matches("^[0-9]{5}$")) {
+            req.setAttribute("toastType", "error");
+            req.setAttribute("toastMessage", "Postcode must be a valid 5-digit Malaysia postcode.");
+            try {
+                req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
+            } catch (ServletException e) {
+                throw new IOException(e);
+            }
+            return;
+        }
+
+        int postcode;
+        try {
+            postcode = Integer.parseInt(postcodeStr);
+        } catch (NumberFormatException e) {
+            req.setAttribute("toastType", "error");
+            req.setAttribute("toastMessage", "Postcode must be a number.");
+            try {
+                req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
+            } catch (ServletException ex) {
+                throw new IOException(ex);
+            }
+            return;
+        }
+
         Address address = new Address();
         address.setUser(user);
-        address.setName(req.getParameter("address_title"));
-        address.setContact_no(req.getParameter("contact_no"));
-        address.setAddress_1(req.getParameter("address_1"));
+        address.setName(name);
+        address.setContact_no(contactNo);
+        address.setAddress_1(address1);
         address.setAddress_2(req.getParameter("address_2"));
         address.setAddress_3(req.getParameter("address_3"));
-        address.setPostcode(Integer.parseInt(req.getParameter("postcode")));
-        address.setState(req.getParameter("state"));
-        address.setCountry(req.getParameter("country"));
-        address.setIsdefault(req.getParameter("isdefault") != null);
+        address.setPostcode(postcode);
+        address.setState(state);
+        address.setCountry(country);
+        List<Address> existingAddresses = addressRepo.findByUserId(user.getId());
+        boolean hasDefault = false;
+        for (Address a : existingAddresses) {
+            if (a.getIsdefault()) {
+                hasDefault = true;
+                break;
+            }
+        }
+        address.setIsdefault(!hasDefault || req.getParameter("isdefault") != null);
 
         System.out.println("User ID: " + user.getId());
         System.out.println("Address user: " + address.getUser());
@@ -188,8 +316,19 @@ public class AccountProfileServlet extends HttpServlet {
             addressRepo.unsetOtherDefaults(user.getId(), address.getId());
         }
 
-        resp.sendRedirect(req.getContextPath() + "/user/profile");
+        try {
+            // refresh addresses after add
+            List<Address> updatedAddressList = addressRepo.findByUserId(user.getId());
+            req.setAttribute("addresses", updatedAddressList);
+            req.setAttribute("toastType", "success");
+            req.setAttribute("toastMessage", "Address added successfully.");
+            req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
+        } catch (ServletException e) {
+            throw new IOException(e);
+        }
+        return;
     }
+
     private void addressDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String addressId = request.getParameter("id");
 
@@ -204,7 +343,73 @@ public class AccountProfileServlet extends HttpServlet {
     }
 
 
+    private void updatePassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Account account = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
 
+        Account accountProfile = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
+        List<Address> addressList = addressRepo.findByUserId(accountProfile.getId());
+        request.setAttribute("addresses", addressList);
+
+        // Validate current password before checking new/confirm password fields
+        String currentPassword = request.getParameter("current_password");
+
+        if (currentPassword == null || currentPassword.isBlank()) {
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Current password is required.");
+            request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+            return;
+        }
+
+        if (!account.getPassword().equals(currentPassword)) {
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Current password is incorrect.");
+            request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+            return;
+        }
+
+        String newPassword = request.getParameter("new_password");
+        String confirmPassword = request.getParameter("confirm_password");
+
+        if (newPassword == null || confirmPassword == null || newPassword.isBlank() || confirmPassword.isBlank()) {
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Both password fields are required.");
+            request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+            return;
+        }
+
+        if (!newPassword.equals(confirmPassword)) {
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Passwords do not match.");
+            request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+            return;
+        }
+
+        try {
+            account.setPassword(newPassword);
+            accountRepo.update(account);
+            request.setAttribute("toastType", "success");
+            request.setAttribute("toastMessage", "Password updated successfully.");
+        } catch (Exception e) {
+            request.setAttribute("toastType", "error");
+            request.setAttribute("toastMessage", "Failed to update password.");
+        }
+
+        request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+    }
+
+    private void deleteConfirmed(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Account account = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
+        if (account != null) {
+            try {
+                accountRepo.delete(account);
+                response.sendRedirect("loginRegisterForm.jsp");
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("error", "Failed to delete account.");
+                request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+            }
+        } else {
+            response.sendRedirect("loginRegisterForm.jsp");
+        }
+    }
 }
-
-

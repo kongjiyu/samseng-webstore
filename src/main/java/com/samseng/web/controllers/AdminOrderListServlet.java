@@ -1,7 +1,7 @@
 package com.samseng.web.controllers;
 
 import com.samseng.web.dto.OrderListingDTO;
-import com.samseng.web.models.Sales_Order;
+import com.samseng.web.models.*;
 import com.samseng.web.repositories.Sales_Order.Sales_OrderRepository;
 import jakarta.inject.Inject;
 import jakarta.servlet.RequestDispatcher;
@@ -19,85 +19,67 @@ public class AdminOrderListServlet extends HttpServlet {
     @Inject
     private Sales_OrderRepository salesOrderRepository;
 
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
-        if ("updateStatus".equals(action)) {
-            String orderId   = req.getParameter("orderId");
-            String newStatus = req.getParameter("newStatus");
-            salesOrderRepository.updateStatus(orderId, newStatus);
-            // you could set a flash-style message here:
-            req.getSession().setAttribute("msg", "Order " + orderId + " status changed to " + newStatus);
-        }
-        // after POST, redirect back to avoid form-resubmission
-        resp.sendRedirect(req.getContextPath() + "/admin/orders?page=" + req.getParameter("currentPage"));
-    }
-
-    private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String searchQuery = req.getParameter("searchQuery");
-        int page     = 1;
-        int pageSize = 5;
-        String p     = req.getParameter("page");
-        if (p != null && p.matches("\\d+")) page = Integer.parseInt(p);
 
-        List<OrderListingDTO> dtos;
-        long totalCount;
-        int totalPages;
-        int startItem;
-        int endItem;
+        // get the list of orders
+        List<Sales_Order> orders = listOrders(req, searchQuery);
 
-        if (searchQuery != null && !searchQuery.isBlank()) {
-            Sales_Order order = salesOrderRepository.findById(searchQuery);
+        // convert into DTO
+        List<OrderListingDTO> dtos = orders.stream()
+                .map(o -> {
+                    return new OrderListingDTO(
+                            o.getId(),
+                            o.getNetPrice(),
+                            o.getStatus(),
+                            o.getOrderedDate(),
+                            o.getUser().getUsername(),
+                            o.getUser().getEmail()
+                    );
+                }).toList();
 
-            if (order != null) {
-                dtos = List.of(new OrderListingDTO(
-                        order.getId(),
-                        order.getNetPrice(),
-                        order.getStatus(),
-                        order.getOrderedDate(),
-                        order.getUser().getUsername(),
-                        order.getUser().getEmail()
-                ));
-                totalCount = 1;
-            } else {
-                dtos = List.of();
-                totalCount = 0;
-            }
+        // pass "orders" dto to jsp use
+        req.setAttribute("orders", dtos);
+        // note that we only pass "orders". we don't pass attributes such as "currentPage" into the DTO.
 
-            page = 1;
-            totalPages  = 1;
-            startItem   = totalCount > 0 ? 1 : 0;
-            endItem     = totalCount > 0 ? 1 : 0;
-        } else {
-            // ----- normal paged listing -----
-            totalCount = salesOrderRepository.count();
-            totalPages = (int) Math.ceil((double) totalCount / pageSize);
-            startItem  = (page - 1) * pageSize + 1;
-            endItem    = (int) Math.min(page * pageSize, totalCount);
-
-            List<Sales_Order> orders = salesOrderRepository.findPaged(page, pageSize);
-            dtos = orders.stream()
-                    .map(o -> new OrderListingDTO(
-                            o.getId(), o.getNetPrice(), o.getStatus(),
-                            o.getOrderedDate(), o.getUser().getUsername(), o.getUser().getEmail()
-                    ))
-                    .toList();
-        }
-
-        req.setAttribute("orders",      dtos);
-        req.setAttribute("currentPage", page);
-        req.setAttribute("totalPages",  totalPages);
-        req.setAttribute("startItem",   startItem);
-        req.setAttribute("endItem",     endItem);
-        req.setAttribute("totalItems",  totalCount);
-        req.setAttribute("searchQuery", searchQuery);  // so JSP can preserve the term
-
+        // pass the next step to jsp
         RequestDispatcher view = req.getRequestDispatcher("/admin/orderList.jsp");
         view.forward(req, resp);
+
     }
+
+    private List<Sales_Order> listOrders(HttpServletRequest req, String searchQuery) throws ServletException, IOException {
+        // logic to Paginate the output
+        int page = 1;
+        int pageSize = 10;
+
+        String pageParam = req.getParameter("page");
+        if (pageParam != null && pageParam.matches("\\d+")) {
+            page = Integer.parseInt(pageParam);
+        }
+        long totalCount = 0;
+
+        if (searchQuery != null) { totalCount = salesOrderRepository.countByQuery(searchQuery); }
+        else { totalCount = salesOrderRepository.count(); }
+
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+        int startOrder = (page - 1) * pageSize + 1;
+        int endOrder = Math.min(page * pageSize, (int) totalCount);
+
+        // grab items from sales_order table and put into List called "orders"
+        // and also order it by "id"
+        List<Sales_Order> orders;
+        if (searchQuery != null) { orders = salesOrderRepository.findPagedByQuery(searchQuery, page, pageSize); }
+        else { orders = salesOrderRepository.findPaged(page, pageSize); }
+        req.setAttribute("currentPage", page);
+        req.setAttribute("totalPages", totalPages);
+        req.setAttribute("totalItems", totalCount);
+        req.setAttribute("startItem", startOrder);
+        req.setAttribute("endItem", endOrder);
+
+        return orders;
+    }
+
 }

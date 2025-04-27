@@ -33,7 +33,7 @@ import java.nio.file.StandardCopyOption;
 
 @Log4j2
 @Transactional
-@WebServlet(name = "product", urlPatterns = {"/admin/product"})
+@WebServlet("/admin/product")
 @MultipartConfig
 public class productServlet extends HttpServlet {
 

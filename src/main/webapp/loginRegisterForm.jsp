@@ -10,6 +10,7 @@
     <link href="<%= request.getContextPath() %>/static/css/loginRegister.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/loginRegister.js"></script>
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
 </head>
 <body class="bg-cover bg-center">
@@ -99,5 +100,20 @@
         </div>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+  <%
+      String toastMessage = (String) request.getAttribute("toastMessage");
+      String toastType = (String) request.getAttribute("toastType");
+      if (toastMessage != null) {
+  %>
+  <script>
+      window.addEventListener('DOMContentLoaded', () => {
+          // Create an instance of Notyf
+          var notyf = new Notyf();
+
+          notyf.<%=toastType%>("<%=toastMessage%>");
+      });
+  </script>
+  <% } %>
 </body>
 </html>
