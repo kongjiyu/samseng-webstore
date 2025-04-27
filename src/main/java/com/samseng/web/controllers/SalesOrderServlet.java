@@ -82,7 +82,7 @@ public class SalesOrderServlet extends HttpServlet {
         for (CartItemDTO item : cartItems) {
             Order_Product op = new Order_Product();
             op.setSalesOrder(order);
-            op.setProduct(item.variant().getProduct());
+            op.setVariant(item.variant());
             op.setQuantity(item.quantity());
             op.setPrice(item.variant().getPrice());
             orderProductRepo.create(op);
