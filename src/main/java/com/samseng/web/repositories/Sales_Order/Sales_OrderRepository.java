@@ -1,6 +1,8 @@
 package com.samseng.web.repositories.Sales_Order;
 
 import com.samseng.web.models.Sales_Order;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface Sales_OrderRepository {
@@ -31,4 +33,22 @@ public interface Sales_OrderRepository {
     List<Sales_Order> findByUserIdPaged(String user, int page, int pageSize);
 
     long countByQuery(String query);
+
+    List<Object[]> findRevenueLast12Months();
+
+    long getTotalOrdersThisMonth();
+
+    long getTotalOrdersLastMonth();
+
+    BigDecimal getRevenueThisMonth();
+
+    BigDecimal getRevenueLastMonth();
+
+    BigDecimal getAvgOrderValueThisMonth();
+
+    BigDecimal getAvgOrderValueLastMonth();
+
+    long getTodayOrders();
+
+    long getYesterdayOrders();
 }
