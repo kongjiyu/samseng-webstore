@@ -144,7 +144,7 @@
                 <li>
                     <a class="dropdown-item active:text-cyan-500" href="<%= request.getContextPath() %>/user/orders">
                         <span class="icon-[tabler--receipt-rupee]"></span>
-                        Order
+                        Order Detail
                     </a>
                 </li>
                 <li class="dropdown-footer gap-2">
