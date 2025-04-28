@@ -159,6 +159,52 @@
         </div>
     </div>
 </div>
+<div data-theme="light" class="flex flex-col items-center justify-center py-20 px-4 bg-base-100 text-secondary">
+    <h1 class="text-4xl font-bold text-center mb-8">
+        Looking for something else?
+    </h1>
+
+    <div class="flex items-center w-full max-w-md mb-4">
+        <div class="relative w-full">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z"/>
+                </svg>
+            </div>
+            <input
+                    type="text"
+                    placeholder="Search Keyword"
+                    class="w-full pl-12 pr-4 py-3 border border-4 rounded-full focus:ring-2 focus:ring-primary focus:outline-none"
+            />
+        </div>
+    </div>
+    <div class="my-4 text-xl font-bold">
+        <h1>Here our top saling product</h1>
+    </div>
+    <div class="flex flex-wrap justify-center gap-4">
+        <button class="px-6 py-2 rounded-full border border-gray-300 bg-white hover:bg-gray-100">
+            Galaxy S25 Ultra
+        </button>
+        <button class="px-6 py-2 rounded-full border border-gray-300 bg-white hover:bg-gray-100">
+            Galaxy S25 | S25+
+        </button>
+        <button class="px-6 py-2 rounded-full border border-gray-300 bg-white hover:bg-gray-100">
+            Neo QLED
+        </button>
+        <button class="px-6 py-2 rounded-full border border-gray-300 bg-white hover:bg-gray-100">
+            QLED 8K
+        </button>
+        <button class="px-6 py-2 rounded-full border border-gray-300 bg-white hover:bg-gray-100">
+            Bespoke REF
+        </button>
+        <button class="px-6 py-2 rounded-full border border-gray-300 bg-white hover:bg-gray-100">
+            Bespoke Jet
+        </button>
+        <button class="px-6 py-2 rounded-full border border-gray-300 bg-white hover:bg-gray-100">
+            Galaxy Tab S9 FE
+        </button>
+    </div>
+</div>
 
 <%@ include file="/general/userFooter.jsp" %>
 
