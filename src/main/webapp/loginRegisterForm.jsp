@@ -32,7 +32,7 @@
             <h1 class="switch-animation" style="--X:0; --Z:15">Login</h1>
             <form action="j_security_check" method="post">
                 <div class="input-box switch-animation" style="--X:1; --Z:16">
-                    <input type="email" name="j_username" required>
+                    <input type="text" name="j_username" required>
                     <label>Email</label>
                     <span class="icon-[tabler--user] size-5"></span>
                 </div>

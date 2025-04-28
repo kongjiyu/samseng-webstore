@@ -211,7 +211,7 @@
                               <span class="badge badge-info size-3 rounded-full p-0"></span>
                             </span>
             </div>
-            <div class="timeline-end timeline-box">Orderd</div>
+            <div class="timeline-end timeline-box">Ordered</div>
             <hr />
           </li>
           <% } else if (salesOrder.getShipDate()!=null) { %>
@@ -245,7 +245,7 @@
                               <span class="badge badge-info size-3 rounded-full p-0"></span>
                             </span>
             </div>
-            <div class="timeline-end timeline-box">Orderd</div>
+            <div class="timeline-end timeline-box">Ordered</div>
             <hr />
           </li>
           <% } else if (salesOrder.getPackDate()!=null) { %>
@@ -268,7 +268,7 @@
                               <span class="badge badge-info size-3 rounded-full p-0"></span>
                             </span>
             </div>
-            <div class="timeline-end timeline-box">Orderd</div>
+            <div class="timeline-end timeline-box">Ordered</div>
             <hr />
           </li>
          <% } else {%>
@@ -280,7 +280,7 @@
                               <span class="badge badge-info size-3 rounded-full p-0"></span>
                             </span>
             </div>
-            <div class="timeline-end timeline-box">Orderd</div>
+            <div class="timeline-end timeline-box">Ordered</div>
             <hr />
           </li>
           <% } %>

@@ -58,6 +58,7 @@
                         if (cart != null && !cart.isEmpty()) {
                             for (CartItemDTO item : cart) {
                     %>
+                    <a href="<%= request.getContextPath() %>/product?productId=<%= item.variant().getProduct().getId()%>" class="no-underline">
                     <div class="dropdown-item">
                         <div class="avatar">
                             <div class="w-10 rounded-full">
@@ -71,6 +72,7 @@
                             </small>
                         </div>
                     </div>
+                    </a>
                     <%
                         }
                     } else {
