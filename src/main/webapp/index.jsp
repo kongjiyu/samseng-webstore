@@ -37,7 +37,7 @@
             <div class="hidden sm:mb-8 sm:flex sm:justify-center">
                 <div
                         class="relative rounded-full px-3 py-1 text-sm/6 text-white ring-1 ring-white/30 hover:ring-white/50 bg-white/5 backdrop-blur">
-                    Announcing our next round of funding. <a href="#" class="font-semibold text-cyan-400"><span
+                    Announcing our next round of promotion. <a href="<%= request.getContextPath() %>/promotions.jsp" class="font-semibold text-cyan-400"><span
                         class="absolute inset-0" aria-hidden="true"></span>Read more <span
                         aria-hidden="true">&rarr;</span></a>
                 </div>
