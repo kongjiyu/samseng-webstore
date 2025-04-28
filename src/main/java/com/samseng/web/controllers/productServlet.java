@@ -5,14 +5,12 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.*;
 
-import com.samseng.web.models.Attribute;
-import com.samseng.web.models.Variant;
-import com.samseng.web.models.Variant_Attribute;
+import com.samseng.web.models.*;
 import com.samseng.web.repositories.Attribute.AttributeRepository;
+import com.samseng.web.repositories.Comment.CommentRepository;
 import com.samseng.web.repositories.Variant.VariantRepository;
 import com.samseng.web.repositories.Variant_Attribute.Variant_AttributeRepository;
 
-import com.samseng.web.models.Product;
 import com.samseng.web.repositories.Product.ProductRepository;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -48,6 +46,9 @@ public class productServlet extends HttpServlet {
 
     @Inject
     private VariantRepository variantRepository;
+
+    @Inject
+    private CommentRepository commentRepository;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -105,6 +106,14 @@ public class productServlet extends HttpServlet {
             saveVariantAttributes(request, response);
             return;
         }
+        else if("replyComment".equals(action)){
+            replyComment(request, response);
+            return;
+        }
+        else if("viewComment".equals(action)){
+            viewComment(request, response);
+            return;
+        }
 
         String productId = request.getParameter("productId");
         if (productId != null && !productId.isEmpty()) {
@@ -155,6 +164,19 @@ public class productServlet extends HttpServlet {
         }else{
             response.sendRedirect("/admin/productList.jsp");
         }
+    }
+
+    private void viewComment(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String productId = request.getParameter("productId");
+        if (productId != null && !productId.isEmpty()) {
+            List<Comment> comments = commentRepository.findByProductId(productId);
+            request.setAttribute("commentsList", comments);
+        }
+        response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
+    }
+    private void replyComment(HttpServletRequest request, HttpServletResponse response) {
+        String productId = request.getParameter("productId");
+        List<Comment> comment = commentRepository.findByProductId(productId);
     }
 
     private void saveProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
