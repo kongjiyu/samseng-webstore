@@ -133,22 +133,18 @@
                         My Profile
                     </a>
                 </li>
+                <%if(profile.getRole().name().equals("ADMIN")||profile.getRole().name().equals("STAFF")){ %>
                 <li>
-                    <a class="dropdown-item active:text-cyan-500" href="#">
-                        <span class="icon-[tabler--settings]"></span>
-                        Settings
+                    <a class="dropdown-item active:text-cyan-500" href="<%= request.getContextPath() %>/admin/report.jsp">
+                        <span class="icon-[tabler--user-cog]"></span>
+                        Administration
                     </a>
                 </li>
+                <% } %>
                 <li>
-                    <a class="dropdown-item active:text-cyan-500" href="#">
+                    <a class="dropdown-item active:text-cyan-500" href="<%= request.getContextPath() %>/user/orders">
                         <span class="icon-[tabler--receipt-rupee]"></span>
                         Order
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item active:text-cyan-500" href="#">
-                        <span class="icon-[tabler--help-triangle]"></span>
-                        Vouchers
                     </a>
                 </li>
                 <li class="dropdown-footer gap-2">
