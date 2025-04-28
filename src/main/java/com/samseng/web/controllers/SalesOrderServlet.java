@@ -69,14 +69,10 @@ public class SalesOrderServlet extends HttpServlet {
         order.setDeliveryCharge(deliveryCharge);
         order.setDiscountAmount(discountAmount);
         order.setNetPrice(netPrice);
-        order.setStatus("ORDERED");
+        order.setStatus("Ordered");
         order.setPaymentMethod(paymentMethod);
         order.setRefNo(UUID.randomUUID().toString().substring(0, 8));
         order.setOrderedDate(LocalDate.now());
-        order.setPackDate(LocalDate.now().plusDays(1));
-        order.setShipDate(LocalDate.now().plusDays(2));
-        order.setDeliverDate(LocalDate.now().plusDays(3));
-
         salesOrderRepo.create(order);
 
         for (CartItemDTO item : cartItems) {
@@ -90,6 +86,6 @@ public class SalesOrderServlet extends HttpServlet {
 
         session.removeAttribute("cart");
         cartProductRepo.removeAll(user.getId());
-        response.sendRedirect(request.getContextPath() + "/user/orderDetails.jsp?orderId=" + order.getId());
+        response.sendRedirect(request.getContextPath() + "/user/detail?action=view&id=" + order.getId());
     }
 }
