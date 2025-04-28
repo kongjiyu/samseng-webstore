@@ -14,8 +14,10 @@
 
 </head>
 <body class="bg-cover bg-center">
-  <div class="min-h-screen w-screen flex items-center justify-center relative">
-    <video autoplay muted loop playsinline preload="auto" class="absolute top-0 left-0 w-full h-full object-cover z-0 backdrop-blur-md blur-md brightness-75" id="hero-video">
+<div class="min-h-screen w-screen flex items-center justify-center relative">
+    <video autoplay muted loop playsinline preload="auto"
+           class="absolute top-0 left-0 w-full h-full object-cover z-0 backdrop-blur-md blur-md brightness-75"
+           id="hero-video">
         <source src="<%= request.getContextPath() %>/static/video/lightWave.mp4" type="video/mp4"/>
         Your browser does not support the video tag.
     </video>
@@ -74,19 +76,25 @@
                     <label for="email">Email</label>
                     <span class="icon-[tabler--mail] size-5"></span>
                 </div>
-
                 <div class="input-box switch-animation" style="--Y:19; --Z:3">
+                    <input type="text" name="birthdate" onfocus="(this.type='date')"
+                           onblur="if(!this.value) (this.type='text')" id="birthdate" placeholder='' required>
+                    <label for="birthdate">Date of Birth</label>
+                    <span class="icon-[tabler--cake] size-5"></span>
+                </div>
+                <div class="input-box switch-animation" style="--Y:20; --Z:4">
                     <input type="password" name="password" id="password" placeholder='' required>
                     <label for="password">Password</label>
                     <span class="icon-[tabler--lock] size-5"></span>
                 </div>
                 <div class="input-box switch-animation" style="--Y:20; --Z:4">
-                    <input type="text" name="birthdate" onfocus="(this.type='date')" onblur="if(!this.value) (this.type='text')"  id="birthdate" placeholder='' required>
-                    <label for="birthdate">Date of Birth</label>
-                    <span class="icon-[tabler--cake] size-5"></span>
+                    <input type="password" name="conPassword" id="conPassword" placeholder='' onchange="confirmPasswordCheck()" required>
+                    <label for="conPassword">Confirm Password</label>
+                    <span class="icon-[tabler--lock] size-5"></span>
+                    <p class="text-red-500 font-semibold" id="passwordMatchError" hidden="true">Password Mismatch! Please try again...</p>
                 </div>
                 <div class="input-box switch-animation" style="--Y:21; --Z:5">
-                    <button class="button" type="submit">Register</button>
+                    <button class="button" type="submit" id="registerButton">Register</button>
                 </div>
                 <div class="register-link switch-animation" style="--Y:22; --Z:6">
                     <p>Already have an account? <a href="#" class="loginLink">Log in now!</a></p>
@@ -95,25 +103,42 @@
         </div>
         <div class="info-segment Register">
             <h2 class="switch-animation" style="--Y:16; --Z:0">HELLO! WELCOME!</h2>
-            <p class="switch-animation" style="--Y:17; --Z:1">Sign up now to be part of our community, and start shopping!
+            <p class="switch-animation" style="--Y:17; --Z:1">Sign up now to be part of our community, and start
+                shopping!
             </p>
         </div>
     </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-  <%
-      String toastMessage = (String) request.getAttribute("toastMessage");
-      String toastType = (String) request.getAttribute("toastType");
-      if (toastMessage != null) {
-  %>
-  <script>
-      window.addEventListener('DOMContentLoaded', () => {
-          // Create an instance of Notyf
-          var notyf = new Notyf();
+</div>
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<%
+    String toastMessage = (String) request.getAttribute("toastMessage");
+    String toastType = (String) request.getAttribute("toastType");
+    if (toastMessage != null) {
+%>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        // Create an instance of Notyf
+        var notyf = new Notyf();
 
-          notyf.<%=toastType%>("<%=toastMessage%>");
-      });
-  </script>
-  <% } %>
+        notyf.<%=toastType%>("<%=toastMessage%>");
+    });
+</script>
+<% } %>
+
+<script>
+    function confirmPasswordCheck() {
+        const password1 = document.getElementById("password").value;
+        const password2 = document.getElementById("conPassword").value;
+        if (password1 !== password2) {
+            document.getElementById("registerButton").disabled = true;
+            document.getElementById("passwordMatchError").hidden = false;
+        }else{
+            document.getElementById("registerButton").disabled = false;
+            document.getElementById("passwordMatchError").hidden = true;
+        }
+
+    }
+</script>
+
 </body>
 </html>
