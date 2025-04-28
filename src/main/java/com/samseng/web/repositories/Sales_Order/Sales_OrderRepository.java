@@ -31,4 +31,6 @@ public interface Sales_OrderRepository {
     List<Sales_Order> findByUserIdPaged(String user, int page, int pageSize);
 
     long countByQuery(String query);
+
+    void updateStatus(String id, String status);
 }

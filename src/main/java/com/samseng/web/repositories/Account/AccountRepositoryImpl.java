@@ -130,5 +130,17 @@ public class AccountRepositoryImpl implements AccountRepository {
                 .getResultList();
     }
 
+    @Override
+    public Account findByUsername(String username) {
+        try {
+            return em.createQuery("SELECT a FROM Account a WHERE a.username = :username", Account.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+
 
 }

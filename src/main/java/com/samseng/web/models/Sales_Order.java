@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -74,5 +75,7 @@ public class Sales_Order {
     @Column(name = "ship_date")
     private LocalDate shipDate;
 
+    @OneToMany(mappedBy = "salesOrder", fetch = FetchType.EAGER)
+    private List<Order_Product> products;
 
 }

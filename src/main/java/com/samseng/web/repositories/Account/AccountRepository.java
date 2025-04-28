@@ -27,4 +27,7 @@ public interface AccountRepository {
     long count();
 
     List<Account> findPaged(int page, int pageSize);
+
+    Account findByUsername(String username);
+
 }
