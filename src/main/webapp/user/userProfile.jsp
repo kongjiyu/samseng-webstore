@@ -434,17 +434,6 @@
         const phoneInput = form.querySelector('input[name="contact_no"]');
         const id = form.id.split('-').pop();
 
-        phoneInput.addEventListener('input', () => {
-            try {
-                const phoneNumber = libphonenumber.parsePhoneNumberFromString(phoneInput.value, 'MY');
-                if (phoneNumber && phoneNumber.isValid()) {
-                    phoneInput.value = phoneNumber.formatNational();
-                }
-            } catch (e) {
-                // Formatting fails silently
-            }
-        });
-
         form.addEventListener('submit', function (e) {
             try {
                 const formatted = phoneInput.value.startsWith('+') ? phoneInput.value : '+' + phoneInput.value;
