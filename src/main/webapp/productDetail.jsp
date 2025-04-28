@@ -105,13 +105,14 @@
             <span id="amount-sold" class="font-bold text-[#4b4c5d]"><%= commentCount%></span>
             <span>reviews</span>
 
-        <%
+            <%
                 List<Variant> variantList = (List<Variant>) request.getAttribute("variantList");
                 Variant firstVariant = (variantList != null && !variantList.isEmpty()) ? variantList.get(0) : null;
             %>
 
             <div class="bg-base-200 justify-start py-3 ml-3 mt-5">
-                <span id="price" class="text-3xl font-bold m-5"> RM<%= firstVariant != null ? String.format("%.2f", firstVariant.getPrice()) : "N/A" %></span>
+                <span id="price"
+                      class="text-3xl font-bold m-5"> RM<%= firstVariant != null ? String.format("%.2f", firstVariant.getPrice()) : "N/A" %></span>
             </div>
 
             <!-- Specifications Selection -->
@@ -132,7 +133,8 @@
                             index++;
                     %>
                     <label class="custom-option flex sm:w-1/2 flex-row items-start gap-3">
-                        <input type="radio" name="<%= attrName %>" value="<%= value %>" class="radio hidden" <%= index == 1 ? "checked" : "" %>/>
+                        <input type="radio" name="<%= attrName %>" value="<%= value %>"
+                               class="radio hidden" <%= index == 1 ? "checked" : "" %>/>
                         <span class="label-text w-full text-start text-[16px]"><%= value %></span>
                     </label>
                     <% } %>
@@ -148,8 +150,8 @@
                 </div>
                 <form action="<%= request.getContextPath() %>/cart" method="post" class="flex items-center gap-6">
                     <input type="hidden" name="action" value="add"/>
-                    <input type="hidden" name="variantId" id="selected-variant-id" />
-                    <input type="hidden" name="qty" id="quantity-input" value="1" />
+                    <input type="hidden" name="variantId" id="selected-variant-id"/>
+                    <input type="hidden" name="qty" id="quantity-input" value="1"/>
                     <button type="submit" class="btn btn-primary rounded-lg">Add to Cart</button>
                 </form>
             </div>
@@ -175,18 +177,20 @@
     </div>
     <div class="divider"></div>
 
-    <!-- Comment Writing Section. Commented out as implementation still unclear. btw this is broken -->
+    <!-- Comment Writing Section -->
 <%--    <div class="mx-10 pb-5">--%>
 <%--        <form method="#">--%>
 <%--            <textarea class="textarea textarea-xl" placeholder="Write a comment..." aria-label="Textarea"></textarea>--%>
-<%--            <div class="flex flex-col">--%>
-<%--                <div class="flex mt-2" id="raty-with-hints"></div>--%>
-<%--                <div class="h-6" data-hint></div>--%>
-<%--                <button type="submit" class="w-auto btn btn-primary rounded-lg mt-2 flex item-end justify-end">Submit</button>--%>
+<%--            <div class="flex flex-row gap-10 w-[50%] justify-end">--%>
+<%--                <div id="rating-input" class="flex flex-col items-start justify-start">--%>
+<%--                    <div class="flex mt-2" id="raty-with-hints" data-score="5"></div>--%>
+<%--                    <div class="h-6" data-hint></div>--%>
+<%--                </div>--%>
+<%--                <button type="submit" class="w-auto btn btn-primary rounded-lg mt-2 flex justify-end">Submit--%>
+<%--                </button>--%>
 <%--            </div>--%>
 <%--        </form>--%>
 <%--    </div>--%>
-
 
 
     <div id="comment-section" class="mx-10 pb-5">
@@ -202,13 +206,16 @@
                          alt="avatar 1"/>
                 </div>
                 <div class="gap-3 mt-1 ml-4">
-                    <p class="font-semibold text-[18px]"><%=c.getUser().getUsername()%></p>
+                    <p class="font-semibold text-[18px]"><%=c.getUser().getUsername()%>
+                    </p>
                     <div class="user-rating flex" data-score="<%= c.getRating() %>"></div>
-                    <p class="w-full text-[18px] mt-3"><%= c.getMessage()%></p>
-                    <% if(c.getReply() !=null ){ %>
+                    <p class="w-full text-[18px] mt-3"><%= c.getMessage()%>
+                    </p>
+                    <% if (c.getReply() != null) { %>
                     <div id="reply" class="mt-5 ml-5">
                         <p class="font-bold text-lg py-2">Reply By Staff Personnel</p>
-                        <p class="text-lg"><%= c.getReply().getMessage()%></p>
+                        <p class="text-lg"><%= c.getReply().getMessage()%>
+                        </p>
                     </div>
                     <% } %>
                 </div>
@@ -216,11 +223,12 @@
 
             <div class="divider"></div>
         </div>
-        <% } } %>
+        <% }
+        } %>
     </div>
 </div>
 
-<%@include file="/general/userFooter.jsp"%>
+<%@include file="/general/userFooter.jsp" %>
 
 <!-- Raty Initialize -->
 <script src="<%= request.getContextPath() %> https://cdn.jsdelivr.net/npm/raty-js@4.3.0/build/raty.min.js"></script>
