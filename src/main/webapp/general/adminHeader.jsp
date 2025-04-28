@@ -123,7 +123,7 @@
         </li>
         <li>
           <a class="dropdown-item active:text-cyan-500" href="<%= request.getContextPath() %>/admin/product">
-            <span class="icon-[tabler--settings]"></span>
+            <span class="icon-[tabler--user-cog]"></span>
             Administration
           </a>
         </li>
