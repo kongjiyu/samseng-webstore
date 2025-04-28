@@ -138,11 +138,11 @@ public class Sales_OrderRepositoryImpl implements Sales_OrderRepository {
 
 
     public List<Object[]> findRevenueLast12Months() {
-        String jpql = "SELECT FUNCTION('TO_CHAR', o.packDate, 'YYYY-MM') AS month, SUM(o.netPrice) " +
+        String jpql = "SELECT FUNCTION('TO_CHAR', o.orderedDate, 'YYYY-MM') AS month, SUM(o.grossPrice) " +
                 "FROM Sales_Order o " +
-                "WHERE o.packDate >= :startDate " +
+                "WHERE o.orderedDate >= :startDate " +
                 "GROUP BY month " +
-                "ORDER BY FUNCTION('TO_CHAR', o.packDate, 'YYYY-MM') ASC";
+                "ORDER BY FUNCTION('TO_CHAR', o.orderedDate, 'YYYY-MM') ASC";
 
         return em.createQuery(jpql, Object[].class)
                 .setParameter("startDate", LocalDate.now().minusMonths(12))
