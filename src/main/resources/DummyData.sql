@@ -4239,21 +4239,16 @@ INSERT INTO variant_attribute(attribute_id, value, variant_id) VALUES ('AT0001',
 --Promo code--
 INSERT INTO promo_code (promo_code, availability, discount_rate, promo_code_description)
 VALUES ('NEWYEAR', true, 0.1, 'Celebrate Hari Raya with 10% off on all items! Limited time offer during the festive season.');
-
 INSERT INTO promo_code (promo_code, availability, discount_rate, promo_code_description)
 VALUES ('WELCOME', true, 0.15, 'Welcome gift for new users! Enjoy 15% off your first purchase.');
-
 INSERT INTO promo_code (promo_code, availability, discount_rate, promo_code_description)
 VALUES ('VALENTINE', true, 0.2, 'Share the love this Valentines Day with 20% off. Offer expired but stay tuned for more deals!');
-
 INSERT INTO promo_code (promo_code, availability, discount_rate, promo_code_description)
 VALUES ('BIRTHDAY', true, 0.5, 'Its your special day! Enjoy a massive 50% off with our Birthday Promo.');
 INSERT INTO promo_code (promo_code, availability, discount_rate, promo_code_description)
 VALUES ('BLACKFRIDAY', false, 0.3, 'Black Friday Sale! Enjoy 30% off on selected items. Offer has ended.');
 INSERT INTO promo_code (promo_code, availability, discount_rate, promo_code_description)
 VALUES ('SUMMERSALE', false, 0.25, 'Summer Sale Extravaganza! 25% off storewide. This promotion is no longer active.');
-
-
 
 
 -- Comments --
