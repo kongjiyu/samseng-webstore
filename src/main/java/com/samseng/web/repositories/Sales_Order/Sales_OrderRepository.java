@@ -30,7 +30,7 @@ public interface Sales_OrderRepository {
 
     long countByUserId(String user);
 
-    List<Sales_Order> findByUserIdPaged(String user, int page, int pageSize);
+    List<Sales_Order> findByUserIdPaged(String user);
 
     long countByQuery(String query);
 

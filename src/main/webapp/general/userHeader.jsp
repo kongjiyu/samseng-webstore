@@ -5,7 +5,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Header</title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">

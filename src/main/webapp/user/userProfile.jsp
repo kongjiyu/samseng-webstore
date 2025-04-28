@@ -397,8 +397,7 @@
 <script>
     function isValidPhoneNumber(phone) {
         try {
-            const formatted = phone.startsWith('+') ? phone : '+' + phone;
-            const phoneNumber = libphonenumber.parsePhoneNumber(formatted);
+            const phoneNumber = libphonenumber.parsePhoneNumber(phone, 'MY');
             return phoneNumber.isValid();
         } catch {
             return false;
@@ -407,8 +406,7 @@
 
     const addressForm = document.getElementById('new-address-form');
     addressForm.addEventListener('submit', function (e) {
-        const phoneInput = document.getElementById('contact-no-input');
-        const phoneValue = phoneInput.value;
+        const phoneValue = document.getElementById('contact-no-input').value;
         if (!isValidPhoneNumber(phoneValue)) {
             e.preventDefault();
             alert("Invalid phone number.");
@@ -417,27 +415,12 @@
 </script>
 
 <script>
-    const phoneInput = document.getElementById('contact-no-input');
-    phoneInput.addEventListener('input', () => {
-        try {
-            const phoneNumber = libphonenumber.parsePhoneNumberFromString(phoneInput.value, 'MY');
-            if (phoneNumber && phoneNumber.isValid()) {
-                phoneInput.value = phoneNumber.formatNational();
-            }
-        } catch (e) {
-            // Keep input unchanged if formatting fails
-        }
-    });
-</script>
-<script>
     document.querySelectorAll('form[id^="edit-address-form-"]').forEach((form) => {
         const phoneInput = form.querySelector('input[name="contact_no"]');
-        const id = form.id.split('-').pop();
 
         form.addEventListener('submit', function (e) {
             try {
-                const formatted = phoneInput.value.startsWith('+') ? phoneInput.value : '+' + phoneInput.value;
-                const phoneNumber = libphonenumber.parsePhoneNumber(formatted);
+                const phoneNumber = libphonenumber.parsePhoneNumber(phoneInput.value, 'MY');
                 if (!phoneNumber.isValid()) {
                     e.preventDefault();
                     alert("Invalid phone number.");

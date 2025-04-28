@@ -76,11 +76,9 @@ public class Sales_OrderRepositoryImpl implements Sales_OrderRepository {
     }
 
     @Override
-    public List<Sales_Order> findByUserIdPaged(String user, int page, int pageSize) {
+    public List<Sales_Order> findByUserIdPaged(String user) {
         return em.createQuery("SELECT s FROM  Sales_Order s WHERE s.user.id = :user", Sales_Order.class)
                 .setParameter("user", user)
-                .setFirstResult((page - 1) * pageSize)
-                .setMaxResults(pageSize)
                 .getResultList();
 
     }

@@ -19,7 +19,7 @@
 </head>
 
 <% List<Comment> commentList= (List<Comment>) request.getAttribute("commentList"); %>
-<body class="bg-[#dadada]">
+<body data-theme="light" class="bg-[#dadada]">
 <%@ include file="/general/userHeader.jsp" %>
 
 <!-- Product Detail / Description -->

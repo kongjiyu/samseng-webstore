@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order</title>
+    <title>Order List</title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
     <link href="<%= request.getContextPath() %>/static/css/datatables.min.css" rel="stylesheet">
@@ -106,7 +106,8 @@
                 { targets: 3, orderData: [3, 0] },
                 { targets: 4, orderData: [4, 0] },
                 { targets: 5, orderable: false }
-            ]
+            ],
+            order: [[2, 'desc']]
         });
     });
 </script>

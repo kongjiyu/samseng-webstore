@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="<%= request.getContextPath() %>/static/css/error.css">
         <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
 
-        <title>Responsive 404 website - Bedimcode</title>
+        <title>Error Page</title>
     </head>
     <body data-theme="light">
 

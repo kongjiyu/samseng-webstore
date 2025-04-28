@@ -99,6 +99,7 @@ public class AccountProfileServlet extends HttpServlet {
             account.setPassword(password);
             try {
                 accountRepo.update(account);
+                request.getSession().setAttribute("profile", account);
                 response.sendRedirect(request.getContextPath() + "/login-flow");
             } catch (Exception e) {
                 e.printStackTrace();

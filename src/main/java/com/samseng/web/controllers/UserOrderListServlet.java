@@ -27,7 +27,7 @@ public class UserOrderListServlet extends HttpServlet {
         String userId = user.getId();
 
         // get the list of orders
-        List<Sales_Order> orders = listOrders(req, userId);
+        List<Sales_Order> orders = salesOrderRepository.findByUserIdPaged(userId);
 
         // convert into DTO
         List<OrderListingDTO> dtos = orders.stream()
@@ -50,33 +50,6 @@ public class UserOrderListServlet extends HttpServlet {
         RequestDispatcher view = req.getRequestDispatcher("/user/orderList.jsp");
         view.forward(req, resp);
 
-    }
-
-    private List<Sales_Order> listOrders(HttpServletRequest req, String userId) throws ServletException, IOException {
-        // logic to Paginate the output
-        int page = 1;
-        int pageSize = 10;
-
-        String pageParam = req.getParameter("page");
-        if (pageParam != null && pageParam.matches("\\d+")) {
-            page = Integer.parseInt(pageParam);
-        }
-
-        long totalCount = salesOrderRepository.countByUserId(userId);
-        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
-        int startOrder = (page - 1) * pageSize + 1;
-        int endOrder = Math.min(page * pageSize, (int) totalCount);
-
-        // grab items from sales_order table and put into List called "orders"
-        // and also order it by "id"
-        List<Sales_Order> orders = salesOrderRepository.findByUserIdPaged(userId, page, pageSize);
-        req.setAttribute("currentPage", page);
-        req.setAttribute("totalPages", totalPages);
-        req.setAttribute("totalItems", totalCount);
-        req.setAttribute("startItem", startOrder);
-        req.setAttribute("endItem", endOrder);
-
-        return orders;
     }
 
 }

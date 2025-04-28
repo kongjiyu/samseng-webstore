@@ -21,7 +21,6 @@
 <div class="container mx-auto p-6 mt-[5.5rem]">
   <div class="flex flex-col md:flex-row gap-6">
     <div class="flex flex-col gap-6 md:w-2/3">
-      --Profile--
       <div class="bg-base-100 border rounded-lg shadow p-6">
         <h2 class="text-2xl font-bold">Buyer Information</h2>
         <div class="divide-y divide-base-200">
@@ -43,8 +42,6 @@
           </div>
         </div>
       </div>
-      --/Profile--
-      --Purchase Details--
       <div class="bg-base-100 border rounded-lg shadow p-6">
         <h2 class="text-2xl font-bold">Purchase Details</h2>
         <div class="divide-y divide-base-200">
@@ -70,11 +67,8 @@
           </div>
         </div>
       </div>
-      --/Purchase Detail--
-      --Invoice--
       <div class="bg-base-100 border rounded-lg shadow p-6 w-full">
         <h2 class="text-2xl font-bold mb-4">Invoice</h2>
-        --Invoice--
         <div class="overflow-x-auto">
           <table class="table table-zebra w-full">
             <thead>
@@ -128,7 +122,6 @@
             </tbody>
           </table>
         </div>
-        --/Invoice--
       </div>
     </div>
     <%Address address =(Address) request.getAttribute("addresses"); %>
@@ -141,19 +134,25 @@
             <span class="text-base-content font-medium"><%=account.getUsername()%></span>
           </div>
           <div class="flex justify-between py-2">
-            <span class="text-base-content/80">Address:</span>
+            <span class="text-base-content/80">Address 1:</span>
             <span class="text-base-content font-medium"><%=address.getAddress_1()%></span>
           </div>
+          <%if(address.getAddress_2()!=null) {%>
           <div class="flex justify-between py-2">
-            <span class="text-base-content/80">Address:</span>
+            <span class="text-base-content/80">Address 2:</span>
             <span class="text-base-content font-medium"><%=address.getAddress_2()%></span>
           </div>
+          <% } %>
           <%if(address.getAddress_3()!=null) {%>
           <div class="flex justify-between py-2">
-            <span class="text-base-content/80">Address:</span>
+            <span class="text-base-content/80">Address 3:</span>
             <span class="text-base-content font-medium"><%=address.getAddress_3()%></span>
           </div>
           <% } %>
+          <div class="flex justify-between py-2">
+            <span class="text-base-content/80">Postcode:</span>
+            <span class="text-base-content font-medium"><%=address.getPostcode()%></span>
+          </div>
           <div class="flex justify-between py-2">
             <span class="text-base-content/80">Contact No:</span>
             <span class="text-base-content font-medium"><%=address.getContact_no()%></span>

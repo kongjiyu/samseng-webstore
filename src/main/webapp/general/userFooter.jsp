@@ -1,6 +1,5 @@
 <html>
 <head>
-    <title>Footer</title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 
