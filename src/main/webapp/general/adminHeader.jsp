@@ -123,14 +123,14 @@
         </li>
         <li>
           <a class="dropdown-item active:text-cyan-500" href="<%= request.getContextPath() %>/admin/product">
-            <span class="icon-[tabler--settings]"></span>
+            <span class="icon-[tabler--user-cog]"></span>
             Administration
           </a>
         </li>
         <li>
           <a class="dropdown-item active:text-cyan-500" href="<%= request.getContextPath() %>/user/orders">
             <span class="icon-[tabler--receipt-rupee]"></span>
-            Order
+            Order detail
           </a>
         </li>
         <li class="dropdown-footer gap-2">
