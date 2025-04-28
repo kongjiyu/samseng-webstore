@@ -18,10 +18,10 @@
   </div>
   <div class="navbar-center max-md:hidden">
     <ul class="menu menu-horizontal p-0 font-medium [--menu-active-bg:transparent]">
-      <li><a href="<%= request.getContextPath() %>/admin/customerDetail.jsp">Profile</a></li>
-      <li><a href="<%= request.getContextPath() %>/admin/orderList.jsp">Order</a></li>
+      <li><a href="<%= request.getContextPath() %>/admin/report.jsp">Dashboard</a></li>
+      <li><a href="<%= request.getContextPath() %>/admin/orders">Order</a></li>
       <li><a href="<%= request.getContextPath() %>/admin/product?action=list">Product</a></li>
-      <li><a href="<%= request.getContextPath() %>/admin/control">Customers</a></li>
+      <li><a href="<%= request.getContextPath() %>/admin/control">User</a></li>
     </ul>
   </div>
 
@@ -122,21 +122,15 @@
           </a>
         </li>
         <li>
-          <a class="dropdown-item active:text-cyan-500" href="#">
+          <a class="dropdown-item active:text-cyan-500" href="<%= request.getContextPath() %>/admin/product">
             <span class="icon-[tabler--settings]"></span>
-            Settings
+            Administration
           </a>
         </li>
         <li>
-          <a class="dropdown-item active:text-cyan-500" href="#">
+          <a class="dropdown-item active:text-cyan-500" href="<%= request.getContextPath() %>/user/orders">
             <span class="icon-[tabler--receipt-rupee]"></span>
             Order
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item active:text-cyan-500" href="#">
-            <span class="icon-[tabler--help-triangle]"></span>
-            Vouchers
           </a>
         </li>
         <li class="dropdown-footer gap-2">

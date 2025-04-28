@@ -81,7 +81,7 @@
                     <td><fmt:formatNumber value="${order.netPrice()}" type="currency" currencySymbol="RM " /></td>
                     <td>
                         <a href=" ${pageContext.request.contextPath}/admin/detail?action=view&id=${order.id()}" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
-                            <span class="icon-[tabler--pencil] size-5"></span>
+                            <span class="icon-[tabler--eye] size-5"></span>
                         </a>
                     </td>
                 </tr>
