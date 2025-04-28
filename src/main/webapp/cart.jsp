@@ -326,9 +326,8 @@
 
                         <!-- Stepper Content -->
                         <form id="wizard-validation-form-horizontal" class="needs-validation mt-5 sm:mt-8" method="post"
-                              action="<%= request.getContextPath() %>/user/sales-order"><input type="hidden"
-                                                                                               name="grossPrice"
-                                                                                               value="<%= String.format("%.2f", grossPrice) %>"/>
+                              action="<%= request.getContextPath() %>/user/sales-order">
+                            <input type="hidden" name="grossPrice" value="<%= String.format("%.2f", grossPrice) %>"/>
                             <input type="hidden" name="promo-code"
                                    value="<%= promoCode != null ? promoCode.getId() : null  %>"/>
                             <input type="hidden" name="taxCharge" value="<%= String.format("%.2f", taxCharge) %>"/>

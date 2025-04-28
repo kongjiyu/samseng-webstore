@@ -253,7 +253,12 @@
 <%--        for (var product : products )--%>
         <c:forEach var="product" items="${products}">
         <div class="product-card card w-[300px] h-[600px]">
-            <figure><img src="/uploads/${product.imageUrls()[0]}" alt="product-image" class="object-contain h-full"/></figure>
+            <div class="h-[250px] w-full">
+                <figure>
+                    <img src="/uploads/${product.imageUrls()[0]}" alt="product-image"
+                         class="object-cover rounded-lg" />
+                </figure>
+            </div>
             <div class="card-body">
                 <a href="<%=request.getContextPath()%>/product?productId=${product.id()}">
                     <h5 class="card-title mb-2.5 hover:text-gray-800 transition-colors duration-200">

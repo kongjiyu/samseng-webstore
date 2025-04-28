@@ -190,7 +190,7 @@
                             <div data-combo-box-output-item='{"group": {"name": "best" , "title": ""}}'
                                  tabindex="0">
                                 <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none"
-                                   href="<%= request.getContextPath() %>/user/product?productId=<%= product.getId() %>">
+                                   href="<%= request.getContextPath() %>/product?productId=<%= product.getId() %>">
                                     <div class="avatar">
                                         <div class="bg-base-content/10 h-10 w-10 rounded-md">
                                             <img src="/uploads/<%= product.getImageUrls().isEmpty() ? '#' : product.getImageUrls().iterator().next() %>" alt="product image" />

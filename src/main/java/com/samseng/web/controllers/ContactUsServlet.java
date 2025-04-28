@@ -36,7 +36,7 @@ public class ContactUsServlet extends HttpServlet {
         final String userName = "nglk-wm23@student.tarc.edu.my";
         final String password = "etiedckgvjlidztw";        // App password
 
-        String toAddress = "ngleekai2005@gmail.com";       // Receiver
+        String toAddress = "kongjiyu0198@gmail.com";       // Receiver
         String subject = "Contact Us Message from " + senderName;
         String messageContent = "Name: " + senderName + "\n"
                 + "Email: " + senderEmail + "\n"
@@ -73,12 +73,14 @@ public class ContactUsServlet extends HttpServlet {
             // Send message
             Transport.send(msg);
 
-            System.out.println(" Email sent successfully!");
-            response.getWriter().println("Message sent successfully!");
+            request.setAttribute("toastMessage", "Email sent successfully.");
+            request.setAttribute("toastType", "success");
 
+            response.sendRedirect(request.getContextPath() + "/");
         } catch (MessagingException e) {
             e.printStackTrace();
-            response.getWriter().println("Failed to send message: " + e.getMessage());
+            request.setAttribute("toastMessage", "Email sent failed: " + e.getMessage());
+            request.setAttribute("toastType", "error");
         }
     }
 }

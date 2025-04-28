@@ -33,8 +33,8 @@ public class UserSessionFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpSession session = request.getSession();
 
-        // Step 1: Load profile if not yet set
-        if (request.getUserPrincipal() != null && session.getAttribute("profile") == null) {
+        // Step 1: Always reload profile from DB if user is logged in
+        if (request.getUserPrincipal() != null) {
             String email = request.getUserPrincipal().getName();
             Account account = accountRepository.findAccountByEmail(email);
             if (account != null) {
@@ -46,7 +46,6 @@ public class UserSessionFilter implements Filter {
                     if (sessionCart != null && !sessionCart.isEmpty()) {
                         for (CartItemDTO item : sessionCart) {
                             cartRepository.addOrUpdate(account.getId(), item.variant().getVariantId(), item.quantity());
-
                         }
                         session.removeAttribute("cart");
                         session.setAttribute("cartMerged", true);
