@@ -19,9 +19,8 @@
 <%@ include file="/general/adminHeader.jsp" %>
 
 <div class="container mx-auto p-6 py-16">
-    <div class="flex flex-col lg:flex-row lg:items-stretch bg-base-100 border rounded-lg shadow divide-y lg:divide-y-0 lg:divide-x divide-base-300">
+    <div class="mb-5 flex flex-col lg:flex-row lg:items-stretch bg-base-100 border rounded-lg shadow divide-y lg:divide-y-0 lg:divide-x divide-base-300">
         <!-- Left Panel: Product Information -->
-
         <div class="w-full lg:w-1/3 p-10 space-y-4">
             <%
                 Product productObj = (Product) request.getAttribute("product");
@@ -127,9 +126,7 @@
             </div>
         </div>
 
-
         <!-- Right Panel: Product Variants -->
-
         <div class="w-full lg:w-2/3 p-10 space-y-4">
             <form method="post" action="<%= request.getContextPath() %>/admin/product" id="attributeForm">
                 <input type="hidden" name="action" value="saveAttributeValues">
@@ -154,16 +151,17 @@
                         </label>
                         <input type="hidden" name="attributeList" value="<%= attrName %>"/>
                         <div class="flex flex-wrap gap-2">
-                            <% 
+                            <%
                                 for (String value : values) {
                             %>
-                            <input type="text" class="input input-bordered input-sm attribute-field" 
+                            <input type="text" class="input input-bordered input-sm attribute-field"
                                    name="attr-<%= attrName %>" value="<%= value %>" disabled/>
                             <input type="hidden" name="attr-<%= attrName %>" value="<%= value %>"/>
-                            <% 
+                            <%
                                 }
                             %>
-                            <button type="button" class="btn btn-outline btn-sm mt-2" onclick="addValue(this, '<%=attrName%>')">Add Value
+                            <button type="button" class="btn btn-outline btn-sm mt-2"
+                                    onclick="addValue(this, '<%=attrName%>')">Add Value
                             </button>
                         </div>
                     </div>
@@ -261,6 +259,83 @@
             </form>
         </div>
     </div>
+    <div class="my-5 flex flex-row  bg-base-100 border rounded-lg shadow divide-y divide-base-300">
+        <div class="w-full p-10">
+            <h2 class="text-2xl font-bold">Comments</h2>
+            <!-- Test comment -->
+            <div id="comment" class="flex flex-col items-right gap-2 m-5">
+                <div class="flex">
+                    <div class="w-14">
+                        <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" class="rounded-full"
+                             alt="avatar 1"/>
+                    </div>
+                    <div class="gap-3 mt-1 ml-4">
+                        <p class="font-semibold text-[18px]">Username Goes here</p>
+                        <div class="user-rating flex" data-score="4">rating goes here</div>
+                        <p class="w-full text-[18px] mt-3">Message goes here lol I am so rich I can buy your fucking
+                            hose</p>
+                        <%--                        <% if(c.getReply() !=null ){ %>--%>
+                        <%--                            Display the replied comment if it there IS a reply--%>
+                        <%--                        <div id="reply" class="mt-5 ml-5">--%>
+                        <%--                            <p class="font-bold text-lg py-2">Reply By Staff Personnel</p>--%>
+                        <%--                            <p class="text-lg">Reply Message goes here wahaha fuck you I'm richer I own Samseng</p>--%>
+                        <%--                        </div>--%>
+                        <%--                            If there's no reply, then u run the logic for replying--%>
+                        <%--                        <% } else { %>--%>
+                        <div class="mt-5 ml-5">
+                            <button class="flex flex-row gap-3" aria-haspopup="dialog" aria-expanded="false"
+                                    aria-controls="middle-center-modal" data-overlay="#middle-center-modal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="icon icon-tabler icons-tabler-outline icon-tabler-corner-down-left-double">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M19 5v6a3 3 0 0 1 -3 3h-7"/>
+                                    <path d="M13 10l-4 4l4 4m-5 -8l-4 4l4 4"/>
+                                </svg>
+                                <p class="text-gray-950">Reply to Comment...</p>
+                            </button>
+
+                            <div id="middle-center-modal"
+                                 class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden"
+                                 role="dialog" tabindex="-1">
+                                <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
+                                    <div class="modal-content">
+                                        <%--Reply Comment Form--%>
+                                        <form method="#">
+                                            <div class="modal-header m-2">
+                                                <h3 class="modal-title">Admin Reply</h3>
+                                                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#middle-center-modal">
+                                                    <span class="icon-[tabler--x] size-4"></span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mx-2 pb-2">
+                                                    <textarea class="textarea textarea-xl"
+                                                              placeholder="Write a reply..."
+                                                              aria-label="Textarea"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-soft btn-secondary"
+                                                        data-overlay="#middle-center-modal">Close
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<%--                        <% } %>--%>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+            </div>
+            <%--            <% } } %>--%>
+        </div>
+    </div>
 </div>
 <div id="add-attribute-modal"
      class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog"
@@ -339,8 +414,8 @@
         input.type = 'text';
         input.placeholder = 'e.g. New Value';
         input.className = 'input input-bordered input-sm attribute-field';
-        input.name = attrName ;
-        
+        input.name = attrName;
+
         container.insertBefore(input, button);
         document.getElementById('saveAttributeValueBtn').disabled = false;
     }
