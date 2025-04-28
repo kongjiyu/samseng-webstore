@@ -34,6 +34,8 @@ public interface Sales_OrderRepository {
 
     long countByQuery(String query);
 
+   void updateStatusAndDateById(String orderId, String nextStatus, String dateField, java.time.LocalDate nowDate);
+
     List<Object[]> findRevenueLast12Months();
 
     long getTotalOrdersThisMonth();

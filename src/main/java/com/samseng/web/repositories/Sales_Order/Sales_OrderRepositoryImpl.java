@@ -126,6 +126,16 @@ public class Sales_OrderRepositoryImpl implements Sales_OrderRepository {
                 .getSingleResult();
     }
 
+    @Override
+    public void updateStatusAndDateById(String orderId, String nextStatus, String dateField, java.time.LocalDate nowDate) {
+        em.createQuery("UPDATE Sales_Order o SET o.status = :status, o." + dateField + " = :nowDate WHERE o.id = :id")
+                .setParameter("status", nextStatus)
+                .setParameter("nowDate", nowDate)
+                .setParameter("id", orderId)
+                .executeUpdate();
+    }
+
+
 
     public List<Object[]> findRevenueLast12Months() {
         String jpql = "SELECT FUNCTION('TO_CHAR', o.packDate, 'YYYY-MM') AS month, SUM(o.netPrice) " +

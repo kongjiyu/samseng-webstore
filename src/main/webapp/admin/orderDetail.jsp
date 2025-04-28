@@ -1,3 +1,6 @@
+<%@ page import="com.samseng.web.models.Sales_Order" %>
+<%@ page import="com.samseng.web.models.Order_Product" %>
+<%@ page import="com.samseng.web.models.Address" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +14,8 @@
 <body data-theme="light">
 <!--Header-->
 <%@ include file="/general/adminHeader.jsp" %>
-
+<% Account account=(Account)request.getAttribute("account"); %>
+<% Sales_Order salesOrder =(Sales_Order) request.getAttribute("order");%>
 <div class="breadcrumbs ml-6">
   <ul>
     <li>
@@ -37,15 +41,15 @@
           </div>
           <div class="flex justify-between py-2">
             <span class="text-base-content/80">Username:</span>
-            <span class="text-base-content font-medium">johndoe</span>
+            <span class="text-base-content font-medium"><%= account.getUsername() %></span>
           </div>
           <div class="flex justify-between py-2">
             <span class="text-base-content/80">Email:</span>
-            <span class="text-base-content font-medium">john@example.com</span>
+            <span class="text-base-content font-medium"><%= account.getEmail() %></span>
           </div>
           <div class="flex justify-between py-2">
             <span class="text-base-content/80">Date of Birth:</span>
-            <span class="text-base-content font-medium">1990-05-15</span>
+            <span class="text-base-content font-medium"><%= account.getDob() %></span>
           </div>
         </div>
       </div>
@@ -54,19 +58,23 @@
         <div class="divide-y divide-base-200">
           <div class="flex justify-between py-2">
             <span class="text-base-content/80">Status</span>
-            <span class="text-base-content font-medium">Shipped</span>
+            <span class="text-base-content font-medium"><%= salesOrder.getStatus()%></span>
           </div>
           <div class="flex justify-between py-2">
             <span class="text-base-content/80">Payment Method</span>
-            <span class="text-base-content font-medium">Credit Card</span>
+            <span class="text-base-content font-medium"><%= salesOrder.getPaymentMethod()%></span>
           </div>
           <div class="flex justify-between py-2">
             <span class="text-base-content/80">Reference No</span>
-            <span class="text-base-content font-medium">#REF12345678</span>
+            <span class="text-base-content font-medium"><%= salesOrder.getRefNo()%></span>
           </div>
           <div class="flex justify-between py-2">
             <span class="text-base-content/80">Voucher Applied</span>
-            <span class="text-base-content font-medium">WELCOME10</span>
+            <%if(salesOrder.getPromo_code()!=null) {%>
+            <span class="text-base-content font-medium"><%= salesOrder.getPromo_code().getId()%></span>
+            <% } else {%>
+            <span class="text-base-content font-medium"></span>
+            <% } %>
           </div>
         </div>
       </div>
@@ -82,70 +90,85 @@
             </tr>
             </thead>
             <tbody>
+            <%List<Order_Product> orderProductList = (List<Order_Product>) request.getAttribute("products");%>
+            <%for(Order_Product orderList :orderProductList) {%>
             <tr>
-              <td>Samsung Galaxy Z Flip</td>
-              <td class="text-center">1</td>
-              <td class="text-right">$999</td>
+              <td><%= orderList.getVariant().getVariantName()%></td>
+              <td class="text-center"><%= orderList.getQuantity()%></td>
+              <td class="text-right">$<%=orderList.getPrice()%></td>
             </tr>
-            <tr>
-              <td>Galaxy Buds Pro</td>
-              <td class="text-center">1</td>
-              <td class="text-right">$199</td>
-            </tr>
+            <% } %>
             <tr class="font-bold">
               <td></td>
               <td class="text-right">Subtotal</td>
-              <td class="text-right">$1198</td>
+              <td class="text-right">$<%=salesOrder.getGrossPrice()%></td>
             </tr>
             <tr>
               <td></td>
               <td class="text-right text-base-content/80">Gross Price</td>
-              <td class="text-right text-base-content font-medium">$1198</td>
+              <td class="text-right text-base-content font-medium">$<%=salesOrder.getGrossPrice()%></td>
             </tr>
             <tr>
               <td></td>
               <td class="text-right text-base-content/80">Tax Charge</td>
-              <td class="text-right text-base-content font-medium">$119.8</td>
+              <td class="text-right text-base-content font-medium">$<%=salesOrder.getTaxCharge()%></td>
             </tr>
             <tr>
               <td></td>
               <td class="text-right text-base-content/80">Delivery Charge</td>
-              <td class="text-right text-base-content font-medium">$20</td>
+              <td class="text-right text-base-content font-medium">$<%=salesOrder.getDeliveryCharge()%></td>
             </tr>
+            <% if(salesOrder.getPromo_code()!=null){%>
+            <tr>
+              <td></td>
+              <td class="text-right text-base-content/80">Discount Amount</td>
+              <td class="text-right text-base-content font-medium">$<%=salesOrder.getDiscountAmount()%></td>
+            </tr>
+            <%}%>
             <tr class="text-lg font-bold">
               <td></td>
               <td class="text-right">Grand Total</td>
-              <td class="text-right">$1337.8</td>
+              <td class="text-right">$<%=salesOrder.getNetPrice()%></td>
             </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-
+    <%Address address =(Address) request.getAttribute("addresses"); %>
     <div class="flex flex-col gap-6 md:w-1/3">
       <div class="bg-base-100 border rounded-lg shadow p-6">
         <h2 class="text-2xl font-bold">Buyer Address</h2>
         <div class="divide-y divide-base-200">
           <div class="flex justify-between py-2">
             <span class="text-base-content/80">Receiver Name:</span>
-            <span class="text-base-content font-medium">John Doe</span>
+            <span class="text-base-content font-medium"><%=account.getUsername()%></span>
           </div>
           <div class="flex justify-between py-2">
-            <span class="text-base-content/80">Address:</span>
-            <span class="text-base-content font-medium">123 Galaxy Road, Suite 100</span>
+            <span class="text-base-content/80">Address 1:</span>
+            <span class="text-base-content font-medium"><%=address.getAddress_1()%></span>
           </div>
+          <div class="flex justify-between py-2">
+            <span class="text-base-content/80">Address 2:</span>
+            <span class="text-base-content font-medium"><%=address.getAddress_2()%></span>-5678</span>
+          </div>
+          <%if(address.getAddress_3()!=null) {%>
+          <div class="flex justify-between py-2">
+            <span class="text-base-content/80">Address 3:</span>
+            <span class="text-base-content font-medium"><%=address.getAddress_3()%></span>
+          </div>
+          <% } %>
           <div class="flex justify-between py-2">
             <span class="text-base-content/80">Contact No:</span>
-            <span class="text-base-content font-medium">+82 10-1234-5678</span>
-          </div>
-          <div class="flex justify-between py-2">
-            <span class="text-base-content/80">Country:</span>
-            <span class="text-base-content font-medium">South Korea</span>
+            <span class="text-base-content font-medium"><%=address.getContact_no()%></span>
           </div>
           <div class="flex justify-between py-2">
             <span class="text-base-content/80">State:</span>
-            <span class="text-base-content font-medium">Seoul</span>
+            <span class="text-base-content font-medium"><%=address.getState()%></span>
+          </div>
+          <div class="flex justify-between py-2">
+            <span class="text-base-content/80">Country:</span>
+            <span class="text-base-content font-medium"><%=address.getCountry()%></span>
           </div>
         </div>
       </div>
@@ -178,7 +201,10 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-soft btn-secondary" data-overlay="#middle-center-modal">Cancel</button>
-                <button type="button" class="btn btn-info" onclick="confirmStageUpdate()">Confirm</button>
+                <form action="<%= request.getContextPath() %>/admin/detail?action=updateStatus" method="post">
+                  <input type="hidden" name="orderId" value="<%= salesOrder.getId() %>">
+                  <button type="submit" class="btn btn-info">Confirm</button>
+                </form>
               </div>
             </div>
           </div>
@@ -186,49 +212,120 @@
 
         <!-- Timeline -->
         <ul class="timeline timeline-vertical">
+          <%if(salesOrder.getDeliverDate()!=null){%>
           <li>
-            <div class="timeline-start text-base-content font-medium">4 April 2025</div>
+            <div class="timeline-start text-base-content font-medium"><%=salesOrder.getDeliverDate()%></div>
             <div class="timeline-middle">
-        <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
-          <span class="badge badge-info size-3 rounded-full p-0"></span>
-        </span>
+                            <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+                              <span class="badge badge-info size-3 rounded-full p-0"></span>
+                            </span>
             </div>
             <div class="timeline-end timeline-box">Delivered</div>
             <hr />
           </li>
           <li>
             <hr />
-            <div class="timeline-start text-base-content font-medium">3 April 2025</div>
+            <div class="timeline-start text-base-content font-medium"><%=salesOrder.getShipDate()%></div>
             <div class="timeline-middle">
-        <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
-          <span class="badge badge-info size-3 rounded-full p-0"></span>
-        </span>
+                            <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+                              <span class="badge badge-info size-3 rounded-full p-0"></span>
+                            </span>
             </div>
             <div class="timeline-end timeline-box">Shipped</div>
             <hr />
           </li>
           <li>
             <hr />
-            <div class="timeline-start text-base-content font-medium">2 April 2025</div>
+            <div class="timeline-start text-base-content font-medium"><%=salesOrder.getPackDate()%></div>
             <div class="timeline-middle">
-        <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
-          <span class="badge badge-info size-3 rounded-full p-0"></span>
-        </span>
+                            <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+                              <span class="badge badge-info size-3 rounded-full p-0"></span>
+                            </span>
             </div>
             <div class="timeline-end timeline-box">Packed</div>
             <hr />
           </li>
           <li>
             <hr />
-            <div class="timeline-start text-base-content font-medium">1 April 2025</div>
+            <div class="timeline-start text-base-content font-medium"><%=salesOrder.getOrderedDate()%></div>
             <div class="timeline-middle">
-        <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
-          <span class="badge badge-info size-3 rounded-full p-0"></span>
-        </span>
+                            <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+                              <span class="badge badge-info size-3 rounded-full p-0"></span>
+                            </span>
             </div>
-            <div class="timeline-end timeline-box">Ordered</div>
+            <div class="timeline-end timeline-box">Orderd</div>
             <hr />
           </li>
+          <% } else if (salesOrder.getShipDate()!=null) { %>
+          <li>
+            <hr />
+            <div class="timeline-start text-base-content font-medium"><%=salesOrder.getShipDate()%></div>
+            <div class="timeline-middle">
+                            <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+                              <span class="badge badge-info size-3 rounded-full p-0"></span>
+                            </span>
+            </div>
+            <div class="timeline-end timeline-box">Shipped</div>
+            <hr />
+          </li>
+          <li>
+            <hr />
+            <div class="timeline-start text-base-content font-medium"><%=salesOrder.getPackDate()%></div>
+            <div class="timeline-middle">
+                            <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+                              <span class="badge badge-info size-3 rounded-full p-0"></span>
+                            </span>
+            </div>
+            <div class="timeline-end timeline-box">Packed</div>
+            <hr />
+          </li>
+          <li>
+            <hr />
+            <div class="timeline-start text-base-content font-medium"><%=salesOrder.getOrderedDate()%></div>
+            <div class="timeline-middle">
+                            <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+                              <span class="badge badge-info size-3 rounded-full p-0"></span>
+                            </span>
+            </div>
+            <div class="timeline-end timeline-box">Orderd</div>
+            <hr />
+          </li>
+          <% } else if (salesOrder.getPackDate()!=null) { %>
+          <li>
+            <hr />
+            <div class="timeline-start text-base-content font-medium"><%=salesOrder.getPackDate()%></div>
+            <div class="timeline-middle">
+                            <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+                              <span class="badge badge-info size-3 rounded-full p-0"></span>
+                            </span>
+            </div>
+            <div class="timeline-end timeline-box">Packed</div>
+            <hr />
+          </li>
+          <li>
+            <hr />
+            <div class="timeline-start text-base-content font-medium"><%=salesOrder.getOrderedDate()%></div>
+            <div class="timeline-middle">
+                            <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+                              <span class="badge badge-info size-3 rounded-full p-0"></span>
+                            </span>
+            </div>
+            <div class="timeline-end timeline-box">Orderd</div>
+            <hr />
+          </li>
+          <% } else {%>
+          <li>
+            <hr />
+            <div class="timeline-start text-base-content font-medium"><%=salesOrder.getOrderedDate()%></div>
+            <div class="timeline-middle">
+                            <span class="bg-info/20 flex size-4.5 items-center justify-center rounded-full">
+                              <span class="badge badge-info size-3 rounded-full p-0"></span>
+                            </span>
+            </div>
+            <div class="timeline-end timeline-box">Orderd</div>
+            <hr />
+          </li>
+          <% } %>
         </ul>
       </div>
     </div>
