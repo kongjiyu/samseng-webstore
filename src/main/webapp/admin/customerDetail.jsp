@@ -9,13 +9,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Customer Detail</title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
     <script src="https://unpkg.com/libphonenumber-js@1.10.21/bundle/libphonenumber-js.min.js"></script>
 </head>
 
-<body>
+<body data-theme="light">
 <%@ include file="/general/adminHeader.jsp" %>
 
 <div class="flex flex-col gap-6 p-10 pt-[5.5rem] backdrop-blur-lg min-h-screen">

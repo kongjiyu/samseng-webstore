@@ -9,9 +9,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 
+@Log4j2
 @WebServlet("/promo-code")
 public class PromoCodeServlet extends HttpServlet {
     @Inject
@@ -28,21 +30,50 @@ public class PromoCodeServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String code = request.getParameter("promo-code");
         HttpSession session = request.getSession();
+        
+        try {
+            String code = request.getParameter("promo-code");
 
-        if (code != null && !code.trim().isEmpty()) {
-            Promo_Code promoCode = promoCodeRepository.findById(code.toUpperCase());
-            if (promoCode != null && promoCode.isAvailability()) {
-                session.setAttribute("promoCode", promoCode);
-                session.removeAttribute("promoError");
-            } else {
+            if (code == null || code.trim().isEmpty()) {
+                session.setAttribute("toastMessage", "Please enter a promo code.");
+                session.setAttribute("toastType", "error");
                 session.setAttribute("promoCode", null);
-                session.setAttribute("promoError", true);
+                response.sendRedirect(request.getContextPath() + "/cart");
+                return;
             }
-        } else {
+
+            // Convert code to uppercase for consistency
+            code = code.toUpperCase();
+            
+            try {
+                Promo_Code promoCode = promoCodeRepository.findById(code);
+                
+                if (promoCode == null) {
+                    session.setAttribute("toastMessage", "Invalid promo code.");
+                    session.setAttribute("toastType", "error");
+                    session.setAttribute("promoCode", null);
+                } else if (!promoCode.isAvailability()) {
+                    session.setAttribute("toastMessage", "This promo code is no longer available.");
+                    session.setAttribute("toastType", "error");
+                    session.setAttribute("promoCode", null);
+                } else {
+                    session.setAttribute("promoCode", promoCode);
+                    session.setAttribute("toastMessage", "Promo code applied successfully!");
+                    session.setAttribute("toastType", "success");
+                    log.info("Promo code '{}' applied successfully for session {}", code, session.getId());
+                }
+            } catch (Exception e) {
+                log.error("Error validating promo code: " + code, e);
+                session.setAttribute("toastMessage", "An error occurred while validating the promo code.");
+                session.setAttribute("toastType", "error");
+                session.setAttribute("promoCode", null);
+            }
+        } catch (Exception e) {
+            log.error("Error processing promo code request", e);
+            session.setAttribute("toastMessage", "An unexpected error occurred. Please try again.");
+            session.setAttribute("toastType", "error");
             session.setAttribute("promoCode", null);
-            session.setAttribute("promoError", true);
         }
 
         response.sendRedirect(request.getContextPath() + "/cart");

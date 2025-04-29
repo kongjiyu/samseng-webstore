@@ -7,10 +7,15 @@
 <!DOCTYPE html>
 <html>
 
+<%
+    Product productObj = (Product) request.getAttribute("product");
+%>
+
 <head>
+    <title>Product </title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details</title>
+    <title><%=productObj.getName()%></title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <link href="<%= request.getContextPath() %>/static/css/cart.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
@@ -28,9 +33,6 @@
 
         <!--Left Panel-->
         <div class="w-full lg:w-2/5 p-10 space-y-4">
-            <%
-                Product productObj = (Product) request.getAttribute("product");
-            %>
             <div class="card bg-base-100 shadow-md p-4 space-y-4">
                 <div id="horizontal-thumbnails" data-carousel class="relative w-full">
                     <div class="carousel">
