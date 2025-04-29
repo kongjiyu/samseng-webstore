@@ -73,14 +73,14 @@ public class ContactUsServlet extends HttpServlet {
             // Send message
             Transport.send(msg);
 
-            request.setAttribute("toastMessage", "Email sent successfully.");
-            request.setAttribute("toastType", "success");
+            request.getSession().setAttribute("toastMessage", "Email sent successfully.");
+            request.getSession().setAttribute("toastType", "success");
 
             response.sendRedirect(request.getContextPath() + "/");
         } catch (MessagingException e) {
             e.printStackTrace();
-            request.setAttribute("toastMessage", "Email sent failed: " + e.getMessage());
-            request.setAttribute("toastType", "error");
+            request.getSession().setAttribute("toastMessage", "Email sent failed: " + e.getMessage());
+            request.getSession().setAttribute("toastType", "error");
         }
     }
 }
