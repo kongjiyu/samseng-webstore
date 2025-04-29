@@ -7,6 +7,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Products</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
@@ -251,33 +252,36 @@
     <div class="product-section">
         <%--for (var product : products )--%>
         <c:forEach var="product" items="${products}">
-        <div class="product-card card w-[300px] h-[600px]">
-            <div class="h-[250px] w-full">
-                <figure>
+            <div class="product-card card w-[320px] h-[550px] flex flex-col justify-between items-start p-4 mb-8 mx-auto">
+                <div class="w-full flex flex-col items-start flex-1">
                     <img src="/uploads/${product.imageUrls()[0]}" alt="product-image"
-                         class="object-cover rounded-lg" />
-                </figure>
-            </div>
-            <div class="card-body">
-                <a href="<%=request.getContextPath()%>/product?productId=${product.id()}">
-                    <h5 class="card-title mb-2.5 hover:text-gray-800 transition-colors duration-200">
-                            ${product.name()}
-                    </h5>
-                </a>
-                <p class="mb-4">${product.desc().substring(0, 45)}...</p>
-                <p class="text-xl">From
-                    <span class="font-bold"><fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " /></span> to
-                    <span class="font-bold"><fmt:formatNumber value="${product.endingPrice()}" type="currency" currencySymbol="RM " /></span>
-                </p>
-                <div class="my-2 align-middle">
-                    <span class="icon-[tabler--star-filled] size-5"></span>
-                    <span class="text-xl font-bold"><fmt:formatNumber value="${product.ratingSummary().avgRating()}" maxFractionDigits="2" minFractionDigits="2"/></span>
+                         class="object-cover rounded-lg w-[250px] h-[250px] mb-4"/>
+                    <div class="w-full text-left">
+                        <h5 class="text-xl font-bold mb-2">${product.name()}</h5>
+                        <p class="text-gray-600 mb-2">${product.desc().substring(0, 45)}...</p>
+                        <p class="text-lg mb-2">
+                            <span class="font-bold"><fmt:formatNumber value="${product.startingPrice()}" type="currency"
+                                                                      currencySymbol="RM "/></span>
+                            <c:if test="${product.startingPrice() != product.endingPrice()}">
+                                ~ <span class="font-bold"><fmt:formatNumber value="${product.endingPrice()}"
+                                                                            type="currency"
+                                                                            currencySymbol="RM "/></span>
+                            </c:if>
+                        </p>
+                        <c:if test="${product.ratingSummary().avgRating() != null}">
+                            <div class="flex items-center mb-2">
+                                <span class="icon-[tabler--star-filled] size-5 text-yellow-400"></span>
+                                <span class="text-lg font-semibold ml-1">
+                                    <fmt:formatNumber value="${product.ratingSummary().avgRating()}" maxFractionDigits="2"
+                                                      minFractionDigits="2"/>
+                                </span>
+                            </div>
+                        </c:if>
+                    </div>
                 </div>
-                <div class="card-actions">
-                    <a class="btn btn-block btn-primary" href="<%=request.getContextPath()%>/product?productId=${product.id()}">Learn More</a>
-                </div>
+                <a class="btn rounded-full btn-primary mt-4 w-full"
+                   href="<%=request.getContextPath()%>/product?productId=${product.id()}">Learn more</a>
             </div>
-        </div>
         </c:forEach>
     </div>
 </div>

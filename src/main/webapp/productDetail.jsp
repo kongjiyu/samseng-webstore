@@ -7,10 +7,16 @@
 <!DOCTYPE html>
 <html>
 
+<%
+    Product productObj = (Product) request.getAttribute("product");
+%>
+
 <head>
+    <title>Product </title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details</title>
+    <title><%=productObj.getName()%>
+    </title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <link href="<%= request.getContextPath() %>/static/css/cart.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
@@ -18,7 +24,7 @@
           rel="stylesheet">
 </head>
 
-<% List<Comment> commentList= (List<Comment>) request.getAttribute("commentList"); %>
+<% List<Comment> commentList = (List<Comment>) request.getAttribute("commentList"); %>
 <body data-theme="light" class="bg-[#dadada]">
 <%@ include file="/general/userHeader.jsp" %>
 
@@ -28,9 +34,6 @@
 
         <!--Left Panel-->
         <div class="w-full lg:w-2/5 p-10 space-y-4">
-            <%
-                Product productObj = (Product) request.getAttribute("product");
-            %>
             <div class="card bg-base-100 shadow-md p-4 space-y-4">
                 <div id="horizontal-thumbnails" data-carousel class="relative w-full">
                     <div class="carousel">
@@ -164,7 +167,7 @@
     </div>
     <div class="w-full p-10 space-y-4">
         <p class="text-base-content/50 text-[18px]">
-            <%=productObj.getDesc()%>
+            <%= productObj.getDesc() != null ? productObj.getDesc().replaceAll("\\n", "<br>") : "" %>
         </p>
     </div>
 
@@ -178,19 +181,19 @@
     <div class="divider"></div>
 
     <!-- Comment Writing Section -->
-<%--    <div class="mx-10 pb-5">--%>
-<%--        <form method="#">--%>
-<%--            <textarea class="textarea textarea-xl" placeholder="Write a comment..." aria-label="Textarea"></textarea>--%>
-<%--            <div class="flex flex-row gap-10 w-[50%] justify-end">--%>
-<%--                <div id="rating-input" class="flex flex-col items-start justify-start">--%>
-<%--                    <div class="flex mt-2" id="raty-with-hints" data-score="5"></div>--%>
-<%--                    <div class="h-6" data-hint></div>--%>
-<%--                </div>--%>
-<%--                <button type="submit" class="w-auto btn btn-primary rounded-lg mt-2 flex justify-end">Submit--%>
-<%--                </button>--%>
-<%--            </div>--%>
-<%--        </form>--%>
-<%--    </div>--%>
+    <%--    <div class="mx-10 pb-5">--%>
+    <%--        <form method="#">--%>
+    <%--            <textarea class="textarea textarea-xl" placeholder="Write a comment..." aria-label="Textarea"></textarea>--%>
+    <%--            <div class="flex flex-row gap-10 w-[50%] justify-end">--%>
+    <%--                <div id="rating-input" class="flex flex-col items-start justify-start">--%>
+    <%--                    <div class="flex mt-2" id="raty-with-hints" data-score="5"></div>--%>
+    <%--                    <div class="h-6" data-hint></div>--%>
+    <%--                </div>--%>
+    <%--                <button type="submit" class="w-auto btn btn-primary rounded-lg mt-2 flex justify-end">Submit--%>
+    <%--                </button>--%>
+    <%--            </div>--%>
+    <%--        </form>--%>
+    <%--    </div>--%>
 
 
     <div id="comment-section" class="mx-10 pb-5">
@@ -237,7 +240,6 @@
 <!-- Comment Raty -->
 <script id="rating-control">
     document.addEventListener('DOMContentLoaded', function () {
-        // 1. 初始化用户评分输入（可选）
         const hintTarget = document.querySelector('#raty-with-hints');
         if (hintTarget) {
             new Raty(hintTarget, {
@@ -248,7 +250,6 @@
             }).init();
         }
 
-        // 2. 初始化每条评论的评分展示（重要 ✅）
         document.querySelectorAll('.user-rating').forEach(function (el) {
             const score = parseInt(el.dataset.score);
             if (!isNaN(score)) {

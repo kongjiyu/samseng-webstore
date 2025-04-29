@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Order</title>
+  <title>User List</title>
   <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
   <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
   <link href="<%= request.getContextPath() %>/static/css/datatables.min.css" rel="stylesheet">

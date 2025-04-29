@@ -3,14 +3,13 @@
 <%@ page import="java.util.List" %>
 <html>
 <head>
-    <title>Header</title>
   <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
   <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
 </head>
 <body>
-<nav class="navbar rounded-box flex w-full items-center justify-between gap-2 shadow-base-300/20 shadow-sm">
+<nav data-theme="light" class="navbar rounded-box flex w-full items-center justify-between gap-2 shadow-base-300/20 shadow-sm">
   <div class="navbar-start max-md:w-1/4">
     <a class="link text-base-content link-neutral text-xl font-bold no-underline" href="/">
       SAMSENG

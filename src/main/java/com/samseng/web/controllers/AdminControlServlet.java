@@ -85,123 +85,169 @@ public class AdminControlServlet extends HttpServlet {
     }
 
     private void saveUpdatedAccount(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = request.getSession();
         String id = request.getParameter("id");
-        Account account = accountRepo.findAccountById(id);
-        String newUsername = request.getParameter("username");
-        String email = request.getParameter("email");
+        
+        if (id == null || id.isEmpty()) {
+            session.setAttribute("toastMessage", "Invalid account ID.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/control");
+            return;
+        }
 
-        if (account != null) {
+        Account account = accountRepo.findAccountById(id);
+        if (account == null) {
+            session.setAttribute("toastMessage", "Account not found.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/control");
+            return;
+        }
+
+        try {
+            String newUsername = request.getParameter("username");
+            String email = request.getParameter("email");
+
+            if (newUsername == null || newUsername.isEmpty() || email == null || email.isEmpty()) {
+                session.setAttribute("toastMessage", "Username and email are required fields.");
+                session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/admin/control?action=view&id=" + id);
+                return;
+            }
+
             account.setUsername(newUsername);
             account.setEmail(email);
 
             String dob = request.getParameter("dob");
             if (dob != null && !dob.isEmpty()) {
-                account.setDob(LocalDate.parse(dob));
+                try {
+                    account.setDob(LocalDate.parse(dob));
+                } catch (Exception e) {
+                    session.setAttribute("toastMessage", "Invalid date format.");
+                    session.setAttribute("toastType", "error");
+                    response.sendRedirect(request.getContextPath() + "/admin/control?action=view&id=" + id);
+                    return;
+                }
             }
 
             String role = request.getParameter("role");
             if (role != null) {
-                account.setRole(Account.Role.valueOf(role));
+                try {
+                    account.setRole(Account.Role.valueOf(role));
+                } catch (IllegalArgumentException e) {
+                    session.setAttribute("toastMessage", "Invalid role specified.");
+                    session.setAttribute("toastType", "error");
+                    response.sendRedirect(request.getContextPath() + "/admin/control?action=view&id=" + id);
+                    return;
+                }
             }
 
             accountRepo.update(account);
-            response.sendRedirect("/admin/control"); // redirect back to list
-        } else {
-            request.setAttribute("errorMessage", "User not found.");
-            request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
+            session.setAttribute("toastMessage", "Account updated successfully.");
+            session.setAttribute("toastType", "success");
+        } catch (Exception e) {
+            session.setAttribute("toastMessage", "Failed to update account: " + e.getMessage());
+            session.setAttribute("toastType", "error");
         }
-    }
 
+        response.sendRedirect(request.getContextPath() + "/admin/control");
+    }
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String userId = request.getParameter("id"); // ID of the user to delete
+        String userId = request.getParameter("id");
 
-            try {
-                Account userToDelete = accountRepo.findAccountById(userId); // Find the user
-                if (userToDelete != null) {
-
-                    userToDelete.setPassword(null);
-                    userToDelete.setEmail(null);
-                    userToDelete.setUsername("user_deleted");
-                    userToDelete.setId(userToDelete.getId());
-
-                    accountRepo.update(userToDelete);
-                    response.sendRedirect("/admin/control");
-                } else {
-                    session.setAttribute("toastMessage", "User not found.");
-                    session.setAttribute("toastType", "error");
-                    request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                session.setAttribute("toastMessage", "Failed to delete user.");
-                session.setAttribute("toastType", "error");
-                request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
-            }
-
-    }
-
-    private void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("id");
-        Account account = accountRepo.findAccountById(id);
-        List<Address> addressList = addressRepo.findByUserId(account.getId());
-        request.setAttribute("addresses", addressList);
-        if (account != null) {
-            request.setAttribute("account", account);
-            request.setAttribute("addresses", addressList);
-            request.getRequestDispatcher("/admin/customerDetail.jsp").forward(request, response);
-        } else {
-            request.setAttribute("errorMessage", "User not found.");
-            request.getRequestDispatcher("/general/errorPage.jsp").forward(request, response);
+        if (userId == null || userId.isEmpty()) {
+            session.setAttribute("toastMessage", "Invalid account ID.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/control");
+            return;
         }
-    }
 
-    private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            HttpSession session = request.getSession();
-            String keyword = request.getParameter("search");
-            List<Account> accounts;
-
-            if (keyword != null && !keyword.trim().isEmpty()) {
-                accounts = accountRepo.searchAllFields(keyword.trim());
-
-            }else {
-                session.setAttribute("toastMessage", "User not found.");
-                session.setAttribute("toastType", "error");
-                accounts = accountRepo.findAll(); // fallback to show all
-            }
-            if(accounts == null || accounts.isEmpty()) {
-                session.setAttribute("toastMessage", "User not found.");
+        try {
+            Account userToDelete = accountRepo.findAccountById(userId);
+            if (userToDelete == null) {
+                session.setAttribute("toastMessage", "Account not found.");
                 session.setAttribute("toastType", "error");
                 response.sendRedirect(request.getContextPath() + "/admin/control");
                 return;
             }
-            request.setAttribute("accountList", accounts);
 
-            request.getRequestDispatcher("/admin/userList.jsp").forward(request, response);
+            userToDelete.setPassword(null);
+            userToDelete.setEmail(null);
+            userToDelete.setUsername("user_deleted");
+            userToDelete.setId(userToDelete.getId());
 
+            accountRepo.update(userToDelete);
+            session.setAttribute("toastMessage", "Account deactivated successfully.");
+            session.setAttribute("toastType", "success");
+        } catch (Exception e) {
+            session.setAttribute("toastMessage", "Failed to deactivate account: " + e.getMessage());
+            session.setAttribute("toastType", "error");
+        }
+
+        response.sendRedirect(request.getContextPath() + "/admin/control");
     }
 
-    private void create(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    private void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String id = request.getParameter("id");
+
+        if (id == null || id.isEmpty()) {
+            session.setAttribute("toastMessage", "Invalid account ID.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/control");
+            return;
+        }
+
+        Account account = accountRepo.findAccountById(id);
+        if (account == null) {
+            session.setAttribute("toastMessage", "Account not found.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/control");
+            return;
+        }
+
+        List<Address> addressList = addressRepo.findByUserId(id);
+        request.setAttribute("account", account);
+        request.setAttribute("addresses", addressList);
+        request.getRequestDispatcher("/admin/customerDetail.jsp").forward(request, response);
+    }
+
+    private void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String username = request.getParameter("username");
         String email = request.getParameter("email");
-        String password = "changeit";
-        LocalDate dob = LocalDate.parse(request.getParameter("dob"));
-        Account.Role role = Account.Role.valueOf(request.getParameter("role").toUpperCase());
+        String dobStr = request.getParameter("dob");
+        String roleStr = request.getParameter("role");
 
-        Account account = new Account();
-        account.setUsername(username);
-        account.setEmail(email);
-        account.setPassword(password);
-        account.setDob(dob);
-        account.setRole(role);
+        if (username == null || username.isEmpty() || email == null || email.isEmpty() || 
+            dobStr == null || dobStr.isEmpty() || roleStr == null || roleStr.isEmpty()) {
+            session.setAttribute("toastMessage", "All fields are required.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/control");
+            return;
+        }
 
-        accountRepo.create(account);
+        try {
+            LocalDate dob = LocalDate.parse(dobStr);
+            Account.Role role = Account.Role.valueOf(roleStr.toUpperCase());
+            String password = "changeit";
 
-        session.setAttribute("toastMessage", "User created successfully. Default password is 'changeit'");
-        session.setAttribute("toastType", "success");
+            Account account = new Account();
+            account.setUsername(username);
+            account.setEmail(email);
+            account.setPassword(password);
+            account.setDob(dob);
+            account.setRole(role);
+
+            accountRepo.create(account);
+            session.setAttribute("toastMessage", "Account created successfully. Default password is 'changeit'");
+            session.setAttribute("toastType", "success");
+        } catch (Exception e) {
+            session.setAttribute("toastMessage", "Failed to create account: " + e.getMessage());
+            session.setAttribute("toastType", "error");
+        }
+
         response.sendRedirect(request.getContextPath() + "/admin/control");
     }
 
@@ -211,21 +257,42 @@ public class AdminControlServlet extends HttpServlet {
         String newPassword = request.getParameter("new_password");
         String confirmPassword = request.getParameter("confirm_password");
 
-        if (newPassword == null || confirmPassword == null || !newPassword.equals(confirmPassword)) {
+        if (id == null || id.isEmpty()) {
+            session.setAttribute("toastMessage", "Invalid account ID.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/control");
+            return;
+        }
+
+        if (newPassword == null || newPassword.isEmpty() || confirmPassword == null || confirmPassword.isEmpty()) {
+            session.setAttribute("toastMessage", "Both password fields are required.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/control?action=view&id=" + id);
+            return;
+        }
+
+        if (!newPassword.equals(confirmPassword)) {
             session.setAttribute("toastMessage", "Passwords do not match.");
             session.setAttribute("toastType", "error");
             response.sendRedirect(request.getContextPath() + "/admin/control?action=view&id=" + id);
             return;
         }
 
-        Account account = accountRepo.findAccountById(id);
-        if (account != null) {
+        try {
+            Account account = accountRepo.findAccountById(id);
+            if (account == null) {
+                session.setAttribute("toastMessage", "Account not found.");
+                session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/admin/control");
+                return;
+            }
+
             account.setPassword(newPassword);
             accountRepo.update(account);
             session.setAttribute("toastMessage", "Password changed successfully.");
             session.setAttribute("toastType", "success");
-        } else {
-            session.setAttribute("toastMessage", "User not found.");
+        } catch (Exception e) {
+            session.setAttribute("toastMessage", "Failed to change password: " + e.getMessage());
             session.setAttribute("toastType", "error");
         }
 
@@ -236,29 +303,52 @@ public class AdminControlServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String userId = request.getParameter("id");
 
-        if (userId == null) {
-            session.setAttribute("toastMessage", "Invalid user ID.");
+        if (userId == null || userId.isEmpty()) {
+            session.setAttribute("toastMessage", "Invalid account ID.");
             session.setAttribute("toastType", "error");
             response.sendRedirect(request.getContextPath() + "/admin/control");
             return;
         }
 
-        Address address = new Address();
-        address.setUser(accountRepo.findAccountById(userId));
-        address.setName(request.getParameter("address_title"));
-        address.setAddress_1(request.getParameter("address_1"));
-        address.setAddress_2(request.getParameter("address_2"));
-        address.setAddress_3(request.getParameter("address_3"));
-        address.setPostcode(Integer.parseInt(request.getParameter("postcode")));
-        address.setCountry(request.getParameter("country"));
-        address.setState(request.getParameter("state"));
-        address.setContact_no(request.getParameter("contact_no"));
-        address.setIsdefault(request.getParameter("isdefault") != null);
+        String address1 = request.getParameter("address_1");
+        String postcode = request.getParameter("postcode");
+        String state = request.getParameter("state");
+        String country = request.getParameter("country");
+        String contactNo = request.getParameter("contact_no");
 
-        addressRepo.create(address);
+        if (address1 == null || address1.isEmpty() || postcode == null || postcode.isEmpty() ||
+            state == null || state.isEmpty() || country == null || country.isEmpty() ||
+            contactNo == null || contactNo.isEmpty()) {
+            session.setAttribute("toastMessage", "Required address fields are missing.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/control?action=view&id=" + userId);
+            return;
+        }
 
-        session.setAttribute("toastMessage", "Address added successfully.");
-        session.setAttribute("toastType", "success");
+        try {
+            Address address = new Address();
+            address.setUser(accountRepo.findAccountById(userId));
+            address.setName(request.getParameter("address_title"));
+            address.setAddress_1(address1);
+            address.setAddress_2(request.getParameter("address_2"));
+            address.setAddress_3(request.getParameter("address_3"));
+            address.setPostcode(Integer.parseInt(postcode));
+            address.setCountry(country);
+            address.setState(state);
+            address.setContact_no(contactNo);
+            address.setIsdefault(request.getParameter("isdefault") != null);
+
+            addressRepo.create(address);
+            session.setAttribute("toastMessage", "Address added successfully.");
+            session.setAttribute("toastType", "success");
+        } catch (NumberFormatException e) {
+            session.setAttribute("toastMessage", "Invalid postcode format.");
+            session.setAttribute("toastType", "error");
+        } catch (Exception e) {
+            session.setAttribute("toastMessage", "Failed to add address: " + e.getMessage());
+            session.setAttribute("toastType", "error");
+        }
+
         response.sendRedirect(request.getContextPath() + "/admin/control?action=view&id=" + userId);
     }
 
@@ -267,28 +357,58 @@ public class AdminControlServlet extends HttpServlet {
         String userId = request.getParameter("id");
         String addressId = request.getParameter("address_id");
 
-        Address address = addressRepo.findById(addressId);
-        if (address == null) {
-            session.setAttribute("toastMessage", "Address not found.");
+        if (userId == null || userId.isEmpty() || addressId == null || addressId.isEmpty()) {
+            session.setAttribute("toastMessage", "Invalid account or address ID.");
             session.setAttribute("toastType", "error");
             response.sendRedirect(request.getContextPath() + "/admin/control");
             return;
         }
 
-        address.setName(request.getParameter("address_title"));
-        address.setAddress_1(request.getParameter("address_1"));
-        address.setAddress_2(request.getParameter("address_2"));
-        address.setAddress_3(request.getParameter("address_3"));
-        address.setPostcode(Integer.parseInt(request.getParameter("postcode")));
-        address.setState(request.getParameter("state"));
-        address.setCountry(request.getParameter("country"));
-        address.setContact_no(request.getParameter("contact_no"));
-        address.setIsdefault(request.getParameter("isdefault") != null);
+        Address address = addressRepo.findById(addressId);
+        if (address == null) {
+            session.setAttribute("toastMessage", "Address not found.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/control?action=view&id=" + userId);
+            return;
+        }
 
-        addressRepo.update(address);
+        String address1 = request.getParameter("address_1");
+        String postcode = request.getParameter("postcode");
+        String state = request.getParameter("state");
+        String country = request.getParameter("country");
+        String contactNo = request.getParameter("contact_no");
 
-        session.setAttribute("toastMessage", "Address updated successfully.");
-        session.setAttribute("toastType", "success");
+        if (address1 == null || address1.isEmpty() || postcode == null || postcode.isEmpty() ||
+            state == null || state.isEmpty() || country == null || country.isEmpty() ||
+            contactNo == null || contactNo.isEmpty()) {
+            session.setAttribute("toastMessage", "Required address fields are missing.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/control?action=view&id=" + userId);
+            return;
+        }
+
+        try {
+            address.setName(request.getParameter("address_title"));
+            address.setAddress_1(address1);
+            address.setAddress_2(request.getParameter("address_2"));
+            address.setAddress_3(request.getParameter("address_3"));
+            address.setPostcode(Integer.parseInt(postcode));
+            address.setState(state);
+            address.setCountry(country);
+            address.setContact_no(contactNo);
+            address.setIsdefault(request.getParameter("isdefault") != null);
+
+            addressRepo.update(address);
+            session.setAttribute("toastMessage", "Address updated successfully.");
+            session.setAttribute("toastType", "success");
+        } catch (NumberFormatException e) {
+            session.setAttribute("toastMessage", "Invalid postcode format.");
+            session.setAttribute("toastType", "error");
+        } catch (Exception e) {
+            session.setAttribute("toastMessage", "Failed to update address: " + e.getMessage());
+            session.setAttribute("toastType", "error");
+        }
+
         response.sendRedirect(request.getContextPath() + "/admin/control?action=view&id=" + userId);
     }
 
@@ -296,8 +416,8 @@ public class AdminControlServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String userId = request.getParameter("id");
 
-        if (userId == null) {
-            session.setAttribute("toastMessage", "Invalid user ID.");
+        if (userId == null || userId.isEmpty()) {
+            session.setAttribute("toastMessage", "Invalid account ID.");
             session.setAttribute("toastType", "error");
             response.sendRedirect(request.getContextPath() + "/admin/control");
             return;
@@ -305,16 +425,18 @@ public class AdminControlServlet extends HttpServlet {
 
         try {
             Account account = accountRepo.findAccountById(userId);
-            if (account != null) {
-                accountRepo.delete(account);
-                session.setAttribute("toastMessage", "User deleted successfully.");
-                session.setAttribute("toastType", "success");
-            } else {
-                session.setAttribute("toastMessage", "User not found.");
+            if (account == null) {
+                session.setAttribute("toastMessage", "Account not found.");
                 session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/admin/control");
+                return;
             }
+
+            accountRepo.delete(account);
+            session.setAttribute("toastMessage", "Account deleted successfully.");
+            session.setAttribute("toastType", "success");
         } catch (Exception e) {
-            session.setAttribute("toastMessage", "Failed to delete user.");
+            session.setAttribute("toastMessage", "Failed to delete account: " + e.getMessage());
             session.setAttribute("toastType", "error");
         }
 

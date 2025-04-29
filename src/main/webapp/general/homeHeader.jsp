@@ -11,7 +11,7 @@
 
 </head>
 <body>
-<nav class="navbar backdrop-blur-lg bg-white/10 text-white shadow-lg gap-4 fixed top-0 left-0 w-full z-50">
+<nav data-theme="light" class="navbar backdrop-blur-lg bg-white/10 text-white shadow-lg gap-4 fixed top-0 left-0 w-full z-50">
     <div class="navbar-start items-center justify-between max-md:w-full">
         <a class="link text-white text-xl font-bold no-underline" href="<%= request.getContextPath() %>/index.jsp">
             SAMSENG
@@ -199,7 +199,7 @@
                         <div data-combo-box-output-item='{"group": {"name": "best" , "title": ""}}'
                              tabindex="0">
                             <a class="dropdown-item combo-box-selected:dropdown-active focus:ring-2 focus:bg-cyan-100 focus:outline-none"
-                               href="<%= request.getContextPath() %>/user/product?productId=<%= product.getId() %>">
+                               href="<%= request.getContextPath() %>/product?productId=<%= product.getId() %>">
                                 <div class="avatar">
                                     <div class="bg-base-content/10 h-10 w-10 rounded-md">
                                         <img src="/uploads/<%= product.getImageUrls().isEmpty() ? '#' : product.getImageUrls().iterator().next() %>" alt="product image" />

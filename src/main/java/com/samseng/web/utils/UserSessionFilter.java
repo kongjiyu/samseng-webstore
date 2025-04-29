@@ -44,9 +44,17 @@ public class UserSessionFilter implements Filter {
                 if (cartMerged == null || !cartMerged) {
                     List<CartItemDTO> sessionCart = (List<CartItemDTO>) session.getAttribute("cart");
                     if (sessionCart != null && !sessionCart.isEmpty()) {
-                        for (CartItemDTO item : sessionCart) {
-                            cartRepository.addOrUpdate(account.getId(), item.variant().getVariantId(), item.quantity());
+                        List<CartItemDTO> dbCart = cartRepository.findByAccountId(account.getId());
+
+                        for (CartItemDTO sessionItem : sessionCart) {
+                            boolean alreadyExists = dbCart.stream()
+                                    .anyMatch(dbItem -> dbItem.variant().getVariantId().equals(sessionItem.variant().getVariantId()));
+
+                            if (!alreadyExists) {
+                                cartRepository.addOrUpdate(account.getId(), sessionItem.variant().getVariantId(), sessionItem.quantity());
+                            }
                         }
+
                         session.removeAttribute("cart");
                         session.setAttribute("cartMerged", true);
                     }

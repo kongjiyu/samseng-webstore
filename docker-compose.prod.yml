@@ -34,7 +34,7 @@ services:
             JTA_DATA_SOURCE: ${JTA_DATA_SOURCE}
         volumes:
             - ./deploy/glassfish_init:/opt/glassfish7/custom:ro
-            - ${SAMSENG_EXT_VOLUME}:/var/www/data:z
+            - ${SAMSENG_EXT_VOLUME}/uploads:/var/www/uploads:z
         depends_on:
             - db
         healthcheck:
