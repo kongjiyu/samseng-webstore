@@ -265,8 +265,8 @@
                     </h5>
                 </a>
                 <p class="mb-4">${product.desc().substring(0, 45)}...</p>
-                <p class="text-xl">From
-                    <span class="font-bold"><fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " /></span> to
+                <p class="text-lg">
+                    <span class="font-bold"><fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " /></span> ~
                     <span class="font-bold"><fmt:formatNumber value="${product.endingPrice()}" type="currency" currencySymbol="RM " /></span>
                 </p>
                 <div class="my-2 align-middle">
