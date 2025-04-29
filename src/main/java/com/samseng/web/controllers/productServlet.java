@@ -171,6 +171,7 @@ public class productServlet extends HttpServlet {
         }else{
             response.sendRedirect("/admin/productList.jsp");
         }
+        response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
     }
 
     private void deleteProductWithNull(HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -203,16 +204,27 @@ public class productServlet extends HttpServlet {
     private void viewComment(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         String productId = request.getParameter("productId");
-        if (productId != null && !productId.isEmpty()) {
-            try {
-                List<Comment> comments = commentRepository.findByProductId(productId);
-                request.setAttribute("commentsList", comments);
-            } catch (Exception e) {
-                log.error("Error viewing comments", e);
-                session.setAttribute("toastMessage", "Error loading comments.");
-                session.setAttribute("toastType", "error");
-            }
+
+        if (productId == null || productId.trim().isEmpty()) {
+            session.setAttribute("toastMessage", "Product ID is required to view comments.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+            return;
         }
+
+        try {
+            List<Comment> comments = commentRepository.findByProductId(productId);
+            if (comments.isEmpty()) {
+                session.setAttribute("toastMessage", "No comments found for this product.");
+                session.setAttribute("toastType", "info");
+            }
+            request.setAttribute("commentsList", comments);
+        } catch (Exception e) {
+            log.error("Error viewing comments for product: " + productId, e);
+            session.setAttribute("toastMessage", "Error loading comments. Please try again.");
+            session.setAttribute("toastType", "error");
+        }
+
 
         response.sendRedirect(request.getContextPath() + "/admin/product?action=view&productId=" + request.getParameter("productId"));
     }
@@ -220,6 +232,7 @@ public class productServlet extends HttpServlet {
 
     private void saveProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String productId = request.getParameter("productId");
+
         boolean isNewProduct = (productId == null || productId.isEmpty());
         
         if (isNewProduct) {
@@ -269,6 +282,7 @@ public class productServlet extends HttpServlet {
             variantAttributeRepository.create(variantAttribute);
         } else {
             productRepository.update(product);
+
         }
 
         response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
@@ -299,6 +313,7 @@ public class productServlet extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
     }
 
+
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String productId = request.getParameter("productId");
         try {
@@ -323,6 +338,7 @@ public class productServlet extends HttpServlet {
         }
         response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
     }
+
 
     private void saveAttribute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String productId = request.getParameter("productId");
@@ -395,22 +411,21 @@ public class productServlet extends HttpServlet {
 
     private void uploadProductImage(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String productId = request.getParameter("productId");
+
         if (productId == null || productId.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product ID is required.");
             return;
         }
         Product product = productRepository.findById(productId);
 
-            Path uploadDir = Path.of("/var/www/uploads");
-            //if server use Path uploadDir = Path.of("/var/www/data/uploads");
             Part filePart = request.getPart("imageFile");
-            
             if (filePart == null || filePart.getSize() == 0) {
-                session.setAttribute("toastMessage", "No file selected for upload.");
+                session.setAttribute("toastMessage", "Please select an image to upload.");
                 session.setAttribute("toastType", "error");
                 response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
                 return;
             }
+
 
         String newFileName = productId + "-" + nextNo + ".png";
         Path uploadPath = uploadDir.resolve(newFileName);
@@ -421,16 +436,16 @@ public class productServlet extends HttpServlet {
             log.info("File part received: {} ({} bytes)", filePart.getSubmittedFileName(), filePart.getSize());
             try (InputStream input = filePart.getInputStream()) {
                 Files.copy(input, uploadPath, StandardCopyOption.REPLACE_EXISTING);
+
                 log.info("Upload successful.");
             } catch (IOException e) {
                 log.error("Upload failed", e);
             }
-
-            // Save filename to product imageUrls
                 Set<String> urls = product.getImageUrls();
                 urls.add(newFileName);
                 product.setImageUrls(urls);
                 productRepository.update(product);
+
 
         }
 
