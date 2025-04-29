@@ -159,7 +159,7 @@ public class AccountProfileServlet extends HttpServlet {
                 return;
             }
 
-            if (!contactNo.matches("^(\\+?60)?1[0-9]{8,9}$")) {
+            if (!contactNo.matches("^(\\+?60)?1[0-9]{8,9}$")  && !contactNo.matches("^01[0-9]{8,9}")) {
                 request.getSession().setAttribute("toastType", "error");
                 request.getSession().setAttribute("toastMessage", "Invalid Malaysian phone number.");
                 request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
@@ -251,7 +251,7 @@ public class AccountProfileServlet extends HttpServlet {
         }
 
         // Malaysian phone number validation
-        if (!contactNo.matches("^(\\+?60)?1[0-9]{8,9}$")) {
+        if (!contactNo.matches("^(\\+?60)?1[0-9]{8,9}$") && !contactNo.matches("^01[0-9]{8,9}") ) {
             req.getSession().setAttribute("toastType", "error");
             req.getSession().setAttribute("toastMessage", "Invalid Malaysian phone number.");
             try {
