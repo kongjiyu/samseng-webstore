@@ -185,6 +185,7 @@
     <div class="my-4 text-xl font-bold">
         <h1>Here are our Top Selling Products:</h1>
     </div>
+
     <div class="flex flex-wrap justify-center gap-4">
         <a class="btn px-6 py-2 rounded-full border border-gray-300 bg-white hover:bg-gray-100" href="${pageContext.request.contextPath}/product?productId=SP-S25U">
             Galaxy S25 Ultra
