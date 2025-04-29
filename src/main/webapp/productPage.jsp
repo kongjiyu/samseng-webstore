@@ -1,8 +1,8 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:useBean id="products" type="java.util.List<com.samseng.web.dto.ProductListingDTO>" scope="request" />
+<jsp:useBean id="products" type="java.util.List<com.samseng.web.dto.ProductListingDTO>" scope="request"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +23,7 @@
 
 <!--Banner-->
 <div class="h-[40%] flex">
-    <img class="hero-image" src="static/img/phone-store-banner.jpg" alt="phoneBanner" />
+    <img class="hero-image" src="static/img/phone-store-banner.jpg" alt="phoneBanner"/>
     <!--
     <image class="hero-image" style="background-image: url('<%-- request.getContextPath() --%>/static/img/phone-store-banner.jpg');"></image>
     -->
@@ -46,7 +46,8 @@
 
     <!--Filter Form-->
     <div id="overlay-body-scrolling-with-backdrop"
-         class="min-h-screen overflow-auto overlay overlay-open:translate-x-0 drawer drawer-start hidden [--body-scroll:true]" role="dialog"
+         class="min-h-screen overflow-auto overlay overlay-open:translate-x-0 drawer drawer-start hidden [--body-scroll:true]"
+         role="dialog"
          tabindex="-1">
         <div class="drawer-header">
             <h3 class="drawer-title">Filter Categories</h3>
@@ -68,11 +69,13 @@
                 <div id="priceField" class="mb-4 flex flex-row space-x-4 rtl:flex-row-reverse">
                     <div class="basis-1/2">
                         <label for="minPriceFilterInput" class="mb-2 block text-sm font-medium">Min price:</label>
-                        <input id="minPriceFilterInput" min="1" max="9999"  name="minPrice" class="input" type="number" step="0.01" placeholder="3000" />
+                        <input id="minPriceFilterInput" min="1" max="9999" name="minPrice" class="input" type="number"
+                               step="0.01" placeholder="3000"/>
                     </div>
                     <div class="basis-1/2">
                         <label for="maxPriceFilterInput" class="mb-2 block text-sm font-medium">Max price:</label>
-                        <input id="maxPriceFilterInput" min="2" max="10000" name="maxPrice" class="input" type="number" step="0.01" placeholder="6000" />
+                        <input id="maxPriceFilterInput" min="2" max="10000" name="maxPrice" class="input" type="number"
+                               step="0.01" placeholder="6000"/>
                     </div>
                 </div>
 
@@ -243,7 +246,8 @@
             </div>
 
             <div class="drawer-footer">
-                <button type="button" class="btn btn-soft btn-secondary" data-overlay="#overlay-form-example">Close</button>
+                <button type="button" class="btn btn-soft btn-secondary" data-overlay="#overlay-form-example">Close
+                </button>
                 <button type="submit" class="btn btn-primary">Filter</button>
             </div>
         </form>
@@ -255,32 +259,39 @@
             <div class="product-card card w-[320px] h-[550px] flex flex-col justify-between items-start p-4 mb-8 mx-auto">
                 <div class="w-full flex flex-col items-start flex-1">
                     <img src="/uploads/${product.imageUrls()[0]}" alt="product-image"
-                         class="object-cover rounded-lg w-[250px] h-[250px] mb-4" />
+                         class="object-cover rounded-lg w-[250px] h-[250px] mb-4"/>
                     <div class="w-full text-left">
                         <h5 class="text-xl font-bold mb-2">${product.name()}</h5>
                         <p class="text-gray-600 mb-2">${product.desc().substring(0, 45)}...</p>
                         <p class="text-lg mb-2">
-                            <span class="font-bold"><fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " /></span>
+                            <span class="font-bold"><fmt:formatNumber value="${product.startingPrice()}" type="currency"
+                                                                      currencySymbol="RM "/></span>
                             <c:if test="${product.startingPrice() != product.endingPrice()}">
-                                ~ <span class="font-bold"><fmt:formatNumber value="${product.endingPrice()}" type="currency" currencySymbol="RM " /></span>
+                                ~ <span class="font-bold"><fmt:formatNumber value="${product.endingPrice()}"
+                                                                            type="currency"
+                                                                            currencySymbol="RM "/></span>
                             </c:if>
                         </p>
-                        <div class="flex items-center mb-2">
-                            <span class="icon-[tabler--star-filled] size-5 text-yellow-400"></span>
-                            <span class="text-lg font-semibold ml-1">
-                                <fmt:formatNumber value="${product.ratingSummary().avgRating()}" maxFractionDigits="2" minFractionDigits="2"/>
-                            </span>
-                        </div>
+                        <c:if test="${product.ratingSummary().avgRating() != null}">
+                            <div class="flex items-center mb-2">
+                                <span class="icon-[tabler--star-filled] size-5 text-yellow-400"></span>
+                                <span class="text-lg font-semibold ml-1">
+                                    <fmt:formatNumber value="${product.ratingSummary().avgRating()}" maxFractionDigits="2"
+                                                      minFractionDigits="2"/>
+                                </span>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
-                <a class="btn rounded-full btn-primary mt-4 w-full" href="<%=request.getContextPath()%>/product?productId=${product.id()}">Learn more</a>
+                <a class="btn rounded-full btn-primary mt-4 w-full"
+                   href="<%=request.getContextPath()%>/product?productId=${product.id()}">Learn more</a>
             </div>
         </c:forEach>
     </div>
 </div>
 
 
-<%@include file="/general/userFooter.jsp"%>
+<%@include file="/general/userFooter.jsp" %>
 
 </body>
 </html>
