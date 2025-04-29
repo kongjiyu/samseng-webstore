@@ -73,7 +73,6 @@ public class AdminControlServlet extends HttpServlet {
         }
 
         list(request, response);
-        request.getRequestDispatcher("/admin/userList.jsp").forward(request, response);
     }
 
     private void list(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
