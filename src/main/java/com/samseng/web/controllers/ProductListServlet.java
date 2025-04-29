@@ -34,14 +34,23 @@ public class ProductListServlet extends HttpServlet {
         String[] categoryQuery = req.getParameterValues("category");
 
         Double minPrice = null, maxPrice = null;
-        try {
-            minPrice = Double.parseDouble(req.getParameter("minPrice"));
-            maxPrice = Double.parseDouble(req.getParameter("maxPrice"));
+        String minParam = req.getParameter("minPrice");
+        String maxParam = req.getParameter("maxPrice");
 
-            if (minPrice > maxPrice)
+        try {
+            if (minParam != null && !minParam.isEmpty()) {
+                minPrice = Double.parseDouble(minParam);
+            }
+            if (maxParam != null && !maxParam.isEmpty()) {
+                maxPrice = Double.parseDouble(maxParam);
+            }
+
+            if (minPrice != null && maxPrice != null && minPrice > maxPrice) {
                 minPrice = maxPrice;
-        } catch (NullPointerException ignored) {
+            }
+        } catch (NumberFormatException ignored) {
         }
+
 
         // Creating HashMap of attributes by trying to put all possible params in and removing the ones that are not attributes.
         var ignoreParams = List.of("name", "minPrice", "maxPrice", "category");
@@ -57,9 +66,16 @@ public class ProductListServlet extends HttpServlet {
                 .map(p -> {
                     double lowest = p.getVariants()
                             .stream()
-                            .map(Variant::getPrice)
+                            .mapToDouble(Variant::getPrice)
                             .sorted()
                             .findFirst()
+                            .orElse(0.0);
+
+                    double highest = p.getVariants()
+                            .stream()
+                            .mapToDouble(Variant::getPrice)
+                            .sorted()
+                            .reduce((first, second) -> second)
                             .orElse(0.0);
 
                     return new ProductListingDTO(
@@ -70,6 +86,7 @@ public class ProductListServlet extends HttpServlet {
                                     .stream()
                                     .toList(),
                             lowest,
+                            highest,
                             new RatingSummaryDTO(
                                     p.getAverageRating(),
                                     p.getTotalRatings()
