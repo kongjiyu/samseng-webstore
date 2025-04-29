@@ -168,9 +168,7 @@ public class ProductListServlet extends HttpServlet {
 
             // WHERE 1=1
             Predicate where = cb.conjunction();
-
-            // uncomment this once database is updated
-            // where = cb.and(where, cb.isFalse(product.get(Product_.deleted)));
+            where = cb.and(where, cb.isFalse(product.get(Product_.deleted)));
 
             // Build the conditions
 
