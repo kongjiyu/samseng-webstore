@@ -240,7 +240,6 @@
 <!-- Comment Raty -->
 <script id="rating-control">
     document.addEventListener('DOMContentLoaded', function () {
-        // 1. 初始化用户评分输入（可选）
         const hintTarget = document.querySelector('#raty-with-hints');
         if (hintTarget) {
             new Raty(hintTarget, {
@@ -251,7 +250,6 @@
             }).init();
         }
 
-        // 2. 初始化每条评论的评分展示（重要 ✅）
         document.querySelectorAll('.user-rating').forEach(function (el) {
             const score = parseInt(el.dataset.score);
             if (!isNaN(score)) {
