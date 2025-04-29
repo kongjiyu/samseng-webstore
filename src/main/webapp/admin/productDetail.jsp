@@ -99,7 +99,6 @@
                         <label class="block font-semibold">Product ID:</label>
                         <input type="text" name="productId" class="input input-bordered w-full"
                                value="<%= productObj.getId() != null ? productObj.getId() : "" %>" <%= productObj.getId() != null ? "disabled" : ""%> >
-                        <input type="hidden" name="productId" value="<%= productObj.getId() != null ? productObj.getId() : "" %>" <%= productObj.getId() != null ? "" : "disabled"%> />
                     </div>
                     <div>
                         <label class="block font-semibold">Product Name: </label>
@@ -116,17 +115,7 @@
                         <textarea name="productDesc" class="textarea resize-y textarea-bordered w-full product-field"
                                   rows="20"><%= productObj.getDesc() != null ? productObj.getDesc() : "" %></textarea>
                     </div>
-                    <div class="flex justify-end mt-4 gap-3">
-                        <button class="btn btn-error btn-sm"
-                                type="button"
-                                name="action"
-                                id="deleteProductBtn"
-                                <%= (productObj.getId() == null) ? "disabled" : "" %>
-                                data-overlay="#delete-confirm-modal">
-                            <span class="icon-[tabler--trash] mr-1"></span>
-                            Delete
-                        </button>
-
+                    <div class="flex justify-end mt-4">
                         <button class="btn btn-info btn-sm" type="submit" name="action" id="saveProductBtn" disabled
                                 value="<%= productObj.getId() != null ? "update" : "save" %>">
                             <span class="icon-[tabler--device-floppy] mr-1"></span>
@@ -192,6 +181,12 @@
                 <input type="hidden" name="action" value="saveVariant">
                 <input type="hidden" name="productId" value="<%= productObj.getId() %>">
                 <h2 class="text-2xl font-bold mb-2">Variant</h2>
+                <div class="flex justify-end mb-4">
+                    <button class="btn btn-info btn-sm">
+                        <span class="icon-[tabler--plus] mr-1"></span>
+                        Add Variant
+                    </button>
+                </div>
                 <div class="overflow-x-auto">
                     <table class="table table-zebra w-full">
                         <thead>
@@ -343,8 +338,6 @@
         </div>
     </div>
 </div>
-
-
 <div id="add-attribute-modal"
      class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog"
      tabindex="-1">
@@ -409,31 +402,6 @@
                     <button type="submit" class="btn btn-info" disabled id="addAttributeBtn">Add Attribute</button>
                 </div>
             </form>
-        </div>
-    </div>
-</div>
-
-
-<div id="delete-confirm-modal" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog" tabindex="-1">
-    <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300 max-w-md w-full">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Confirm Account Deletion</h3>
-                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#change-password-modal">
-                    <span class="icon-[tabler--x] size-4"></span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete product <%= productObj.getId()%>? This action is permanent.
-            </div>
-            <div class="modal-footer">
-                <form method="post" action="${pageContext.request.contextPath}/admin/product">
-                    <input type="hidden" name="action" value="deleteProduct" />
-                    <input type="hidden" name="productId" value="<%= productObj.getId() %>" />
-                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                    <button type="button" class="btn btn-secondary" data-overlay="#delete-confirm-modal">Cancel</button>
-                </form>
-            </div>
         </div>
     </div>
 </div>
@@ -511,7 +479,6 @@
             document.getElementById('saveProductBtn').disabled = !hasChanges;
         });
     });
-
 
     // Check for changes in attribute form
     document.querySelectorAll('.attribute-field').forEach(field => {

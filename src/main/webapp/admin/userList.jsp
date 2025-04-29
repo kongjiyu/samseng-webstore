@@ -78,23 +78,57 @@
           <a href="#" class="btn btn-circle btn-text btn-sm" aria-label="Edit" onclick="return false;">
             <span class="icon-[tabler--eye] size-5"></span>
           </a>
+          <a href="#" class="btn btn-circle btn-text btn-sm" aria-label="Delete" onclick="return false;">
+            <span class="icon-[tabler--trash] size-5"></span>
+          </a>
            <% } else if (account.getRole()==Account.Role.STAFF) { %>
 
           <a href="<%= request.getContextPath() %>/admin/control?action=view&id=<%= account.getId() %>" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
             <span class="icon-[tabler--eye] size-5"></span>
           </a>
+          <a href="#" class="btn btn-circle btn-text btn-sm" aria-label="Delete" onclick="return false;">
+            <span class="icon-[tabler--trash] size-5"></span>
+          </a>
            <% }else { %>
           <a href="<%= request.getContextPath() %>/admin/control?action=view&id=<%= account.getId() %>" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
             <span class="icon-[tabler--eye] size-5"></span>
           </a>
+          <button type="button" class="btn btn-circle btn-text btn-sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="delete-modal-<%= account.getId() %>" data-overlay="#delete-modal-<%= account.getId() %>" aria-label="Delete">
+            <span class="icon-[tabler--trash] size-5"></span>
+          </button>
            <% }
           } else { %>
           <a href="<%= request.getContextPath() %>/admin/control?action=view&id=<%= account.getId() %>" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
             <span class="icon-[tabler--eye] size-5"></span>
           </a>
+          <button type="button" class="btn btn-circle btn-text btn-sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="delete-modal-<%= account.getId() %>" data-overlay="#delete-modal-<%= account.getId() %>" aria-label="Delete">
+            <span class="icon-[tabler--trash] size-5"></span>
+          </button>
           <%}%>
         </td>
       </tr>
+      <div id="delete-modal-<%= account.getId()  %>" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog" tabindex="-1">
+        <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title">Confirm Delete</h3>
+              <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#delete-modal-<%= account.getId()  %>">
+                <span class="icon-[tabler--x] size-4"></span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete the product "<%= account.getUsername() %>"?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-soft btn-secondary" data-overlay="#delete-modal-<%=account.getId()  %>">Cancel</button>
+              <form method="post" action="<%= request.getContextPath() %>/admin/control">
+                <input type="hidden" name="action" value="delete"/>
+                <input type="hidden" name="id" value="<%= account.getId()  %>"/>
+                <button type="submit" class="btn btn-error">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
       <% }  %>
       <%
         }

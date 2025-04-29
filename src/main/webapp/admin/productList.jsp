@@ -42,7 +42,6 @@
       %>
       <tr>
         <!-- Product Image and Name -->
-        <% if (!product.isDeleted()) { %>
         <td>
           <div class="flex items-center gap-3">
             <div class="avatar">
@@ -69,10 +68,35 @@
           <a href="<%= request.getContextPath() %>/admin/product?productId=<%= product.getId() %>" class="btn btn-circle btn-text btn-sm" aria-label="Edit">
             <span class="icon-[tabler--pencil] size-5"></span>
           </a>
+          <button type="button" class="btn btn-circle btn-text btn-sm" aria-haspopup="dialog" aria-expanded="false" aria-controls="delete-modal-<%= product.getId() %>" data-overlay="#delete-modal-<%= product.getId() %>" aria-label="Delete">
+            <span class="icon-[tabler--trash] size-5"></span>
+          </button>
         </td>
       </tr>
+      <div id="delete-modal-<%= product.getId() %>" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog" tabindex="-1">
+        <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title">Confirm Delete</h3>
+              <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#delete-modal-<%= product.getId() %>">
+                <span class="icon-[tabler--x] size-4"></span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete the product "<%= product.getName() %>"?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-soft btn-secondary" data-overlay="#delete-modal-<%= product.getId() %>">Cancel</button>
+              <form method="post" action="<%= request.getContextPath() %>/admin/product">
+                <input type="hidden" name="action" value="delete"/>
+                <input type="hidden" name="productId" value="<%= product.getId() %>"/>
+                <button type="submit" class="btn btn-error">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
       <%
-            }
           }
         }
       %>
