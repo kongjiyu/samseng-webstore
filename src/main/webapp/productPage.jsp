@@ -34,7 +34,6 @@
 
 <!--Everything that isn't Header, Banner, or Footer. Don't collapse this if you value your sanity-->
 <div class="flex flex-col">
-
     <!--Collapse these subsections instead-->
     <div class="filter-section">
         <button type="button" id="filter-button" class="btn btn-primary btn-lg !rounded-r-3xl !rounded-l-none"
@@ -46,7 +45,7 @@
 
     <!--Filter Form-->
     <div id="overlay-body-scrolling-with-backdrop"
-         class="overlay overlay-open:translate-x-0 drawer drawer-start hidden [--body-scroll:true]" role="dialog"
+         class="min-h-screen overflow-auto overlay overlay-open:translate-x-0 drawer drawer-start hidden [--body-scroll:true]" role="dialog"
          tabindex="-1">
         <div class="drawer-header">
             <h3 class="drawer-title">Filter Categories</h3>
@@ -54,30 +53,30 @@
                     data-overlay="#overlay-body-scrolling-with-backdrop">
                 <span class="icon-[tabler--x] size-5"></span>
             </button>
-        </div>                                          
+        </div>
         <form action="${pageContext.request.contextPath}/products" method="get">
             <div class="drawer-body justify-start">
 
                 <!--Product Name-->
-                <div class="mb-4">
+                <div id="nameField" class="mb-4">
                     <label class="label-text font-medium" for="nameFilterInput"> Product Name </label>
                     <input type="text" placeholder="Samseng Galaxy S22" class="input" id="nameFilterInput" name="name"/>
                 </div>
 
                 <!--Price Range-->
-                <div class="mb-4 flex flex-row space-x-4 rtl:flex-row-reverse">
+                <div id="priceField" class="mb-4 flex flex-row space-x-4 rtl:flex-row-reverse">
                     <div class="basis-1/2">
                         <label for="minPriceFilterInput" class="mb-2 block text-sm font-medium">Min price:</label>
-                        <input id="minPriceFilterInput" min="1" max="9999"  name="minPrice" class="input" type="number" value="3000" />
+                        <input id="minPriceFilterInput" min="1" max="9999"  name="minPrice" class="input" type="number" step="0.01" placeholder="3000" />
                     </div>
                     <div class="basis-1/2">
                         <label for="maxPriceFilterInput" class="mb-2 block text-sm font-medium">Max price:</label>
-                        <input id="maxPriceFilterInput" min="2" max="10000" name="maxPrice" class="input" type="number" value="6000" />
+                        <input id="maxPriceFilterInput" min="2" max="10000" name="maxPrice" class="input" type="number" step="0.01" placeholder="6000" />
                     </div>
                 </div>
 
                 <!--Product Category-->
-                <div class="max-w-sm mb-4">
+                <div id="categoryField" class="max-w-sm mb-4">
                     <label class="label-text font-medium" for="categoryFilterInput">Category</label>
                     <select name="category" id="categoryFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
@@ -107,7 +106,7 @@
                 </div>
 
                 <!--Color Options-->
-                <div class="max-w-sm mb-4">
+                <div id="colorField" class="max-w-sm mb-4">
                     <label class="label-text font-medium" for="colorFilterInput">Color Options</label>
                     <select name="Color" id="colorFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
@@ -137,7 +136,7 @@
                 </div>
 
                 <!--Length Options-->
-                <div class="max-w-sm mb-4">
+                <div id="lengthField" class="max-w-sm mb-4">
                     <label class="label-text font-medium" for="lengthFilterInput">Length Options</label>
                     <select name="Length" id="lengthFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
@@ -164,7 +163,7 @@
                 </div>
 
                 <!--Capacity Options-->
-                <div class="max-w-sm mb-4">
+                <div id="capacityField" class="max-w-sm mb-4">
                     <label class="label-text font-medium" for="capacityFilterInput">Capacity Options</label>
                     <select name="Capacity" id="capacityFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
@@ -188,7 +187,7 @@
                 </div>
 
                 <!--Size Option-->
-                <div class="max-w-sm mb-4">
+                <div id="sizeField" class="max-w-sm mb-4">
                     <label class="label-text font-medium" for="sizeFilterInput">Length Options</label>
                     <select name="Size" id="sizeFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
@@ -214,7 +213,7 @@
                 </div>
 
                 <!--Storage Options-->
-                <div class="max-w-sm mb-4">
+                <div id="storageField" class="max-w-sm mb-4">
                     <label class="label-text font-medium" for="storageFilterInput">Storage Options</label>
                     <select name="Storage" id="storageFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
@@ -233,9 +232,9 @@
                       "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
                     }' class="hidden">
                         <option value="">Choose</option>
-                        <option value="256gb">256GB</option>
-                        <option value="512gb">512GB</option>
-                        <option value="1tb">1TB</option>
+                        <option value="256GB">256 GB</option>
+                        <option value="512GB">512 GB</option>
+                        <option value="1TB">1 TB</option>
                     </select>
                     <!-- End Select -->
                 </div>
@@ -250,7 +249,7 @@
     </div>
 
     <div class="product-section">
-<%--        for (var product : products )--%>
+        <%--for (var product : products )--%>
         <c:forEach var="product" items="${products}">
         <div class="product-card card w-[300px] h-[600px]">
             <div class="h-[250px] w-full">
@@ -266,9 +265,10 @@
                     </h5>
                 </a>
                 <p class="mb-4">${product.desc().substring(0, 45)}...</p>
-                <p class="text-xl">Starting at <span class="font-bold">
-                    <fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " />
-                </span></p>
+                <p class="text-xl">From
+                    <span class="font-bold"><fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " /></span> to
+                    <span class="font-bold"><fmt:formatNumber value="${product.endingPrice()}" type="currency" currencySymbol="RM " /></span>
+                </p>
                 <div class="my-2 align-middle">
                     <span class="icon-[tabler--star-filled] size-5"></span>
                     <span class="text-xl font-bold"><fmt:formatNumber value="${product.ratingSummary().avgRating()}" maxFractionDigits="2" minFractionDigits="2"/></span>
