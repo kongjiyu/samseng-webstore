@@ -153,22 +153,22 @@ public class AccountProfileServlet extends HttpServlet {
             if (name == null || name.isBlank() || contactNo == null || contactNo.isBlank() ||
                     address1 == null || address1.isBlank() || postcodeStr == null || postcodeStr.isBlank() ||
                     state == null || state.isBlank() || country == null || country.isBlank()) {
-                request.setAttribute("toastType", "error");
-                request.setAttribute("toastMessage", "All required fields must be filled.");
+                request.getSession().setAttribute("toastType", "error");
+                request.getSession().setAttribute("toastMessage", "All required fields must be filled.");
                 request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
                 return;
             }
 
             if (!contactNo.matches("^(\\+?60)?1[0-9]{8,9}$")) {
-                request.setAttribute("toastType", "error");
-                request.setAttribute("toastMessage", "Invalid Malaysian phone number.");
+                request.getSession().setAttribute("toastType", "error");
+                request.getSession().setAttribute("toastMessage", "Invalid Malaysian phone number.");
                 request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
                 return;
             }
 
             if (!postcodeStr.matches("^[0-9]{5}$")) {
-                request.setAttribute("toastType", "error");
-                request.setAttribute("toastMessage", "Postcode must be a valid 5-digit Malaysia postcode.");
+                request.getSession().setAttribute("toastType", "error");
+                request.getSession().setAttribute("toastMessage", "Postcode must be a valid 5-digit Malaysia postcode.");
                 request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
                 return;
             }
@@ -177,8 +177,8 @@ public class AccountProfileServlet extends HttpServlet {
             try {
                 postcode = Integer.parseInt(postcodeStr);
             } catch (NumberFormatException e) {
-                request.setAttribute("toastType", "error");
-                request.setAttribute("toastMessage", "Postcode must be a number.");
+                request.getSession().setAttribute("toastType", "error");
+                request.getSession().setAttribute("toastMessage", "Postcode must be a number.");
                 request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
                 return;
             }
@@ -199,12 +199,12 @@ public class AccountProfileServlet extends HttpServlet {
                 addressRepo.unsetOtherDefaults(address.getUser().getId(), address.getId());
             }
 
-            request.setAttribute("toastType", "success");
-            request.setAttribute("toastMessage", "Successfully updated address.");
+            request.getSession().setAttribute("toastType", "success");
+            request.getSession().setAttribute("toastMessage", "Successfully updated address.");
             request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
         } else {
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Address not found.");
+            request.getSession().setAttribute("toastType", "error");
+            request.getSession().setAttribute("toastMessage", "Address not found.");
             request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
         }
     }
@@ -241,8 +241,8 @@ public class AccountProfileServlet extends HttpServlet {
                 address1 == null || address1.isBlank() || postcodeStr == null || postcodeStr.isBlank() ||
                 state == null || state.isBlank() || country == null || country.isBlank()) {
             try {
-                req.setAttribute("toastType", "error");
-                req.setAttribute("toastMessage", "All required fields must be filled.");
+                req.getSession().setAttribute("toastType", "error");
+                req.getSession().setAttribute("toastMessage", "All required fields must be filled.");
                 req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
             } catch (ServletException e) {
                 throw new IOException(e);
@@ -252,8 +252,8 @@ public class AccountProfileServlet extends HttpServlet {
 
         // Malaysian phone number validation
         if (!contactNo.matches("^(\\+?60)?1[0-9]{8,9}$")) {
-            req.setAttribute("toastType", "error");
-            req.setAttribute("toastMessage", "Invalid Malaysian phone number.");
+            req.getSession().setAttribute("toastType", "error");
+            req.getSession().setAttribute("toastMessage", "Invalid Malaysian phone number.");
             try {
                 req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
             } catch (ServletException e) {
@@ -263,8 +263,8 @@ public class AccountProfileServlet extends HttpServlet {
         }
 
         if (!postcodeStr.matches("^[0-9]{5}$")) {
-            req.setAttribute("toastType", "error");
-            req.setAttribute("toastMessage", "Postcode must be a valid 5-digit Malaysia postcode.");
+            req.getSession().setAttribute("toastType", "error");
+            req.getSession().setAttribute("toastMessage", "Postcode must be a valid 5-digit Malaysia postcode.");
             try {
                 req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
             } catch (ServletException e) {
@@ -277,8 +277,8 @@ public class AccountProfileServlet extends HttpServlet {
         try {
             postcode = Integer.parseInt(postcodeStr);
         } catch (NumberFormatException e) {
-            req.setAttribute("toastType", "error");
-            req.setAttribute("toastMessage", "Postcode must be a number.");
+            req.getSession().setAttribute("toastType", "error");
+            req.getSession().setAttribute("toastMessage", "Postcode must be a number.");
             try {
                 req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
             } catch (ServletException ex) {
@@ -321,8 +321,8 @@ public class AccountProfileServlet extends HttpServlet {
             // refresh addresses after add
             List<Address> updatedAddressList = addressRepo.findByUserId(user.getId());
             req.setAttribute("addresses", updatedAddressList);
-            req.setAttribute("toastType", "success");
-            req.setAttribute("toastMessage", "Address added successfully.");
+            req.getSession().setAttribute("toastType", "success");
+            req.getSession().setAttribute("toastMessage", "Address added successfully.");
             req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
         } catch (ServletException e) {
             throw new IOException(e);
@@ -355,15 +355,15 @@ public class AccountProfileServlet extends HttpServlet {
         String currentPassword = request.getParameter("current_password");
 
         if (currentPassword == null || currentPassword.isBlank()) {
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Current password is required.");
+            request.getSession().setAttribute("toastType", "error");
+            request.getSession().setAttribute("toastMessage", "Current password is required.");
             request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
             return;
         }
 
         if (!account.getPassword().equals(currentPassword)) {
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Current password is incorrect.");
+            request.getSession().setAttribute("toastType", "error");
+            request.getSession().setAttribute("toastMessage", "Current password is incorrect.");
             request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
             return;
         }
@@ -372,15 +372,15 @@ public class AccountProfileServlet extends HttpServlet {
         String confirmPassword = request.getParameter("confirm_password");
 
         if (newPassword == null || confirmPassword == null || newPassword.isBlank() || confirmPassword.isBlank()) {
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Both password fields are required.");
+            request.getSession().setAttribute("toastType", "error");
+            request.getSession().setAttribute("toastMessage", "Both password fields are required.");
             request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
             return;
         }
 
         if (!newPassword.equals(confirmPassword)) {
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Passwords do not match.");
+            request.getSession().setAttribute("toastType", "error");
+            request.getSession().setAttribute("toastMessage", "Passwords do not match.");
             request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
             return;
         }
@@ -388,11 +388,11 @@ public class AccountProfileServlet extends HttpServlet {
         try {
             account.setPassword(newPassword);
             accountRepo.update(account);
-            request.setAttribute("toastType", "success");
-            request.setAttribute("toastMessage", "Password updated successfully.");
+            request.getSession().setAttribute("toastType", "success");
+            request.getSession().setAttribute("toastMessage", "Password updated successfully.");
         } catch (Exception e) {
-            request.setAttribute("toastType", "error");
-            request.setAttribute("toastMessage", "Failed to update password.");
+            request.getSession().setAttribute("toastType", "error");
+            request.getSession().setAttribute("toastMessage", "Failed to update password.");
         }
 
         request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
