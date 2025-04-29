@@ -65,8 +65,6 @@ public class productServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
 
-
-
         try {
             if ("update".equals(action)) {
                 updateProduct(request, response);
@@ -115,7 +113,6 @@ public class productServlet extends HttpServlet {
                 return;
             } else if("viewComment".equals(action)) {
                 viewComment(request, response);
-
                 return;
             }
 
@@ -176,22 +173,6 @@ public class productServlet extends HttpServlet {
             session.setAttribute("toastType", "error");
             response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
         }
-    }
-
-    private void deleteProductWithNull(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        String productId = request.getParameter("productId");
-        if (productId != null && !productId.isEmpty()) {
-            Product product = productRepository.findById(productId);
-            if (product == null) {
-                request.setAttribute("errorMessage", "Product not found.");
-            }
-            else {
-                productRepository.markAsDeleted(productId);
-            }
-
-        }
-        response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
-
     }
 
     private void viewComment(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -368,11 +349,9 @@ public class productServlet extends HttpServlet {
             log.error("Error deleting product", e);
             session.setAttribute("toastMessage", "Error deleting product.");
             session.setAttribute("toastType", "error");
-
         }
+        response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
     }
-
-
 
     private void saveAttribute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
