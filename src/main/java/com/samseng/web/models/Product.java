@@ -39,9 +39,12 @@ public class Product {
     @Column(name = "product_desc", length = LONG32)
     private String desc;
 
-    @NotNull
     @Column(name = "product_category")
     private String category;
+
+    @Column(name="product_deleted" , columnDefinition = "BOOLEAN DEFAULT false")
+    private boolean deleted;
+
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Variant> variants = new HashSet<>();

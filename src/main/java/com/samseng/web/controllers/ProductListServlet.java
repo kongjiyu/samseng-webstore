@@ -166,9 +166,14 @@ public class ProductListServlet extends HttpServlet {
 
             product.fetch(Product_.comments, JoinType.LEFT);
 
+            // WHERE 1=1
             Predicate where = cb.conjunction();
 
+            // uncomment this once database is updated
+            // where = cb.and(where, cb.isFalse(product.get(Product_.deleted)));
+
             // Build the conditions
+
             if (nameQuery != null)
                 where = cb.and(where, cb.ilike(product.get(Product_.name), "%" + nameQuery + "%"));
 
