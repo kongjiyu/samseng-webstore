@@ -99,7 +99,6 @@
                         <label class="block font-semibold">Product ID:</label>
                         <input type="text" name="productId" class="input input-bordered w-full"
                                value="<%= productObj.getId() != null ? productObj.getId() : "" %>" <%= productObj.getId() != null ? "disabled" : ""%> >
-                        <input type="hidden" name="productId" value="<%= productObj.getId() != null ? productObj.getId() : "" %>" <%= productObj.getId() != null ? "" : "disabled"%> />
                     </div>
                     <div>
                         <label class="block font-semibold">Product Name: </label>
@@ -116,17 +115,7 @@
                         <textarea name="productDesc" class="textarea resize-y textarea-bordered w-full product-field"
                                   rows="20"><%= productObj.getDesc() != null ? productObj.getDesc() : "" %></textarea>
                     </div>
-                    <div class="flex justify-end mt-4 gap-3">
-                        <button class="btn btn-error btn-sm"
-                                type="button"
-                                name="action"
-                                id="deleteProductBtn"
-                                <%= (productObj.getId() == null) ? "disabled" : "" %>
-                                data-overlay="#delete-confirm-modal">
-                            <span class="icon-[tabler--trash] mr-1"></span>
-                            Delete
-                        </button>
-
+                    <div class="flex justify-end mt-4">
                         <button class="btn btn-info btn-sm" type="submit" name="action" id="saveProductBtn" disabled
                                 value="<%= productObj.getId() != null ? "update" : "save" %>">
                             <span class="icon-[tabler--device-floppy] mr-1"></span>
@@ -145,8 +134,9 @@
                 <h2 class="text-2xl font-bold mb-2">Attribute</h2>
                 <div class="flex justify-end">
                     <button type="button" class="btn btn-info btn-sm" aria-haspopup="dialog" aria-expanded="false"
-                            aria-controls="add-attribute-modal" data-overlay="#add-attribute-modal"><span
-                            class="icon-[tabler--plus] mr-1"></span>
+                            aria-controls="add-attribute-modal" data-overlay="#add-attribute-modal"
+                            <%= productObj.getId() == null ? "disabled" : "" %>>
+                        <span class="icon-[tabler--plus] mr-1"></span>
                         Add Attribute
                     </button>
                 </div>
@@ -191,6 +181,12 @@
                 <input type="hidden" name="action" value="saveVariant">
                 <input type="hidden" name="productId" value="<%= productObj.getId() %>">
                 <h2 class="text-2xl font-bold mb-2">Variant</h2>
+                <div class="flex justify-end mb-4">
+                    <button class="btn btn-info btn-sm">
+                        <span class="icon-[tabler--plus] mr-1"></span>
+                        Add Variant
+                    </button>
+                </div>
                 <div class="overflow-x-auto">
                     <table class="table table-zebra w-full">
                         <thead>
@@ -344,10 +340,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 <div id="add-attribute-modal"
      class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog"
      tabindex="-1">
@@ -440,7 +432,6 @@
         </div>
     </div>
 </div>
-
 <script>
     function addValue(button, attrName) {
         const container = button.parentElement;
@@ -514,7 +505,6 @@
             document.getElementById('saveProductBtn').disabled = !hasChanges;
         });
     });
-
 
     // Check for changes in attribute form
     document.querySelectorAll('.attribute-field').forEach(field => {

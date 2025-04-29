@@ -10,7 +10,7 @@
 <head>
     <title>Promotions</title>
 </head>
-<body data-theme="light">
+<body data-theme="light" class="bg-transparent">
 <%@ include file="/general/userHeader.jsp" %>
 <video autoplay muted loop class="fixed top-0 left-0 w-full h-full object-cover -z-10">
     <source src="<%= request.getContextPath() %>/static/video/background3.mp4" type="video/mp4"/>

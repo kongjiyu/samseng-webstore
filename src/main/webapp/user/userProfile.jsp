@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/libphonenumber-js@1.10.21/bundle/libphonenumber-js.min.js"></script>
 </head>
 
-<body data-theme="light">
+<body data-theme="light" class="bg-transparent">
 <video autoplay muted loop class="fixed top-0 left-0 w-full h-full object-cover -z-10">
     <source src="<%= request.getContextPath() %>/static/video/background3.mp4" type="video/mp4"/>
     Your browser does not support the video tag.
@@ -175,13 +175,9 @@
 
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="text" class="input input-bordered w-full" placeholder="City / District"
-                                           name="address_3" required/>
                                     <input type="text" class="input input-bordered w-full"
                                            placeholder="State / Province" name="state" required/>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="text" class="input input-bordered w-full"
+                                           <input type="text" class="input input-bordered w-full"
                                            placeholder="Postal Code"
                                            name="postcode"
                                            pattern="\d{5}"
@@ -189,13 +185,15 @@
                                            inputmode="numeric"
                                            required
                                            title="Please enter a 5-digit postcode"/>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    
                                     <select class="select select-bordered w-full" name="country" disabled required>
                                         <option value="Malaysia" selected>Malaysia</option>
                                     </select>
                                     <input type="hidden" name="country" value="Malaysia" />
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <input type="tel" class="input input-bordered w-full" placeholder="Phone Number" name="contact_no" id="contact-no-input" required/>
+
                                 </div>
                                 <label class="flex items-center gap-2">
                                     <input type="checkbox" class="checkbox" name="isdefault" <%= (addressList != null && addressList.isEmpty()) ? "checked disabled" : "" %>/>
@@ -254,8 +252,8 @@
                                name="address_3" value="<%= address.getAddress_3() %>"/>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" class="input input-bordered w-full" placeholder="City / District"
-                               name="address_3" value="<%= address.getAddress_3() %>" required/>
+                        <input type="text" class="input input-bordered w-full" placeholder="State / Province"
+                        name="state" value="<%= address.getState()%>" required/>
                         <input type="text" class="input input-bordered w-full" placeholder="Postal Code"
                                name="postcode"
                                value="<%= address.getPostcode() %>"
@@ -266,17 +264,14 @@
                                title="Please enter a 5-digit postcode"/>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" class="input input-bordered w-full" placeholder="State / Province"
-                               name="state" value="<%= address.getState()%>" required/>
                         <select class="select select-bordered w-full" name="country" disabled required>
                             <option value="Malaysia" selected>Malaysia</option>
                         </select>
                         <input type="hidden" name="country" value="Malaysia" />
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input type="tel" class="input input-bordered w-full" placeholder="Phone Number"
-                               name="contact_no" value="<%= address.getContact_no() %>" required
-                               id="contact-no-input-<%= address.getId() %>"/>
+                        name="contact_no" value="<%= address.getContact_no() %>" required
+                        id="contact-no-input-<%= address.getId() %>"/>
+
                     </div>
                     <label class="flex items-center gap-2">
                         <input type="checkbox" class="checkbox"

@@ -1,6 +1,7 @@
 package com.samseng.web.controllers;
 
 import com.samseng.web.models.Promo_Code;
+import com.samseng.web.models.Account;
 import com.samseng.web.repositories.Promo_Code.PromoCodeRepository;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,9 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 @Log4j2
 @WebServlet("/promo-code")
@@ -57,6 +61,23 @@ public class PromoCodeServlet extends HttpServlet {
                     session.setAttribute("toastMessage", "This promo code is no longer available.");
                     session.setAttribute("toastType", "error");
                     session.setAttribute("promoCode", null);
+                } else if (code.equals("BIRTHDAY")) {
+                    // Special handling for BIRTHDAY promo code
+                    Account account = (Account) session.getAttribute("profile");
+                    if (account == null) {
+                        session.setAttribute("toastMessage", "Please log in to use the birthday promo code.");
+                        session.setAttribute("toastType", "error");
+                        session.setAttribute("promoCode", null);
+                    } else if (isTodayUserBirthday(account.getDob())) {
+                        session.setAttribute("promoCode", promoCode);
+                        session.setAttribute("toastMessage", "Happy Birthday! Your birthday promo code has been applied!");
+                        session.setAttribute("toastType", "success");
+                        log.info("Birthday promo code applied successfully for user {} (session {})", account.getUsername(), session.getId());
+                    } else {
+                        session.setAttribute("toastMessage", "The birthday promo code can only be used on your birthday.");
+                        session.setAttribute("toastType", "error");
+                        session.setAttribute("promoCode", null);
+                    }
                 } else {
                     session.setAttribute("promoCode", promoCode);
                     session.setAttribute("toastMessage", "Promo code applied successfully!");
@@ -77,5 +98,16 @@ public class PromoCodeServlet extends HttpServlet {
         }
 
         response.sendRedirect(request.getContextPath() + "/cart");
+    }
+
+    private boolean isTodayUserBirthday(LocalDate birthdate) {
+        if (birthdate == null) {
+            return false;
+        }
+        
+        LocalDate today = LocalDate.now();
+        
+        return today.getMonthValue() == birthdate.getMonthValue()
+            && today.getDayOfMonth() == birthdate.getDayOfMonth();
     }
 }

@@ -199,6 +199,18 @@ public class productServlet extends HttpServlet {
                 reply.setMessage(replyText);
                 reply.setComment(comment);
                 replyRepository.create(reply); // 假设你有 create() 方法
+              
+    private void viewComment(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        String productId = request.getParameter("productId");
+        if (productId != null && !productId.isEmpty()) {
+            try {
+                List<Comment> comments = commentRepository.findByProductId(productId);
+                request.setAttribute("commentsList", comments);
+            } catch (Exception e) {
+                log.error("Error viewing comments", e);
+                session.setAttribute("toastMessage", "Error loading comments.");
+                session.setAttribute("toastType", "error");
             }
         }
 
@@ -309,9 +321,8 @@ public class productServlet extends HttpServlet {
             log.error("Error during deleteProduct", e); // <<< 强制打印异常
             response.sendRedirect(request.getContextPath() + "/errorPage.jsp");
         }
+        response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
     }
-
-
 
     private void saveAttribute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String productId = request.getParameter("productId");
@@ -390,10 +401,16 @@ public class productServlet extends HttpServlet {
         }
         Product product = productRepository.findById(productId);
 
-
-        Path uploadDir = Path.of("/var/www/data/uploads"); // or your actual folder in server
-        Part filePart = request.getPart("imageFile");
-        int nextNo = product.getImageUrls().size()+1;
+            Path uploadDir = Path.of("/var/www/uploads");
+            //if server use Path uploadDir = Path.of("/var/www/data/uploads");
+            Part filePart = request.getPart("imageFile");
+            
+            if (filePart == null || filePart.getSize() == 0) {
+                session.setAttribute("toastMessage", "No file selected for upload.");
+                session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
+                return;
+            }
 
         String newFileName = productId + "-" + nextNo + ".png";
         Path uploadPath = uploadDir.resolve(newFileName);
