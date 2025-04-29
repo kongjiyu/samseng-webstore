@@ -40,7 +40,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public List<Product> findAll(){
         try{
-            return em.createQuery("SELECT p FROM Product p", Product.class).
+            return em.createQuery("SELECT p FROM Product p WHERE p.deleted = false", Product.class).
                     getResultList();
         }catch(NoResultException e) {
             return null;
@@ -69,5 +69,16 @@ public class ProductRepositoryImpl implements ProductRepository {
     public long count() {
         return em.createQuery("SELECT COUNT(p) FROM Product p", Long.class)
                 .getSingleResult();
+    }
+
+    @Override
+    public void markAsDeleted(String productId) {
+        em.createQuery("""
+        UPDATE Product p
+        SET p.deleted = true
+        WHERE p.id = :id
+    """)
+                .setParameter("id", productId)
+                .executeUpdate();
     }
 }

@@ -21,4 +21,6 @@ public interface ProductRepository {
     List<Product> findPaged(int page, int pageSize);
 
     long count();
+
+    void markAsDeleted(String productId);
 }
