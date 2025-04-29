@@ -11,7 +11,7 @@
 
 </head>
 <body>
-<nav class="navbar backdrop-blur-lg bg-white/10 text-white shadow-lg gap-4 fixed top-0 left-0 w-full z-50">
+<nav data-theme="light" class="navbar backdrop-blur-lg bg-white/10 text-white shadow-lg gap-4 fixed top-0 left-0 w-full z-50">
     <div class="navbar-start items-center justify-between max-md:w-full">
         <a class="link text-white text-xl font-bold no-underline" href="<%= request.getContextPath() %>/index.jsp">
             SAMSENG

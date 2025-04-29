@@ -83,7 +83,6 @@ public class AccountProfileServlet extends HttpServlet {
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         Account account = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
         Account.Role newRole = account.getRole();
         LocalDate newDob = account.getDob();
@@ -100,13 +99,19 @@ public class AccountProfileServlet extends HttpServlet {
             try {
                 accountRepo.update(account);
                 request.getSession().setAttribute("profile", account);
+                request.getSession().setAttribute("toastType", "success");
+                request.getSession().setAttribute("toastMessage", "Profile updated successfully.");
                 response.sendRedirect(request.getContextPath() + "/login-flow");
             } catch (Exception e) {
                 e.printStackTrace();
+                request.getSession().setAttribute("toastType", "error");
+                request.getSession().setAttribute("toastMessage", "Failed to update profile.");
                 request.setAttribute("error", "Failed to update profile.");
                 request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
             }
         } else {
+            request.getSession().setAttribute("toastType", "error");
+            request.getSession().setAttribute("toastMessage", "Failed to update profile.");
             response.sendRedirect(request.getContextPath() + "/login-flow");
         }
     }
@@ -116,13 +121,19 @@ public class AccountProfileServlet extends HttpServlet {
         if (account != null) {
             try {
                 accountRepo.delete(account);
+                request.getSession().setAttribute("toastType", "success");
+                request.getSession().setAttribute("toastMessage", "Account deleted successfully.");
                 response.sendRedirect("loginRegisterForm.jsp");
             } catch (Exception e) {
                 e.printStackTrace();
+                request.getSession().setAttribute("toastType", "error");
+                request.getSession().setAttribute("toastMessage", "Failed to delete account.");
                 request.setAttribute("error", "Failed to delete account.");
                 request.getRequestDispatcher("userProfile.jsp").forward(request, response);
             }
         } else {
+            request.getSession().setAttribute("toastType", "error");
+            request.getSession().setAttribute("toastMessage", "Failed to delete account.");
             response.sendRedirect("loginRegisterForm.jsp");
         }
     }
@@ -130,7 +141,8 @@ public class AccountProfileServlet extends HttpServlet {
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Account> users = accountRepo.findAll();
         request.setAttribute("users", users);
-
+        request.getSession().setAttribute("toastType", "info");
+        request.getSession().setAttribute("toastMessage", "Listing all users.");
         request.getRequestDispatcher("/userList.jsp").forward(request, response);
     }
 
@@ -332,14 +344,18 @@ public class AccountProfileServlet extends HttpServlet {
 
     private void addressDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String addressId = request.getParameter("id");
-
+        boolean deleted = false;
         if (addressId != null && !addressId.isEmpty()) {
             Address address = addressRepo.findById(addressId);
             if (address != null) {
                 addressRepo.delete(address);
+                deleted = true;
             }
         }
-
+        if (deleted) {
+            request.getSession().setAttribute("toastType", "success");
+            request.getSession().setAttribute("toastMessage", "Address deleted successfully.");
+        }
         response.sendRedirect(request.getContextPath() + "/user/profile"); // Redirect to address list
     }
 
@@ -403,13 +419,19 @@ public class AccountProfileServlet extends HttpServlet {
         if (account != null) {
             try {
                 accountRepo.delete(account);
+                request.getSession().setAttribute("toastType", "success");
+                request.getSession().setAttribute("toastMessage", "Account deleted successfully.");
                 response.sendRedirect("loginRegisterForm.jsp");
             } catch (Exception e) {
                 e.printStackTrace();
+                request.getSession().setAttribute("toastType", "error");
+                request.getSession().setAttribute("toastMessage", "Failed to delete account.");
                 request.setAttribute("error", "Failed to delete account.");
                 request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
             }
         } else {
+            request.getSession().setAttribute("toastType", "error");
+            request.getSession().setAttribute("toastMessage", "Failed to delete account.");
             response.sendRedirect("loginRegisterForm.jsp");
         }
     }

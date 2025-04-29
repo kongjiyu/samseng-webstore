@@ -8,13 +8,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Profile</title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
     <script src="https://unpkg.com/libphonenumber-js@1.10.21/bundle/libphonenumber-js.min.js"></script>
 </head>
 
-<body>
+<body data-theme="light">
 <video autoplay muted loop class="fixed top-0 left-0 w-full h-full object-cover -z-10">
     <source src="<%= request.getContextPath() %>/static/video/background3.mp4" type="video/mp4"/>
     Your browser does not support the video tag.
@@ -42,7 +42,7 @@
                             }
                         }
                     %>
-                    <span class="text-3xl uppercase"><%= initials.toString() %></span>
+                    <span class="text-3xl uppercase text-white"><%= initials.toString() %></span>
                 </div>
                 <button class="btn btn-outline btn-error mt-6" data-overlay="#delete-confirm-modal">Delete</button>
             </div>

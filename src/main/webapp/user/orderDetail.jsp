@@ -4,7 +4,7 @@
 <head>
     <title>Order Detail</title>
 </head>
-<body>
+<body data-theme="light">
 <video autoplay muted loop class="fixed top-0 left-0 w-full h-full object-cover -z-10">
   <source src="<%= request.getContextPath() %>/static/video/background3.mp4" type="video/mp4" />
   Your browser does not support the video tag.
