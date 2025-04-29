@@ -206,7 +206,7 @@
                                 }
                             %>
                             <th>PRICE (RM)</th>
-                            <th>ACTION</th>
+                            <th>AVAILABILITY</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -264,32 +264,36 @@
             </form>
         </div>
     </div>
+
+
     <div class="my-5 flex flex-row  bg-base-100 border rounded-lg shadow divide-y divide-base-300">
         <div class="w-full p-10">
             <h2 class="text-2xl font-bold">Comments</h2>
             <!-- Test comment -->
+            <% List<Comment>commentList=(List<Comment>) request.getAttribute("commentsList"); %>
+            <% for (Comment comment : commentList) {
+                if (comment.getReply()==null) {
+            %>
             <div id="comment" class="flex flex-col items-right gap-2 m-5">
                 <div class="flex">
                     <div class="w-14">
                         <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" class="rounded-full"
                              alt="avatar 1"/>
                     </div>
+
                     <div class="gap-3 mt-1 ml-4">
-                        <p class="font-semibold text-[18px]">Username Goes here</p>
-                        <div class="user-rating flex" data-score="4">rating goes here</div>
-                        <p class="w-full text-[18px] mt-3">Message goes here lol I am so rich I can buy your fucking
-                            hose</p>
-                        <%--                        <% if(c.getReply() !=null ){ %>--%>
-                        <%--                            Display the replied comment if it there IS a reply--%>
-                        <%--                        <div id="reply" class="mt-5 ml-5">--%>
-                        <%--                            <p class="font-bold text-lg py-2">Reply By Staff Personnel</p>--%>
-                        <%--                            <p class="text-lg">Reply Message goes here wahaha fuck you I'm richer I own Samseng</p>--%>
-                        <%--                        </div>--%>
-                        <%--                            If there's no reply, then u run the logic for replying--%>
-                        <%--                        <% } else { %>--%>
+                        <p class="font-semibold text-[18px]"><%=comment.getUser().getUsername()%></p>
+                        <div class="user-rating flex" data-score="<%= comment.getRating() %>"></div>
+                        <p class="w-full text-[18px] mt-3"><%= comment.getMessage()%></p>
+
+                        <% String modalId = "reply-modal-" + comment.getId(); %>
+
                         <div class="mt-5 ml-5">
-                            <button class="flex flex-row gap-3" aria-haspopup="dialog" aria-expanded="false"
-                                    aria-controls="middle-center-modal" data-overlay="#middle-center-modal">
+                            <button class="flex flex-row gap-3"
+                                    aria-haspopup="dialog"
+                                    aria-expanded="false"
+                                    aria-controls="<%= modalId %>"
+                                    data-overlay="#<%= modalId %>">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                      stroke-linejoin="round"
@@ -299,49 +303,49 @@
                                     <path d="M13 10l-4 4l4 4m-5 -8l-4 4l4 4"/>
                                 </svg>
                                 <p class="text-gray-950">Reply to Comment...</p>
-                            </button>
-
-                            <div id="middle-center-modal"
-                                 class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden"
-                                 role="dialog" tabindex="-1">
-                                <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
-                                    <div class="modal-content">
-                                        <%--Reply Comment Form--%>
-                                        <form method="#">
-                                            <div class="modal-header m-2">
-                                                <h3 class="modal-title">Admin Reply</h3>
-                                                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#middle-center-modal">
-                                                    <span class="icon-[tabler--x] size-4"></span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="mx-2 pb-2">
-                                                    <textarea class="textarea textarea-xl"
-                                                              placeholder="Write a reply..."
-                                                              aria-label="Textarea"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-soft btn-secondary"
-                                                        data-overlay="#middle-center-modal">Close
-                                                </button>
-                                                <button type="submit" class="btn btn-primary">Save changes</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-<%--                        <% } %>--%>
                     </div>
                 </div>
-
                 <div class="divider"></div>
             </div>
-            <%--            <% } } %>--%>
+            <div id="<%= modalId %>"
+                 class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog" tabindex="-1">
+                <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
+                    <div class="modal-content">
+                        <%--Reply Comment Form--%>
+                        <form method="post" action="<%= request.getContextPath() %>/admin/product?action=replyComment">
+                            <input type="hidden" name="commentId" value="<%= comment.getId() %>"/>
+                            <input type="hidden" name="productId" value="<%= productObj.getId() %>"/>
+                            <div class="modal-header m-2">
+                                <h3 class="modal-title">Admin Reply</h3>
+                                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#<%= modalId %>">
+                                    <span class="icon-[tabler--x] size-4"></span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mx-2 pb-2">
+                                                    <textarea class="textarea textarea-xl"
+                                                              placeholder="Write a reply..."
+                                                              aria-label="Textarea" name="text"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-soft btn-secondary"
+                                        data-overlay="#<%= modalId %>">Close
+                                </button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <% }
+            } %>
         </div>
     </div>
 </div>
+
+
 
 
 <div id="add-attribute-modal"
@@ -417,7 +421,7 @@
     <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300 max-w-md w-full">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Confirm Account Deletion</h3>
+                <h3 class="modal-title">Confirm Product Deletion</h3>
                 <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#change-password-modal">
                     <span class="icon-[tabler--x] size-4"></span>
                 </button>
@@ -543,6 +547,30 @@
                 document.getElementById('saveVariantBtn').disabled = !hasChanges;
             });
         }
+    });
+
+    //Rating
+    document.addEventListener('DOMContentLoaded', function () {
+        const hintTarget = document.querySelector('#raty-with-hints');
+        if (hintTarget) {
+            new Raty(hintTarget, {
+                path: '../static/img',
+                hints: ['Terrible 😔', 'Unsatisfactory 😑', 'Average 😊', 'Nice 😁', 'Splendid 😍'],
+                target: '[data-hint]',
+                targetFormat: 'Your experience was: {score}'
+            }).init();
+        }
+
+        document.querySelectorAll('.user-rating').forEach(function (el) {
+            const score = parseInt(el.dataset.score);
+            if (!isNaN(score)) {
+                new Raty(el, {
+                    path: '../static/img',
+                    score: score,
+                    readOnly: true
+                }).init();
+            }
+        });
     });
 </script>
 </body>
