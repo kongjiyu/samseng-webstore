@@ -69,13 +69,6 @@ public class productServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
 
-        if (action == null || action.trim().isEmpty()) {
-            session.setAttribute("toastMessage", "Invalid action specified.");
-            session.setAttribute("toastType", "error");
-            response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
-            return;
-        }
-
         try {
             switch (action) {
                 case "update":
