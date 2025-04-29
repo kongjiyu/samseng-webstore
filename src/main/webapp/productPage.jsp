@@ -34,7 +34,6 @@
 
 <!--Everything that isn't Header, Banner, or Footer. Don't collapse this if you value your sanity-->
 <div class="flex flex-col">
-
     <!--Collapse these subsections instead-->
     <div class="filter-section">
         <button type="button" id="filter-button" class="btn btn-primary btn-lg !rounded-r-3xl !rounded-l-none"
@@ -46,7 +45,7 @@
 
     <!--Filter Form-->
     <div id="overlay-body-scrolling-with-backdrop"
-         class="overlay overlay-open:translate-x-0 drawer drawer-start hidden [--body-scroll:true]" role="dialog"
+         class="min-h-screen overflow-auto overlay overlay-open:translate-x-0 drawer drawer-start hidden [--body-scroll:true]" role="dialog"
          tabindex="-1">
         <div class="drawer-header">
             <h3 class="drawer-title">Filter Categories</h3>
@@ -54,7 +53,7 @@
                     data-overlay="#overlay-body-scrolling-with-backdrop">
                 <span class="icon-[tabler--x] size-5"></span>
             </button>
-        </div>                                          
+        </div>
         <form action="${pageContext.request.contextPath}/products" method="get">
             <div class="drawer-body justify-start">
 
@@ -68,11 +67,11 @@
                 <div id="priceField" class="mb-4 flex flex-row space-x-4 rtl:flex-row-reverse">
                     <div class="basis-1/2">
                         <label for="minPriceFilterInput" class="mb-2 block text-sm font-medium">Min price:</label>
-                        <input id="minPriceFilterInput" min="1" max="9999"  name="minPrice" class="input" type="number" placeholder="3000" />
+                        <input id="minPriceFilterInput" min="1" max="9999"  name="minPrice" class="input" type="number" step="0.01" placeholder="3000" />
                     </div>
                     <div class="basis-1/2">
                         <label for="maxPriceFilterInput" class="mb-2 block text-sm font-medium">Max price:</label>
-                        <input id="maxPriceFilterInput" min="2" max="10000" name="maxPrice" class="input" type="number" placeholder="6000" />
+                        <input id="maxPriceFilterInput" min="2" max="10000" name="maxPrice" class="input" type="number" step="0.01" placeholder="6000" />
                     </div>
                 </div>
 
@@ -107,7 +106,7 @@
                 </div>
 
                 <!--Color Options-->
-                <div class="colorField" class="max-w-sm mb-4">
+                <div id="colorField" class="max-w-sm mb-4">
                     <label class="label-text font-medium" for="colorFilterInput">Color Options</label>
                     <select name="Color" id="colorFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
@@ -233,9 +232,9 @@
                       "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
                     }' class="hidden">
                         <option value="">Choose</option>
-                        <option value="256gb">256GB</option>
-                        <option value="512gb">512GB</option>
-                        <option value="1tb">1TB</option>
+                        <option value="256GB">256 GB</option>
+                        <option value="512GB">512 GB</option>
+                        <option value="1TB">1 TB</option>
                     </select>
                     <!-- End Select -->
                 </div>
