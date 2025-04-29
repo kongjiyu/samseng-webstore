@@ -5,7 +5,7 @@
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 </head>
-<body data-theme="light" class="min-h-screen flex flex-col">
+<body data-theme="light" class="min-h-screen flex flex-col bg-transparent">
 <%@include file="general/userHeader.jsp"%>
 <div class="flex-grow flex justify-center items-center relative">
 <video autoplay muted loop class="fixed top-0 left-0 w-full h-full object-cover -z-10">

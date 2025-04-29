@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/libphonenumber-js@1.10.21/bundle/libphonenumber-js.min.js"></script>
 </head>
 
-<body data-theme="light">
+<body data-theme="light" class="bg-transparent">
 <video autoplay muted loop class="fixed top-0 left-0 w-full h-full object-cover -z-10">
     <source src="<%= request.getContextPath() %>/static/video/background3.mp4" type="video/mp4"/>
     Your browser does not support the video tag.

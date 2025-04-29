@@ -19,7 +19,7 @@
     <script defer src="<%= request.getContextPath() %>/static/js/datatables.min.js"></script>
 </head>
 
-<body data-theme="light" class="flex flex-col min-h-screen">
+<body data-theme="light" class="flex flex-col min-h-screen bg-transparent">
 <video autoplay muted loop class="fixed top-0 left-0 w-full h-full object-cover -z-10">
     <source src="<%= request.getContextPath() %>/static/video/background3.mp4" type="video/mp4"/>
     Your browser does not support the video tag.

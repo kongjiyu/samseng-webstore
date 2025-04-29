@@ -252,7 +252,7 @@
     <div class="product-section">
         <%--for (var product : products )--%>
         <c:forEach var="product" items="${products}">
-            <div class="product-card card w-[320px] h-[480px] flex flex-col justify-between items-start p-4 mb-8 mx-auto">
+            <div class="product-card card w-[320px] h-[550px] flex flex-col justify-between items-start p-4 mb-8 mx-auto">
                 <div class="w-full flex flex-col items-start flex-1">
                     <img src="/uploads/${product.imageUrls()[0]}" alt="product-image"
                          class="object-cover rounded-lg w-[250px] h-[250px] mb-4" />

@@ -145,8 +145,9 @@
                 <h2 class="text-2xl font-bold mb-2">Attribute</h2>
                 <div class="flex justify-end">
                     <button type="button" class="btn btn-info btn-sm" aria-haspopup="dialog" aria-expanded="false"
-                            aria-controls="add-attribute-modal" data-overlay="#add-attribute-modal"><span
-                            class="icon-[tabler--plus] mr-1"></span>
+                            aria-controls="add-attribute-modal" data-overlay="#add-attribute-modal"
+                            <%= productObj.getId() == null ? "disabled" : "" %>>
+                        <span class="icon-[tabler--plus] mr-1"></span>
                         Add Attribute
                     </button>
                 </div>
