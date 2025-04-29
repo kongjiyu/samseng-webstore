@@ -146,10 +146,6 @@
                        class="input join-item" placeholder="Promo Code"/>
                 <button type="submit" class="btn btn-primary join-item">Submit</button>
             </form>
-            <% Boolean promoError = (Boolean) request.getAttribute("promoError");
-                if (promoError != null && promoError) { %>
-            <p class="text-red-500 text-sm ml-4">Invalid promo code.</p>
-            <% } %>
         </div>
 
         <%
@@ -547,7 +543,9 @@
 
                                 <!-- Disable this on empty input -->
                                 <button id="next-button" type="button"
-                                        class="btn btn-primary btn-next max-sm:btn-square" data-stepper-next-btn="">
+                                        class="btn btn-primary btn-next max-sm:btn-square"
+                                        data-stepper-next-btn=""
+                                        <%= addresses == null || addresses.isEmpty()  ? "disabled" : "" %>>
                                     <span class="max-sm:hidden">Next</span>
                                     <span class="icon-[tabler--chevron-right] text-primary-content size-5 rtl:rotate-180"></span>
                                 </button>

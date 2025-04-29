@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 </head>
 <body>
-<nav class="navbar bg-base-100 shadow-base-300/20 shadow-sm rounded-none">
+<nav data-theme="light" class="navbar bg-base-100 shadow-base-300/20 shadow-sm rounded-none">
     <div class="navbar-start items-center justify-between max-md:w-full">
         <a class="link text-xl font-bold no-underline" href="<%= request.getContextPath() %>/index.jsp">
             SAMSENG
@@ -178,7 +178,7 @@
                   }'>
                 <div class="modal-header block">
                     <div class="relative">
-                        <input class="input ps-8 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" type="text"
+                        <input class="input ps-8 focus:ring-2" type="text"
                                placeholder="Search or type a command"
                                role="combobox" aria-expanded="false" value="" autofocus=""
                                data-combo-box-input=""/>

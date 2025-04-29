@@ -7,6 +7,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Products</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
@@ -265,8 +266,8 @@
                     </h5>
                 </a>
                 <p class="mb-4">${product.desc().substring(0, 45)}...</p>
-                <p class="text-xl">From
-                    <span class="font-bold"><fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " /></span> to
+                <p class="text-lg">
+                    <span class="font-bold"><fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " /></span> ~
                     <span class="font-bold"><fmt:formatNumber value="${product.endingPrice()}" type="currency" currencySymbol="RM " /></span>
                 </p>
                 <div class="my-2 align-middle">

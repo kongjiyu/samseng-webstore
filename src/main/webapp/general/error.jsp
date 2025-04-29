@@ -35,7 +35,9 @@
                                 if (statusCode == 404) {
                                     message = "Oops! The page you're looking for doesn't exist.";
                                 } else if (statusCode == 500) {
-                                    message = "Sorry! There was a server error. Please try again later.";
+                                    message = "Something went wrong on our server. Please try again later.";
+                                } else if (statusCode == 403) {
+                                    message = "Oops! You don’t have permission to access this feature.";
                                 } else {
                                     message = "An unexpected error occurred.";
                                 }
