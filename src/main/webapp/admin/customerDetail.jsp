@@ -186,13 +186,9 @@
 
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="text" class="input input-bordered w-full" placeholder="City / District"
-                                           name="address_3" required/>
                                     <input type="text" class="input input-bordered w-full"
                                            placeholder="State / Province" name="state" required/>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input type="text" class="input input-bordered w-full"
+                                           <input type="text" class="input input-bordered w-full"
                                            placeholder="Postal Code"
                                            name="postcode"
                                            pattern="\d{5}"
@@ -200,14 +196,16 @@
                                            inputmode="numeric"
                                            required
                                            title="Please enter a 5-digit postcode"/>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                
                                     <select class="select select-bordered w-full" name="country" disabled required>
                                         <option value="Malaysia" selected>Malaysia</option>
                                     </select>
                                     <input type="hidden" name="country" value="Malaysia"/>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <input type="tel" class="input input-bordered w-full" placeholder="Phone Number"
-                                           name="contact_no" id="contact-no-input" required/>
+                                    name="contact_no" id="contact-no-input" required/>
+
                                 </div>
                                 <label class="flex items-center gap-2">
                                     <input type="checkbox" class="checkbox"

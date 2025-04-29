@@ -493,7 +493,8 @@ public class productServlet extends HttpServlet {
                 return;
             }
 
-            Path uploadDir = Path.of("/var/www/data/uploads");
+            Path uploadDir = Path.of("/var/www/uploads");
+            //if server use Path uploadDir = Path.of("/var/www/data/uploads");
             Part filePart = request.getPart("imageFile");
             
             if (filePart == null || filePart.getSize() == 0) {
