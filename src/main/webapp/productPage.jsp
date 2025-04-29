@@ -252,27 +252,35 @@
     <div class="product-section">
         <%--for (var product : products )--%>
         <c:forEach var="product" items="${products}">
-            <div class="product-card card w-[320px] h-[480px] flex flex-col justify-between items-center p-4 mb-8 mx-auto">
-                <div class="w-full flex flex-col items-center flex-1">
+            <div class="product-card card w-[320px] h-[550px] flex flex-col justify-between items-start p-4 mb-8 mx-auto">
+                <div class="w-full flex flex-col items-start flex-1">
                     <img src="/uploads/${product.imageUrls()[0]}" alt="product-image"
-                         class="object-cover rounded-lg w-[250px] h-[250px] mb-4" />
-                    <div class="w-full text-center">
+                         class="object-cover rounded-lg w-[250px] h-[250px] mb-4"/>
+                    <div class="w-full text-left">
                         <h5 class="text-xl font-bold mb-2">${product.name()}</h5>
-                        <div class="flex items-center justify-center mb-2">
-                            <span class="icon-[tabler--star-filled] size-5 text-yellow-400"></span>
-                            <span class="text-lg font-semibold ml-1">
-                    <fmt:formatNumber value="${product.ratingSummary().avgRating()}" maxFractionDigits="2" minFractionDigits="2"/>
-                </span>
-                        </div>
-                        <p class="text-lg">
-                            <span class="font-bold"><fmt:formatNumber value="${product.startingPrice()}" type="currency" currencySymbol="RM " /></span>
+                        <p class="text-gray-600 mb-2">${product.desc().substring(0, 45)}...</p>
+                        <p class="text-lg mb-2">
+                            <span class="font-bold"><fmt:formatNumber value="${product.startingPrice()}" type="currency"
+                                                                      currencySymbol="RM "/></span>
                             <c:if test="${product.startingPrice() != product.endingPrice()}">
-                                ~ <span class="font-bold"><fmt:formatNumber value="${product.endingPrice()}" type="currency" currencySymbol="RM " /></span>
+                                ~ <span class="font-bold"><fmt:formatNumber value="${product.endingPrice()}"
+                                                                            type="currency"
+                                                                            currencySymbol="RM "/></span>
                             </c:if>
                         </p>
+                        <c:if test="${product.ratingSummary().avgRating() != null}">
+                            <div class="flex items-center mb-2">
+                                <span class="icon-[tabler--star-filled] size-5 text-yellow-400"></span>
+                                <span class="text-lg font-semibold ml-1">
+                                    <fmt:formatNumber value="${product.ratingSummary().avgRating()}" maxFractionDigits="2"
+                                                      minFractionDigits="2"/>
+                                </span>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
-                <a class="btn btn-block btn-primary mt-4 w-full" href="<%=request.getContextPath()%>/product?productId=${product.id()}">Learn more</a>
+                <a class="btn rounded-full btn-primary mt-4 w-full"
+                   href="<%=request.getContextPath()%>/product?productId=${product.id()}">Learn more</a>
             </div>
         </c:forEach>
     </div>
