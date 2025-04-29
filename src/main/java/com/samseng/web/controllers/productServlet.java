@@ -113,6 +113,9 @@ public class productServlet extends HttpServlet {
         else if("viewComment".equals(action)){
             viewComment(request, response);
             return;
+        } else if ("deleteProduct".equals(action)) {
+            deleteProductWithNull(request, response);
+            return;
         }
 
         String productId = request.getParameter("productId");
@@ -164,6 +167,22 @@ public class productServlet extends HttpServlet {
         }else{
             response.sendRedirect("/admin/productList.jsp");
         }
+    }
+
+    private void deleteProductWithNull(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        String productId = request.getParameter("productId");
+        if (productId != null && !productId.isEmpty()) {
+            Product product = productRepository.findById(productId);
+            if (product == null) {
+                request.setAttribute("errorMessage", "Product not found.");
+            }
+            else {
+                productRepository.markAsDeleted(productId);
+            }
+
+        }
+        response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+
     }
 
     private void viewComment(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -262,14 +281,29 @@ public class productServlet extends HttpServlet {
 
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String productId = request.getParameter("productId");
-        if (productId != null && !productId.isEmpty()) {
-            Product product = productRepository.findById(productId);
-            if (product != null) {
-                productRepository.delete(product); // Hibernate deletes product + orphans
+        try {
+            if (productId != null && !productId.isEmpty()) {
+                Product product = productRepository.findById(productId);
+                if (product != null) {
+                    log.info("Trying to delete product: {}", product.getId());
+                    productRepository.delete(product);
+                    log.info("Deleted product: {}", product.getId());
+                } else {
+                    log.warn("Product not found: {}", productId);
+                }
+            } else {
+                log.warn("No productId provided for delete.");
             }
+
+            response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+
+        } catch (Exception e) {
+            log.error("Error during deleteProduct", e); // <<< 强制打印异常
+            response.sendRedirect(request.getContextPath() + "/errorPage.jsp");
         }
-        response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
     }
+
+
 
     private void saveAttribute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String productId = request.getParameter("productId");
