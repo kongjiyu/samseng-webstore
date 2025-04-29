@@ -65,110 +65,54 @@ public class productServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
 
-
+        if (action == null || action.trim().isEmpty()) {
+            session.setAttribute("toastMessage", "Invalid action specified.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+            return;
+        }
 
         try {
-            if ("update".equals(action)) {
-                updateProduct(request, response);
-                return;
-            } else if ("list".equals(action)) {
-                listProducts(request, response);
-                return;
-            } else if ("delete".equals(action)) {
-                deleteProduct(request, response);
-                return;
-            } else if ("create".equals(action)) {
-                Product emptyProduct = new Product();
-                
-                // Get all available attributes for the dropdown
-                List<Attribute> allAttributes = attributeRepository.findAll();
-                request.setAttribute("allAttributes", allAttributes);
-
-                request.setAttribute("product", emptyProduct);
-                request.setAttribute("variantList", Collections.emptyList());
-                request.setAttribute("attributeList", Collections.emptyList());
-                request.setAttribute("attributeValuesMap", new HashMap<>());
-                request.setAttribute("variantAttrMap", new HashMap<>());
-                request.setAttribute("imageSet", new HashSet<>());
-                request.getRequestDispatcher("/admin/productDetail.jsp").forward(request, response);
-                return;
-            } else if ("save".equals(action)) {
-                saveProduct(request, response);
-                return;
-            } else if ("saveAttribute".equals(action)) {
-                saveAttribute(request, response);
-                return;
-            } else if ("saveAttributeValues".equals(action)) {
-                saveAttributeValue(request, response);
-                return;
-            } else if ("saveVariant".equals(action)) {
-                saveVariant(request, response);
-                return;
-            } else if ("uploadImage".equals(action)) {
-                uploadProductImage(request, response);
-                return;
-            } else if ("saveVariantAttributes".equals(action)) {
-                saveVariantAttributes(request, response);
-                return;
-            } else if("replyComment".equals(action)) {
-                replyComment(request, response);
-                return;
-            } else if("viewComment".equals(action)) {
-                viewComment(request, response);
-
-                return;
-            }
-
-            String productId = request.getParameter("productId");
-            if (productId != null && !productId.isEmpty()) {
-                Product product = productRepository.findById(productId);
-
-                if (product == null) {
-                    session.setAttribute("toastMessage", "Product not found.");
-                    session.setAttribute("toastType", "error");
-                    response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
-                    return;
-                }
-
-                request.setAttribute("images", product.getImageUrls());
-
-                // Get all available attributes for the dropdown
-                List<Attribute> allAttributes = attributeRepository.findAll();
-                request.setAttribute("allAttributes", allAttributes);
-
-                List<Attribute> attributeList = attributeRepository.findByProductId(productId);
-                List<Variant> variantList = variantRepository.findByProductId(productId);
-                variantList.sort(Comparator.comparing(Variant::getVariantName, String.CASE_INSENSITIVE_ORDER));
-                Map<String, Map<String, String>> variantAttrMap = new HashMap<>();
-
-                for (Variant_Attribute va : variantAttributeRepository.findByProductId(productId)) {
-                    String variantId = va.getVariant().getVariantId();
-                    String attrName = va.getAttribute().getName();
-                    String value = va.getValue();
-
-                    variantAttrMap
-                            .computeIfAbsent(variantId, k -> new HashMap<>())
-                            .put(attrName, value);
-                }
-
-                Map<String, Set<String>> attributeValuesMap = new HashMap<>();
-
-                for (Variant_Attribute va : variantAttributeRepository.findByProductId(productId)) {
-                    String attrName = va.getAttribute().getName();
-                    attributeValuesMap
-                            .computeIfAbsent(attrName, k -> new LinkedHashSet<>())
-                            .add(va.getValue());
-                }
-
-                request.setAttribute("attributeValuesMap", attributeValuesMap);
-                request.setAttribute("imageSet", product.getImageUrls());
-                request.setAttribute("variantAttrMap", variantAttrMap);
-                request.setAttribute("attributeList", attributeList);
-                request.setAttribute("variantList", variantList);
-                request.setAttribute("product", product);
-                request.getRequestDispatcher("/admin/productDetail.jsp").forward(request, response);
-            } else {
-                response.sendRedirect("/admin/productList.jsp");
+            switch (action) {
+                case "update":
+                    updateProduct(request, response);
+                    break;
+                case "list":
+                    listProducts(request, response);
+                    break;
+                case "delete":
+                    deleteProduct(request, response);
+                    break;
+                case "create":
+                    createProduct(request, response);
+                    break;
+                case "save":
+                    saveProduct(request, response);
+                    break;
+                case "saveAttribute":
+                    saveAttribute(request, response);
+                    break;
+                case "saveAttributeValues":
+                    saveAttributeValue(request, response);
+                    break;
+                case "saveVariant":
+                    saveVariant(request, response);
+                    break;
+                case "uploadImage":
+                    uploadProductImage(request, response);
+                    break;
+                case "saveVariantAttributes":
+                    saveVariantAttributes(request, response);
+                    break;
+                case "replyComment":
+                    replyComment(request, response);
+                    break;
+                case "viewComment":
+                    viewComment(request, response);
+                    break;
+                default:
+                    handleProductDetail(request, response);
+                    break;
             }
         } catch (Exception e) {
             log.error("Error processing request", e);
@@ -178,34 +122,149 @@ public class productServlet extends HttpServlet {
         }
     }
 
-    private void deleteProductWithNull(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    private void createProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            Product emptyProduct = new Product();
+            List<Attribute> allAttributes = attributeRepository.findAll();
+            
+            request.setAttribute("allAttributes", allAttributes);
+            request.setAttribute("product", emptyProduct);
+            request.setAttribute("variantList", Collections.emptyList());
+            request.setAttribute("attributeList", Collections.emptyList());
+            request.setAttribute("attributeValuesMap", new HashMap<>());
+            request.setAttribute("variantAttrMap", new HashMap<>());
+            request.setAttribute("imageSet", new HashSet<>());
+            
+            request.getRequestDispatcher("/admin/productDetail.jsp").forward(request, response);
+        } catch (Exception e) {
+            log.error("Error creating new product form", e);
+            HttpSession session = request.getSession();
+            session.setAttribute("toastMessage", "Error loading product creation form.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+        }
+    }
+
+    private void handleProductDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String productId = request.getParameter("productId");
-        if (productId != null && !productId.isEmpty()) {
+
+        if (productId == null || productId.trim().isEmpty()) {
+            session.setAttribute("toastMessage", "Product ID is required.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+            return;
+        }
+
+        try {
             Product product = productRepository.findById(productId);
             if (product == null) {
-                request.setAttribute("errorMessage", "Product not found.");
-            }
-            else {
-                productRepository.markAsDeleted(productId);
+                session.setAttribute("toastMessage", "Product not found.");
+                session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+                return;
             }
 
+            // Get all available attributes for the dropdown
+            List<Attribute> allAttributes = attributeRepository.findAll();
+            List<Attribute> attributeList = attributeRepository.findByProductId(productId);
+            List<Variant> variantList = variantRepository.findByProductId(productId);
+            variantList.sort(Comparator.comparing(Variant::getVariantName, String.CASE_INSENSITIVE_ORDER));
+
+            // Prepare variant attributes map
+            Map<String, Map<String, String>> variantAttrMap = new HashMap<>();
+            for (Variant_Attribute va : variantAttributeRepository.findByProductId(productId)) {
+                variantAttrMap
+                    .computeIfAbsent(va.getVariant().getVariantId(), k -> new HashMap<>())
+                    .put(va.getAttribute().getName(), va.getValue());
+            }
+
+            // Prepare attribute values map
+            Map<String, Set<String>> attributeValuesMap = new HashMap<>();
+            for (Variant_Attribute va : variantAttributeRepository.findByProductId(productId)) {
+                attributeValuesMap
+                    .computeIfAbsent(va.getAttribute().getName(), k -> new LinkedHashSet<>())
+                    .add(va.getValue());
+            }
+
+            // Set all attributes in request
+            request.setAttribute("images", product.getImageUrls());
+            request.setAttribute("allAttributes", allAttributes);
+            request.setAttribute("attributeValuesMap", attributeValuesMap);
+            request.setAttribute("imageSet", product.getImageUrls());
+            request.setAttribute("variantAttrMap", variantAttrMap);
+            request.setAttribute("attributeList", attributeList);
+            request.setAttribute("variantList", variantList);
+            request.setAttribute("product", product);
+
+            request.getRequestDispatcher("/admin/productDetail.jsp").forward(request, response);
+        } catch (Exception e) {
+            log.error("Error loading product details for ID: " + productId, e);
+            session.setAttribute("toastMessage", "Error loading product details.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+        }
+    }
+
+    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        String productId = request.getParameter("productId");
+
+        if (productId == null || productId.trim().isEmpty()) {
+            session.setAttribute("toastMessage", "Product ID is required for deletion.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+            return;
+        }
+
+        try {
+            Product product = productRepository.findById(productId);
+            if (product == null) {
+                session.setAttribute("toastMessage", "Product not found for deletion.");
+                session.setAttribute("toastType", "error");
+            } else {
+                // Delete associated variants first
+                List<Variant> variants = variantRepository.findByProductId(productId);
+                for (Variant variant : variants) {
+                    variantAttributeRepository.deleteByVariantId(variant.getVariantId());
+                    variantRepository.delete(variant);
+                }
+                
+                // Delete the product
+                productRepository.delete(product);
+                session.setAttribute("toastMessage", "Product and all its variants deleted successfully.");
+                session.setAttribute("toastType", "success");
+            }
+        } catch (Exception e) {
+            log.error("Error deleting product: " + productId, e);
+            session.setAttribute("toastMessage", "Error deleting product. Please try again.");
+            session.setAttribute("toastType", "error");
         }
         response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
-
     }
 
     private void viewComment(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         String productId = request.getParameter("productId");
-        if (productId != null && !productId.isEmpty()) {
-            try {
-                List<Comment> comments = commentRepository.findByProductId(productId);
-                request.setAttribute("commentsList", comments);
-            } catch (Exception e) {
-                log.error("Error viewing comments", e);
-                session.setAttribute("toastMessage", "Error loading comments.");
-                session.setAttribute("toastType", "error");
+
+        if (productId == null || productId.trim().isEmpty()) {
+            session.setAttribute("toastMessage", "Product ID is required to view comments.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+            return;
+        }
+
+        try {
+            List<Comment> comments = commentRepository.findByProductId(productId);
+            if (comments.isEmpty()) {
+                session.setAttribute("toastMessage", "No comments found for this product.");
+                session.setAttribute("toastType", "info");
             }
+            request.setAttribute("commentsList", comments);
+        } catch (Exception e) {
+            log.error("Error viewing comments for product: " + productId, e);
+            session.setAttribute("toastMessage", "Error loading comments. Please try again.");
+            session.setAttribute("toastType", "error");
         }
         response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
     }
@@ -213,48 +272,88 @@ public class productServlet extends HttpServlet {
     private void replyComment(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         String productId = request.getParameter("productId");
+        String commentId = request.getParameter("commentId");
+        String replyText = request.getParameter("replyText");
+
+        if (productId == null || commentId == null || replyText == null || replyText.trim().isEmpty()) {
+            session.setAttribute("toastMessage", "Comment ID and reply text are required.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
+            return;
+        }
+
         try {
-            List<Comment> comment = commentRepository.findByProductId(productId);
-            session.setAttribute("toastMessage", "Comment replied successfully.");
-            session.setAttribute("toastType", "success");
+            Comment comment = commentRepository.findById(commentId);
+            if (comment == null) {
+                session.setAttribute("toastMessage", "Comment not found.");
+                session.setAttribute("toastType", "error");
+            } else {
+                comment.setReply(replyText);
+                comment.setReplyDate(new Date());
+                commentRepository.update(comment);
+                session.setAttribute("toastMessage", "Reply posted successfully.");
+                session.setAttribute("toastType", "success");
+            }
         } catch (Exception e) {
-            log.error("Error replying to comment", e);
-            session.setAttribute("toastMessage", "Error replying to comment.");
+            log.error("Error replying to comment: " + commentId, e);
+            session.setAttribute("toastMessage", "Error posting reply. Please try again.");
             session.setAttribute("toastType", "error");
         }
+        response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
     }
 
     private void saveProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         String productId = request.getParameter("productId");
-        boolean isNewProduct = (productId == null || productId.isEmpty());
-        
-        try {
-            if (isNewProduct) {
-                productId = UUID.randomUUID().toString();
-            }
+        boolean isNewProduct = (productId == null || productId.trim().isEmpty());
 
+        try {
+            // Validate required fields
             String name = request.getParameter("productName");
             String category = request.getParameter("productCategory");
             String desc = request.getParameter("productDesc");
+            
+            if (name == null || name.trim().isEmpty()) {
+                session.setAttribute("toastMessage", "Product name is required.");
+                session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + (isNewProduct ? "/admin/product?action=create" : "/admin/product?productId=" + productId));
+                return;
+            }
+
+            if (category == null || category.trim().isEmpty()) {
+                session.setAttribute("toastMessage", "Product category is required.");
+                session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + (isNewProduct ? "/admin/product?action=create" : "/admin/product?productId=" + productId));
+                return;
+            }
+
+            // Process image URLs
             String[] images = request.getParameterValues("imageUrls");
             Set<String> imageSet = new HashSet<>();
             if (images != null) {
                 Collections.addAll(imageSet, images);
             }
 
-            if (name == null || name.trim().isEmpty()) {
-                session.setAttribute("toastMessage", "Product name is required.");
-                session.setAttribute("toastType", "error");
-                response.sendRedirect(request.getContextPath() + "/admin/product?action=create");
-                return;
+            // Create or update product
+            Product product;
+            if (isNewProduct) {
+                productId = UUID.randomUUID().toString();
+                product = new Product();
+                product.setId(productId);
+            } else {
+                product = productRepository.findById(productId);
+                if (product == null) {
+                    session.setAttribute("toastMessage", "Product not found for update.");
+                    session.setAttribute("toastType", "error");
+                    response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+                    return;
+                }
             }
 
-            Product product = new Product();
-            product.setId(productId);
-            product.setName(name);
-            product.setCategory(category);
-            product.setDesc(desc);
+            // Update product fields
+            product.setName(name.trim());
+            product.setCategory(category.trim());
+            product.setDesc(desc != null ? desc.trim() : "");
             product.setImageUrls(imageSet);
 
             if (isNewProduct) {
@@ -268,7 +367,7 @@ public class productServlet extends HttpServlet {
                 defaultVariant.setAvailability(true);
                 variantRepository.create(defaultVariant);
 
-                // Add default color attribute
+                // Add default color attribute if it doesn't exist
                 Attribute colorAttribute = attributeRepository.findByName("Color");
                 if (colorAttribute == null) {
                     colorAttribute = new Attribute();
@@ -280,24 +379,27 @@ public class productServlet extends HttpServlet {
                 Variant_Attribute variantAttribute = new Variant_Attribute();
                 variantAttribute.setVariant(defaultVariant);
                 variantAttribute.setAttribute(colorAttribute);
-                variantAttribute.setValue(""); // Empty value to be filled by user
+                variantAttribute.setValue("Default");
                 variantAttributeRepository.create(variantAttribute);
 
-                session.setAttribute("toastMessage", "Product created successfully.");
+                session.setAttribute("toastMessage", "Product created successfully with default variant.");
                 session.setAttribute("toastType", "success");
+                log.info("New product created: {} with ID: {}", name, productId);
             } else {
                 productRepository.update(product);
                 session.setAttribute("toastMessage", "Product updated successfully.");
                 session.setAttribute("toastType", "success");
+                log.info("Product updated: {} with ID: {}", name, productId);
             }
-
-            response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
         } catch (Exception e) {
             log.error("Error saving product", e);
             session.setAttribute("toastMessage", "Error saving product. Please try again.");
             session.setAttribute("toastType", "error");
             response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+            return;
         }
+
+        response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
     }
 
     private void listProducts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -348,31 +450,6 @@ public class productServlet extends HttpServlet {
         }
         response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + request.getParameter("productId"));
     }
-
-    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        try {
-            String productId = request.getParameter("productId");
-            if (productId != null && !productId.isEmpty()) {
-                Product product = productRepository.findById(productId);
-                if (product != null) {
-                    productRepository.delete(product);
-                    session.setAttribute("toastMessage", "Product deleted successfully.");
-                    session.setAttribute("toastType", "success");
-                } else {
-                    session.setAttribute("toastMessage", "Product not found.");
-                    session.setAttribute("toastType", "error");
-                }
-            }
-        } catch (Exception e) {
-            log.error("Error deleting product", e);
-            session.setAttribute("toastMessage", "Error deleting product.");
-            session.setAttribute("toastType", "error");
-
-        }
-    }
-
-
 
     private void saveAttribute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
@@ -477,14 +554,15 @@ public class productServlet extends HttpServlet {
     private void uploadProductImage(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         String productId = request.getParameter("productId");
-        try {
-            if (productId == null || productId.isEmpty()) {
-                session.setAttribute("toastMessage", "Product ID is required.");
-                session.setAttribute("toastType", "error");
-                response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
-                return;
-            }
 
+        if (productId == null || productId.trim().isEmpty()) {
+            session.setAttribute("toastMessage", "Product ID is required for image upload.");
+            session.setAttribute("toastType", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+            return;
+        }
+
+        try {
             Product product = productRepository.findById(productId);
             if (product == null) {
                 session.setAttribute("toastMessage", "Product not found.");
@@ -493,29 +571,35 @@ public class productServlet extends HttpServlet {
                 return;
             }
 
-            Path uploadDir = Path.of("/var/www/uploads");
-            //if server use Path uploadDir = Path.of("/var/www/data/uploads");
             Part filePart = request.getPart("imageFile");
-            
             if (filePart == null || filePart.getSize() == 0) {
-                session.setAttribute("toastMessage", "No file selected for upload.");
+                session.setAttribute("toastMessage", "Please select an image to upload.");
                 session.setAttribute("toastType", "error");
                 response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
                 return;
             }
 
+            // Validate file type
+            String contentType = filePart.getContentType();
+            if (!contentType.startsWith("image/")) {
+                session.setAttribute("toastMessage", "Only image files are allowed.");
+                session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
+                return;
+            }
+
+            Path uploadDir = Path.of("/var/www/uploads");
+            if (!Files.exists(uploadDir)) {
+                Files.createDirectories(uploadDir);
+            }
+
             int nextNo = product.getImageUrls().size() + 1;
             String newFileName = productId + "-" + nextNo + ".png";
             Path uploadPath = uploadDir.resolve(newFileName);
-            
-            log.info("Receiving file upload for product: {}", productId);
-            log.info("Saving to path: {}", uploadPath.toAbsolutePath());
 
             try (InputStream input = filePart.getInputStream()) {
                 Files.copy(input, uploadPath, StandardCopyOption.REPLACE_EXISTING);
-                log.info("Upload successful.");
-
-                // Save filename to product imageUrls
+                
                 Set<String> urls = product.getImageUrls();
                 urls.add(newFileName);
                 product.setImageUrls(urls);
@@ -523,10 +607,11 @@ public class productServlet extends HttpServlet {
 
                 session.setAttribute("toastMessage", "Image uploaded successfully.");
                 session.setAttribute("toastType", "success");
+                log.info("Image uploaded successfully for product: {}", productId);
             }
         } catch (Exception e) {
-            log.error("Error uploading image", e);
-            session.setAttribute("toastMessage", "Error uploading image.");
+            log.error("Error uploading image for product: " + productId, e);
+            session.setAttribute("toastMessage", "Error uploading image. Please try again.");
             session.setAttribute("toastType", "error");
         }
         response.sendRedirect(request.getContextPath() + "/admin/product?productId=" + productId);
