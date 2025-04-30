@@ -16,22 +16,22 @@ A modern Jakarta EE-based e-commerce web application, designed for easy deployme
 1. **Clone the Repository in IntelliJ**
 
    - Open IntelliJ IDEA
-   - Go to `File > New > Project from Version Control > Git` (or use the welcome screen's Clone option)![1746001482968](images/README/1746001482968.png)
+   - Go to `File > New > Project from Version Control > Git` (or use the welcome screen's Clone option)
    - Paste the repository URL: https://github.com/kongjiyu/samseng-webstore.git![1746001558827](images/README/1746001558827.png)
    - Choose your desired directory and click `Clone`
 2. **Configure Database Connection in IntelliJ**
 
    - On the right sidebar, open the `Database` tool window
-   - Right-click `localhost` and select `Properties`![1746001740199](images/README/1746001740199.png)
+   - Right-click `localhost` and select `Properties`
    - Enter the credentials:
      - User: `user`
      - Password: `password`
    - Press `Test Connection` to ensure the connection
-   - Click `Save`![1746001849159](images/README/1746001849159.png)
+   - Click `Save`
 3. **Deploy and Run the Application**
 
    - At the top right corner of IntelliJ, select the pre-configured `deploy` run configuration![1746001962065](images/README/1746001962065.png)
-   - Click the green `Run` button![1746002027618](images/README/1746002027618.png)
+   - Click the green `Run` button
 4. **Build WAR File Using Docker (Platform-Specific)**
 
    - Choose the appropriate build script for your operating system:
