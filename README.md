@@ -30,7 +30,7 @@ A modern Jakarta EE-based e-commerce web application, designed for easy deployme
    - Click `Save`
 3. **Deploy and Run the Application**
 
-   - At the top right corner of IntelliJ, select the pre-configured `deploy` run configuration![1746001962065](images/README/1746001962065.png)
+   - At the top right corner of IntelliJ, select the pre-configured `deploy` run configuration
    - Click the green `Run` button
 4. **Build WAR File Using Docker (Platform-Specific)**
 
