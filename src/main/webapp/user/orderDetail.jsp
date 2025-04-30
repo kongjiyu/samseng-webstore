@@ -3,12 +3,8 @@
 <html>
 <head>
     <title>Order Detail</title>
-    <script src="
-https://cdn.jsdelivr.net/npm/jquery-raty-js@2.8.0/lib/jquery.raty.min.js
-"></script>
-    <link href="
-https://cdn.jsdelivr.net/npm/jquery-raty-js@2.8.0/lib/jquery.raty.min.css
-" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raty/2.7.1/jquery.raty.min.js"></script>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 
@@ -175,7 +171,7 @@ https://cdn.jsdelivr.net/npm/jquery-raty-js@2.8.0/lib/jquery.raty.min.css
                                                 <input type="hidden" name="variantId" value="<%= orderList.getVariant().getVariantId() %>">
                                                 <input type="hidden" name="productId" value="<%= order.getId()%>">
                                                 <input type="hidden" name="id" value="<%= order.getId()%>">
-
+                                                <input type="hidden" name="score" id="ratingScore">
                                                 <div class="modal-header m-2 flex flex-col justify-start items-start">
                                                     <div class="flex items-center gap-3">
                                                         <div class="avatar">
@@ -341,17 +337,17 @@ https://cdn.jsdelivr.net/npm/jquery-raty-js@2.8.0/lib/jquery.raty.min.css
     </div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const ratingImage = new Raty(document.querySelector('#raty-with-image'), {
-            path: '<%= request.getContextPath() %>/static/img',
-            click: function (score, evt) {
-                document.getElementById('ratingScore').value = score;
+    $(function () {
+        $('#raty-with-image').raty({
+            path: '<%= request.getContextPath() %>/static/img', // 放 star-on.png 的地方
+            scoreName: 'score', // 自动生成 <input name="score">
+            click: function(score, evt) {
+                $('#ratingScore').val(score); // 保险起见，还是赋值给你已有的 input
             }
         });
-
-        ratingImage.init();
     });
 </script>
+
 <%@include file="/general/userFooter.jsp" %>
 </body>
 </html>
