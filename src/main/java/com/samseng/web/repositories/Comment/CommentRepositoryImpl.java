@@ -68,5 +68,20 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     }
 
+    @Override
+    public boolean hasUserCommentedOnProduct(String userId, String productId) {
+        try {
+            Long count = em.createQuery(
+                "SELECT COUNT(c) FROM Comment c WHERE c.user.id = :userId AND c.product.id = :productId",
+                Long.class
+            )
+            .setParameter("userId", userId)
+            .setParameter("productId", productId)
+            .getSingleResult();
+            return count != null && count > 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
 }

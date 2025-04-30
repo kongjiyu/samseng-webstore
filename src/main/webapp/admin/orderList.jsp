@@ -97,6 +97,7 @@
             </tbody>
         </table>
 </div>
+<%@include file="/general/userFooter.jsp"%>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -106,7 +107,16 @@
                 { targets: 1, orderData: [1, 0] },
                 { targets: 2, orderData: [2, 0] },
                 { targets: 3, orderData: [3, 0] },
-                { targets: 4, orderData: [4, 0] },
+                {
+                    targets: 4, // The index of your 'Total' column
+                    render: function (data, type, row) {
+                        if (type === 'sort' || type === 'type') {
+                            // Remove 'RM', commas, and spaces, then parse as float
+                            return parseFloat(data.replace(/[^\d.-]/g, '')) || 0;
+                        }
+                        return data;
+                    }
+                },
                 { targets: 5, orderable: false }
             ],
             order: [[2, 'desc']]

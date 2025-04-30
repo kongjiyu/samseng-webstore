@@ -99,7 +99,7 @@ public class UserOrderDetail extends HttpServlet {
             String variantId = request.getParameter("variantId");
             String orderId = request.getParameter("id");
             String message = request.getParameter("text");
-            String ratingStr = request.getParameter("rating");
+            String ratingStr = request.getParameter("scoreRating");
 
             if (variantId == null || orderId == null || message == null || ratingStr == null ||
                 variantId.trim().isEmpty() || orderId.trim().isEmpty() || message.trim().isEmpty() || ratingStr.trim().isEmpty()) {
@@ -236,6 +236,17 @@ public class UserOrderDetail extends HttpServlet {
 
             // Get alternative addresses
             Address addresses = addressRepository.findDefaultByUserIdDiffrent(account.getId());
+
+            // --- New: Build map of variantId to hasCommented ---
+            java.util.Map<String, Boolean> userCommentedMap = new java.util.HashMap<>();
+            for (Order_Product op : orderProducts) {
+                String variantId = op.getVariant().getVariantId();
+                String productId = op.getVariant().getProduct().getId();
+                boolean hasCommented = commentRepository.hasUserCommentedOnProduct(currentUser.getId(), productId);
+                userCommentedMap.put(variantId, hasCommented);
+            }
+            request.setAttribute("userCommentedMap", userCommentedMap);
+            // --- End new ---
 
             // Set request attributes
             request.setAttribute("order", sales_order);

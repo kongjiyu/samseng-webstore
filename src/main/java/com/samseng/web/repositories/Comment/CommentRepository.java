@@ -19,4 +19,6 @@ public interface CommentRepository {
     List<Comment> findByProductId(String productId);
 
     Comment findByUserId(String userId);
+
+    boolean hasUserCommentedOnProduct(String userId, String productId);
 }

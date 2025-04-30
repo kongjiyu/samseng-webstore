@@ -82,6 +82,7 @@
   </div>
 
 </div>
+<%@include file="/general/userFooter.jsp"%>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {

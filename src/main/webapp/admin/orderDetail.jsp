@@ -276,6 +276,7 @@
         </div>
     </div>
 </div>
+<%@include file="/general/userFooter.jsp"%>
 
 <script>
     function openStageModal() {

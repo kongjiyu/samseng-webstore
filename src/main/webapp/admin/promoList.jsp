@@ -107,6 +107,7 @@
         </div>
     </div>
 </div>
+<%@include file="/general/userFooter.jsp"%>
 
 </body>
 

@@ -3,6 +3,15 @@
 <html>
 <head>
     <title>Order Detail</title>
+    <script src="
+https://cdn.jsdelivr.net/npm/jquery-raty-js@2.8.0/lib/jquery.raty.min.js
+"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/jquery-raty-js@2.8.0/lib/jquery.raty.min.css
+" rel="stylesheet">
+    <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
+    <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
+
 </head>
 <body data-theme="light" class="bg-transparent">
 <video autoplay muted loop class="fixed top-0 left-0 w-full h-full object-cover -z-10">
@@ -11,6 +20,7 @@
 </video>
 <%@ include file="/general/userHeader.jsp" %>
 <% Account account = (Account) request.getAttribute("account"); %>
+<% java.util.Map<String, Boolean> userCommentedMap = (java.util.Map<String, Boolean>) request.getAttribute("userCommentedMap"); %>
 <div class="container mx-auto p-6">
     <div class="flex flex-col w-full bg-base-100 p-10 px-24 rounded-lg shadow">
         <div class="flex flex-col md:flex-row items-center justify-between mb-10 gap-4 md:gap-0">
@@ -134,8 +144,12 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>
-                                <!-- TODO Ahdan: This is where the button to expand modal is-->
+                            <td class="text-center">
+                                <% boolean hasCommented = false;
+                                   if (userCommentedMap != null && userCommentedMap.get(orderList.getVariant().getVariantId()) != null) {
+                                       hasCommented = userCommentedMap.get(orderList.getVariant().getVariantId());
+                                   }
+                                   if (!hasCommented) { %>
                                 <button class="mx-auto flex flex-row gap-3" aria-haspopup="dialog" aria-expanded="false"
                                         aria-controls="<%= orderList.getVariant().getVariantId()%>"
                                         data-overlay="#<%= orderList.getVariant().getVariantId()%>">
@@ -188,15 +202,10 @@
 
                                                 <!-- TODO Ahdan: Textarea field is here, below is submit button under "Save changes"-->
                                                 <div class="modal-body">
+                                                    <div class="flex" id="raty-with-image"></div>
+                                                    <input type="hidden" name="score" id="ratingScore">
                                                     <div class="mx-2 pb-2">
-                                                      <div class="rating rating-lg flex justify-center gap-1">
-                                                        <input type="radio" name="rating" value="1" class="mask mask-star-2 bg-warning" required/>
-                                                        <input type="radio" name="rating" value="2" class="mask mask-star-2 bg-warning" />
-                                                        <input type="radio" name="rating" value="3" class="mask mask-star-2 bg-warning" />
-                                                        <input type="radio" name="rating" value="4" class="mask mask-star-2 bg-warning" />
-                                                        <input type="radio" name="rating" value="5" class="mask mask-star-2 bg-warning" />
-                                                    </div>
-                                                    <textarea class="textarea textarea-xl"
+                                                        <textarea class="textarea textarea-xl"
                                                               placeholder="Write about your experience..."
                                                               aria-label="Textarea" name="text"></textarea>
                                                     </div>
@@ -213,6 +222,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <% } else { %>
+                                <span class="text-success">Reviewed</span>
+                                <% } %>
                             </td>
                             <td class="text-center"><%= orderList.getQuantity()%>
                             </td>
@@ -328,6 +340,18 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ratingImage = new Raty(document.querySelector('#raty-with-image'), {
+            path: '<%= request.getContextPath() %>/static/img',
+            click: function (score, evt) {
+                document.getElementById('ratingScore').value = score;
+            }
+        });
+
+        ratingImage.init();
+    });
+</script>
 <%@include file="/general/userFooter.jsp" %>
 </body>
 </html>

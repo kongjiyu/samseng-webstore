@@ -61,6 +61,7 @@
         </div>
     </div>
 </div>
+<%@include file="/general/userFooter.jsp"%>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>

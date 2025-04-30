@@ -18,7 +18,6 @@
     <title><%=productObj.getName()%>
     </title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
-    <link href="<%= request.getContextPath() %>/static/css/cart.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
     <link href="<%= request.getContextPath() %> https://cdn.jsdelivr.net/npm/raty-js@4.3.0/src/raty.min.css "
           rel="stylesheet">

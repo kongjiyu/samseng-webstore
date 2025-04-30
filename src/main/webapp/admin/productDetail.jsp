@@ -467,6 +467,7 @@
         </div>
     </div>
 </div>
+<%@include file="/general/userFooter.jsp"%>
 
 <script>
     function addValue(button, attrName) {
