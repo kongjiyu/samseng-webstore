@@ -25,6 +25,9 @@
             <%
                 Product productObj = (Product) request.getAttribute("product");
             %>
+            <%
+                Account profile = (Account) session.getAttribute("profile");
+            %>
             <h2 class="text-2xl font-bold">Product Information</h2>
             <div class="card bg-base-100 shadow-md p-4 space-y-4">
                 <div id="horizontal-thumbnails" data-carousel class="relative w-full">
@@ -117,7 +120,9 @@
                         <textarea name="productDesc" class="textarea resize-y textarea-bordered w-full product-field"
                                   rows="20"><%= productObj.getDesc() != null ? productObj.getDesc() : "" %></textarea>
                     </div>
+
                     <div class="flex justify-end mt-4 gap-3">
+                        <% if (profile.getRole()== Account.Role.ADMIN){%>
                         <button class="btn btn-error btn-sm"
                                 type="button"
                                 name="action"
@@ -127,7 +132,7 @@
                             <span class="icon-[tabler--trash] mr-1"></span>
                             Delete
                         </button>
-
+                      <% } %>
                         <button class="btn btn-info btn-sm" type="submit" name="action" id="saveProductBtn" disabled
                                 value="<%= productObj.getId() != null ? "update" : "save" %>">
                             <span class="icon-[tabler--device-floppy] mr-1"></span>
