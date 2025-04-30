@@ -157,7 +157,10 @@
                                     <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
                                         <div class="modal-content">
                                             <%--Reply Comment Form--%>
-                                            <form method="#">
+                                            <form method="post" action="<%= request.getContextPath() %>/user/detail?action=addComment">
+                                                <input type="hidden" name="variantId" value="<%= orderList.getVariant().getVariantId() %>">
+                                                <input type="hidden" name="id" value="<%= order.getId()%>">
+
                                                 <div class="modal-header m-2 flex flex-col justify-start items-start">
                                                     <div class="flex items-center gap-3">
                                                         <div class="avatar">
@@ -187,16 +190,17 @@
                                                     <div class="mx-2 pb-2">
                                                     <textarea class="textarea textarea-xl"
                                                               placeholder="Write about your experience..."
-                                                              aria-label="Textarea"></textarea>
+                                                              aria-label="Textarea" name="text"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-soft btn-secondary"
-                                                            data-overlay="#middle-center-modal">Close
+                                                            data-overlay="#<%= orderList.getVariant().getVariantId()%>">Close
                                                     </button>
                                                     <button type="submit" class="btn btn-primary">Save changes
                                                     </button>
                                                 </div>
+
                                             </form>
                                         </div>
                                     </div>

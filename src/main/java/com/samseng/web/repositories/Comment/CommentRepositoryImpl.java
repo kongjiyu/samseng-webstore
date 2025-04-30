@@ -2,6 +2,7 @@ package com.samseng.web.repositories.Comment;
 
 import com.samseng.web.models.Comment;
 import com.samseng.web.models.Product;
+import jakarta.ejb.Stateless;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -10,7 +11,7 @@ import jakarta.transaction.Transactional;
 
 import java.util.List;
 
-@ApplicationScoped // can go ahead call no need to import the method
+@Stateless // can go ahead call no need to import the method
 @Transactional
 public class CommentRepositoryImpl implements CommentRepository {
     @PersistenceContext
@@ -18,6 +19,7 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public void create(Comment comment) {
+        System.out.println(">> Persist called with comment: " + comment.getMessage());
         em.persist(comment);
     }
 

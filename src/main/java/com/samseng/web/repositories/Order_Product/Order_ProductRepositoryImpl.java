@@ -52,6 +52,12 @@ public class Order_ProductRepositoryImpl implements Order_ProductRepository {
                 .getResultList();
     }
 
+    @Override
+    public Order_Product findByVariant(String id) {
+        return em.createQuery("SELECT o FROM Order_Product o WHERE o.variant.id =: id", Order_Product.class)
+        .setParameter("id",id).getSingleResult();
+    }
+
 
 
     @Override

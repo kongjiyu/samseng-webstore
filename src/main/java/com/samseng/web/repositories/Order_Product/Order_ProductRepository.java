@@ -25,4 +25,6 @@ public interface Order_ProductRepository {
     List<Object[]> findMonthlySalesForTopProducts(List<String> productIds);
 
     List<Object[]> findRevenueByProductCategory();
+
+    Order_Product findByVariant(String id) ;
 }

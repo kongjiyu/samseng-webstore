@@ -47,6 +47,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
     }
 
+
     @Override
     public void delete(Product product) {
         em.remove(product);
