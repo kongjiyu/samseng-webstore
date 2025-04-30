@@ -179,7 +179,7 @@
                 <div class="modal-header block">
                     <div class="relative">
                         <input class="input ps-8 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500" type="text"
-                               placeholder="Search or type a command"
+                               placeholder="Search for a product..."
                                role="combobox" aria-expanded="false" value="" autofocus=""
                                data-combo-box-input=""/>
                         <span
