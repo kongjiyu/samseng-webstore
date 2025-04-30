@@ -338,7 +338,7 @@
                                  style="display: none">
                                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 <%
-    List<Address> addresses = (List<Address>) request.getAttribute("addresses");
+    List<Address> addresses = (List<Address>) session.getAttribute("addresses");
     if(addresses != null){
     for (Address address : addresses) {
 %>
