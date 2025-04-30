@@ -92,22 +92,42 @@ public class AccountProfileServlet extends HttpServlet {
 
         if (account != null) {
             account.setUsername(newUsername);
-            account.setEmail(email);
+            // Check if email has changed before updating
+            boolean emailChanged = !account.getEmail().equals(email);
             account.setRole(newRole);
             account.setDob(newDob);
             account.setPassword(password);
-            try {
-                accountRepo.update(account);
-                request.getSession().setAttribute("profile", account);
-                request.getSession().setAttribute("toastType", "success");
-                request.getSession().setAttribute("toastMessage", "Profile updated successfully.");
-                response.sendRedirect(request.getContextPath() + "/login-flow");
-            } catch (Exception e) {
-                e.printStackTrace();
-                request.getSession().setAttribute("toastType", "error");
-                request.getSession().setAttribute("toastMessage", "Failed to update profile.");
-                request.setAttribute("error", "Failed to update profile.");
-                request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
+            if (emailChanged) {
+                account.setEmail(email);
+                try {
+                    accountRepo.update(account);
+                    request.getSession().setAttribute("toastType", "success");
+                    request.getSession().setAttribute("toastMessage", "Email updated. Please log in again.");
+                    response.sendRedirect(request.getContextPath() + "/logout");
+                    return;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.getSession().setAttribute("toastType", "error");
+                    request.getSession().setAttribute("toastMessage", "Failed to update profile.");
+                    request.setAttribute("error", "Failed to update profile.");
+                    request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
+                    return;
+                }
+            } else {
+                account.setEmail(email);
+                try {
+                    accountRepo.update(account);
+                    request.getSession().setAttribute("profile", account);
+                    request.getSession().setAttribute("toastType", "success");
+                    request.getSession().setAttribute("toastMessage", "Profile updated successfully.");
+                    response.sendRedirect(request.getContextPath() + "/login-flow");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.getSession().setAttribute("toastType", "error");
+                    request.getSession().setAttribute("toastMessage", "Failed to update profile.");
+                    request.setAttribute("error", "Failed to update profile.");
+                    request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
+                }
             }
         } else {
             request.getSession().setAttribute("toastType", "error");

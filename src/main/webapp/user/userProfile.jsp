@@ -68,6 +68,7 @@
                         <div>
                             <label class="label">Email</label>
                             <input type="email" class="input input-bordered w-full" name="email" value="<%=profile.getEmail()%>"/>
+                            <small class="text-sm text-warning">Changing your email will log you out automatically.</small>
                         </div>
                         <div>
                             <label class="label">Role</label>
