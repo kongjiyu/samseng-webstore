@@ -41,7 +41,9 @@
                     %>
                     <span class="text-3xl uppercase"><%= initials.toString() %></span>
                 </div>
+                <% if (account.getRole()==Role.ADMIN){ %>
                 <button class="btn btn-outline btn-error mt-6" data-overlay="#delete-confirm-modal">Delete</button>
+                <% } %>
             </div>
 
             <!-- Profile Information Form -->

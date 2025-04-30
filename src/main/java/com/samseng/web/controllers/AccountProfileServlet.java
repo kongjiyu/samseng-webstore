@@ -248,6 +248,7 @@ public class AccountProfileServlet extends HttpServlet {
         // Retrieve addresses for request attribute (needed for all forwards)
         Account accountProfile = accountRepo.findAccountByEmail(req.getUserPrincipal().getName());
         List<Address> addressList = addressRepo.findByUserId(accountProfile.getId());
+
         req.setAttribute("addresses", addressList);
 
         if (name == null || name.isBlank() || contactNo == null || contactNo.isBlank() ||
