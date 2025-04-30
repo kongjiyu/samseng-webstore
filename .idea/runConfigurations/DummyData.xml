@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="DummyData" type="DatabaseScript">
+    <script-file value="$PROJECT_DIR$/src/main/resources/DummyData.sql" />
+    <script-file value="$PROJECT_DIR$/src/main/resources/Sales_dummyData.sql" />
+    <script-mode>FILE</script-mode>
+    <data-source id="696d1b9c-2864-4549-96c0-ba232b0b13be" namespace="database/&quot;user&quot;/schema/&quot;public&quot;" />
+    <method v="2" />
+  </configuration>
+</component>

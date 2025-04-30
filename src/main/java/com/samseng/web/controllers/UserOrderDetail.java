@@ -95,28 +95,55 @@ public class UserOrderDetail extends HttpServlet {
         HttpSession session = request.getSession();
 
         try {
+            // Get and validate parameters
             String variantId = request.getParameter("variantId");
-            String productId = request.getParameter("productId");
             String orderId = request.getParameter("id");
             String message = request.getParameter("text");
+            String ratingStr = request.getParameter("rating");
 
-            // Find the variant and order product
+            if (variantId == null || orderId == null || message == null || ratingStr == null ||
+                variantId.trim().isEmpty() || orderId.trim().isEmpty() || message.trim().isEmpty() || ratingStr.trim().isEmpty()) {
+                session.setAttribute("toastMessage", "All fields are required for the review.");
+                session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/user/detail?action=view&id=" + orderId);
+                return;
+            }
+
+            // Validate message length
+            if (message.length() < 1 || message.length() > 200) {
+                session.setAttribute("toastMessage", "Review text must be between 1 and 200 characters.");
+                session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/user/detail?action=view&id=" + orderId);
+                return;
+            }
+
+            // Parse and validate rating
+            int rating;
+            try {
+                rating = Integer.parseInt(ratingStr);
+                if (rating < 1 || rating > 5) {
+                    throw new NumberFormatException("Rating must be between 1 and 5");
+                }
+            } catch (NumberFormatException e) {
+                session.setAttribute("toastMessage", "Invalid rating value. Please select a rating between 1 and 5 stars.");
+                session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/user/detail?action=view&id=" + orderId);
+                return;
+            }
+
+            // Find the variant and validate
             Variant variant = variantRepository.findById(variantId);
-            Order_Product orderProduct = productRepository.findByVariant(variantId);
-
-
-            if (variant == null || orderProduct == null) {
+            if (variant == null || variant.getProduct() == null) {
                 session.setAttribute("toastMessage", "Unable to locate the product for review.");
                 session.setAttribute("toastType", "error");
                 response.sendRedirect(request.getContextPath() + "/user/detail?action=view&id=" + orderId);
                 return;
             }
 
-            // Get user from session
+            // Get and validate user from session
             Account user = (Account) session.getAttribute("profile");
-
             if (user == null) {
-                session.setAttribute("toastMessage", "You must be logged in to comment.");
+                session.setAttribute("toastMessage", "You must be logged in to submit a review.");
                 session.setAttribute("toastType", "error");
                 response.sendRedirect(request.getContextPath() + "/login.jsp");
                 return;
@@ -126,13 +153,21 @@ public class UserOrderDetail extends HttpServlet {
             Comment comment = new Comment();
             comment.setUser(user);
             comment.setProduct(variant.getProduct());
-            comment.setMessage(message);
-            comment.setRating(4);
+            comment.setMessage(message.trim());
+            comment.setRating(rating);
+            
             commentRepository.create(comment);
 
+            // Set success message
+            session.setAttribute("toastMessage", "Thank you! Your review has been submitted successfully.");
+            session.setAttribute("toastType", "success");
+
+            log.info("Comment added successfully for product {} by user {}", variant.getProduct().getId(), user.getId());
 
         } catch (Exception e) {
             log.error("Error adding comment", e);
+            session.setAttribute("toastMessage", "An error occurred while submitting your review. Please try again.");
+            session.setAttribute("toastType", "error");
         }
 
         response.sendRedirect(request.getContextPath() + "/user/detail?action=view&id=" + request.getParameter("id"));

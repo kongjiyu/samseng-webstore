@@ -159,6 +159,7 @@
                                             <%--Reply Comment Form--%>
                                             <form method="post" action="<%= request.getContextPath() %>/user/detail?action=addComment">
                                                 <input type="hidden" name="variantId" value="<%= orderList.getVariant().getVariantId() %>">
+                                                <input type="hidden" name="productId" value="<%= order.getId()%>">
                                                 <input type="hidden" name="id" value="<%= order.getId()%>">
 
                                                 <div class="modal-header m-2 flex flex-col justify-start items-start">
@@ -188,6 +189,13 @@
                                                 <!-- TODO Ahdan: Textarea field is here, below is submit button under "Save changes"-->
                                                 <div class="modal-body">
                                                     <div class="mx-2 pb-2">
+                                                      <div class="rating rating-lg flex justify-center gap-1">
+                                                        <input type="radio" name="rating" value="1" class="mask mask-star-2 bg-warning" required/>
+                                                        <input type="radio" name="rating" value="2" class="mask mask-star-2 bg-warning" />
+                                                        <input type="radio" name="rating" value="3" class="mask mask-star-2 bg-warning" />
+                                                        <input type="radio" name="rating" value="4" class="mask mask-star-2 bg-warning" />
+                                                        <input type="radio" name="rating" value="5" class="mask mask-star-2 bg-warning" />
+                                                    </div>
                                                     <textarea class="textarea textarea-xl"
                                                               placeholder="Write about your experience..."
                                                               aria-label="Textarea" name="text"></textarea>
