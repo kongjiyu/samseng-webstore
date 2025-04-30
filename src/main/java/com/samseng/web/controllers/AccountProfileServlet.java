@@ -160,7 +160,6 @@ public class AccountProfileServlet extends HttpServlet {
 
             Account accountProfile = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
             List<Address> addressList = addressRepo.findByUserId(accountProfile.getId());
-            request.setAttribute("addresses", addressList);
 
             if (name == null || name.isBlank() || contactNo == null || contactNo.isBlank() ||
                     address1 == null || address1.isBlank() || postcodeStr == null || postcodeStr.isBlank() ||
@@ -210,6 +209,8 @@ public class AccountProfileServlet extends HttpServlet {
             if (address.getIsdefault()) {
                 addressRepo.unsetOtherDefaults(address.getUser().getId(), address.getId());
             }
+            addressList = addressRepo.findByUserId(address.getUser().getId());
+            request.setAttribute("addresses", addressList);
 
             request.getSession().setAttribute("toastType", "success");
             request.getSession().setAttribute("toastMessage", "Successfully updated address.");

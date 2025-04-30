@@ -31,7 +31,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Profile Picture -->
             <div class="col-span-1 flex flex-col items-center my-auto">
-                <div class="relative inline-flex items-center justify-center w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                <div class="relative inline-flex items-center justify-center w-24 h-24 overflow-hidden bg-secondary rounded-full">
                     <%
                         String[] nameParts = profile.getUsername().trim().split("\\s+");
                         StringBuilder initials = new StringBuilder();
@@ -71,7 +71,7 @@
                         </div>
                         <div>
                             <label class="label">Role</label>
-                            <input type="text" class="input input-bordered w-full" placeholder="User" disabled/>
+                            <input type="text" class="input input-bordered w-full" placeholder="<%=profile.getRole().name()%>" disabled/>
                         </div>
                     </div>
 

@@ -99,7 +99,8 @@
                         <label class="block font-semibold">Product ID:</label>
                         <input type="text" name="productId" class="input input-bordered w-full"
                                value="<%= productObj.getId() != null ? productObj.getId() : "" %>" <%= productObj.getId() != null ? "disabled" : ""%> >
-                        <input type="hidden" name="productId" value="<%= productObj.getId() != null ? productObj.getId() : "" %>" <%= productObj.getId() != null ? "" : "disabled"%> />
+                        <input type="hidden" name="productId"
+                               value="<%= productObj.getId() != null ? productObj.getId() : "" %>" <%= productObj.getId() != null ? "" : "disabled"%> />
                     </div>
                     <div>
                         <label class="block font-semibold">Product Name: </label>
@@ -272,14 +273,14 @@
     </div>
 
 
-            <%
-                List<Comment> commentList = (List<Comment>) request.getAttribute("commentsList");
-                if (commentList != null && !commentList.isEmpty()) {
-            %>
+    <%
+        List<Comment> commentList = (List<Comment>) request.getAttribute("commentsList");
+        if (commentList != null && !commentList.isEmpty()) {
+    %>
     <div class="my-5 flex flex-row  bg-base-100 border rounded-lg shadow divide-y divide-base-300">
         <div class="w-full p-10">
 
-        <h2 class="text-2xl font-bold">Comments</h2>
+            <h2 class="text-2xl font-bold">Comments</h2>
             <% for (Comment comment : commentList) {
                 if (comment.getReply() == null) {
             %>
@@ -292,9 +293,11 @@
                     </div>
 
                     <div class="gap-3 mt-1 ml-4">
-                        <p class="font-semibold text-[18px]"><%=comment.getUser().getUsername()%></p>
+                        <p class="font-semibold text-[18px]"><%=comment.getUser().getUsername()%>
+                        </p>
                         <div class="user-rating flex" data-score="<%= comment.getRating() %>"></div>
-                        <p class="w-full text-[18px] mt-3"><%= comment.getMessage()%></p>
+                        <p class="w-full text-[18px] mt-3"><%= comment.getMessage()%>
+                        </p>
 
                         <% String modalId = "reply-modal-" + comment.getId(); %>
 
@@ -320,7 +323,8 @@
                 <div class="divider"></div>
             </div>
             <div id="<%= modalId %>"
-                 class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog" tabindex="-1">
+                 class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden"
+                 role="dialog" tabindex="-1">
                 <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
                     <div class="modal-content">
                         <%--Reply Comment Form--%>
@@ -329,7 +333,8 @@
                             <input type="hidden" name="productId" value="<%= productObj.getId() %>"/>
                             <div class="modal-header m-2">
                                 <h3 class="modal-title">Admin Reply</h3>
-                                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#<%= modalId %>">
+                                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
+                                        aria-label="Close" data-overlay="#<%= modalId %>">
                                     <span class="icon-[tabler--x] size-4"></span>
                                 </button>
                             </div>
@@ -351,16 +356,14 @@
                 </div>
             </div>
             <%
+                    }
                 }
-            }
-        %>
+            %>
         </div>
     </div>
-            <% } %>
+    <% } %>
 
 </div>
-
-
 
 
 <div id="add-attribute-modal"
@@ -433,12 +436,15 @@
 </div>
 
 
-<div id="delete-confirm-modal" class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog" tabindex="-1">
+<div id="delete-confirm-modal"
+     class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog"
+     tabindex="-1">
     <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300 max-w-md w-full">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Confirm Product Deletion</h3>
-                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#change-password-modal">
+                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close"
+                        data-overlay="#change-password-modal">
                     <span class="icon-[tabler--x] size-4"></span>
                 </button>
             </div>
@@ -447,8 +453,8 @@
             </div>
             <div class="modal-footer">
                 <form method="post" action="${pageContext.request.contextPath}/admin/product">
-                    <input type="hidden" name="action" value="deleteProduct" />
-                    <input type="hidden" name="productId" value="<%= productObj.getId() %>" />
+                    <input type="hidden" name="action" value="deleteProduct"/>
+                    <input type="hidden" name="productId" value="<%= productObj.getId() %>"/>
                     <button type="submit" class="btn btn-danger">Yes, Delete</button>
                     <button type="button" class="btn btn-secondary" data-overlay="#delete-confirm-modal">Cancel</button>
                 </form>
