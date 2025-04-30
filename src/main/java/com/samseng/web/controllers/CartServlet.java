@@ -55,7 +55,7 @@ public class CartServlet extends HttpServlet {
                 List<Address> addressList = addressRepository.findByUserId(user.getId());
                 session.setAttribute("cart", cartItems);
                 session.setAttribute("addresses", addressList);
-                response.sendRedirect(request.getContextPath() + "/cart.jsp");
+                forwardToCartPage(request, response, session);
                 return;
             }
             if (user != null) {
@@ -78,7 +78,6 @@ public class CartServlet extends HttpServlet {
                                   Account user, String action, String variantId) throws ServletException, IOException {
         List<CartItemDTO> cartItems = cartProductRepository.findByAccountId(user.getId());
         List<Address> addressList = addressRepository.findByUserId(user.getId());
-        session.setAttribute("addresses", addressList);
         request.setAttribute("addresses", addressList);
 
         boolean shouldRedirect = false;
@@ -133,7 +132,8 @@ public class CartServlet extends HttpServlet {
                     break;
 
                 default:
-                    shouldRedirect = true;
+                    session.setAttribute("toastMessage", "Invalid action specified.");
+                    session.setAttribute("toastType", "error");
             }
         } catch (Exception e) {
             session.setAttribute("toastMessage", "Failed to update cart: " + e.getMessage());
@@ -280,7 +280,6 @@ public class CartServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setAttribute("promoCode", session.getAttribute("promoCode"));
         request.setAttribute("promoError", session.getAttribute("promoError"));
-        request.setAttribute("addresses", session.getAttribute("addresses"));
         session.removeAttribute("promoCode");
         session.removeAttribute("promoError");
         request.getRequestDispatcher("/cart.jsp").forward(request, response);

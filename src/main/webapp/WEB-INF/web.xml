@@ -66,4 +66,34 @@
             <role-name>STAFF</role-name>
         </auth-constraint>
     </security-constraint>
+
+    <context-param>
+        <param-name>companyName</param-name>
+        <param-value>Samseng Electronics</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>companyContact</param-name>
+        <param-value>+60102407930</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>companyAddress</param-name>
+        <param-value>Ground Floor, Bangunan Tan Sri Khaw Kai Boh (Block A), Jalan Genting Kelang, Setapak, 53300 Kuala Lumpur, Federal Territory of Kuala Lumpur</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>companyLogo</param-name>
+        <param-value>SAMSENG</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>companyEmail</param-name>
+        <param-value>kongjiyu0198@gmail.com</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>copyright</param-name>
+        <param-value>2025 SAMSENG</param-value>
+    </context-param>
 </web-app>

@@ -1,6 +1,11 @@
 <%@ page import="com.samseng.web.models.Account" %>
 <%@ page import="com.samseng.web.dto.CartItemDTO" %>
 <%@ page import="java.util.List" %>
+<%
+  response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  response.setHeader("Pragma", "no-cache");
+  response.setDateHeader("Expires", 0);
+%>
 <html>
 <head>
   <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
@@ -12,7 +17,7 @@
 <nav data-theme="light" class="navbar rounded-box flex w-full items-center justify-between gap-2 shadow-base-300/20 shadow-sm">
   <div class="navbar-start max-md:w-1/4">
     <a class="link text-base-content link-neutral text-xl font-bold no-underline" href="/">
-      SAMSENG
+      ${companyLogo}
     </a>
   </div>
   <div class="navbar-center max-md:hidden">

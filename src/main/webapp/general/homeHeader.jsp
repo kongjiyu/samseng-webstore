@@ -3,6 +3,11 @@
 <%@page import="com.samseng.web.dto.CartItemDTO" %>
 <%@page import="java.util.List" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", 0);
+%>
 <html>
 <head>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
@@ -14,7 +19,7 @@
 <nav data-theme="light" class="navbar backdrop-blur-lg bg-white/10 text-white shadow-lg gap-4 fixed top-0 left-0 w-full z-50">
     <div class="navbar-start items-center justify-between max-md:w-full">
         <a class="link text-white text-xl font-bold no-underline" href="<%= request.getContextPath() %>/index.jsp">
-            SAMSENG
+            ${companyLogo}
         </a>
     </div>
     <div class="navbar-center max-md:hidden bg-transparent text-white">

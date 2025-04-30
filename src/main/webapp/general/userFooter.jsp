@@ -7,7 +7,7 @@
 <body>
 <footer data-theme="light" class="footer bg-base-200 flex flex-col items-center gap-4 p-6">
     <div class="flex items-center gap-2 text-xl font-bold">
-        <span>SAMSENG</span>
+        <span>${companyLogo}</span>
     </div>
     <aside>
         <div class="flex flex-row items-center justify-center max-h-20 gap-1">
@@ -17,7 +17,7 @@
                 <path stroke="none" d="M0 0h20v20H0z" fill="none"/>
                 <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
                 <path d="M14 9.75a3.016 3.016 0 0 0 -4.163 .173a2.993 2.993 0 0 0 0 4.154a3.016 3.016 0 0 0 4.163 .173"/>
-                <span>2025 SAMSENG</span>
+                <span>${copyright}</span>
             </svg>
         </div>
     </aside>

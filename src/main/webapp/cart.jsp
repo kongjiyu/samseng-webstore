@@ -143,8 +143,8 @@
             <form action="<%= request.getContextPath() %>/promo-code" method="post"
                   class="join form-control max-w-sm m-3 w-[90%]">
                 <input id="promo-code" name="promo-code" type="text" style="text-transform:uppercase"
-                       class="input join-item" placeholder="Promo Code"/>
-                <button type="submit" class="btn btn-primary join-item">Submit</button>
+                       class="input join-item" placeholder="Promo Code" <%= session.getAttribute("profile") == null ? "disabled" : ""%>/>
+                <button type="submit" class="btn btn-primary join-item" <%= session.getAttribute("profile") == null ? "disabled" : ""%>>Submit</button>
             </form>
         </div>
 
