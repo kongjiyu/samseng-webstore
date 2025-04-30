@@ -2,6 +2,10 @@
 <%@ page import="java.util.List" %>
 <%@page import="com.samseng.web.models.*" %>
 <%@page import="com.samseng.web.models.Account.Role" %>
+<%
+    Account currentUser = (Account) session.getAttribute("profile");
+    boolean isAdmin = currentUser != null && currentUser.getRole() == Role.ADMIN;
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +45,7 @@
                     %>
                     <span class="text-3xl uppercase"><%= initials.toString() %></span>
                 </div>
-                <% if (account.getRole()==Role.ADMIN){ %>
+                <% if (isAdmin) { %>
                 <button class="btn btn-outline btn-error mt-6" data-overlay="#delete-confirm-modal">Delete</button>
                 <% } %>
             </div>
@@ -58,20 +62,20 @@
                         <div>
                             <label class="label">Username</label>
                             <input type="text" class="input input-bordered w-full" name="username"
-                                   value="<%=account.getUsername()%>"/>
+                                   value="<%=account.getUsername()%>" <%= !isAdmin ? "disabled" : "" %> />
                         </div>
                         <div>
                             <label class="label">Date of Birth</label>
-                            <input type="date" class="input input-bordered w-full" value="<%=account.getDob()%>"/>
+                            <input type="date" class="input input-bordered w-full" value="<%=account.getDob()%>" <%= !isAdmin ? "disabled" : "" %> />
                         </div>
                         <div>
                             <label class="label">Email</label>
                             <input type="email" class="input input-bordered w-full" name="email"
-                                   value="<%=account.getEmail()%>"/>
+                                   value="<%=account.getEmail()%>" <%= !isAdmin ? "disabled" : "" %> />
                         </div>
                         <div>
                             <label class="label">Role</label>
-                            <select class="select w-full appearance-none" name="role" required>
+                            <select class="select w-full appearance-none" name="role" required <%= !isAdmin ? "disabled" : "" %>>
                                 <option value="USER" <%= account.getRole() == Role.USER ? "selected" : "" %>>
                                     User
                                 </option>
@@ -88,6 +92,7 @@
                     <input type="hidden" name="action" value="saveUpdatedAccount"/>
                     <div class="text-right">
                         <input type="hidden" name="id" value="<%=account.getId()%>"/>
+                        <% if (isAdmin) { %>
                         <button class="btn btn-info" type="submit">Save</button>
                         <button type="button" class="btn btn-warning ml-2"
                                 aria-haspopup="dialog" aria-expanded="false"
@@ -95,6 +100,7 @@
                                 data-overlay="#change-password-modal">
                             Change Password
                         </button>
+                        <% } %>
                     </div>
                 </form>
             </div>
@@ -136,11 +142,13 @@
                     <span class="badge badge-info mt-2">Default</span>
                     <% } %>
                 </div>
+                <% if (isAdmin) { %>
                 <button type="button" class="btn btn-outline btn-sm" aria-haspopup="dialog" aria-expanded="false"
                         aria-controls="edit-address-modal-<%=address.getId()%>"
                         data-overlay="#edit-address-modal-<%=address.getId()%>">
                     Edit
                 </button>
+                <% } %>
             </div>
             <%
                 }
@@ -151,6 +159,7 @@
         </div>
 
 
+        <% if (isAdmin) { %>
         <div class="text-right mt-4">
             <!-- Add Address Button -->
             <button type="button" class="btn btn-info btn-sm" aria-haspopup="dialog" aria-expanded="false"
@@ -178,40 +187,41 @@
 
                                 <div class="grid grid-cols-1 gap-4">
                                     <input type="text" class="input input-bordered w-full"
-                                           placeholder="Address Title (e.g. Home)" name="address_title" required/>
+                                           placeholder="Address Title (e.g. Home)" name="address_title" required <%= !isAdmin ? "disabled" : "" %>/>
                                     <input type="text" class="input input-bordered w-full" placeholder="Address Line 1"
-                                           name="address_1" required/>
+                                           name="address_1" required <%= !isAdmin ? "disabled" : "" %>/>
                                     <input type="text" class="input input-bordered w-full" placeholder="Address Line 2"
-                                           name="address_2"/>
+                                           name="address_2" <%= !isAdmin ? "disabled" : "" %>/>
                                     <input type="text" class="input input-bordered w-full" placeholder="Address Line 3"
-                                           name="address_3"/>
+                                           name="address_3" <%= !isAdmin ? "disabled" : "" %>/>
 
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <input type="text" class="input input-bordered w-full"
-                                           placeholder="State / Province" name="state" required/>
-                                           <input type="text" class="input input-bordered w-full"
+                                           placeholder="State / Province" name="state" required <%= !isAdmin ? "disabled" : "" %>/>
+                                    <input type="text" class="input input-bordered w-full"
                                            placeholder="Postal Code"
                                            name="postcode"
                                            pattern="\d{5}"
                                            maxlength="5"
                                            inputmode="numeric"
                                            required
-                                           title="Please enter a 5-digit postcode"/>
+                                           title="Please enter a 5-digit postcode"
+                                           <%= !isAdmin ? "disabled" : "" %>/>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                
+
                                     <select class="select select-bordered w-full" name="country" disabled required>
                                         <option value="Malaysia" selected>Malaysia</option>
                                     </select>
                                     <input type="hidden" name="country" value="Malaysia"/>
                                     <input type="tel" class="input input-bordered w-full" placeholder="Phone Number"
-                                    name="contact_no" id="contact-no-input" required/>
+                                    name="contact_no" id="contact-no-input" required <%= !isAdmin ? "disabled" : "" %>/>
 
                                 </div>
                                 <label class="flex items-center gap-2">
                                     <input type="checkbox" class="checkbox"
-                                           name="isdefault" <%= (addressList != null && addressList.isEmpty()) ? "checked disabled" : "" %>/>
+                                           name="isdefault" <%= (addressList != null && addressList.isEmpty()) ? "checked disabled" : "" %> <%= !isAdmin ? "disabled" : "" %>/>
                                     <span>Set as default</span>
                                 </label>
 
@@ -229,11 +239,13 @@
                 </div>
             </div>
         </div>
+        <% } %>
     </div>
 </div>
 
 
 <!-- Edit Address Modal for Home Address -->
+<% if (isAdmin) { %>
 <%
     for (Address address : addressList) {
         if (address != null) {
@@ -259,13 +271,13 @@
                     <div class="grid grid-cols-1 gap-4">
                         <input type="text" class="input input-bordered w-full"
                                placeholder="Address Title (e.g. Rose Avenue)" value="<%= address.getName() %>"
-                               name="address_title" required/>
+                               name="address_title" required <%= !isAdmin ? "disabled" : "" %>/>
                         <input type="text" class="input input-bordered w-full" placeholder="Address Line 1"
-                               name="address_1" value="<%= address.getAddress_1() %>" required/>
+                               name="address_1" value="<%= address.getAddress_1() %>" required <%= !isAdmin ? "disabled" : "" %>/>
                         <input type="text" class="input input-bordered w-full" placeholder="Address Line 2"
-                               name="address_2" value="<%= address.getAddress_2() %>"/>
+                               name="address_2" value="<%= address.getAddress_2() %>" <%= !isAdmin ? "disabled" : "" %>/>
                         <input type="text" class="input input-bordered w-full" placeholder="Address Line 3"
-                               name="address_3" value="<%= address.getAddress_3() %>"/>
+                               name="address_3" value="<%= address.getAddress_3() %>" <%= !isAdmin ? "disabled" : "" %>/>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input type="text" class="input input-bordered w-full" placeholder="Postal Code"
@@ -275,9 +287,10 @@
                                maxlength="5"
                                inputmode="numeric"
                                required
-                               title="Please enter a 5-digit postcode"/>
+                               title="Please enter a 5-digit postcode"
+                               <%= !isAdmin ? "disabled" : "" %>/>
                         <input type="text" class="input input-bordered w-full" placeholder="State / Province"
-                               name="state" value="<%= address.getState()%>" required/>
+                               name="state" value="<%= address.getState()%>" required <%= !isAdmin ? "disabled" : "" %>/>
 
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -287,11 +300,11 @@
                         <input type="hidden" name="country" value="Malaysia"/>
                         <input type="tel" class="input input-bordered w-full" placeholder="Phone Number"
                                name="contact_no" value="<%= address.getContact_no() %>" required
-                               id="contact-no-input-<%= address.getId() %>"/>
+                               id="contact-no-input-<%= address.getId() %>" <%= !isAdmin ? "disabled" : "" %>/>
                     </div>
                     <label class="flex items-center gap-2">
                         <input type="checkbox" class="checkbox"
-                               name="isdefault" <%= address.getIsdefault() ? "checked disabled" : "" %> />
+                               name="isdefault" <%= address.getIsdefault() ? "checked disabled" : "" %> <%= !isAdmin ? "disabled" : "" %>/>
                         <span>Set as default</span>
                     </label>
                     <% if (address.getIsdefault()) { %>
@@ -313,12 +326,12 @@
     </div>
 </div>
 <%
+        }
     }
 %>
-<%
-    }
-%>
+<% } %>
 
+<% if (isAdmin) { %>
 <div id="change-password-modal"
      class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden" role="dialog"
      tabindex="-1">
@@ -386,6 +399,7 @@
         </div>
     </div>
 </div>
+<% } %>
 
 <footer data-theme="dark" class="footer bg-base-200 flex flex-col items-center gap-4 p-6">
     <div class="flex items-center gap-2 text-xl font-bold">
