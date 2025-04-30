@@ -189,7 +189,7 @@
 
                 <!--Size Option-->
                 <div id="sizeField" class="max-w-sm mb-4">
-                    <label class="label-text font-medium" for="sizeFilterInput">Length Options</label>
+                    <label class="label-text font-medium" for="sizeFilterInput">Size Options</label>
                     <select name="Size" id="sizeFilterInput" multiple="" data-select='{
                       "placeholder": "Select multiple options...",
                       "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
