@@ -144,9 +144,15 @@
                 <input type="hidden" name="productId" value="<%= productObj.getId() %>">
                 <h2 class="text-2xl font-bold mb-2">Attribute</h2>
                 <div class="flex justify-end">
-                    <button type="button" class="btn btn-info btn-sm" aria-haspopup="dialog" aria-expanded="false"
-                            aria-controls="add-attribute-modal" data-overlay="#add-attribute-modal"><span
-                            class="icon-[tabler--plus] mr-1"></span>
+                    <button type="button"
+                            class="btn btn-info btn-sm"
+                            aria-haspopup="dialog"
+                            aria-expanded="false"
+                            aria-controls="add-attribute-modal"
+                            data-overlay="#add-attribute-modal"
+                            <%= productObj.getId() == null ? "disabled" : "" %>
+                    >
+                        <span class="icon-[tabler--plus] mr-1"></span>
                         Add Attribute
                     </button>
                 </div>
@@ -266,14 +272,18 @@
     </div>
 
 
+            <%
+                List<Comment> commentList = (List<Comment>) request.getAttribute("commentsList");
+                if (commentList != null && !commentList.isEmpty()) {
+            %>
     <div class="my-5 flex flex-row  bg-base-100 border rounded-lg shadow divide-y divide-base-300">
         <div class="w-full p-10">
-            <h2 class="text-2xl font-bold">Comments</h2>
-            <!-- Test comment -->
-            <% List<Comment>commentList=(List<Comment>) request.getAttribute("commentsList"); %>
+
+        <h2 class="text-2xl font-bold">Comments</h2>
             <% for (Comment comment : commentList) {
-                if (comment.getReply()==null) {
+                if (comment.getReply() == null) {
             %>
+            <!-- existing comment rendering here -->
             <div id="comment" class="flex flex-col items-right gap-2 m-5">
                 <div class="flex">
                     <div class="w-14">
@@ -340,10 +350,14 @@
                     </div>
                 </div>
             </div>
-            <% }
-            } %>
+            <%
+                }
+            }
+        %>
         </div>
     </div>
+            <% } %>
+
 </div>
 
 
@@ -357,7 +371,8 @@
             <div class="modal-header">
                 <h3 class="modal-title">Add Attribute</h3>
                 <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close"
-                        data-overlay="#add-attribute-modal">
+                        data-overlay="#add-attribute-modal" <%= productObj.getId() == null ? "disabled" : "" %>
+                >
                     <span class="icon-[tabler--x] size-4"></span>
                 </button>
             </div>

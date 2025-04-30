@@ -189,7 +189,7 @@
 
     <div class="flex flex-wrap justify-center gap-4">
         <a class="btn px-6 py-2 rounded-full border border-gray-300 bg-white hover:bg-gray-100" href="${pageContext.request.contextPath}/product?productId=SP-S25U">
-            Galaxy S25 Ultra
+            Milkyway S25 Ultra
         </a>
         <a class="btn px-6 py-2 rounded-full border border-gray-300 bg-white hover:bg-gray-100" href="${pageContext.request.contextPath}/product?productId=MT-OG7">
             Olympus G7 Monitor
