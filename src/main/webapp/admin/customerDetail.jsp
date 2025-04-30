@@ -374,10 +374,12 @@
             </div>
             <div class="modal-footer">
                 <form method="post" action="${pageContext.request.contextPath}/admin/control">
-                    <input type="hidden" name="action" value="deleteConfirmed"/>
+                    <input type="hidden" name="action" value="delete"/>
+                    <input type="hidden" name="id" value="<%=account.getId()%>"/>
                     <button type="submit" class="btn btn-danger">Yes, Delete</button>
                     <button type="button" class="btn btn-secondary" data-overlay="#delete-confirm-modal">Cancel</button>
                 </form>
+
             </div>
         </div>
     </div>
