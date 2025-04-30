@@ -15,8 +15,11 @@
     <title>Order List</title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
-    <link href="<%= request.getContextPath() %>/static/css/datatables.min.css" rel="stylesheet">
-    <script defer src="<%= request.getContextPath() %>/static/js/datatables.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" rel="stylesheet" integrity="sha384-J3tLcWkdGTGEaRTYfKrKVaK5EGVBuxR9rg5ZzQFWRuQD+0hZABemSLVXimw8Nrb9" crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/v/ju/jq-3.7.0/jszip-3.10.1/dt-2.2.2/af-2.7.0/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/b-print-3.2.3/cr-2.0.4/date-1.5.5/fc-5.0.4/fh-4.0.1/kt-2.12.1/r-3.0.4/rg-1.5.1/rr-1.5.0/sc-2.4.3/sb-1.8.2/sp-2.3.3/sl-3.0.0/sr-1.4.1/datatables.min.css" rel="stylesheet" integrity="sha384-+g+ndJuu72XLL84+8jRGssDVZnvh7lfMSOeO0+cflHOJjiQbt8aH4cLu2Z6uXaz/" crossorigin="anonymous">
+
+    <script src="https://cdn.datatables.net/v/ju/jq-3.7.0/jszip-3.10.1/dt-2.2.2/af-2.7.0/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/b-print-3.2.3/cr-2.0.4/date-1.5.5/fc-5.0.4/fh-4.0.1/kt-2.12.1/r-3.0.4/rg-1.5.1/rr-1.5.0/sc-2.4.3/sb-1.8.2/sp-2.3.3/sl-3.0.0/sr-1.4.1/datatables.min.js" integrity="sha384-DnuiXl3JOiNY1pqRGOFob/Pgul66wDjeFB2C8KQtnYmXhQH4CXcCu2sL9Sxzj0i6" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha384-4D3G3GikQs6hLlLZGdz5wLFzuqE9v4yVGAcOH86y23JqBDPzj9viv0EqyfIa6YUL" crossorigin="anonymous"></script></head>
 </head>
 
 <body data-theme="light" class="flex flex-col min-h-screen bg-transparent">

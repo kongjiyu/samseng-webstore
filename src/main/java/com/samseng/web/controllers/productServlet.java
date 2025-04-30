@@ -68,9 +68,22 @@ public class productServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
+        String productId = request.getParameter("productId");
 
         try {
-            switch (action) {
+            // If action is null, default to product detail if productId exists
+            if (action == null || action.trim().isEmpty()) {
+                if (productId == null || productId.trim().isEmpty()) {
+                    session.setAttribute("toastMessage", "No action or product ID specified");
+                    session.setAttribute("toastType", "error");
+                    response.sendRedirect(request.getContextPath() + "/admin/product?action=list");
+                    return;
+                }
+                handleProductDetail(request, response);
+                return;
+            }
+
+            switch (action.trim()) {
                 case "update":
                     updateProduct(request, response);
                     break;

@@ -48,16 +48,6 @@ public class CartServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account user = (Account) session.getAttribute("profile");
 
-        if (action == null || action.isEmpty()) {
-            forwardToCartPage(request, response, session);
-            return;
-        }
-
-        if (variantId == null || variantId.isEmpty()) {
-            forwardToCartPage(request, response, session);
-            return;
-        }
-
         try {
             if (user != null) {
                 handleLoggedInUser(request, response, session, user, action, variantId);
@@ -135,7 +125,6 @@ public class CartServlet extends HttpServlet {
                 default:
                     session.setAttribute("toastMessage", "Invalid action specified.");
                     session.setAttribute("toastType", "error");
-                    shouldRedirect = true;
             }
         } catch (Exception e) {
             session.setAttribute("toastMessage", "Failed to update cart: " + e.getMessage());
