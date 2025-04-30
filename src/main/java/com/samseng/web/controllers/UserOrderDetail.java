@@ -3,7 +3,9 @@ package com.samseng.web.controllers;
 import com.samseng.web.models.*;
 import com.samseng.web.repositories.Account.AccountRepository;
 import com.samseng.web.repositories.Address.AddressRepository;
+import com.samseng.web.repositories.Comment.CommentRepository;
 import com.samseng.web.repositories.Order_Product.Order_ProductRepository;
+import com.samseng.web.repositories.Product.ProductRepository;
 import com.samseng.web.repositories.Sales_Order.Sales_OrderRepository;
 import com.samseng.web.repositories.Variant.VariantRepository;
 import jakarta.inject.Inject;
@@ -32,7 +34,16 @@ public class UserOrderDetail extends HttpServlet {
     private Order_ProductRepository productRepository;
 
     @Inject
+    private VariantRepository variantRepository;
+
+    @Inject
     private AddressRepository addressRepository;
+
+    @Inject
+    private ProductRepository productIdRepository;
+
+    @Inject
+    private CommentRepository commentRepository;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,7 +71,13 @@ public class UserOrderDetail extends HttpServlet {
 
             if ("view".equals(action)) {
                 view(request, response);
-            } else {
+                return;
+            }
+            else if ("addComment".equals(action)) {
+                addComment(request, response);
+                return;
+            }
+            else {
                 log.warn("Unknown action: {} in order detail request", action);
                 session.setAttribute("toastMessage", "Invalid action requested.");
                 session.setAttribute("toastType", "error");
@@ -73,6 +90,54 @@ public class UserOrderDetail extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/user/orders.jsp");
         }
     }
+
+    private void addComment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+
+        try {
+            String variantId = request.getParameter("variantId");
+            String productId = request.getParameter("productId");
+            String orderId = request.getParameter("id");
+            String message = request.getParameter("text");
+
+            // Find the variant and order product
+            Variant variant = variantRepository.findById(variantId);
+            Order_Product orderProduct = productRepository.findByVariant(variantId);
+
+
+            if (variant == null || orderProduct == null) {
+                session.setAttribute("toastMessage", "Unable to locate the product for review.");
+                session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/user/detail?action=view&id=" + orderId);
+                return;
+            }
+
+            // Get user from session
+            Account user = (Account) session.getAttribute("profile");
+
+            if (user == null) {
+                session.setAttribute("toastMessage", "You must be logged in to comment.");
+                session.setAttribute("toastType", "error");
+                response.sendRedirect(request.getContextPath() + "/login.jsp");
+                return;
+            }
+
+            // Create and save comment
+            Comment comment = new Comment();
+            comment.setUser(user);
+            comment.setProduct(variant.getProduct());
+            comment.setMessage(message);
+            comment.setRating(4);
+            commentRepository.create(comment);
+
+
+        } catch (Exception e) {
+            log.error("Error adding comment", e);
+        }
+
+        response.sendRedirect(request.getContextPath() + "/user/detail?action=view&id=" + request.getParameter("id"));
+    }
+
 
     private void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
