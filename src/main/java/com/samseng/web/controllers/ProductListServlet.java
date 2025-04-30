@@ -178,6 +178,9 @@ public class ProductListServlet extends HttpServlet {
             if (minPrice != null && maxPrice != null)
                 where = cb.and(where, cb.between(variant.get(Variant_.price), minPrice, maxPrice));
 
+// Filter: only variants that are available
+            where = cb.and(where, cb.isTrue(variant.get(Variant_.availability)));
+
             if (categoryQuery != null)
                 where = cb.and(where, cb.in(product.get(Product_.category), categoryQuery));
 

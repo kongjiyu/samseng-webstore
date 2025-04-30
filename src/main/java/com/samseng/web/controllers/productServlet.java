@@ -197,7 +197,11 @@ public class productServlet extends HttpServlet {
                         .add(va.getValue());
             }
 
+            // Prepare comment list
+            List<Comment> comments = commentRepository.findByProductId(productId);
+
             // Set all attributes in request
+            request.setAttribute("commentsList", comments);
             request.setAttribute("images", product.getImageUrls());
             request.setAttribute("allAttributes", allAttributes);
             request.setAttribute("attributeValuesMap", attributeValuesMap);
