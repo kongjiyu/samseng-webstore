@@ -99,7 +99,7 @@ public class UserOrderDetail extends HttpServlet {
             String variantId = request.getParameter("variantId");
             String orderId = request.getParameter("id");
             String message = request.getParameter("text");
-            String ratingStr = request.getParameter("scoreRating");
+            String ratingStr = request.getParameter("score");
 
             if (variantId == null || orderId == null || message == null || ratingStr == null ||
                 variantId.trim().isEmpty() || orderId.trim().isEmpty() || message.trim().isEmpty() || ratingStr.trim().isEmpty()) {

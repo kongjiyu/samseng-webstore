@@ -13,6 +13,9 @@
     <title>Product Detail</title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raty/2.7.1/jquery.raty.min.js"></script>
+
 </head>
 <body data-theme="light">
 <!--Header-->
@@ -577,26 +580,24 @@
         }
     });
 
-    //Rating
-    document.addEventListener('DOMContentLoaded', function () {
-        const hintTarget = document.querySelector('#raty-with-hints');
-        if (hintTarget) {
-            new Raty(hintTarget, {
-                path: '../static/img',
-                hints: ['Terrible 😔', 'Unsatisfactory 😑', 'Average 😊', 'Nice 😁', 'Splendid 😍'],
-                target: '[data-hint]',
-                targetFormat: 'Your experience was: {score}'
-            }).init();
-        }
+    $(function () {
+        // 可写评分（如果有的话）
+        $('#raty-with-hints').raty({
+            path: '<%= request.getContextPath() %>/static/img',
+            hints: ['Terrible 😔', 'Unsatisfactory 😑', 'Average 😊', 'Nice 😁', 'Splendid 😍'],
+            target: '[data-hint]',
+            targetFormat: 'Your experience was: {score}'
+        });
 
-        document.querySelectorAll('.user-rating').forEach(function (el) {
-            const score = parseInt(el.dataset.score);
+        // 评论只读评分
+        $('.user-rating').each(function () {
+            const score = parseInt($(this).data('score'));
             if (!isNaN(score)) {
-                new Raty(el, {
-                    path: '../static/img',
+                $(this).raty({
+                    path: '<%= request.getContextPath() %>/static/img',
                     score: score,
                     readOnly: true
-                }).init();
+                });
             }
         });
     });
