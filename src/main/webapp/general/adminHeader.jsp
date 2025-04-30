@@ -26,6 +26,7 @@
       <li><a href="<%= request.getContextPath() %>/admin/orders">Order</a></li>
       <li><a href="<%= request.getContextPath() %>/admin/product?action=list">Product</a></li>
       <li><a href="<%= request.getContextPath() %>/admin/control">User</a></li>
+      <li><a href="<%= request.getContextPath() %>/admin/promo">Promo</a></li>
     </ul>
   </div>
 

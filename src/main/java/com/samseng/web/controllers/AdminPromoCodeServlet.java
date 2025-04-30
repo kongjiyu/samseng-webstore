@@ -28,7 +28,7 @@ public class AdminPromoCodeServlet extends HttpServlet {
                 session.setAttribute("toastType", "info");
             }
             request.setAttribute("promoList", promoList);
-            request.getRequestDispatcher("/admin/voucherList.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/promoList.jsp").forward(request, response);
         } catch (Exception e) {
             session.setAttribute("toastMessage", "Failed to load promo codes: " + e.getMessage());
             session.setAttribute("toastType", "error");

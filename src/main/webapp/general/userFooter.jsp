@@ -4,8 +4,8 @@
     <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 
 </head>
-<body>
-<footer data-theme="light" class="footer bg-base-200 flex flex-col items-center gap-4 p-6">
+<body data-theme="light">
+<footer class="footer bg-base-200 flex flex-col items-center gap-4 p-6">
     <div class="flex items-center gap-2 text-xl font-bold">
         <span>${companyLogo}</span>
     </div>

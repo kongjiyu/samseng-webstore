@@ -95,18 +95,7 @@ public class SalesOrderServlet extends HttpServlet {
                 return;
             }
 
-            // Get and validate promo code if provided
-            Promo_Code promoCode = null;
-            if (promoCodeInput != null && !promoCodeInput.trim().isEmpty()) {
-                promoCode = promoRepo.findById(promoCodeInput.toUpperCase());
-                if (promoCode == null) {
-                    log.warn("Invalid promo code attempt: {} by user: {}", promoCodeInput, user.getEmail());
-                    session.setAttribute("toastMessage", "Invalid promo code. Please check and try again.");
-                    session.setAttribute("toastType", "error");
-                    response.sendRedirect(request.getContextPath() + "/cart.jsp");
-                    return;
-                }
-            }
+            Promo_Code promoCode = promoRepo.findById(promoCodeInput.toUpperCase());
 
             // Parse and validate price values
             try {

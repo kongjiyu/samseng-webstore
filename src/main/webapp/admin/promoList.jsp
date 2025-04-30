@@ -17,7 +17,7 @@
 <div class="container mx-auto my-5 py-5 px-4 bg-base-100 rounded-lg border border-base-200 shadow-sm">
     <div class="flex flex-col flex-wrap gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div class="form-control w-full sm:w-80">
-            <button type="button" class="btn btn-soft btn-primary rounded-full" aria-haspopup="dialog"
+            <button type="button" class="btn btn-soft btn-info rounded-full" aria-haspopup="dialog"
                     aria-expanded="false" aria-controls="new-promo-modal" data-overlay="#new-promo-modal">+ New Promo
                 Code
             </button>
@@ -59,7 +59,7 @@
                         <input type="hidden" name="available" value="<%= !promo.isAvailability() %>" id="availability-<%= promo.getId() %>" />
                         <input
                                 type="checkbox"
-                                class="switch switch-primary"
+                                class="switch switch-info"
                                 <%= promo.isAvailability() ? "checked" : "" %>
                                 onchange="this.form.submit();"
                         />
@@ -96,13 +96,13 @@
                   <input type="number" name="discount" placeholder="Discount %" class="input input-bordered w-full" step="0.01" required/>
                   <label class="flex items-center gap-2">
                       <span>Availability:</span>
-                      <input type="checkbox" name="available" class="switch switch-primary" checked/>
+                      <input type="checkbox" name="available" class="switch switch-info" checked/>
                   </label>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-soft btn-secondary" data-overlay="#new-promo-modal">Cancel</button>
-                <button type="submit" form="addPromoForm" class="btn btn-primary">Save Promo Code</button>
+                <button type="submit" form="addPromoForm" class="btn btn-info">Save Promo Code</button>
             </div>
         </div>
     </div>
