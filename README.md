@@ -16,37 +16,37 @@ A modern Jakarta EE-based e-commerce web application, designed for easy deployme
 1. **Clone the Repository in IntelliJ**
 
    - Open IntelliJ IDEA
-   - Go to `File > New > Project from Version Control > Git` (or use the welcome screen's Clone option)
-   - Paste the repository URL: https://github.com/kongjiyu/samseng-webstore.git![1746001558827](images/README/1746001558827.png)
-   - Choose your desired directory and click `Clone`
+   - Go to `File > New > Project from Version Control > Git` (or use the welcome screen's Clone option)![1746097153092](images/README/1746097153092.png)
+   - Paste the repository URL: https://github.com/kongjiyu/samseng-webstore.git
+   - Choose your desired directory and click `Clone`![1746097231325](images/README/1746097231325.png)
 2. **Configure Database Connection in IntelliJ**
 
    - On the right sidebar, open the `Database` tool window
-   - Right-click `localhost` and select `Properties`
+   - Right-click `localhost` and select `Properties`![1746097463248](images/README/1746097463248.png)
    - Enter the credentials:
      - User: `user`
      - Password: `password`
    - Press `Test Connection` to ensure the connection
-   - Click `Save`
+   - Click `OK`![1746097585643](images/README/1746097585643.png)
 3. **Deploy and Run the Application**
 
    - At the top right corner of IntelliJ, select the pre-configured `deploy` run configuration
-   - Click the green `Run` button
+   - Click the green `Run` button![1746097724325](images/README/1746097724325.png)
 4. **Build WAR File Using Docker (Platform-Specific)**
 
    - Choose the appropriate build script for your operating system:
      - For macOS/Linux: run `Build WAR in Docker-Unix`
-     - For Windows: run `build WAR in Docker-Windows`
+     - For Windows: run `build WAR in Docker-Windows`![1746097806890](images/README/1746097806890.png)
 5. **Run the Build WAR Script**
 
    - Execute the chosen script to build the WAR file inside Docker
 6. **Verify Database Deployment**
 
    - In IntelliJ, open the `Database` tool window
-   - Expand `localhost > user > public > tables` to check that the tables have been created
+   - Expand `localhost > user > public > tables` to check that the tables have been created![1746097955263](images/README/1746097955263.png)
 7. **Run Dummy Data Script**
 
-   - At the top right corner of IntelliJ, run the `DummyData` file to populate the database with sample data
+   - At the top right corner of IntelliJ, run the `DummyData` file to populate the database with sample data![1746097975563](images/README/1746097975563.png)
 8. **Access the Website**
 
    - Open your browser and go to `http://localhost:8080`
