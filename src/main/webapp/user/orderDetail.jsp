@@ -182,7 +182,7 @@
                                                 <input type="hidden" name="score"
                                                        id="ratingScore-<%= orderList.getVariant().getVariantId() %>">
 
-                                                <div class="modal-header m-2 flex flex-col justify-start items-start">
+                                                <div class="modal-header gap-4 flex flex-col justify-start items-start">
                                                     <div><h3 class="text-2xl">Review For:</h3></div>
                                                     <div class="flex flex-row gap-3">
                                                         <div class="avatar">
