@@ -258,7 +258,7 @@
                             <img src="/uploads/${product.imageUrls()[0]}" alt="product-image"
                                  class="object-cover rounded-lg w-[250px] h-[250px] mb-4"/>
                             <div class="w-full text-left">
-                                <h5 class="text-xl font-bold mb-2">${product.name()}</h5>
+                                <a href="<%=request.getContextPath()%>/product?productId=${product.id()}"><h5 class="text-xl font-bold mb-2">${product.name()}</h5></a>
                                 <p class="text-gray-600 mb-2">${product.desc().length() > 45 ? product.desc().substring(0, 45).concat("...") : product.desc()}</p>
                                 <p class="text-lg mb-2">
                                     <span class="font-bold"><fmt:formatNumber value="${product.startingPrice()}" type="currency"
