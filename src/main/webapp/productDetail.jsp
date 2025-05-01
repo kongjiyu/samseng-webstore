@@ -19,8 +19,7 @@
     </title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
-    <link href="<%= request.getContextPath() %> https://cdn.jsdelivr.net/npm/raty-js@4.3.0/src/raty.min.css "
-          rel="stylesheet">
+    <link href="<%= request.getContextPath() %> https://cdn.jsdelivr.net/npm/raty-js@4.3.0/src/raty.min.css " rel="stylesheet">
 </head>
 
 <% List<Comment> commentList = (List<Comment>) request.getAttribute("commentList"); %>
@@ -203,14 +202,23 @@
         %>
         <div id="comment" class="flex flex-col items-right gap-2 m-5">
             <div class="flex">
-                <div class="w-14">
-                    <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" class="rounded-full"
-                         alt="avatar 1"/>
+                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-secondary rounded-full">
+                    <%
+                        String[] nameParts = c.getUser().getUsername().trim().split("\\s+");
+                        StringBuilder initials = new StringBuilder();
+                        for (String part : nameParts) {
+                            if (!part.isEmpty()) {
+                                initials.append(part.charAt(0));
+                                if (initials.length() == 2) break;
+                            }
+                        }
+                    %>
+                    <span class="text-3xl text-white uppercase"><%= initials.toString() %></span>
                 </div>
                 <div class="gap-3 mt-1 ml-4">
                     <p class="font-semibold text-[18px]"><%=c.getUser().getUsername()%>
                     </p>
-                    <div class="user-rating flex" data-score="<%= c.getRating() %>"></div>
+                    <div class="user-rating flex" id="rating-control" data-score="<%= c.getRating() %>"></div>
                     <p class="w-full text-[18px] mt-3"><%= c.getMessage()%>
                     </p>
                     <% if (c.getReply() != null) { %>

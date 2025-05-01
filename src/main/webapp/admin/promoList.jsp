@@ -46,7 +46,7 @@
                 </td>
                 <td><%= promo.getDesc() %>
                 </td>
-                <td><%= promo.getDiscount() * 100 %>%</td>
+                <td><%= String.format("%.2f", promo.getDiscount() * 100) %>%</td>
                 <td>
     <span class="badge <%= promo.isAvailability() ? "badge-success" : "badge-neutral" %> badge-soft">
       <%= promo.isAvailability() ? "Active" : "Inactive" %>

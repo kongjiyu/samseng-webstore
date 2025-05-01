@@ -295,9 +295,18 @@
             <!-- existing comment rendering here -->
             <div id="comment" class="flex flex-col items-right gap-2 m-5">
                 <div class="flex">
-                    <div class="w-14">
-                        <img src="https://cdn.flyonui.com/fy-assets/avatar/avatar-1.png" class="rounded-full"
-                             alt="avatar 1"/>
+                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-secondary rounded-full">
+                        <%
+                            String[] nameParts = comment.getUser().getUsername().trim().split("\\s+");
+                            StringBuilder initials = new StringBuilder();
+                            for (String part : nameParts) {
+                                if (!part.isEmpty()) {
+                                    initials.append(part.charAt(0));
+                                    if (initials.length() == 2) break;
+                                }
+                            }
+                        %>
+                        <span class="text-3xl text-white uppercase"><%= initials.toString() %></span>
                     </div>
 
                     <div class="gap-3 mt-1 ml-4">
@@ -340,7 +349,7 @@
                             <input type="hidden" name="commentId" value="<%= comment.getId() %>"/>
                             <input type="hidden" name="productId" value="<%= productObj.getId() %>"/>
                             <div class="modal-header m-2">
-                                <h3 class="modal-title">Admin Reply</h3>
+                                <h3 class="modal-title">Reply to Customer</h3>
                                 <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
                                         aria-label="Close" data-overlay="#<%= modalId %>">
                                     <span class="icon-[tabler--x] size-4"></span>
@@ -349,7 +358,7 @@
                             <div class="modal-body">
                                 <div class="mx-2 pb-2">
                                                     <textarea class="textarea textarea-xl"
-                                                              placeholder="Write a reply..."
+                                                              placeholder="Write a message..."
                                                               aria-label="Textarea" name="text"></textarea>
                                 </div>
                             </div>

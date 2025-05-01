@@ -344,7 +344,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Confirm Account Deletion</h3>
-                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#change-password-modal">
+                <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#delete-confirm-modal">
                     <span class="icon-[tabler--x] size-4"></span>
                 </button>
             </div>

@@ -526,8 +526,9 @@
                             <!-- Final Content -->
                             <div data-stepper-content-item='{ "isFinal": true }' style="display: none">
                                 <div
-                                        class="border-base-content/40 bg-base-200/50 flex h-48 items-center justify-center rounded-xl border border-dashed p-4">
+                                        class="border-base-content/40 bg-base-200/50 flex flex-col h-48 items-center justify-center rounded-xl border border-dashed p-4">
                                     <h3 class="text-base-content/50 text-3xl">Your Payment is Successful!</h3>
+                                    <h3 class="text-base-content/50 text-3xl">Thank you for shopping with us :)</h3>
                                 </div>
                             </div>
                             <!-- End Final Content -->

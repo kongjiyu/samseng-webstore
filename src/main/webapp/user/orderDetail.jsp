@@ -114,7 +114,9 @@
                         <thead>
                         <tr>
                             <th class="font-bold">Product</th>
+                            <% if (order.getStatus().equals("Delivered")) { %>
                             <th class="text-center font-bold">Add Review</th>
+                            <% } %>
                             <th class="font-bold text-center">Qty</th>
                             <th class="font-bold text-right">Price</th>
                         </tr>
@@ -146,6 +148,7 @@
                                        hasCommented = userCommentedMap.get(orderList.getVariant().getVariantId());
                                    }
                                    if (!hasCommented) { %>
+                                <% if (order.getStatus().equals("Delivered")) {%>
                                 <button class="mx-auto flex flex-row gap-3" aria-haspopup="dialog" aria-expanded="false"
                                         aria-controls="<%= orderList.getVariant().getVariantId()%>"
                                         data-overlay="#<%= orderList.getVariant().getVariantId()%>">
@@ -160,6 +163,7 @@
                                         <path d="M19 16v6"/>
                                     </svg>
                                 </button>
+                                <% } %>
 
                                 <div id="<%= orderList.getVariant().getVariantId()%>"
                                      class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden"
@@ -316,8 +320,8 @@
                 <h2 class="text-2xl font-bold">Buyer Information</h2>
                 <div class="divide-y divide-base-200">
                     <div class="flex justify-between py-2">
-                        <span class="text-base-content/80">Shipment ID:</span>
-                        <span class="text-base-content font-medium">#SHIP001</span>
+                        <span class="text-base-content/80">Order ID:</span>
+                        <span class="text-base-content font-medium">#<%=order.getId()%></span>
                     </div>
                     <div class="flex justify-between py-2">
                         <span class="text-base-content/80">Username:</span>
@@ -339,10 +343,10 @@
 <script>
     $(function () {
         $('#raty-with-image').raty({
-            path: '<%= request.getContextPath() %>/static/img', // 放 star-on.png 的地方
-            scoreName: 'score', // 自动生成 <input name="score">
+            path: '<%= request.getContextPath() %>/static/img',
+            scoreName: 'score',
             click: function(score, evt) {
-                $('#ratingScore').val(score); // 保险起见，还是赋值给你已有的 input
+                $('#ratingScore').val(score);
             }
         });
     });
