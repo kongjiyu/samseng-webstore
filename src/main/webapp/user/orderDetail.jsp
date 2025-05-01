@@ -230,7 +230,7 @@
                                                             data-overlay="#<%= orderList.getVariant().getVariantId()%>">
                                                         Close
                                                     </button>
-                                                    <button type="submit" class="btn btn-primary">Save changes
+                                                    <button type="submit" class="btn btn-primary">Confirm
                                                     </button>
                                                 </div>
 
