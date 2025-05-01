@@ -256,8 +256,8 @@
                 <h2 class="text-2xl font-bold">Buyer Information</h2>
                 <div class="divide-y divide-base-200">
                     <div class="flex justify-between py-2">
-                        <span class="text-base-content/80">Shipment ID:</span>
-                        <span class="text-base-content font-medium">#SHIP001</span>
+                        <span class="text-base-content/80">Order ID:</span>
+                        <span class="text-base-content font-medium">#<%= order.getId()%></span>
                     </div>
                     <div class="flex justify-between py-2">
                         <span class="text-base-content/80">Username:</span>
