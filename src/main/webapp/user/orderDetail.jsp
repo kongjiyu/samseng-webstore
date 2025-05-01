@@ -190,7 +190,7 @@
                                                                      alt="product image"/>
                                                             </div>
                                                         </div>
-                                                        <div>
+                                                        <div class="items-start justify-start text-left">
                                                             <div class="text-sm opacity-50"><%= orderList.getVariant().getVariantId()%>
                                                             </div>
                                                             <div class="font-medium">
