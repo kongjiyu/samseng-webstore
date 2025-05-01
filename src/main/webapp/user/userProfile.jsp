@@ -351,7 +351,7 @@
             <div class="modal-body">
                 Are you sure you want to delete your account? This action is permanent.
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer gap-2">
                 <form method="post" action="${pageContext.request.contextPath}/user/profile">
                     <input type="hidden" name="action" value="deleteConfirmed" />
                     <button type="submit" class="btn btn-danger">Yes, Delete</button>
