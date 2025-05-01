@@ -175,7 +175,8 @@
                                                 <input type="hidden" name="variantId" value="<%= orderList.getVariant().getVariantId() %>">
                                                 <input type="hidden" name="productId" value="<%= order.getId()%>">
                                                 <input type="hidden" name="id" value="<%= order.getId()%>">
-                                                <input type="hidden" name="score" id="ratingScore">
+                                                <input type="hidden" name="score" id="ratingScore-<%= orderList.getVariant().getVariantId() %>">
+
                                                 <div class="modal-header m-2 flex flex-col justify-start items-start">
                                                     <div class="flex items-center gap-3">
                                                         <div class="avatar">
@@ -202,8 +203,9 @@
 
                                                 <!-- TODO Ahdan: Textarea field is here, below is submit button under "Save changes"-->
                                                 <div class="modal-body">
-                                                    <div class="flex" id="raty-with-image"></div>
-                                                    <input type="hidden" name="score" id="ratingScore">
+                                                    <div class="flex" id="raty-<%= orderList.getVariant().getVariantId() %>"></div>
+                                                    <input type="hidden" name="score" id="ratingScore-<%= orderList.getVariant().getVariantId() %>">
+
                                                     <div class="mx-2 pb-2">
                                                         <textarea class="textarea textarea-xl"
                                                               placeholder="Write about your experience..."
@@ -342,15 +344,21 @@
 </div>
 <script>
     $(function () {
-        $('#raty-with-image').raty({
-            path: '<%= request.getContextPath() %>/static/img',
-            scoreName: 'score',
-            click: function(score, evt) {
-                $('#ratingScore').val(score);
-            }
+        $('[id^="raty-"]').each(function () {
+            const ratyId = $(this).attr('id');  // e.g., raty-SP-BK-512-C36g
+            const variantId = ratyId.substring(5);
+            $(this).raty({
+                path: '<%= request.getContextPath() %>/static/img',
+                click: function (score, evt) {
+                    console.log("rating for", variantId, "=", score); // Debug
+                    $('#ratingScore-' + variantId).val(score); // ⚠️ make sure this sets the correct input
+                }
+            });
         });
     });
+
 </script>
+
 
 <%@include file="/general/userFooter.jsp" %>
 </body>
