@@ -349,7 +349,7 @@
                             <input type="hidden" name="commentId" value="<%= comment.getId() %>"/>
                             <input type="hidden" name="productId" value="<%= productObj.getId() %>"/>
                             <div class="modal-header m-2">
-                                <h3 class="modal-title">Admin Reply</h3>
+                                <h3 class="modal-title">Reply to Customer</h3>
                                 <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3"
                                         aria-label="Close" data-overlay="#<%= modalId %>">
                                     <span class="icon-[tabler--x] size-4"></span>
@@ -358,7 +358,7 @@
                             <div class="modal-body">
                                 <div class="mx-2 pb-2">
                                                     <textarea class="textarea textarea-xl"
-                                                              placeholder="Write a reply..."
+                                                              placeholder="Write a message..."
                                                               aria-label="Textarea" name="text"></textarea>
                                 </div>
                             </div>
