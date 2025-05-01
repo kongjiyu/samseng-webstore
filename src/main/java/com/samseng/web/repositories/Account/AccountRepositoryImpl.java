@@ -130,5 +130,12 @@ public class AccountRepositoryImpl implements AccountRepository {
                 .getResultList();
     }
 
+    public void softDelete(String id) {
+        em.createQuery("UPDATE Account a SET a.password = null, a.email = null, a.username = 'user_deleted' WHERE a.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+
+
 
 }
