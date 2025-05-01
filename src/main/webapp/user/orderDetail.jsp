@@ -183,6 +183,7 @@
                                                        id="ratingScore-<%= orderList.getVariant().getVariantId() %>">
 
                                                 <div class="modal-header m-2 flex flex-col justify-start items-start">
+                                                    <div><h3 class="text-2xl">Review For:</h3></div>
                                                     <div class="flex flex-row gap-3">
                                                         <div class="avatar">
                                                             <div class="bg-base-content/10 h-10 w-10 rounded-md">
