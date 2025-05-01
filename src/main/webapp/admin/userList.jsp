@@ -2,7 +2,10 @@
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
-
+<%
+  Account currentUser = (Account) session.getAttribute("profile");
+  boolean isAdmin = currentUser != null && currentUser.getRole() == Account.Role.ADMIN;
+%>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,12 +23,14 @@
 <%@include file="/general/adminHeader.jsp"%>
 
 <div class="container mx-auto my-5 py-5 px-4 bg-base-100 rounded-lg border border-base-200 shadow-sm">
+  <% if(isAdmin){ %>
   <div class="flex flex-col flex-wrap gap-3 sm:flex-row sm:items-center sm:justify-between">
     <!-- + New User Button -->
     <button type="button" class="btn btn-soft btn-info rounded-full" aria-haspopup="dialog" aria-expanded="false" aria-controls="create-user-modal" data-overlay="#create-user-modal">
       + New User
     </button>
   </div>
+  <% } %>
 
   <div class="mt-8 overflow-x-auto">
     <table id="accountTable" class="table display" style="width:100%">

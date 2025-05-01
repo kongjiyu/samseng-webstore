@@ -11,10 +11,7 @@
     <script src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
 </head>
 
-<body data-theme="dark" class="bg-base-200">
-<div class="loader">
-    <span class="loading loading-spinner loading-lg"></span>
-</div>
+<body data-theme="light" class="bg-transparent">
 <div class="">
     <%@ include file="/general/homeHeader.jsp" %>
 
