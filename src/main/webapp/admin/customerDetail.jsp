@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Detail</title>
+    <title>Account Detail</title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
     <script src="https://unpkg.com/libphonenumber-js@1.10.21/bundle/libphonenumber-js.min.js"></script>
@@ -380,14 +380,14 @@
             <div class="modal-header">
                 <h3 class="modal-title">Confirm Account Deletion</h3>
                 <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close"
-                        data-overlay="#change-password-modal">
+                        data-overlay="#delete-confirm-modal">
                     <span class="icon-[tabler--x] size-4"></span>
                 </button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete your account? This action is permanent.
+                Are you sure you want to delete this account? This action is permanent.
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer gap-2">
                 <form method="post" action="${pageContext.request.contextPath}/admin/control">
                     <input type="hidden" name="action" value="delete"/>
                     <input type="hidden" name="id" value="<%=account.getId()%>"/>
