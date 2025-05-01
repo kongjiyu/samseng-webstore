@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Detail</title>
+    <title>User Detail</title>
     <link href="<%= request.getContextPath() %>/static/css/output.css" rel="stylesheet">
     <script defer src="<%= request.getContextPath() %>/static/js/flyonui.js"></script>
     <script src="https://unpkg.com/libphonenumber-js@1.10.21/bundle/libphonenumber-js.min.js"></script>
@@ -28,7 +28,7 @@
         Account account = (Account) request.getAttribute("account");
     %>
     <div class="bg-base-100 p-8 rounded-lg shadow-lg">
-        <h1 class="text-2xl font-bold mb-6">Customer Detail</h1>
+        <h1 class="text-2xl font-bold mb-6">User Detail</h1>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Profile Picture -->
             <div class="col-span-1 flex flex-col items-center my-auto">
