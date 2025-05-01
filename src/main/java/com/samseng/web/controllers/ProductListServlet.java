@@ -49,7 +49,7 @@ public class ProductListServlet extends HttpServlet {
                     if (minPrice < 0) {
                         session.setAttribute("toastMessage", "Minimum price cannot be negative.");
                         session.setAttribute("toastType", "error");
-                        response.sendRedirect(request.getContextPath() + "/productPage.jsp");
+                        response.sendRedirect(request.getContextPath() + "/products");
                         return;
                     }
                 }
@@ -58,7 +58,7 @@ public class ProductListServlet extends HttpServlet {
                     if (maxPrice < 0) {
                         session.setAttribute("toastMessage", "Maximum price cannot be negative.");
                         session.setAttribute("toastType", "error");
-                        response.sendRedirect(request.getContextPath() + "/productPage.jsp");
+                        response.sendRedirect(request.getContextPath() + "/products");
                         return;
                     }
                 }
@@ -66,13 +66,13 @@ public class ProductListServlet extends HttpServlet {
                 if (minPrice != null && maxPrice != null && minPrice > maxPrice) {
                     session.setAttribute("toastMessage", "Minimum price cannot be greater than maximum price.");
                     session.setAttribute("toastType", "error");
-                    response.sendRedirect(request.getContextPath() + "/productPage.jsp");
+                    response.sendRedirect(request.getContextPath() + "/products");
                     return;
                 }
             } catch (NumberFormatException e) {
                 session.setAttribute("toastMessage", "Invalid price format. Please enter valid numbers.");
                 session.setAttribute("toastType", "error");
-                response.sendRedirect(request.getContextPath() + "/productPage.jsp");
+                response.sendRedirect(request.getContextPath() + "/products");
                 return;
             }
 
@@ -133,14 +133,14 @@ public class ProductListServlet extends HttpServlet {
             // Pass dto to jsp use
             request.setAttribute("products", dtos);
 
-            // Pass the next step to jsp
+            // Forward to JSP
             RequestDispatcher view = request.getRequestDispatcher("/productPage.jsp");
             view.forward(request, response);
 
         } catch (Exception e) {
             session.setAttribute("toastMessage", "An error occurred while searching for products.");
             session.setAttribute("toastType", "error");
-            response.sendRedirect(request.getContextPath() + "/productPage.jsp");
+            response.sendRedirect(request.getContextPath() + "/products");
         }
     }
 
