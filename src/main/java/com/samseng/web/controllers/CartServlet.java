@@ -78,7 +78,7 @@ public class CartServlet extends HttpServlet {
                                   Account user, String action, String variantId) throws ServletException, IOException {
         List<CartItemDTO> cartItems = cartProductRepository.findByAccountId(user.getId());
         List<Address> addressList = addressRepository.findByUserId(user.getId());
-        request.setAttribute("addresses", addressList);
+        request.getSession().setAttribute("addresses", addressList);
 
         boolean shouldRedirect = false;
         try {
