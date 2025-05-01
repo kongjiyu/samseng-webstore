@@ -145,13 +145,13 @@
                                     </div>
                                 </div>
                             </td>
+                            <% if (order.getStatus().equals("Delivered")) {%>
                             <td class="text-center">
                                 <% boolean hasCommented = false;
                                     if (userCommentedMap != null && userCommentedMap.get(orderList.getVariant().getVariantId()) != null) {
                                         hasCommented = userCommentedMap.get(orderList.getVariant().getVariantId());
                                     }
                                     if (!hasCommented) { %>
-                                <% if (order.getStatus().equals("Delivered")) {%>
                                 <button class="mx-auto flex flex-row gap-3" aria-haspopup="dialog" aria-expanded="false"
                                         aria-controls="<%= orderList.getVariant().getVariantId()%>"
                                         data-overlay="#<%= orderList.getVariant().getVariantId()%>">
@@ -166,7 +166,6 @@
                                         <path d="M19 16v6"/>
                                     </svg>
                                 </button>
-                                <% } %>
 
                                 <div id="<%= orderList.getVariant().getVariantId()%>"
                                      class="overlay modal overlay-open:opacity-100 overlay-open:duration-300 modal-middle hidden"
@@ -241,6 +240,7 @@
                                 <span class="text-success">Reviewed</span>
                                 <% } %>
                             </td>
+                            <% } %>
                             <td class="text-center"><%= orderList.getQuantity()%>
                             </td>
                             <td class="text-right">RM<%=orderList.getPrice()%>

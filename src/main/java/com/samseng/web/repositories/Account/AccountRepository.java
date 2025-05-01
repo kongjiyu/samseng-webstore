@@ -27,4 +27,6 @@ public interface AccountRepository {
     long count();
 
     List<Account> findPaged(int page, int pageSize);
+
+    void softDelete(String id);
 }
