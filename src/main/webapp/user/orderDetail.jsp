@@ -129,13 +129,16 @@
                                 <div class="flex items-center gap-3">
                                     <div class="avatar">
                                         <div class="bg-base-content/10 h-10 w-10 rounded-md">
-                                            <img src="/uploads/<%= orderList.getVariant().getProduct().getImageUrls().isEmpty() ? '#' : orderList.getVariant().getProduct().getImageUrls().iterator().next() %>" alt="product image" />
+                                            <img src="/uploads/<%= orderList.getVariant().getProduct().getImageUrls().isEmpty() ? '#' : orderList.getVariant().getProduct().getImageUrls().iterator().next() %>"
+                                                 alt="product image"/>
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="text-sm opacity-50"><%= orderList.getVariant().getVariantId()%></div>
+                                        <div class="text-sm opacity-50"><%= orderList.getVariant().getVariantId()%>
+                                        </div>
                                         <div class="font-medium">
-                                            <a class="link link-animated" href="<%= request.getContextPath() %>/product?productId=<%= orderList.getVariant().getProduct().getId()%>">
+                                            <a class="link link-animated"
+                                               href="<%= request.getContextPath() %>/product?productId=<%= orderList.getVariant().getProduct().getId()%>">
                                                 <%= orderList.getVariant().getVariantName()%>
                                             </a>
                                         </div>
@@ -144,10 +147,10 @@
                             </td>
                             <td class="text-center">
                                 <% boolean hasCommented = false;
-                                   if (userCommentedMap != null && userCommentedMap.get(orderList.getVariant().getVariantId()) != null) {
-                                       hasCommented = userCommentedMap.get(orderList.getVariant().getVariantId());
-                                   }
-                                   if (!hasCommented) { %>
+                                    if (userCommentedMap != null && userCommentedMap.get(orderList.getVariant().getVariantId()) != null) {
+                                        hasCommented = userCommentedMap.get(orderList.getVariant().getVariantId());
+                                    }
+                                    if (!hasCommented) { %>
                                 <% if (order.getStatus().equals("Delivered")) {%>
                                 <button class="mx-auto flex flex-row gap-3" aria-haspopup="dialog" aria-expanded="false"
                                         aria-controls="<%= orderList.getVariant().getVariantId()%>"
@@ -171,23 +174,29 @@
                                     <div class="modal-dialog overlay-open:opacity-100 overlay-open:duration-300">
                                         <div class="modal-content">
                                             <%--Reply Comment Form--%>
-                                            <form method="post" action="<%= request.getContextPath() %>/user/detail?action=addComment">
-                                                <input type="hidden" name="variantId" value="<%= orderList.getVariant().getVariantId() %>">
+                                            <form method="post"
+                                                  action="<%= request.getContextPath() %>/user/detail?action=addComment">
+                                                <input type="hidden" name="variantId"
+                                                       value="<%= orderList.getVariant().getVariantId() %>">
                                                 <input type="hidden" name="productId" value="<%= order.getId()%>">
                                                 <input type="hidden" name="id" value="<%= order.getId()%>">
-                                                <input type="hidden" name="score" id="ratingScore-<%= orderList.getVariant().getVariantId() %>">
+                                                <input type="hidden" name="score"
+                                                       id="ratingScore-<%= orderList.getVariant().getVariantId() %>">
 
                                                 <div class="modal-header m-2 flex flex-col justify-start items-start">
                                                     <div class="flex items-center gap-3">
                                                         <div class="avatar">
                                                             <div class="bg-base-content/10 h-10 w-10 rounded-md">
-                                                                <img src="/uploads/<%= orderList.getVariant().getProduct().getImageUrls().isEmpty() ? '#' : orderList.getVariant().getProduct().getImageUrls().iterator().next() %>" alt="product image" />
+                                                                <img src="/uploads/<%= orderList.getVariant().getProduct().getImageUrls().isEmpty() ? '#' : orderList.getVariant().getProduct().getImageUrls().iterator().next() %>"
+                                                                     alt="product image"/>
                                                             </div>
                                                         </div>
                                                         <div>
-                                                            <div class="text-sm opacity-50"><%= orderList.getVariant().getVariantId()%></div>
+                                                            <div class="text-sm opacity-50"><%= orderList.getVariant().getVariantId()%>
+                                                            </div>
                                                             <div class="font-medium">
-                                                                <a class="link link-animated" href="<%= request.getContextPath() %>/product?productId=<%= orderList.getVariant().getProduct().getId()%>">
+                                                                <a class="link link-animated"
+                                                                   href="<%= request.getContextPath() %>/product?productId=<%= orderList.getVariant().getProduct().getId()%>">
                                                                     <%= orderList.getVariant().getVariantName()%>
                                                                 </a>
                                                             </div>
@@ -201,20 +210,24 @@
                                                     </button>
                                                 </div>
 
-                                                <!-- TODO Ahdan: Textarea field is here, below is submit button under "Save changes"-->
                                                 <div class="modal-body">
-                                                    <div class="flex" id="raty-<%= orderList.getVariant().getVariantId() %>"></div>
-                                                    <input type="hidden" name="score" id="ratingScore-<%= orderList.getVariant().getVariantId() %>">
+                                                    <div class="flex flex-col items-center justify-center w-full">
+                                                        <div id="raty-<%= orderList.getVariant().getVariantId() %>"
+                                                             class="flex justify-center gap-2 my-1"></div>
+                                                        <input type="hidden" name="score"
+                                                               id="ratingScore-<%= orderList.getVariant().getVariantId() %>">
 
-                                                    <div class="mx-2 pb-2">
-                                                        <textarea class="textarea textarea-xl"
-                                                              placeholder="Write about your experience..."
-                                                              aria-label="Textarea" name="text"></textarea>
+                                                        <div class="mx-2 w-full">
+                                                        <textarea class="textarea textarea-xl w-full"
+                                                                  placeholder="Write about your experience..."
+                                                                  aria-label="Textarea" name="text"></textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-soft btn-secondary"
-                                                            data-overlay="#<%= orderList.getVariant().getVariantId()%>">Close
+                                                            data-overlay="#<%= orderList.getVariant().getVariantId()%>">
+                                                        Close
                                                     </button>
                                                     <button type="submit" class="btn btn-primary">Save changes
                                                     </button>
