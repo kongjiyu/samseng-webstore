@@ -183,7 +183,7 @@
                                                        id="ratingScore-<%= orderList.getVariant().getVariantId() %>">
 
                                                 <div class="modal-header m-2 flex flex-col justify-start items-start">
-                                                    <div class="flex items-center gap-3">
+                                                    <div class="flex flex-row gap-3">
                                                         <div class="avatar">
                                                             <div class="bg-base-content/10 h-10 w-10 rounded-md">
                                                                 <img src="/uploads/<%= orderList.getVariant().getProduct().getImageUrls().isEmpty() ? '#' : orderList.getVariant().getProduct().getImageUrls().iterator().next() %>"
@@ -211,6 +211,7 @@
 
                                                 <div class="modal-body">
                                                     <div class="flex flex-col items-center justify-center w-full">
+                                                        <p class="font-semibold font-medium">Choose your Rating</p>
                                                         <div id="raty-<%= orderList.getVariant().getVariantId() %>"
                                                              class="flex justify-center gap-2 my-1"></div>
                                                         <input type="hidden" name="score"
