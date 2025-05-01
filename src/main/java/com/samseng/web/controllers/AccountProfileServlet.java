@@ -440,10 +440,16 @@ public class AccountProfileServlet extends HttpServlet {
         Account account = accountRepo.findAccountByEmail(request.getUserPrincipal().getName());
         if (account != null) {
             try {
-                accountRepo.delete(account);
+                account.setPassword(null);
+                account.setEmail(null);
+                account.setUsername("user_deleted");
+                account.setId(account.getId());
+
+                accountRepo.update(account);
+
                 request.getSession().setAttribute("toastType", "success");
                 request.getSession().setAttribute("toastMessage", "Account deleted successfully.");
-                response.sendRedirect("loginRegisterForm.jsp");
+                response.sendRedirect(request.getContextPath() + "/login-flow");
             } catch (Exception e) {
                 e.printStackTrace();
                 request.getSession().setAttribute("toastType", "error");
