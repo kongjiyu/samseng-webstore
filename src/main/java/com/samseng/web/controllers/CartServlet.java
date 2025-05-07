@@ -176,7 +176,20 @@ public class CartServlet extends HttpServlet {
                         shouldRedirect = true;
                         break;
                     }
-                    cartItems.add(new CartItemDTO(variant, variant.getProduct().getImageUrls().iterator().next(), addQty));
+                    // Check if item already exists in cart, update quantity if so, else add new item
+                    boolean itemFound = false;
+                    for (int i = 0; i < cartItems.size(); i++) {
+                        CartItemDTO item = cartItems.get(i);
+                        if (item.variant().getVariantId().equals(variantId)) {
+                            int newQty = item.quantity() + addQty;
+                            cartItems.set(i, new CartItemDTO(item.variant(), item.imageUrl(), newQty));
+                            itemFound = true;
+                            break;
+                        }
+                    }
+                    if (!itemFound) {
+                        cartItems.add(new CartItemDTO(variant, variant.getProduct().getImageUrls().iterator().next(), addQty));
+                    }
                     session.setAttribute("toastMessage", "Product added to cart successfully.");
                     session.setAttribute("toastType", "success");
                     shouldRedirect = true;

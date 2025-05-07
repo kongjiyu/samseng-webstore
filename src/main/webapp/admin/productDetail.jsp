@@ -114,9 +114,16 @@
                                value="<%= productObj.getName() != null ? productObj.getName() : "" %>">
                     </div>
                     <div>
-                        <label class="block font-semibold">Category:</label>
-                        <input type="text" name="productCategory" class="input input-bordered w-full product-field"
-                               value="<%= productObj.getCategory() != null ? productObj.getCategory() : "" %>">
+                        <label class="block font-semibold" for="productCategory">Category:</label>
+                        <select name="productCategory" id="productCategory" class="select w-full product-field">
+                            <option value="Earbuds" <%= "Earbuds".equals(productObj.getCategory()) ? "selected" : "" %>>Earbuds</option>
+                            <option value="Mobile Phone" <%= "Mobile Phone".equals(productObj.getCategory()) ? "selected" : "" %>>Mobile Phone</option>
+                            <option value="Monitor" <%= "Monitor".equals(productObj.getCategory()) ? "selected" : "" %>>Monitor</option>
+                            <option value="Powerbank" <%= "Powerbank".equals(productObj.getCategory()) ? "selected" : "" %>>Powerbank</option>
+                            <option value="Smart Pen" <%= "Smart Pen".equals(productObj.getCategory()) ? "selected" : "" %>>Smart Pen</option>
+                            <option value="Smart Watch" <%= "Smart Watch".equals(productObj.getCategory()) ? "selected" : "" %>>Smart Watch</option>
+                            <option value="Tab" <%= "Tab".equals(productObj.getCategory()) ? "selected" : "" %>>Tab</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block font-semibold">Description:</label>
