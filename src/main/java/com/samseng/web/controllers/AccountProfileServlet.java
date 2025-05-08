@@ -186,21 +186,21 @@ public class AccountProfileServlet extends HttpServlet {
                     state == null || state.isBlank() || country == null || country.isBlank()) {
                 request.getSession().setAttribute("toastType", "error");
                 request.getSession().setAttribute("toastMessage", "All required fields must be filled.");
-                request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/user/profile");
                 return;
             }
 
             if (!contactNo.matches("^(\\+?60)?1[0-9]{8,9}$")  && !contactNo.matches("^01[0-9]{8,9}")) {
                 request.getSession().setAttribute("toastType", "error");
                 request.getSession().setAttribute("toastMessage", "Invalid Malaysian phone number.");
-                request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/user/profile");
                 return;
             }
 
             if (!postcodeStr.matches("^[0-9]{5}$")) {
                 request.getSession().setAttribute("toastType", "error");
                 request.getSession().setAttribute("toastMessage", "Postcode must be a valid 5-digit Malaysia postcode.");
-                request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/user/profile");
                 return;
             }
 
@@ -210,7 +210,7 @@ public class AccountProfileServlet extends HttpServlet {
             } catch (NumberFormatException e) {
                 request.getSession().setAttribute("toastType", "error");
                 request.getSession().setAttribute("toastMessage", "Postcode must be a number.");
-                request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/user/profile");
                 return;
             }
 
@@ -222,23 +222,25 @@ public class AccountProfileServlet extends HttpServlet {
             address.setPostcode(postcode);
             address.setState(state);
             address.setCountry(country);
-            address.setIsdefault(request.getParameter("isdefault") != null);
-
+            if (request.getParameter("isdefault") != null) {
+                // Unset other defaults first
+                addressRepo.unsetOtherDefaults(address.getUser().getId(), address.getId());
+                address.setIsdefault(true);
+            } else {
+                address.setIsdefault(false);
+            }
             addressRepo.update(address);
 
-            if (address.getIsdefault()) {
-                addressRepo.unsetOtherDefaults(address.getUser().getId(), address.getId());
-            }
             addressList = addressRepo.findByUserId(address.getUser().getId());
             request.setAttribute("addresses", addressList);
 
             request.getSession().setAttribute("toastType", "success");
             request.getSession().setAttribute("toastMessage", "Successfully updated address.");
-            request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/user/profile");
         } else {
             request.getSession().setAttribute("toastType", "error");
             request.getSession().setAttribute("toastMessage", "Address not found.");
-            request.getRequestDispatcher("/user/userProfile.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/user/profile");
         }
     }
 
@@ -274,13 +276,9 @@ public class AccountProfileServlet extends HttpServlet {
         if (name == null || name.isBlank() || contactNo == null || contactNo.isBlank() ||
                 address1 == null || address1.isBlank() || postcodeStr == null || postcodeStr.isBlank() ||
                 state == null || state.isBlank() || country == null || country.isBlank()) {
-            try {
-                req.getSession().setAttribute("toastType", "error");
-                req.getSession().setAttribute("toastMessage", "All required fields must be filled.");
-                req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
-            } catch (ServletException e) {
-                throw new IOException(e);
-            }
+            req.getSession().setAttribute("toastType", "error");
+            req.getSession().setAttribute("toastMessage", "All required fields must be filled.");
+            resp.sendRedirect(req.getContextPath() + "/user/profile");
             return;
         }
 
@@ -351,16 +349,12 @@ public class AccountProfileServlet extends HttpServlet {
             addressRepo.unsetOtherDefaults(user.getId(), address.getId());
         }
 
-        try {
-            // refresh addresses after add
-            List<Address> updatedAddressList = addressRepo.findByUserId(user.getId());
-            req.setAttribute("addresses", updatedAddressList);
-            req.getSession().setAttribute("toastType", "success");
-            req.getSession().setAttribute("toastMessage", "Address added successfully.");
-            req.getRequestDispatcher("/user/userProfile.jsp").forward(req, resp);
-        } catch (ServletException e) {
-            throw new IOException(e);
-        }
+        // refresh addresses after add
+        List<Address> updatedAddressList = addressRepo.findByUserId(user.getId());
+        req.setAttribute("addresses", updatedAddressList);
+        req.getSession().setAttribute("toastType", "success");
+        req.getSession().setAttribute("toastMessage", "Address added successfully.");
+        resp.sendRedirect(req.getContextPath() + "/user/profile");
         return;
     }
 
